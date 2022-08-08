@@ -1,0 +1,13 @@
+{
+  "name": "pixie",
+  "version": "0.0.1",
+  "description": "Pixel Art Editor",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^4.0.1",
+    "@capacitor/cli": "^4.0.1",
+    "@capacitor/core": "^4.0.1",
+    "@capacitor/ios": "^4.0.1"
+  }
+}

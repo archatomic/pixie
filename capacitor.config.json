@@ -1,0 +1,7 @@
+{
+  "appId": "com.archatomic.pixie",
+  "appName": "Pixie",
+  "webDir": "dist",
+  "scheme": "pixie",
+  "bundledWebRuntime": false
+}

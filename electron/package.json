@@ -1,0 +1,10 @@
+{
+  "name": "pixie-electron",
+  "version": "0.0.0",
+  "main": "main.js",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^20.0.1",
+    "electron-serve": "^1.1.0"
+  }
+}
