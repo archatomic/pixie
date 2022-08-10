@@ -1,0 +1,83 @@
+@import './colors.styl'
+
+themes = {
+    light: {
+        white: #efefef,
+        grey: #89a,
+        black: #050306,
+        primary: #f7545c,
+        secondary: #b32ba5,
+        tertiary: #4ccafc,
+        primaryDark: #9c1f25,
+        secondaryDark: #8a0c7c,
+        tertiaryDark: #106587,
+        red: #f7545c,
+        orange: #e09524,
+        yellow: #e0ca24,
+        green: #79d962,
+        cyan: #4ccafc,
+        blue: #1e2ee3,
+        magenta: #b32ba5,
+        error: #f7545c,
+        errorText: #fff,
+        success: #79d962
+        successText: #fff
+    },
+    dark: {
+        white: #050306,
+        grey: #89a,
+        black: #efefef,
+        primary: #f7545c,
+        secondary: #b32ba5,
+        tertiary: #4ccafc,
+        primaryDark: #9c1f25,
+        secondaryDark: #8a0c7c,
+        tertiaryDark: #106587,
+        red: #f7545c,
+        orange: #e09524,
+        yellow: #e0ca24,
+        green: #79d962,
+        cyan: #4ccafc,
+        blue: #1e2ee3,
+        magenta: #b32ba5,
+        error: #f7545c,
+        errorText: #4f0c0f,
+        success: #79d962
+        successText: #fafafa
+    }
+}
+
+defaultTheme = 'light'
+gradientSteps = 100
+
+addGradientTo(theme, name, a, b, c)
+    step = 100 / gradientSteps
+    t = themes[theme]
+    for i in 0..gradientSteps
+        s = step * i
+        t[name + "-" + s] = grad(a, b, c, s / 100)
+
+getGradient(name, d)
+    n = name + "-" + d
+    return var(unquote('--theme-' + n), themes[defaultTheme][n])
+
+primary(d)
+    return getGradient('primary', d)
+
+grey(d)
+    return getGradient('grey', d)
+
+for theme, colors in themes
+    // Add gradients
+    addGradientTo(theme, 'grey', colors.black, colors.grey, colors.white)
+    addGradientTo(theme, 'primary', colors.primary, colors.secondary, colors.tertiary)
+
+theme = {}
+for name, color in themes[defaultTheme]
+    theme[name] = var(unquote('--theme-' + name), color)
+
+enableThemes()
+    for theme, colors in themes
+        .Theme--{theme}
+            for name, color in colors
+                --theme-{name} color

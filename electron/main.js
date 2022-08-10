@@ -1,18 +1,47 @@
 const config = require('../capacitor.config.json')
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const path = require('path')
+const os = require('os')
 
 const serve = require('electron-serve')
 const scheme = config.scheme
 const origin =  `${scheme}://-`
 
-
 class Pixie {
     constructor() {
+        this.createWindow()
+        this.registerIPCHandlers()
+    }
+
+    createWindow() {
         this.window = new BrowserWindow({
             width: 800,
             height: 600,
-            frame: false
+            frame: false,
+            show: false,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js')
+            }
         })
+
+        this.window.once('ready-to-show', () => this.window.show())
+    }
+
+    registerIPCHandlers() {
+        ipcMain.on('get-os-data', this.getOSData)
+        ipcMain.handle('maximize', () => this.window.isMaximized() ? this.window.unmaximize() : this.window.maximize())
+        ipcMain.handle('minimize', () => this.window.minimize())
+    }
+
+    getOSData(event) {
+        const platform = os.platform()
+
+        event.returnValue = {
+            platform,
+            isMac: platform === 'darwin',
+            isWindows: platform === 'win32',
+            isLinux: platform === 'linux'
+        }
     }
 
     resolve(path) {
@@ -34,6 +63,8 @@ class Pixie {
 }
 
 async function init() {
+    app.enableSandbox()
+
     serve({
         directory: `../${config.webDir}`,
         scheme,

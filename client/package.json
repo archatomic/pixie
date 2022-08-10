@@ -3,10 +3,42 @@
   "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
-    "parcel": "^2.7.0"
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-transform-react-jsx": "^7.18.10",
+    "classnames": "^2.3.1",
+    "parcel": "^2.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
+    "react-transition-group": "^4.4.5"
   },
   "scripts": {
     "start": "parcel ./index.html --open",
     "build": "parcel build ./index.html --dist-dir ../dist"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.0",
+    "@parcel/transformer-stylus": "2.7.0",
+    "process": "^0.11.10"
+  },
+  "alias": {
+    "client": "./src"
+  },
+  "jest": {
+    "transform": {
+      "\\.js$": [
+        "babel-jest",
+        {
+          "presets": [
+            "@parcel/babel-preset-env"
+          ]
+        }
+      ]
+    },
+    "moduleNameMapper": {
+      "client/(.*)$": "<rootDir>/src/$1"
+    }
   }
 }

@@ -1,0 +1,52 @@
+@import './theme.styl'
+
+airy(t = 1)
+    letter-spacing t * 0.05em
+
+/**
+ * Breakpoints
+ *
+ * Tools for setting and using breakpoints
+ */
+breakpoints = {
+    small: 600px,
+    medium: 900px,
+    large: 1200px,
+    xl: 1500px,
+    huge: 1900px
+}
+
+breakpoint(name)
+    if name in breakpoints
+        return breakpoints[name]
+    return name
+
+bigger-than(name)
+    @media screen and (min-width: breakpoint(name))
+        {block}
+
+/**
+ * Using a not query rather than a max-width query, because a max-width query confuses
+ * the exact breakpoint value. For example, bigger-than(small) and smaller-than(small)
+ * both apply the block styles to a 600px width screen, which is not ideal.
+ */
+smaller-than(name)
+    @media not screen and (min-width: breakpoint(name))
+        {block}
+
+/**
+ * Spacing
+ */
+ rhythm = 2rem
+ double-rhythm = 2 * rhythm
+ half-rhythm = rhythm / 2
+
+content-padding(mod = 1)
+    beat = double-rhythm * mod
+    padding beat
+
+    +smaller-than(large)
+        padding (beat / 2)
+
+    +smaller-than(small)
+        padding (beat / 4)

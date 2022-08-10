@@ -8,6 +8,7 @@
     "@capacitor/android": "^4.0.1",
     "@capacitor/cli": "^4.0.1",
     "@capacitor/core": "^4.0.1",
-    "@capacitor/ios": "^4.0.1"
+    "@capacitor/ios": "^4.0.1",
+    "capacitor-plugin-safe-area": "^0.0.4"
   }
 }

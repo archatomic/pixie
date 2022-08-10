@@ -1,0 +1,104 @@
+.Field
+    display flex
+    flex-direction column
+    margin-bottom 2em
+    margin-top 0.5em
+    align-items flex-end
+    position relative
+
+    speed = 0.1s
+
+    &-label
+        position absolute
+        z-index 1
+        cursor text
+        left calc(0.2em + 0.2rem)
+        top calc(0.8em + 0.2rem)
+        display block
+        padding-left 0.4em
+        padding-right 0.4em
+        transform-origin left
+        transition transform speed ease-in-out, background-color speed ease-in-out, unquote('color') speed ease-in-out
+        transform translate(0, calc(-1.2em - 0.2rem)) scale(0.8)
+        color grey(20)
+        overflow hidden
+        max-width calc(100% - 0.6em)
+        background-color transparent
+        z-index 2
+        border-radius 1000vh
+
+    &--empty:not(&--focus) &-label
+        transform translate(0, 0) scale(1)
+        color grey(50)
+        background-color transparent
+
+    &--focus &-label
+        color theme.white
+        background theme.cyan
+
+    &--error:not(&--empty) &-label
+        color theme.error
+
+    &-errors
+        background theme.error
+        color theme.errorText
+        padding 0 0.8em
+        font-size 0.8em
+        height 1.4em
+        margin-bottom -1.4em
+        border-radius 0 0 0.4rem 0.4rem
+        display flex
+        align-items center
+        white-space nowrap
+        text-overflow ellipsis
+        overflow hidden
+        position relative
+        z-index 0
+
+        transition transform 0.2s ease-in-out
+
+        &.enter, &.exit-active
+            transform translateY(-100%)
+
+        &.enter-active
+            transform translateY(0)
+
+    &-content
+        border 2px solid grey(92)
+        border-radius 0.4rem
+        width 100%
+        padding 0.8em
+        position relative
+        z-index 1
+        background grey(92)
+        transition background-color speed ease-in-out
+
+        &:hover
+            border-color grey(50)
+
+    &--empty &-content
+        background grey(92)
+
+    &--text &-content
+        cursor text
+
+    &-text
+        background transparent
+        display block
+        width 100%
+
+    &--error &-content
+        border-color theme.error
+        border-bottom-right-radius 0
+
+    &--focus &-content
+        border-color theme.cyan
+        background theme.white
+
+    &--pill &-content
+        border-radius 1.5em
+        padding-left 1.5em
+        padding-right 1.5em
+
+    &--pill &-label
+        left 1em

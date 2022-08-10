@@ -1,0 +1,90 @@
+.Button
+    border-size = 0.2rem
+
+    solid(clr, txt = theme.white)
+        if substr("" + clr, 0, 15) == "linear-gradient"
+            border-width 0
+            padding border-size
+        else
+            border-color clr
+        background clr
+        color txt
+
+    ghost(clr, txt = theme.white)
+        if substr("" + clr, 0, 15) == "linear-gradient"
+            border-width 0
+            padding border-size
+            background clr
+            position relative
+            color txt
+            z-index 0
+
+            .Button-label
+                background clr
+                background-size 100%
+                background-clip text
+                -webkit-text-fill-color transparent
+
+                &:before
+                    content ''
+                    position absolute
+                    border-radius 0.2rem
+                    inset border-size
+                    background txt
+                    z-index -1
+
+        else
+            border-color clr
+            background transparent
+            color clr
+
+    variant(name, clr, txt = theme.white)
+        &--{name}
+            solid clr txt
+
+            &.Button--ghost
+                ghost clr txt
+
+            {block}
+
+    display inline-flex
+    border 0.2rem solid currentColor
+    solid grey(20)
+    border-radius 0.4rem
+    cursor pointer
+    align-items center
+    justify-content stretch
+
+    &-label
+        flex-grow 1
+        flex-shrink 0
+        padding 0.8em 2em
+
+    &:not(&--disabled):not([disabled]).Button
+        &--focus, &:focus, &:hover
+            text-decoration underline
+
+        &--focus, &:focus
+            outline 0.2rem solid theme.cyan
+            outline-offset 0.2rem
+
+    &--ghost
+        ghost grey(20)
+
+        &.Button--focus, &:focus, &:hover
+            ghost grey(10)
+
+        &:active
+            ghost grey(0)
+
+    variant('primary', theme.primary)
+    variant('secondary', theme.secondary)
+    variant('tertiary', theme.tertiaryDark)
+    variant('white', theme.white)
+    variant('gradient', linear-gradient(45deg, theme.primary, theme.secondary, theme.tertiary), theme.white)
+    +variant('disabled', grey(75), theme.white)
+        cursor default
+
+    &--full
+        display flex
+        width 100%

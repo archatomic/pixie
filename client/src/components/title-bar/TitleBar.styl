@@ -1,0 +1,179 @@
+.TitleBar
+    --height 28px
+
+    flex-grow 0
+    flex-shrink 0
+    -webkit-app-region drag
+    -webkit-user-select none
+    height var(--height)
+    width 100%
+    padding-left 6px
+    padding-right 6px
+    position relative
+    background grey(93)
+
+    .App--focused &
+        background grey(95)
+
+    &-title
+        text-align center
+        width 100%
+        height 100%
+        line-height var(--height)
+        font-size 14px
+        font-weight 400
+        color grey(70)
+
+        .App--focused &
+            color theme.black
+
+    .App--mac &
+        &-buttons
+            position absolute
+            left 6px
+            top 0
+            height 100%
+            display flex
+            align-items center
+
+        &-button
+            position relative
+            width 12px
+            height 12px
+            border-radius 12px
+            margin-left 7px
+            background grey(80)
+            overflow hidden
+
+            &:before, &:after
+                opacity: 0
+
+        &-buttons:hover .TitleBar-button
+            &:before, &:after
+                opacity 1
+
+    .App--mac.App--focused &-button
+        &--close
+            background #f7545c
+
+            &::before,
+            &::after
+                position absolute
+                left 50%
+                top 50%
+                transform: translate(-50%, -50%) rotate(45deg)
+                content ''
+                display block
+                height 2px
+                width 8px
+                border-radius 2px
+                background #9c1f25
+        
+            &::after
+                transform: translate(-50%, -50%) rotate(-45deg)
+
+        &--minimize
+            background #e0ca24
+
+            &::after
+                position absolute
+                left 50%
+                top 50%
+                transform: translate(-50%, -50%)
+                content ''
+                display block
+                height 2px
+                width 8px
+                border-radius 2px
+                background #907900
+
+        &--maximize
+            background #79d962
+
+            &::before
+                position absolute
+                left 50%
+                top 50%
+                transform: translate(-50%, -50%)
+                content ''
+                display block
+                height 6px
+                width 6px
+                border-radius 1px
+                background #106587
+
+            &::after
+                position absolute
+                left 50%
+                top 50%
+                transform: translate(-50%, -50%) rotate(45deg)
+                content ''
+                display block
+                height 12px
+                width 2px
+                background #79d962
+    
+    .App--windows &,
+    .App--linux &
+        --height 40px
+
+        &-buttons
+            position absolute
+            right 9px
+            top 0
+            height 100%
+            display flex
+            align-items center
+
+        &-button
+            width 24px
+            height 24px
+            margin-left 18px
+            position relative
+            opacity 0.3
+            transition opacity 0.2s ease-in-out
+            border 4px solid transparent
+
+            &:hover
+                opacity 0.8
+
+            &:active
+                opacity 1
+                transition none
+
+            &--maximize::before
+                content ''
+                display block
+                position absolute
+                left 0
+                top 0
+                right 0
+                bottom 0
+                border 2px solid theme.black
+
+            &--minimize::before
+                content ''
+                display block
+                position absolute
+                left 0
+                top 50%
+                right 0
+                transform translateY(-1pz)
+                height 2px
+                background theme.black
+
+
+            &--close::before,
+            &--close::after
+                content ''
+                display block
+                position absolute
+                left -2px
+                top 50%
+                right -2px
+                height 2px
+                transform translateY(-50%) rotate(45deg)
+                background theme.black
+    
+            &--close::after
+                transform translateY(-50%) rotate(-45deg)

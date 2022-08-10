@@ -1,15 +1,27 @@
 .PHONY: android
 android: web.build
-	yarn cap run android -l --external
+	yarn cap run android --target Pixel_3_API_30
+
+.PHONY: android.build
+android.build: web.build
+	echo 'todo android build'
 
 .PHONY: ios
 ios: web.build
-	yarn cap run ios -l --external
+	yarn cap run ios --target E647252B-6CC6-453B-B5CA-40BC13694589
+
+.PHONY: ios.build
+ios.build: web.build
+	echo 'todo ios build'
 
 .PHONY: desktop
 desktop: web.build
 	cd electron; \
 	yarn electron .;
+
+.PHONY: desktop.build
+desktop.build: web.build
+	echo 'todo desktop build... @see electron-forge'
 
 .PHONY: web
 web:

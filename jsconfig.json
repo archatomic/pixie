@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "esnext",
+        "jsx": "react-jsx",
+        "checkJs": true,
+        "lib": ["esnext", "dom"],
+        "esModuleInterop": true, // force import
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true, // force import
+        "paths": {
+            "client/*": ["./client/src/*"],
+        }
+    },
+    "include": ["client/**/*"],
+    "exclude": ["node_modules", "**/dist"]
+}

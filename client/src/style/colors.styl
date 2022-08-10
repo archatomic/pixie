@@ -1,0 +1,24 @@
+// Gradient
+grad(a, b, c, t)
+    return rgb(
+        curve(red(a), red(b), red(c), t),
+        curve(green(a), green(b), green(c), t),
+        curve(blue(a), blue(b), blue(c), t)
+    )
+
+// Get a line t on a curve between three equidistant numbers a, b, and c
+curve(a, b, c, t)
+    skew = c - a
+    unskewedHeight = b - skew / 2 - a
+    return a + arc(t) * unskewedHeight + skew * t
+
+// Get position on an arc from 0 to 1, normalized
+arc(t)
+    t *= 2
+    if t < 1
+        return lerp(lerp(0, 1, t), 1, t)
+    t -= 1
+    return lerp(1, lerp(1, 0, t), t)
+
+lerp(a, b, t)
+    return (b - a) * t + a
