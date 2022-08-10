@@ -2,11 +2,11 @@ import './TitleBar.styl'
 
 import { HAS_TITLE_BAR, IS_LINUX, IS_WINDOWS } from 'client/constants'
 
-import { safeCall } from 'client/util/safeCall'
+import { makeSafe } from 'client/util/safeCall'
 
-const handleClose = safeCall(() => window.close())
-const handleMinimize = safeCall(() => window.electron.minimize())
-const handleMaximize = safeCall(() => window.electron.maximize())
+const handleClose = makeSafe(() => window.close())
+const handleMinimize = makeSafe(() => window.electron.minimize())
+const handleMaximize = makeSafe(() => window.electron.maximize())
 
 const close = <div key={0} className='TitleBar-button TitleBar-button--close' onClick={handleClose}></div>
 const minimize = <div key={1} className='TitleBar-button TitleBar-button--minimize' onClick={handleMinimize}></div>

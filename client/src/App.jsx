@@ -1,37 +1,27 @@
 import { Authenticated, Unauthenticated } from 'client/components/Authenticated'
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import { Action } from 'client/components/Action'
+import { Main } from './pages/Main/Main'
 import { Navigate } from 'react-router'
-import { Page } from 'client/components/page/Page'
+import { Provider } from 'react-redux'
 import { Root } from 'client/components/Root'
+import { store } from 'client/store'
 
-//import { Login } from './pages/Login'
-
-
-//import { identity } from 'common/api/identity'
-
-//const logout = identity.logout.bind(identity)
-
-const logout = () => alert('logout')
-const Login = () => <Page title='login'>login</Page>
+const AuthenticatedRoutes = null
+const UnathenticatedRoutes = (
+  <Routes>
+    <Route path='/' element={<Main />} />
+    <Route path='*' element={<Navigate to='/' />} />
+  </Routes>
+)
 
 export const App = () => (
-  <Root>
-    <BrowserRouter>
-      <Authenticated>
-        <Routes>
-          <Route path='/' element={<Page title='Signed In'>Signed In <Link to='/sign-out'>Sign Out</Link></Page>} />
-          <Route path='sign-out' element={<Action do={logout} />} />
-          <Route path='*' element={<Navigate to='/' />} />
-        </Routes>
-      </Authenticated>
-      <Unauthenticated>
-        <Routes>
-          <Route path='sign-in' element={<Login />} />
-          <Route path='*' element={<Navigate to='/sign-in' />} />
-        </Routes>
-      </Unauthenticated>
-    </BrowserRouter>
-  </Root>
+  <Provider store={store}>
+      <BrowserRouter>
+        <Root>
+            <Authenticated>{AuthenticatedRoutes}</Authenticated>
+            <Unauthenticated>{UnathenticatedRoutes}</Unauthenticated>
+        </Root>
+      </BrowserRouter>
+  </Provider>
 )

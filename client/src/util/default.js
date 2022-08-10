@@ -1,3 +1,5 @@
+const FALLBACK = undefined
+
 /**
  * Return the first defined argument.
  *
@@ -8,7 +10,7 @@ export function def (...values) {
   for (const value of values) {
     if (isDefined(value)) return value
   }
-  return null
+  return FALLBACK
 }
 
 /**
@@ -32,11 +34,14 @@ export function defAll (...values) {
 /**
  * Check whether or not this value is defined and not-null
  *
- * @param {any} value
+ * @param {any} val
+ * @param {boolean} nullDefined
  * @returns {boolean}
  */
-export function isDefined (value) {
-  return (value !== null && value !== undefined)
+ export const isDefined = (val, nullDefined = false) => {
+  if (val === undefined) return false
+  if (!nullDefined) return val !== null
+  return true
 }
 
 /**
@@ -46,10 +51,11 @@ export function isDefined (value) {
  * @returns {boolean}
  */
 export function isEmpty (value) {
-  return value === null ||
-  value === undefined ||
-  value === 0 ||
-  value === '' ||
-  (value instanceof Array && value.length === 0) ||
-  (value instanceof Object && Object.keys(value).length === 0)
+  if (value === null) return true
+  if (value === undefined) return true
+  if (value === 0) return true
+  if (value === '') return true
+  if (value instanceof Array && value.length === 0) return true
+  if (value instanceof Object && Object.keys(value).length === 0) return true
+  return false
 }

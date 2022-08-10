@@ -15,7 +15,7 @@ import { def } from 'client/util/default'
  * @property {string} [className]
  * @property {string} [name]
  * @property {boolean} [top]
- * @property {boolean} [hasTitleBar]
+ * @property {boolean} [tight]
  * @property {import('react').ReactNode} [children]
  */
 
@@ -38,7 +38,8 @@ export class Page extends Component {
             'Page',
             {
               [`Page--${this.props.name}`]: this.props.name,
-              'Page--top': this.props.top
+              'Page--top': this.props.top,
+              'Page--tight': this.props.tight,
             },
             this.props.className
           )
