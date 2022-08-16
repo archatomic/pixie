@@ -5,12 +5,14 @@ import { Main } from './pages/Main/Main'
 import { Navigate } from 'react-router'
 import { Provider } from 'react-redux'
 import { Root } from 'client/components/Root'
+import { Workspace } from 'client/pages/Workspace/Workspace'
 import { store } from 'client/store'
 
 const AuthenticatedRoutes = null
 const UnathenticatedRoutes = (
   <Routes>
     <Route path='/' element={<Main />} />
+    <Route path='/workspace' element={<Workspace />} />
     <Route path='*' element={<Navigate to='/' />} />
   </Routes>
 )

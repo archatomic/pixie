@@ -25,10 +25,10 @@ export class Root extends Component {
 
   componentDidUpdate() {
     let style = ''
-    style += `border-top: ${this.state.top}px solid transparent;`
-    style += `border-right: ${this.state.right}px solid transparent;`
-    style += `border-bottom: ${this.state.bottom}px solid transparent;`
-    style += `border-left: ${this.state.left}px solid transparent;`
+    style += `border-top: ${this.state.top}px solid black;`
+    style += `border-right: ${this.state.right}px solid black;`
+    style += `border-bottom: ${this.state.bottom}px solid black;`
+    style += `border-left: ${this.state.left}px solid black;`
     this.rootEl.setAttribute('style', style)
   }
 

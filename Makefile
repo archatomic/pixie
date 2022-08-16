@@ -1,6 +1,6 @@
 .PHONY: android
 android: web.build
-	yarn cap run android --target Pixel_3_API_30
+	yarn cap run android --target Pixel_3_API_31
 
 .PHONY: android.build
 android.build: web.build

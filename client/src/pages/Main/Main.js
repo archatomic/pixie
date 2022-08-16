@@ -1,8 +1,8 @@
+import { Link } from 'react-router-dom'
 import { Page } from "client/components/page/Page";
 
 export const Main = () => (
     <Page>
-        <div>New Project (todo create new)</div>
-        <div>Open Project (todo prompt dialog, read file)</div>
+        <Link to="/workspace">Workspace</Link>
     </Page>
 )

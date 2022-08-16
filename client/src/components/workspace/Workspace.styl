@@ -1,0 +1,45 @@
+.Workspace
+    display flex
+    position relative
+    align-items center
+    justify-content center
+    height 100%
+    width 100%
+    overflow hidden
+
+    &-stage
+        position absolute
+        outline 1px solid grey(20)
+
+    &-wrapper
+        position relative
+        image-rendering pixelated
+        background-color rgb(200, 200, 200)
+
+    &-wrapper:before
+        content ''
+        display block
+        position absolute
+        left 0
+        top 0
+        right 0
+        bottom 0
+        background-image url(checker)
+        background-size 32px 32px
+        mix-blend-mode multiply
+        opacity 0.25
+    
+    &-cel
+        position absolute
+        left 0
+        top 0
+    
+    &-cursor
+        z-index 1
+        display block
+        position absolute
+        left 0
+        top 0
+        width 1px
+        height 1px
+        background black

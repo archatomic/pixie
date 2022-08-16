@@ -2,11 +2,9 @@ import './Page.styl'
 
 import { APP_NAME } from 'client/constants'
 import { Component } from 'react'
-import { HAS_TITLE_BAR } from 'client/constants'
 import Helmet from 'react-helmet'
 import { Transition } from '../Transition'
 import classNames from 'classnames'
-import { def } from 'client/util/default'
 
 /**
  * @typedef {object} PageProps

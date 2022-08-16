@@ -3,6 +3,7 @@ import { def } from 'client/util/default'
 
 export const APP_NAME = def(process.env.APP_NAME, document.title)
 
+// PLATFORM
 export const ANDROID = 'android'
 export const IOS = 'ios'
 export const MAC = 'mac'
@@ -43,3 +44,10 @@ export const IS_WEB = RUNTIME === WEB
 export const HAS_OS_MENU = IS_DESKTOP
 export const HAS_TITLE_BAR = IS_DESKTOP
 export const SUPPORTS_TABS = !IS_MOBILE
+
+// GRAPHICS
+export const DEFAULT_FRAGMENT_WIDTH = def(process.env.DEFAULT_FRAGMENT_WIDTH, 48)
+export const DEFAULT_FRAGMENT_HEIGHT = def(process.env.DEFAULT_FRAGMENT_HEIGHT, 64)
+export const DEFAULT_FRAGMENT_NUM_LAYERS = def(process.env.DEFAULT_FRAGMENT_NUM_LAYERS, 1)
+export const DEFAULT_FRAGMENT_NUM_FRAMES = def(process.env.DEFAULT_FRAGMENT_NUM_FRAMES, 1)
+export const DEFAULT_FRAME_DURATION = def(process.env.DEFAULT_FRAME_DURATION, 1 / 12)

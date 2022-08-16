@@ -43,8 +43,8 @@ describe('def()', () => {
     expect(def(false, null)).toBe(false)
   })
 
-  it('returns null if nothing in its list is defined', () => {
-    expect(def(undefined, undefined)).toBe(null)
+  it('returns undefined if nothing in its list is defined', () => {
+    expect(def(undefined, undefined)).toBe(undefined)
   })
 })
 
