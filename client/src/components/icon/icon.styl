@@ -1,0 +1,46 @@
+.Icon
+    display inline-block
+    position relative
+    width 2.4em
+    height 2.4em
+
+    shadowSize = 0.5rem
+
+    &--button
+        cursor pointer
+        border 1px solid currentColor
+        color white
+        border-radius 0.3rem
+        text-shadow 0 0 shadowSize black
+        box-shadow 0 0 shadowSize black, inset 0 0 shadowSize black
+
+        &:hover
+            color grey(25)
+
+        &:active
+            color grey(5)
+            transition none
+
+    &-glyph
+        position absolute
+        left 50%
+        top 50%
+        transform translate(-50%, -50%)
+        transition transform 0.3s ease-in-out, opacity 0.3s ease-in-out
+
+        &.enter
+            transform translate(-50%, -50%) rotate(-360deg)
+            opacity 0
+
+        &.exit
+            transform translate(-50%, -50%) rotate(0deg)
+            opacity 1
+
+        &.enter-active
+            transform translate(-50%, -50%) rotate(0deg)
+            opacity 1
+        
+        &.exit-active
+            transform translate(-50%, -50%) rotate(360deg)
+            opacity 0
+        

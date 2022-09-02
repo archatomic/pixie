@@ -14,4 +14,4 @@ export class PixieCel extends Record({
         return createImageData(props.width, props.height)
     },
     inherited: true
-}) {}
+}) { }

@@ -1,0 +1,51 @@
+.Timeline
+    borderColor = grey(85)
+    borderWidth = 0.1rem
+    angleOffset = math(2 * borderWidth * borderWidth, 'sqrt')
+
+    background grey(95)
+    color theme.black
+    border-top borderWidth solid borderColor
+    left 0
+    right 0
+    padding-top 1rem
+    transform translateY(calc(100% - 1rem))
+    transition transform 0.2s ease-in-out
+
+    &--open
+        transform translateY(0)
+
+    &-icon
+        position absolute
+        left 1rem
+        bottom 100%
+        margin-bottom 1rem
+
+    &-layers
+        padding rhythm
+
+    &-layer-name
+        padding-right 1rem
+
+    &-cel
+        position relative
+        border 1px solid grey(80)
+        width 2rem
+        height 2rem
+
+        &::before
+            content ''
+            display block
+            width 1rem
+            height 1rem
+            border-radius 1rem
+            background grey(50)
+            border 1px solid grey(50)
+            position absolute
+            left 50%
+            top 50%
+            transform translate(-50%, -50%)
+
+        &--empty &::before
+            background-color transparent
+

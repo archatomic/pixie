@@ -8,5 +8,13 @@ export const getChildrenOfType = (children, type, op = []) => {
     })
     return op
 }
+export const getChildren = (children, op = []) =>
+{
+    Children.forEach(children, child => {
+        if (child.type === Fragment) getChildrenOfType(child.props.children, type, op)
+        else return op.push(child)
+    })
+    return op
+}
 
 export const getChildOfType = (children, type) => getChildrenOfType(children, type)[0]

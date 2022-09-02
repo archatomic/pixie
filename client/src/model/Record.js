@@ -14,7 +14,8 @@ import { toData } from 'client/util/toData'
  * @template T
  * @param {T} defaults 
  */
-export function Record (defaults) {
+export function Record (defaults)
+{
     /**
      * @type {Partial<T | BaseRecord>}
      */
@@ -77,7 +78,8 @@ export function Record (defaults) {
         /**
          * @param {Partial<typeof defaultValues & typeof defaults> | undefined} props
          */
-        constructor (props = {}) {
+        constructor(props = {})
+        {
             if (props === undefined) props = {}
 
             for (const { prop, init } of initializers) {
@@ -107,7 +109,8 @@ export function Record (defaults) {
          *
          * @returns {any}
          */
-        delegate(child, method, ...args) {
+        delegate (child, method, ...args)
+        {
             return this[child][method](...args)
         }
 
@@ -123,7 +126,8 @@ export function Record (defaults) {
          *
          * @returns {this}
          */
-        delegateSet(child, method, ...args) {
+        delegateSet (child, method, ...args)
+        {
             const value = this.delegate(child, method, ...args)
             if (value instanceof this[child].constructor === false) {
                 throw new Error(`Tried to call delegateSet on a method that was not a fluent mutator (did not return a mutated instance) ${child}#${method}`)
@@ -131,7 +135,16 @@ export function Record (defaults) {
             return this.set(child, value)
         }
 
-        toData () {
+        matches (shape)
+        {
+            for (const key of Object.keys(shape)) {
+                if (this[key] != shape[key]) return false
+            }
+            return true
+        }
+
+        toData ()
+        {
             // toData() is capable of calling custom defined toData functions. This
             // small bit of bookkeeping stops us from creating an infinite loop.
             this.__callingToData = true
@@ -151,12 +164,42 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
     const pk = (v) => v[key]
 
     return class RecordCollection extends Record({ items: OrderedMap() }) {
-        static create() {
+        static createReducer (namespace)
+        {
+            const prefix = `${namespace}.`
+            const INITIAL_STATE = new this()
+
+            return (collection = INITIAL_STATE, action, globalState) =>
+            {
+                if (!action.type.startsWith(prefix)) return collection
+
+                const actionType = action.type.substring(prefix.length)
+                switch (actionType) {
+                    case 'save':
+                        return collection.add(action.payload)
+                    case 'delete':
+                        return collection.remove(action.payload)
+                    case 'sort':
+                        return collection.sort(action.payload)
+                }                
+
+                return collection
+            }
+        }
+
+        static create ()
+        {
             return new this()
         }
 
-        forEach(cb) {
+        forEach (cb)
+        {
             return this.items.forEach(cb)
+        }
+
+        filter (criteria)
+        {
+            return this.items.valueSeq().filter(criteria)
         }
 
         map (cb)
@@ -164,12 +207,30 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
             return this.items.valueSeq().map(cb)
         }
 
-        add(v) {
+        toArray ()
+        {
+            return this.items.valueSeq().toArray()
+        }
+
+        sort (cb)
+        {
+            if (cb instanceof Array) {
+                // Sort by id list
+                const pks = cb
+                cb = (a, b) => pks.indexOf(a.pk) - pks.indexOf(b.pk)
+            }
+
+            return this.delegateSet('items', 'sort', cb)
+        }
+
+        add (v)
+        {
             this.validate(v)
             return this.delegateSet('items', 'set', pk(v), v)
         }
 
-        insert(v, at = -1) {
+        insert (v, at = -1)
+        {
             const newLength = this.length + 1
             if (at < 0 || at >= newLength) at = at % newLength
             if (at < 0) at += newLength
@@ -210,19 +271,28 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
             return member._id
         }
 
-        remove(v) {
+        remove (v)
+        {
             return this.delegateSet('items', 'delete', this.getID(v))
         }
 
-        find(k) {
+        find (k)
+        {
             return this.items.get(this.getID(k), nullItem)
         }
 
-        get length() {
+        where (criteria)
+        {
+            return this.filter((record) => record.matches(criteria))
+        }
+
+        get length ()
+        {
             return this.items.count()
         }
 
-        validate(record) {
+        validate (record)
+        {
             if (!OfType) return // No type checks
             if (record instanceof OfType) return // Type check succeeded
             throw new Error(`Record is incorrect type for this collection`)

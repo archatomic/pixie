@@ -65,10 +65,15 @@ export class Form extends Component {
       return
     }
 
-    this.setState({ errors: [], state: STATE.PROCESSING })
     try {
       const data = this.getData()
-      if (this.props.onSubmit) await this.props.onSubmit(data)
+
+      const response = this.props.onSubmit && this.props.onSubmit(data)
+
+      // Only set processing state on async jobs
+      if (response?.then) this.setState({ errors: [], state: STATE.PROCESSING })
+
+      await response
     } catch (e) {
       this.setState({ errors: [e], state: STATE.ERROR })
       return

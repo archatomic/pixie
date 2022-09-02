@@ -7,10 +7,11 @@ const addEndListener = (node, done) => {
   node.addEventListener('transitionend', done, false)
 }
 
-export const Transition = ({ className = null, children = null, timeout = null } = {}) => {
+export const Transition = ({ className = null, children = null, timeout = null, ...props } = {}) => {
   return (
-    <TransitionGroup className={className}>
-      {Children.toArray(children).map((child, i) => {
+    <TransitionGroup className={className} {...props}>
+      {Children.toArray(children).map((child, i) =>
+      {
         if (typeof child === 'string') child = <span>{child}</span>
         const props = timeout ? { timeout } : { addEndListener }
         const key = child?.key || i

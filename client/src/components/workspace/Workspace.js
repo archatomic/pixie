@@ -1,51 +1,54 @@
 import './Workspace.styl'
 
+import { applicationCreateNew, applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
+
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
-import { PixieFragment } from 'client/model/PixieFragment'
 import { clamp } from 'client/util/clamp'
+import { connect } from 'client/util/connect'
 
-const OVERFLOW_MARGIN = 10
+const OVERFLOW_MARGIN = 20
 const MIN_ZOOM = 1
 const MAX_ZOOM = 64
+const ZOOM_SPEED = 10
 
+/**
+ * @typedef {object} WorkspaceProps
+ * @prop {import('client/model/Application').Application} application
+ */
+
+/**
+ * @extends {Component<WorkspaceProps>}
+ */
 export class Workspace extends Component
 {
-    // Todo: this entire state should live in the store
-    state = {
-        /** @type {PixieFragment} */
-        fragment: PixieFragment.Null,
+    static Connected = connect(
+        {
+            'cursorDown': ['application', 'cursorDown'],
+            'cursorX': ['application', 'cursorX'],
+            'cursorY': ['application', 'cursorY'],
+            'tab': (state) => state.get('application').getActiveTab(),
+            'fragment': (state) => state.get('application').getActiveFragment(),
+        },
+        this
+    )
 
-        /** @type {Number} */
-        frame: 0,
+    get tab ()
+    {
+        return this.props.tab
+    }
 
-        /** @type {Number} */
-        zoom: 1,
-
-        /** @type {Number} */
-        rotate: 0,
-
-        /** @type {Number} */
-        x: 0,
-
-        /** @type {Number} */
-        y: 0,
-
-        /** @type {Boolean} */
-        cursorDown: false,
-
-        /** @type {Number} */
-        cursorX: 0,
-
-        /** @type {Number} */
-        cursorY: 0
+    get fragment ()
+    {
+        return this.props.fragment
     }
 
     /** @type {import('client/model/PixieCel').PixieCel[]} */
     get frameCels ()
     {
-        return this.state.fragment
-            .getFrameCels(this.state.frame)
+        // TODO: Respect "inherited"
+        return this.fragment
+            .getFrameCels(this.tab.frame)
             .filter(c => !c.null)
             .toArray()
     }
@@ -53,9 +56,9 @@ export class Workspace extends Component
     get wrapperStyle ()
     {
         return {
-            width: `${this.state.fragment.width}px`,
-            height: `${this.state.fragment.height}px`,
-            transform: `translate(${Math.floor(this.state.x)}px, ${Math.floor(this.state.y)}px) scale(${this.state.zoom}) rotate(${this.state.rotate}deg)`
+            width: `${this.fragment.width}px`,
+            height: `${this.fragment.height}px`,
+            transform: `translate(${Math.floor(this.tab.x)}px, ${Math.floor(this.tab.y)}px) scale(${this.tab.zoom}) rotate(${this.tab.rotate}deg)`
         }
     }
 
@@ -63,49 +66,63 @@ export class Workspace extends Component
     {
         // apply scale
         return {
-            width: `${this.state.fragment.width * this.state.zoom}px`,
-            height: `${this.state.fragment.height * this.state.zoom}px`,
-            transform: `translate(${Math.floor(this.state.x)}px, ${Math.floor(this.state.y)}px) rotate(${this.state.rotate}deg)`
+            width: `${this.fragment.width * this.tab.zoom}px`,
+            height: `${this.fragment.height * this.tab.zoom}px`,
+            transform: `translate(${Math.floor(this.tab.x)}px, ${Math.floor(this.tab.y)}px) rotate(${this.tab.rotate}deg)`
         }
     }
 
-    maxX (zoom = this.state.zoom)
+    maxX (zoom = this.tab.zoom)
     {
-        return (window.innerWidth + zoom * this.state.fragment.width) / 2 - OVERFLOW_MARGIN
+        return (window.innerWidth + zoom * this.fragment.width) / 2 - OVERFLOW_MARGIN
     }
 
-    minX (zoom = this.state.zoom)
+    minX (zoom = this.tab.zoom)
     {
         return - this.maxX(zoom)
     }
 
-    maxY (zoom = this.state.zoom)
+    maxY (zoom = this.tab.zoom)
     {
-        return (window.innerHeight + zoom * this.state.fragment.height) / 2 - OVERFLOW_MARGIN
+        return (window.innerHeight + zoom * this.fragment.height) / 2 - OVERFLOW_MARGIN
     }
 
-    minY (zoom = this.state.zoom)
+    minY (zoom = this.tab.zoom)
     {
         return - this.maxY(zoom)
     }
 
     componentDidMount ()
     {
-        const fragment = PixieFragment.create({ numFrames: 4, numLayers: 4 }).fillCels()
-        this.setState({
-            fragment,
-            zoom: Math.min((window.innerWidth - OVERFLOW_MARGIN * 2) / fragment.width, (window.innerHeight - OVERFLOW_MARGIN * 2) / fragment.height)
-        })
-        window.addEventListener('wheel', this.handleWheel, { passive: false })
-        window.addEventListener('mousemove', this.handleMouseMove)
+        // TODO: Remove this. This is just a test / dev stub
+        applicationCreateNew(128, 128)
     }
 
     componentWillUnmount ()
     {
-        window.removeEventListener('wheel', this.handleWheel)
-        window.removeEventListener('mousemove', this.handleMouseMove)
+        this.destroyListeners()
     }
 
+    handleRef = el =>
+    {
+        this.destroyListeners()
+        this.el = el
+        this.attachListeners()
+    }
+
+    destroyListeners ()
+    {
+        if (!this.el) return
+        this.el.removeEventListener('wheel', this.handleWheel)
+        this.el.removeEventListener('mousemove', this.handleMouseMove)
+    }
+
+    attachListeners ()
+    {
+        if (!this.el) return
+        this.el.addEventListener('wheel', this.handleWheel, { passive: false })
+        this.el.addEventListener('mousemove', this.handleMouseMove)
+    }
 
     handleWheel = (e) =>
     {
@@ -122,8 +139,8 @@ export class Workspace extends Component
         if (!this.wrapper) return
 
         const wrapperRect = this.wrapper.getBoundingClientRect()
-        const x = Math.floor((clientX - wrapperRect.left) / this.state.zoom)
-        const y = Math.floor((clientY - wrapperRect.top) / this.state.zoom)
+        const x = Math.floor((clientX - wrapperRect.left) / this.tab.zoom)
+        const y = Math.floor((clientY - wrapperRect.top) / this.tab.zoom)
 
         this.setCursor(x, y)
     }
@@ -133,57 +150,54 @@ export class Workspace extends Component
     translate (x, y)
     {
         this.setViewport({
-            x: this.state.x + x,
-            y: this.state.y + y,
+            x: this.tab.x + x,
+            y: this.tab.y + y,
         })
     }
 
     setCursor (x, y)
     {
-        const cursorDown = x > -1 && y > -1 && x < this.state.fragment.width && y < this.state.fragment.height
-        const cursorX = cursorDown ? x : 0
-        const cursorY = cursorDown ? y : 0
-
-        this.setState({ cursorDown, cursorX, cursorY })
+        const down = x > -1 && y > -1 && x < this.fragment.width && y < this.fragment.height
+        applicationCursorUpdate(x, y, down)
     }
 
     zoom (amt, originX, originY)
     {
         amt = amt / window.innerHeight // based on window height
 
-        const zSpeed = 3
-        let zAmt = zSpeed * amt
+        let zAmt = ZOOM_SPEED * amt
 
-        const zoom = clamp(this.state.zoom * (1 + zAmt), MIN_ZOOM, MAX_ZOOM)
-        zAmt = zoom / this.state.zoom - 1
+        const zoom = clamp(this.tab.zoom * (1 + zAmt), MIN_ZOOM, MAX_ZOOM)
+        zAmt = zoom / this.tab.zoom - 1
 
-        const scaleOriginX = window.innerWidth / 2 + this.state.x
+        const scaleOriginX = window.innerWidth / 2 + this.tab.x
         const offsetX = (originX - scaleOriginX)
         const oDeltaX = - offsetX * zAmt
 
-        const scaleOriginY = window.innerHeight / 2 + this.state.y
+        const scaleOriginY = window.innerHeight / 2 + this.tab.y
         const offsetY = (originY - scaleOriginY)
         const oDeltaY = - offsetY * zAmt
         
         this.setViewport({
             zoom,
-            x: this.state.x + oDeltaX,
-            y: this.state.y + oDeltaY
+            x: this.tab.x + oDeltaX,
+            y: this.tab.y + oDeltaY
         })
     }
 
-    setViewport ({ zoom = this.state.zoom, x = this.state.x, y = this.state.y, rotation = this.state.rotation } = {})
+    setViewport ({ zoom = this.tab.zoom, x = this.tab.x, y = this.tab.y, rotation = this.tab.rotation } = {})
     {
         zoom = clamp(zoom, 1, 64)
         x = clamp(x, this.minX(zoom), this.maxX(zoom))
         y = clamp(y, this.minY(zoom), this.maxY(zoom))
-        this.setState({ zoom, x, y, rotation })
+        tabActions.save(this.tab.merge({ zoom, x, y, rotation }))
     }
 
     render ()
     {
+        if (this.fragment.null) return null
         return (
-            <div className='Workspace'>
+            <div className='Workspace' ref={this.handleRef}>
                 <div className='Workspace-stage' style={this.stageStyle}></div>
                 <div className='Workspace-wrapper' style={this.wrapperStyle} ref={this.handleWrapperRef}>
                     {this.renderCursor()}
@@ -195,8 +209,8 @@ export class Workspace extends Component
 
     renderCursor ()
     {
-        if (!this.state.cursorDown) return null
-        let transform = `translate(${this.state.cursorX}px, ${this.state.cursorY}px)`
+        if (!this.props.cursorDown) return null
+        let transform = `translate(${this.props.cursorX}px, ${this.props.cursorY}px)`
         return <div className='Workspace-cursor' style={{ transform }}></div>
     }
 }

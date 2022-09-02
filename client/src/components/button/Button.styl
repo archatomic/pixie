@@ -2,41 +2,43 @@
     border-size = 0.2rem
 
     solid(clr, txt = theme.white)
-        if substr("" + clr, 0, 15) == "linear-gradient"
-            border-width 0
-            padding border-size
-        else
-            border-color clr
-        background clr
-        color txt
+        &, &:link, &:hover, &:active, &:focus
+            if substr("" + clr, 0, 15) == "linear-gradient"
+                border-width 0
+                padding border-size
+            else
+                border-color clr
+            background clr
+            color txt
+            text-decoration-color txt
 
     ghost(clr, txt = theme.white)
-        if substr("" + clr, 0, 15) == "linear-gradient"
-            border-width 0
-            padding border-size
-            background clr
-            position relative
-            color txt
-            z-index 0
-
-            .Button-label
+        &, &:link, &:hover, &:active, &:focus
+            if substr("" + clr, 0, 15) == "linear-gradient"
+                border-width 0
+                padding border-size
                 background clr
-                background-size 100%
-                background-clip text
-                -webkit-text-fill-color transparent
+                position relative
+                color txt
+                z-index 0
 
-                &:before
-                    content ''
-                    position absolute
-                    border-radius 0.2rem
-                    inset border-size
-                    background txt
-                    z-index -1
+                .Button-label
+                    background clr
+                    background-size 100%
+                    background-clip text
+                    -webkit-text-fill-color transparent
 
-        else
-            border-color clr
-            background transparent
-            color clr
+                    &:before
+                        content ''
+                        position absolute
+                        border-radius 0.2rem
+                        inset border-size
+                        background txt
+                        z-index -1
+            else
+                border-color clr
+                background transparent
+                color clr
 
     variant(name, clr, txt = theme.white)
         &--{name}
@@ -56,8 +58,10 @@
     justify-content stretch
 
     &-label
+        display block
         flex-grow 1
         flex-shrink 0
+        text-align center
         padding 0.8em 2em
 
     &:not(&--disabled):not([disabled]).Button
@@ -80,8 +84,9 @@
     variant('primary', theme.primary)
     variant('secondary', theme.secondary)
     variant('tertiary', theme.tertiaryDark)
-    variant('white', theme.white)
-    variant('gradient', linear-gradient(45deg, theme.primary, theme.secondary, theme.tertiary), theme.white)
+    variant('white', theme.white, theme.black)
+    variant('black', theme.black, theme.white)
+    variant('gradient', linear-gradient(45deg, theme.primary, theme.secondary, theme.tertiary), grey(95))
     +variant('disabled', grey(75), theme.white)
         cursor default
 

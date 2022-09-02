@@ -1,18 +1,11 @@
-import { Component } from 'react'
-import classNames from 'classnames'
-
-const classes = (baseClass, variants, cmp, ...args) => classNames(
-  baseClass,
-  variants.map(v => (cmp?.props[v] || cmp?.state[v]) && `${baseClass}--${v}`),
-  ...args
-)
+import { Component } from 'client/components/Component'
+import { Link } from 'react-router-dom'
 
 /**
  * @typedef {object} ButtonProps
  * @property {string} [label]
  * @property {import('react').ReactNode} [children]
  * @property {boolean} [submit]
- * @property {string} [className]
  * @property {string} [to]
  * @property {boolean} [disabled]
  * @property {boolean} [full]
@@ -21,6 +14,7 @@ const classes = (baseClass, variants, cmp, ...args) => classNames(
  * @property {boolean} [secondary]
  * @property {boolean} [tertiary]
  * @property {boolean} [white]
+ * @property {boolean} [black]
  * @property {boolean} [gradient]
  * @property {() => void} [onClick]
  */
@@ -28,49 +22,63 @@ const classes = (baseClass, variants, cmp, ...args) => classNames(
 /**
  * @extends Component<ButtonProps>
  */
-export class Button extends Component {
-  get className () {
-    return classes(
-      'Button',
-      [
-        'disabled',
-        'full',
-        'ghost',
-        'primary',
-        'secondary',
-        'tertiary',
-        'white',
-        'gradient'
-      ],
-      this,
-      this.props.className,
+export class Button extends Component
+{
+  bemBlock () { return 'Button' }
+
+  bemVariants ()
+  {
+    return [
+      'disabled',
+      'full',
+      'ghost',
+      'primary',
+      'secondary',
+      'tertiary',
+      'white',
+      'black',
+      'gradient',
       {
-        'Button--focus': this.state.focused
+        'focused': 'focus'
       }
-    )
+    ]
   }
 
   state = {
     focused: false
   }
 
-  handleFocus = () => {
+  handleFocus = () =>
+  {
     this.setState({ focused: true })
   }
 
-  handleBlur = () => {
+  handleBlur = () =>
+  {
     this.setState({ focused: false })
   }
 
-  render () {
-    if (this.props.to) {
-      return this.renderLink()
-    }
+  render ()
+  {
+    if (this.props.to) return this.renderLink()
     return this.renderButton()
   }
 
   renderLink () {
-    return null
+    return (
+      <Link
+        className={this.className}
+        disabled={this.props.disabled}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        onClick={this.props.onClick}
+        to={this.props.disabled ? '#' : this.props.to}
+      >
+        <span className={this.bemElement('label')}>
+          {this.props.label || this.props.children}
+        </span>
+      </Link>
+    )
   }
 
   renderButton () {
@@ -83,7 +91,7 @@ export class Button extends Component {
         onBlur={this.handleBlur}
         onClick={this.props.onClick}
       >
-        <span className='Button-label'>
+        <span className={this.bemElement('label')}>
           {this.props.label || this.props.children}
         </span>
       </button>

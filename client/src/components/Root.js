@@ -1,71 +1,54 @@
-import { APP_NAME, IS_DESKTOP, IS_MOBILE, IS_WINDOWS, RUNTIME } from 'client/constants'
+import { IS_DESKTOP, IS_MOBILE, IS_WINDOWS, RUNTIME } from 'client/constants'
+import { applicationBlur, applicationFocus } from 'client/store/actions/applicationActions'
 
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
-import { SafeArea } from 'capacitor-plugin-safe-area'
 import { TitleBar } from './title-bar/TitleBar'
 import classNames from 'classnames'
+import { connect } from 'client/util/connect'
 
-export class Root extends Component {
-  state = {
-    theme: this.getDefaultTheme(),
-    focused: document.hasFocus(),
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
-  }
+export class Root extends Component
+{
+  static Connected = connect('application', this)
 
-  async componentDidMount() {
-    window.addEventListener('focus', () => this.setState({ focused: true }))
-    window.addEventListener('blur', () => this.setState({ focused: false }))
+  componentDidMount ()
+  {
+    window.addEventListener('focus', applicationFocus)
+    window.addEventListener('blur', applicationBlur)
     this.rootEl = document.querySelector('.Root')
-    this.setState((await SafeArea.getSafeAreaInsets()).insets)
+    this.componentDidUpdate()
   }
 
-  componentDidUpdate() {
+  componentWillUnmount ()
+  {
+    window.removeEventListener('focus', applicationFocus)
+    window.removeEventListener('blur', applicationBlur)
+  }
+
+  componentDidUpdate ()
+  {
     let style = ''
-    style += `border-top: ${this.state.top}px solid black;`
-    style += `border-right: ${this.state.right}px solid black;`
-    style += `border-bottom: ${this.state.bottom}px solid black;`
-    style += `border-left: ${this.state.left}px solid black;`
+    const { top, right, bottom, left } = this.props.application.safeArea
+    style += `border-top: ${top}px solid black;`
+    style += `border-right: ${right}px solid black;`
+    style += `border-bottom: ${bottom}px solid black;`
+    style += `border-left: ${left}px solid black;`
     this.rootEl.setAttribute('style', style)
   }
 
-  getDefaultTheme () {
-    try {
-      const match = window.matchMedia('(prefers-color-scheme: dark)')
-      match.addEventListener('change', this.handleColorSchemePreference)
-      if (match.matches) {
-        return 'dark'
-      } else {
-        return 'light'
-      }
-    } catch (e) {
-      return 'light'
-    }
-  }
-
-  handleColorSchemePreference = match => {
-    if (match.matches) {
-      this.setState({ theme: 'dark' })
-    } else {
-      this.setState({ theme: 'light' })
-    }
-  }
-
-  render () {
+  render ()
+  {
     return (
       <>
         <Helmet
           htmlAttributes={{
             class: classNames(
               this.props.pageClassName,
-              `Theme--${this.state.theme}`,
+              `Theme--${this.props.application.theme}`,
               'App',
               `App--${RUNTIME}`,
               {
-                'App--focused': this.state.focused,
+                'App--focused': this.props.application.focused,
                 'App--mobile': IS_MOBILE,
                 'App--web': IS_WINDOWS,
                 'App--desktop': IS_DESKTOP
@@ -73,9 +56,9 @@ export class Root extends Component {
             )
           }}
         >
-          <title>{APP_NAME}</title>
+          <title>{this.props.application.title}</title>
         </Helmet>
-        <TitleBar>{APP_NAME}</TitleBar>
+        <TitleBar>{this.props.application.title}</TitleBar>
         {this.props.children}
       </>
     )

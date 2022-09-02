@@ -1,0 +1,49 @@
+.Layers
+    position absolute
+    top rhythm
+    left 100%
+    bottom rhythm
+    transition transform 0.15s ease-in-out
+
+    &-toggle
+        position absolute
+        top 0
+        right 100%
+        margin-right rhythm
+
+    &--open
+        transform translateX(-100%)
+
+    &-list
+        transition transform 0.3s ease-in-out
+        margin-right rhythm
+        transform translateX(0)
+    
+    &-list.exit
+        transform translateX(0)
+
+    &-list.exit-active, &-list.enter
+        transform translateX(rhythm)
+    
+    &-list.enter-active
+        transform translateX(0)
+
+    &-layer
+        width 10rem
+        border-radius 0.3rem
+        overflow hidden
+        box-shadow 0 0.3rem 0.3rem rgba(0, 0, 0, 0.2)
+        border 1px solid grey(75)
+    
+        & + &
+            margin-top half-rhythm
+    
+    &-preview
+        background white
+        padding-bottom 100%
+
+    &-name
+        background theme.white
+        color theme.black
+        padding 0.3em
+

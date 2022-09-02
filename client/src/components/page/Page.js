@@ -1,8 +1,8 @@
 import './Page.styl'
 
-import { APP_NAME } from 'client/constants'
+import { applicationTitleClear, applicationTitleUpdate } from 'client/store/actions/applicationActions'
+
 import { Component } from 'react'
-import Helmet from 'react-helmet'
 import { Transition } from '../Transition'
 import classNames from 'classnames'
 
@@ -21,11 +21,14 @@ import classNames from 'classnames'
  * @extends {Component<PageProps>}
  */
 export class Page extends Component {
-  getTitle () {
-    if (this.props.title) {
-      return `${this.props.title} | ${APP_NAME}`
-    }
-    return APP_NAME
+  componentDidMount ()
+  {
+    applicationTitleUpdate(this.props.title)
+  }
+
+  componentWillUnmount ()
+  {
+    applicationTitleClear()
   }
 
   render () {
@@ -43,9 +46,6 @@ export class Page extends Component {
           )
         }
       >
-        <Helmet>
-          <title>{this.getTitle()}</title>
-        </Helmet>
         <Transition className='Page-top'>
           {this.props.top && this.props.children}
         </Transition>

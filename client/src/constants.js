@@ -1,7 +1,7 @@
 import { Capacitor } from '@capacitor/core'
 import { def } from 'client/util/default'
 
-export const APP_NAME = def(process.env.APP_NAME, document.title)
+export const APP_NAME = def(process.env.APP_NAME, 'Pixie')
 
 // PLATFORM
 export const ANDROID = 'android'

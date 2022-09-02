@@ -1,9 +1,13 @@
-const registry = {}
+import { def } from './default'
 
-export const register = (name, item) => {
-    registry[name] = item
+const REGISTRY = {}
+
+export const register = (name, item) =>
+{
+    REGISTRY[name] = item
 }
 
-export const locate = (name) => {
-    return registry[name]
+export const locate = (name, fallback = undefined) =>
+{
+    return def(REGISTRY[name], fallback)
 }

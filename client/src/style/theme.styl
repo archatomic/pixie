@@ -3,6 +3,7 @@
 themes = {
     light: {
         white: #efefef,
+        active: #4ccafc,
         grey: #89a,
         black: #050306,
         primary: #f7545c,
@@ -25,6 +26,7 @@ themes = {
     },
     dark: {
         white: #050306,
+        active: #4ccafc,
         grey: #89a,
         black: #efefef,
         primary: #f7545c,
@@ -67,14 +69,14 @@ primary(d)
 grey(d)
     return getGradient('grey', d)
 
-for theme, colors in themes
+for __theme, __colors in themes
     // Add gradients
-    addGradientTo(theme, 'grey', colors.black, colors.grey, colors.white)
-    addGradientTo(theme, 'primary', colors.primary, colors.secondary, colors.tertiary)
+    addGradientTo(__theme, 'grey', __colors.black, __colors.grey, __colors.white)
+    addGradientTo(__theme, 'primary', __colors.primary, __colors.secondary, __colors.tertiary)
 
 theme = {}
-for name, color in themes[defaultTheme]
-    theme[name] = var(unquote('--theme-' + name), color)
+for __name, __color in themes[defaultTheme]
+    theme[__name] = var(unquote('--theme-' + __name), __color)
 
 enableThemes()
     for theme, colors in themes

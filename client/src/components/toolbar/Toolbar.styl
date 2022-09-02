@@ -1,0 +1,28 @@
+.Toolbar
+    position absolute
+    top rhythm
+    left rhythm
+    bottom rhythm
+    width 0
+    display flex
+    flex-direction column
+    z-index 1
+
+    &-spacer
+        flex-grow 1
+
+    &-tool
+        font-size 2rem
+
+        & + &
+            margin-top half-rhythm
+
+        &--active
+            color theme.active
+
+        &--home
+            border-color transparent
+            box-shadow none
+            
+            .Icon-glyph
+                font-size 3rem

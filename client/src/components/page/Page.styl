@@ -73,8 +73,10 @@
             background grey(90)
             transition opacity transitionSpeed ease-in-out
             opacity 1
+            z-index -1
 
-            .App--focused &
+            .App--focused &,
+            .Page--top &
                 opacity 0
 
     &--top &-top

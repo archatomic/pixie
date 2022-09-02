@@ -11,6 +11,8 @@ import { PixieFrame } from './PixieFrame'
 import { PixieLayer } from './PixieLayer'
 import { Record } from './Record'
 
+const FIT_PADDING = 20
+
 export class PixieFragment extends Record({
     width: DEFAULT_FRAGMENT_WIDTH,
     height: DEFAULT_FRAGMENT_HEIGHT,
@@ -27,6 +29,18 @@ export class PixieFragment extends Record({
         return new PixieFragment({ width, height })
             .addLayers(numLayers)
             .addFrames(numFrames)
+    }
+
+    get aspectRatio ()
+    {
+        return this.height / this.width
+    }
+
+    getDefaultZoom ()
+    {
+        const fitWidth = (window.innerWidth - FIT_PADDING * 2) / this.width
+        const fitHeight = (window.innerHeight - FIT_PADDING * 2) / this.height
+        return Math.min(fitWidth, fitHeight)
     }
 
     addLayers (count)
