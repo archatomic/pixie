@@ -1,5 +1,3 @@
-import './Toolbar.styl'
-
 import { Component } from 'react'
 import { Icon } from 'client/components/icon/icon'
 import { applicationToolSet } from 'client/store/actions/applicationActions'

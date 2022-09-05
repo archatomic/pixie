@@ -1,7 +1,5 @@
-import './Layers.styl'
-
 import { Component } from 'react'
-import { Tool } from '../toolbar/Toolbar'
+import { Tool } from '../toolbar'
 import { Transition } from '../Transition'
 import { applicationLayersToggle } from 'client/store/actions/applicationActions'
 import classNames from 'classnames'
@@ -69,6 +67,6 @@ export class Layers extends Component
     renderAddLayerButton ()
     {
         // todo
-        return null
+        return null //<li onClick={}>Click me</li>
     }
 }

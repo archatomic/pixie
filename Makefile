@@ -2,6 +2,11 @@
 android: web.build
 	yarn cap run android --target Pixel_3_API_31
 
+.PHONY: android.device
+android.device: web.build
+	DEVICE_ID=$(shell adb devices | awk 'NR==2 {print $$1}');\
+	yarn cap run android --target $$DEVICE_ID
+
 .PHONY: android.build
 android.build: web.build
 	echo 'todo android build'
