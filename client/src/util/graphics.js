@@ -3,7 +3,7 @@ import { createNode } from 'client/util/createNode'
 /** @type {CanvasRenderingContext2D} */
 const context = createNode({ tag: 'canvas' }).getContext('2d')
 
-const DEBUG_PATTERN = true
+const DEBUG_PATTERN = false
 
 export const createImageData = (width, height) =>
 {

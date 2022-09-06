@@ -44,6 +44,8 @@ export const IS_WEB = RUNTIME === WEB
 export const HAS_OS_MENU = IS_DESKTOP
 export const HAS_TITLE_BAR = IS_DESKTOP
 export const SUPPORTS_TABS = !IS_MOBILE
+export const SUPPORTS_MOUSE = IS_DESKTOP || IS_WEB
+// TODO: Support mouse on mobile?
 
 // GRAPHICS
 export const DEFAULT_FRAGMENT_WIDTH = def(process.env.DEFAULT_FRAGMENT_WIDTH, 48)
@@ -51,3 +53,13 @@ export const DEFAULT_FRAGMENT_HEIGHT = def(process.env.DEFAULT_FRAGMENT_HEIGHT, 
 export const DEFAULT_FRAGMENT_NUM_LAYERS = def(process.env.DEFAULT_FRAGMENT_NUM_LAYERS, 1)
 export const DEFAULT_FRAGMENT_NUM_FRAMES = def(process.env.DEFAULT_FRAGMENT_NUM_FRAMES, 1)
 export const DEFAULT_FRAME_DURATION = def(process.env.DEFAULT_FRAME_DURATION, 1 / 12)
+
+// tools
+export const TOOL_PENCIL = 'pencil'
+export const TOOL_ERASER = 'eraser'
+export const TOOL_EYEDROPPER = 'eyedropper'
+export const TOOL_MOVE = 'move'
+export const TOOL_PAN = 'pan'
+export const TOOL_ZOOM = 'zoom'
+export const TOOL_SELECT = 'select'
+export const TOOL_FILL = 'fill'

@@ -68,6 +68,11 @@ export class Cel extends Component {
         this.root = null
     }
 
+    componentDidUpdate (props)
+    {
+        if (props.cel !== this.props.cel) this.updateCanvasFromCel()
+    }
+
     render ()
     {
         if (this.props.cel.null || !this.props.cel.data) return null

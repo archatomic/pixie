@@ -5,3 +5,5 @@ export const clamp = (v, a, b) =>
     const max = aMin ? b : a
     return v < min ? min : v > max ? max : v
 }
+
+export const lerp = (a, b, t) => (a + (b - a) * t)

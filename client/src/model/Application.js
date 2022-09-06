@@ -1,18 +1,9 @@
 import { APP_NAME } from 'client/constants'
 import { PixieFragment } from './PixieFragment'
 import { Record } from './Record'
+import { Tab } from './Tab'
 import { getDefaultTheme } from 'client/util/theme'
 import { locate } from 'client/util/registry'
-
-export class Tab extends Record({
-    fragment: null,
-    frame: 0,
-    layer: 0,
-    zoom: 1,
-    rotate: 0,
-    x: 0,
-    y: 0
-}) { }
 
 export class Application extends Record({
     title: APP_NAME,
@@ -28,16 +19,26 @@ export class Application extends Record({
     tabs: Tab.Collection.create(),
     fragments: PixieFragment.Collection.create(),
 }) {
+    /**
+     * @returns {Tab}
+     */
     getActiveTab ()
     {
         return this.tabs.find(this.activeTab)
     }
 
+    /**
+     * @returns {PixieFragment}
+     */
     getActiveFragment ()
     {
         return this.fragments.find(this.getActiveTab().fragment)
     }
 
+    /**
+     * @param {string} title 
+     * @returns {Application}
+     */
     setTitle (title)
     {
         return this.set('title', title ? `${title} | ${APP_NAME}` : APP_NAME)

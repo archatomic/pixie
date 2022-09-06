@@ -67,6 +67,11 @@ export class PixieFragment extends Record({
         return this.delegateSet('frames', 'insert', PixieFrame.create(), at)
     }
 
+    newCel ()
+    {
+        return PixieCel.create({ width: this.width, height: this.height })
+    }
+
     getCel(layer, frame) {
         layer = this.layers.getID(layer)
         frame = this.frames.getID(frame)
@@ -86,9 +91,7 @@ export class PixieFragment extends Record({
 
     createCel(layer, frame)
     {
-        layer = this.layers.getID(layer)
-        frame = this.frames.getID(frame)
-        return this.setIn(['cels', frame, layer], PixieCel.create({ width: this.width, height: this.height }))
+        this.saveCel(layer, frame, this.newCel())
     }
 
     getLayer(layer) {
@@ -107,8 +110,18 @@ export class PixieFragment extends Record({
         frame = this.frames.getID(frame)
         return this.layers.map(v => {
             const layer = this.layers.getID(v)
-            return this.getCel(layer, frame)
+            return {
+                layer,
+                cel: this.getCel(layer, frame)
+            }
         })
+    }
+
+    saveCel (layer, frame, cel)
+    {
+        layer = this.layers.getID(layer)
+        frame = this.frames.getID(frame)
+        return this.setIn(['cels', frame, layer], cel)
     }
 
     deleteFrame (frame) {

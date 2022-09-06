@@ -8,7 +8,7 @@ import { tabActions } from 'client/store/actions/applicationActions'
 /**
  * @typedef {object} TimelineProps
  * @property {import('client/model/PixieFragment').PixieFragment} fragment
- * @property {import('client/model/Application').Tab} tab
+ * @property {import('client/model/Tab').Tab} tab
  */
 export class Timeline extends Component
 {

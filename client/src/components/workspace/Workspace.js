@@ -1,9 +1,11 @@
 import './Workspace.styl'
 
+import { TOOL_ERASER, TOOL_EYEDROPPER } from 'client/constants'
 import { applicationCreateNew, applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
 
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
+import { ToolManager } from 'client/tools/ToolManager'
 import { clamp } from 'client/util/clamp'
 import { connect } from 'client/util/connect'
 
@@ -24,6 +26,7 @@ export class Workspace extends Component
 {
     static Connected = connect(
         {
+            'tool': ['application', 'tool'],
             'cursorDown': ['application', 'cursorDown'],
             'cursorX': ['application', 'cursorX'],
             'cursorY': ['application', 'cursorY'],
@@ -32,6 +35,8 @@ export class Workspace extends Component
         },
         this
     )
+
+    toolManager = new ToolManager()
 
     get tab ()
     {
@@ -46,11 +51,24 @@ export class Workspace extends Component
     /** @type {import('client/model/PixieCel').PixieCel[]} */
     get frameCels ()
     {
-        // TODO: Respect "inherited"
-        return this.fragment
+        const cels = []
+        const frameCels = this.fragment
             .getFrameCels(this.tab.frame)
-            .filter(c => !c.null)
             .toArray()
+        
+        const activeLayer = this.fragment.getLayer(this.tab.layer).pk
+
+        // TODO: Respect "inherited"
+        for (const { layer, cel } of frameCels) {
+            if (layer === activeLayer && this.tab.toolCel) cels.push(this.tab.toolCel)
+           
+            if (cel.null) continue
+            if (layer === activeLayer && this.tab.hideActive) continue
+            
+            cels.push(cel)
+        }
+
+        return cels
     }
 
     get wrapperStyle ()
@@ -114,14 +132,18 @@ export class Workspace extends Component
     {
         if (!this.el) return
         this.el.removeEventListener('wheel', this.handleWheel)
-        this.el.removeEventListener('mousemove', this.handleMouseMove)
+        this.el.removeEventListener('pointerdown', this.handlePointerDown)
+        this.el.removeEventListener('pointermove', this.handlePointerMove)
+        this.el.removeEventListener('pointerup', this.handlePointerUp)
     }
 
     attachListeners ()
     {
         if (!this.el) return
         this.el.addEventListener('wheel', this.handleWheel, { passive: false })
-        this.el.addEventListener('mousemove', this.handleMouseMove)
+        this.el.addEventListener('pointerdown', this.handlePointerDown)
+        this.el.addEventListener('pointermove', this.handlePointerMove)
+        this.el.addEventListener('pointerup', this.handlePointerUp)
     }
 
     handleWheel = (e) =>
@@ -134,15 +156,86 @@ export class Workspace extends Component
         this.handleMouseMove(e)
     }
 
-    handleMouseMove = ({clientX, clientY}) =>
+    /**
+     * @param {PointerEvent} e 
+     */
+    handlePointerDown = (e) =>
+    {
+        e.target.setPointerCapture(e.pointerId)
+        switch (e.pointerType) {
+            case 'mouse':
+            case 'pen':
+                const { x, y } = this.clientToPixel(e)
+                // start tool
+                // Determine if barrel button is pressed
+                const tool = e.button === 2
+                    ? TOOL_EYEDROPPER
+                    : e.button === 5
+                    ? TOOL_ERASER
+                    : this.props.tool
+                return this.toolManager.start(tool, x, y)
+            case 'touch':
+                // start touch manipulations
+                return console.log("touch start")
+        }
+    }
+
+    handlePointerMove = (e) =>
+    {
+        const { x, y } = this.clientToPixel(e)
+        switch (e.pointerType) {
+            case 'mouse':
+                if (this.toolManager.active) return this.toolManager.move(x, y)
+                else return this.setCursor(x, y)
+            case 'pen':
+                return this.toolManager.move(x, y)
+            case 'touch':
+                return console.log("touch move")
+        }
+    }
+
+    handlePointerUp = (e) =>
+    {
+        switch (e.pointerType) {
+            case 'mouse':
+            case 'pen':
+                this.toolManager.end()
+                return
+            case 'touch':
+                // end touch manipulations
+                return
+        }
+    }
+
+    handleMouseMove = (e) =>
     {
         if (!this.wrapper) return
-
-        const wrapperRect = this.wrapper.getBoundingClientRect()
-        const x = Math.floor((clientX - wrapperRect.left) / this.tab.zoom)
-        const y = Math.floor((clientY - wrapperRect.top) / this.tab.zoom)
-
+        const { x, y } = this.clientToPixel(e)
         this.setCursor(x, y)
+    }
+
+    clientToPixel ({ clientX, clientY })
+    {
+        const wrapperRect = this.wrapper.getBoundingClientRect()
+        return {
+            x: Math.floor((clientX - wrapperRect.left) / this.tab.zoom),
+            y: Math.floor((clientY - wrapperRect.top) / this.tab.zoom),
+        }
+    }
+
+    handleTouchStart = (e) =>
+    {
+        
+    }
+
+    handleTouchMove = (e) =>
+    {
+        //console.log('move', e.touches)
+    }
+
+    handleTouchEnd = (e) =>
+    {
+        //console.log('end', e.touches)
     }
 
     handleWrapperRef = e => this.wrapper = e

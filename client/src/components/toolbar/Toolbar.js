@@ -1,3 +1,5 @@
+import { TOOL_ERASER, TOOL_FILL, TOOL_MOVE, TOOL_PENCIL, TOOL_SELECT } from 'client/constants'
+
 import { Component } from 'react'
 import { Icon } from 'client/components/icon/icon'
 import { applicationToolSet } from 'client/store/actions/applicationActions'
@@ -61,11 +63,11 @@ export class Toolbar extends Component
             <div className={classNames('Toolbar', this.props.className)}>
                 <Tool.Connected icon='home' to='/' />
                 <div className='Toolbar-spacer'/>
-                <Tool.Connected tool='pencil'/>
-                <Tool.Connected tool='eraser'/>
-                <Tool.Connected tool='fill' icon='fill-drip'/>
-                <Tool.Connected tool='move' icon='arrows-up-down-left-right'/>
-                <Tool.Connected tool='select' icon='square'/>
+                <Tool.Connected tool={TOOL_PENCIL} />
+                <Tool.Connected tool={TOOL_ERASER} />
+                <Tool.Connected tool={TOOL_FILL} icon='fill-drip'/>
+                <Tool.Connected tool={TOOL_MOVE} icon='arrows-up-down-left-right'/>
+                <Tool.Connected tool={TOOL_SELECT} icon='square'/>
             </div>
         )
     }

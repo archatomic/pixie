@@ -45,3 +45,6 @@ export const applicationLayersToggle = () => action(APPLICATION_LAYERS_TOGGLE)
 
 export const APPLICATION_CREATE_LAYER = 'application.layers.create'
 export const applicationCreateLayer = (count = 1, at = null) => action(APPLICATION_CREATE_LAYER, { count, at })
+
+export const APPLICATION_COPY_INTO_CEL= 'application.cels.copyInto'
+export const applicationCopyIntoCel = (imageData) => action(APPLICATION_COPY_INTO_CEL, imageData)
