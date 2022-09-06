@@ -1,7 +1,5 @@
-import { fragmentActions, tabActions } from 'client/store/actions/applicationActions'
-
 import { BaseTool } from './BaseTool'
-import { lerp } from 'client/util/clamp'
+import { fragmentActions } from 'client/store/actions/applicationActions'
 import { locate } from 'client/util/registry'
 
 /**
@@ -46,7 +44,9 @@ export class Fill extends BaseTool
 
         const stack = [{ x, y }]
         while (stack.length > 0) {
-            const p = stack.shift()
+            const p = stack.pop()
+
+            // Sanity check
             if (!this.inside(p.x, p.y)) continue
 
             // fill

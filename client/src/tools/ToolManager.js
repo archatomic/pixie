@@ -44,7 +44,7 @@ export class ToolManager
      * @param {number} x 
      * @param {number} y 
      */
-    start (tool, x, y)
+    start (tool, x, y, event)
     {
         if (this.active) this.cancel()
 
@@ -63,7 +63,7 @@ export class ToolManager
             deltaY: 0
         }
 
-        this.tool.start(this.data)
+        this.tool.start(this.data, event)
     }
 
     getTool (tool)
@@ -78,7 +78,7 @@ export class ToolManager
      * @param {number} x 
      * @param {number} y 
      */
-    move (x, y)
+    move (x, y, event)
     {
         if (this.inactive) return
         this.data.deltaX = x - this.data.prevX
@@ -87,14 +87,14 @@ export class ToolManager
         this.data.prevY = this.data.y
         this.data.x = x
         this.data.y = y
-        this.tool.move(this.data)
+        this.tool.move(this.data, event)
     }
 
     /**
      * @param {number} x 
      * @param {number} y 
      */
-    end (x, y)
+    end (x, y, event)
     {
         if (this.inactive) return
         this.data.deltaX = x - this.data.prevX
@@ -103,7 +103,7 @@ export class ToolManager
         this.data.prevY = this.data.endY
         this.data.x = x
         this.data.y = y
-        this.tool.end(this.data)
+        this.tool.end(this.data, event)
         this.reset()
     }
 

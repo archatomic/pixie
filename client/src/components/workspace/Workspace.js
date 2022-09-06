@@ -173,7 +173,7 @@ export class Workspace extends Component
                     : e.button === 5
                     ? TOOL_ERASER
                     : this.props.tool
-                return this.toolManager.start(tool, x, y)
+                return this.toolManager.start(tool, x, y, e)
             case 'touch':
                 // start touch manipulations
                 return console.log("touch start")
@@ -185,7 +185,7 @@ export class Workspace extends Component
         const { x, y } = this.clientToPixel(e)
         switch (e.pointerType) {
             case 'mouse':
-                if (this.toolManager.active) return this.toolManager.move(x, y)
+                if (this.toolManager.active) return this.toolManager.move(x, y, e)
                 else return this.setCursor(x, y)
             case 'pen':
                 return this.toolManager.move(x, y)
@@ -200,7 +200,7 @@ export class Workspace extends Component
         switch (e.pointerType) {
             case 'mouse':
             case 'pen':
-                this.toolManager.end(x, y)
+                this.toolManager.end(x, y, e)
                 return
             case 'touch':
                 // end touch manipulations
