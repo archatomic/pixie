@@ -196,10 +196,11 @@ export class Workspace extends Component
 
     handlePointerUp = (e) =>
     {
+        const { x, y } = this.clientToPixel(e)
         switch (e.pointerType) {
             case 'mouse':
             case 'pen':
-                this.toolManager.end()
+                this.toolManager.end(x, y)
                 return
             case 'touch':
                 // end touch manipulations
