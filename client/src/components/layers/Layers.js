@@ -58,8 +58,8 @@ export class Layers extends Component
 
         return (
             <li key={layer.pk} className='Layers-layer'>
-                <li className='Layers-preview' style={{paddingBottom}}></li>
-                <li className='Layers-name'>{layer.name}</li>
+                <div className='Layers-preview' style={{paddingBottom}}></div>
+                <div className='Layers-name'>{layer.name}</div>
             </li>
         )
     }
