@@ -6,17 +6,16 @@
     height 100%
     width 100%
     overflow hidden
-
     touch-action none
 
     &-stage
         position absolute
-        outline 1px solid grey(20)
 
     &-wrapper
         position relative
         image-rendering pixelated
-        background-color rgb(200, 200, 200)
+        background-color grey(92)
+        outline 1px solid grey(98)
 
     &-wrapper:before
         content ''
@@ -30,11 +29,22 @@
         background-size 32px 32px
         mix-blend-mode multiply
         opacity 0.25
+
+    &-wrapper:after
+        content ''
+        display block
+        position absolute
+        left 0
+        top 0
+        right 0
+        bottom 0
+        z-index 2
     
     &-cel
         position absolute
         left 0
         top 0
+        z-index 1
     
     &-cursor
         z-index 1

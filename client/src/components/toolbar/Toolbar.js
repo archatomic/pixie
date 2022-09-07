@@ -2,6 +2,7 @@ import { TOOL_ERASER, TOOL_FILL, TOOL_MOVE, TOOL_PENCIL, TOOL_SELECT, TOOL_ZOOM 
 
 import { Component } from 'react'
 import { Icon } from 'client/components/icon/icon'
+import { Panel } from '../panel'
 import { applicationToolSet } from 'client/store/actions/applicationActions'
 import classNames from 'classnames'
 import { connect } from 'client/util/connect'
@@ -29,22 +30,23 @@ export class Tool extends Component
         const icon = def(this.props.icon, this.props.tool)
         const tool = def(this.props.tool, this.props.icon)
         return (
-            <Icon
-                button
-                className={
-                    classNames(
-                        'Toolbar-tool',
-                        this.props.className,
-                        `Toolbar-tool--${tool}`,
-                        { 'Toolbar-tool--active': this.active }
-                    )
-                }
-                name={icon}
-                onClick={this.handleClick}
-            />
+            <div className={classNames(
+                'Toolbar-tool',
+                this.props.className,
+                `Toolbar-tool--${tool}`,
+                { 'Toolbar-tool--active': this.active }
+            )}>
+                <Icon name={icon} onClick={this.handleClick}/>
+            </div>
         )
 
     }
+}
+
+const KEY_BINDINGS = {
+    b: TOOL_PENCIL,
+    e: TOOL_ERASER,
+    g: TOOL_FILL
 }
 
 export class Toolbar extends Component
@@ -57,18 +59,35 @@ export class Toolbar extends Component
         this
     )
 
+    componentDidMount ()
+    {
+        window.addEventListener('keydown', this.handleKeyDown)
+    }
+
+    componentWillUnmount ()
+    {
+        window.removeEventListener('keydown', this.handleKeyDown)
+    }
+
+    handleKeyDown = (e) =>
+    {
+        const tool = KEY_BINDINGS[e.key]
+        if (tool) applicationToolSet(tool)
+    }
+
     render ()
     {
         return (
             <div className={classNames('Toolbar', this.props.className)}>
-                <Tool.Connected icon='home' to='/' />
-                <div className='Toolbar-spacer'/>
-                <Tool.Connected tool={TOOL_PENCIL} />
-                <Tool.Connected tool={TOOL_ERASER} />
-                <Tool.Connected tool={TOOL_FILL} icon='fill-drip'/>
-                <Tool.Connected tool={TOOL_MOVE} icon='arrows-up-down-left-right'/>
-                <Tool.Connected tool={TOOL_ZOOM} icon='magnifying-glass'/>
-                <Tool.Connected tool={TOOL_SELECT} icon='square'/>
+                <Tool.Connected name='home' icon='bolt' to='/' />
+                <div className='Toolbar-spacer' />
+                <Panel tight>
+                    <Tool.Connected tool={TOOL_PENCIL} />
+                    <Tool.Connected tool={TOOL_ERASER} />
+                    <Tool.Connected tool={TOOL_FILL} icon='fill-drip'/>
+                    {/*<Tool.Connected tool={TOOL_MOVE} icon='arrows-up-down-left-right'/>
+                    <Tool.Connected tool={TOOL_SELECT} icon='square' />*/}
+                </Panel>
             </div>
         )
     }

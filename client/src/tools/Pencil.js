@@ -147,7 +147,8 @@ export class Pencil extends BaseTool
 
     writeImageData (cel = this.cel)
     {
-        const data = cel.data?.data || cel.createBlankImageData()
+        const imageData = cel.copyImageData()
+        const data = imageData.data
         const [br, bg, bb, _ba] = this.color
 
         const ba = _ba / 255
@@ -161,7 +162,7 @@ export class Pencil extends BaseTool
                 data[i + 2] = bb
                 data[i + 3] = 255
             }
-            return new ImageData(data, cel.width, cel.height)
+            return imageData
         }
 
         // Blend the colors
@@ -185,7 +186,7 @@ export class Pencil extends BaseTool
             data[i + 3] = a * 255
         }
 
-        return new ImageData(data, cel.width, cel.height)
+        return imageData
     }
 
     updateToolCel ()

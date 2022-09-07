@@ -22,12 +22,15 @@ export class Eraser extends Pencil
 
     getImageData (cel = this.cel)
     {
-        const data = cel.data?.data || cel.createBlankImageData()
+        const imageData = cel.copyImageData()
+
+        const data = imageData.data
         for (const p of this.pixels) {
             const i = cel.coordsToIndex(p.x, p.y)
             data[i + 3] = 0
         }
-        return new ImageData(data, cel.width, cel.height)
+
+        return imageData
     }
 
     writeImageData (cel = this.cel)

@@ -129,19 +129,29 @@ export class Workspace extends Component
     destroyListeners ()
     {
         if (!this.el) return
+        window.removeEventListener('keydown', this.handleKeyDown)
+        this.el.removeEventListener('wheel', this.handleWheel)
         this.el.removeEventListener('wheel', this.handleWheel)
         this.el.removeEventListener('pointerdown', this.handlePointerDown)
         this.el.removeEventListener('pointermove', this.handlePointerMove)
         this.el.removeEventListener('pointerup', this.handlePointerUp)
+        this.el.removeEventListener('pointercancel', this.handlePointerCancel)
     }
 
     attachListeners ()
     {
         if (!this.el) return
+        window.addEventListener('keydown', this.handleKeyDown)
         this.el.addEventListener('wheel', this.handleWheel, { passive: false })
         this.el.addEventListener('pointerdown', this.handlePointerDown)
         this.el.addEventListener('pointermove', this.handlePointerMove)
         this.el.addEventListener('pointerup', this.handlePointerUp)
+        this.el.addEventListener('pointercancel', this.handlePointerCancel)
+    }
+
+    handleKeyDown = (e) =>
+    {
+        if (e.key === 'Escape') return this.handlePointerCancel(e)
     }
 
     handleWheel = (e) =>
@@ -152,6 +162,13 @@ export class Workspace extends Component
         if (!e.ctrlKey) this.translate(-e.deltaX, -e.deltaY)
         else this.zoom(-e.deltaY, e.clientX, e.clientY)
         this.handleMouseMove(e)
+    }
+
+    handlePointerCancel = (e) =>
+    {
+        console.log(e)
+        this.touch.cancel()
+        this.pen.cancel()
     }
 
     /**

@@ -1,22 +1,27 @@
 .Layers
     position absolute
-    top rhythm
+    top 0
     left 100%
-    bottom rhythm
+    bottom 0
     transition transform 0.15s ease-in-out
+    background grey(92)
 
-    &-toggle.Toolbar-tool.Icon
+    &-toggle.Toolbar-tool
         position absolute
         top 0
         right 100%
-        margin-right rhythm
+        margin-right rhythm--half
+        transition transform 0.15s ease-in-out
+
+    &--open &-toggle.Toolbar-tool
+        transform "translateX(%s)" % rhythm--half
 
     &--open
         transform translateX(-100%)
 
     &-list
         transition transform 0.3s ease-in-out
-        margin-right rhythm
+        margin rhythm--half
         transform translateX(0)
     
     &-list.exit
@@ -36,7 +41,7 @@
         border 1px solid grey(75)
     
         & + &
-            margin-top half-rhythm
+            margin-top rhythm--half
     
     &-preview
         background white

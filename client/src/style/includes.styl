@@ -40,11 +40,11 @@ smaller-than(name)
  * Spacing
  */
  rhythm = 2rem
- double-rhythm = 2 * rhythm
- half-rhythm = rhythm / 2
+ rhythm--double = 2 * rhythm
+ rhythm--half = rhythm / 2
 
 content-padding(mod = 1)
-    beat = double-rhythm * mod
+    beat = rhythm--double * mod
     padding beat
 
     +smaller-than(large)

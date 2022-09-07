@@ -1,7 +1,6 @@
 import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_WIDTH } from 'client/constants'
 
 import { Record } from './Record'
-import { createImageData } from 'client/util/graphics'
 
 export class PixieCel extends Record({
     width: DEFAULT_FRAGMENT_WIDTH,
@@ -9,7 +8,7 @@ export class PixieCel extends Record({
     data: (props) =>
     {
         if (props._isNull) return null // Don't create image data
-        return createImageData(props.width, props.height)
+        return new ImageData(props.width, props.height)
     },
     inherited: true
 }) {
@@ -29,7 +28,14 @@ export class PixieCel extends Record({
 
     createBlankImageData ()
     {
-        return createImageData(this.width, this.height)
+        return new ImageData(this.width, this.height)
+    }
+
+    copyImageData ()
+    {
+        const op = this.createBlankImageData()
+        if (this.data) op.data.set(this.data.data)
+        return op
     }
 
     coordsToIndex (x, y)
