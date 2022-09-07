@@ -1,6 +1,6 @@
 import './Workspace.styl'
 
-import { TOOL_ERASER, TOOL_EYEDROPPER } from 'client/constants'
+import { MAX_ZOOM, MIN_ZOOM, TOOL_ERASER, TOOL_EYEDROPPER, TOOL_PAN, TOOL_ZOOM, ZOOM_SPEED } from 'client/constants'
 import { applicationCreateNew, applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
 
 import { Cel } from '../cel/Cel'
@@ -10,9 +10,6 @@ import { clamp } from 'client/util/clamp'
 import { connect } from 'client/util/connect'
 
 const OVERFLOW_MARGIN = 20
-const MIN_ZOOM = 1
-const MAX_ZOOM = 64
-const ZOOM_SPEED = 10
 
 /**
  * @typedef {object} WorkspaceProps
@@ -36,7 +33,8 @@ export class Workspace extends Component
         this
     )
 
-    toolManager = new ToolManager()
+    pen = new ToolManager()
+    touch = new ToolManager()
 
     get tab ()
     {
@@ -162,10 +160,11 @@ export class Workspace extends Component
     handlePointerDown = (e) =>
     {
         e.target.setPointerCapture(e.pointerId)
+        const { x, y } = this.clientToPixel(e)
+
         switch (e.pointerType) {
             case 'mouse':
             case 'pen':
-                const { x, y } = this.clientToPixel(e)
                 // start tool
                 // Determine if barrel button is pressed
                 const tool = e.button === 2
@@ -173,10 +172,13 @@ export class Workspace extends Component
                     : e.button === 5
                     ? TOOL_ERASER
                     : this.props.tool
-                return this.toolManager.start(tool, x, y, e)
+                return this.pen.start(tool, x, y, e)
             case 'touch':
                 // start touch manipulations
-                return console.log("touch start")
+                const touchTool = this.touch.active ? TOOL_ZOOM : TOOL_PAN
+                const bail = this.touch.active && this.touch.toolName === TOOL_ZOOM
+                if (bail) return // We're already zoomin', don't re init
+                return this.touch.start(touchTool, x, y, e)
         }
     }
 
@@ -185,12 +187,12 @@ export class Workspace extends Component
         const { x, y } = this.clientToPixel(e)
         switch (e.pointerType) {
             case 'mouse':
-                if (this.toolManager.active) return this.toolManager.move(x, y, e)
-                else return this.setCursor(x, y)
+                if (this.pen.active) return this.pen.move(x, y, e)
+                else return this.setCursor(x, y, e)
             case 'pen':
-                return this.toolManager.move(x, y)
+                return this.pen.move(x, y, e)
             case 'touch':
-                return console.log("touch move")
+                return this.touch.move(x, y, e)
         }
     }
 
@@ -200,11 +202,9 @@ export class Workspace extends Component
         switch (e.pointerType) {
             case 'mouse':
             case 'pen':
-                this.toolManager.end(x, y, e)
-                return
+                return this.pen.end(x, y, e)
             case 'touch':
-                // end touch manipulations
-                return
+                return this.touch.end(x, y, e)
         }
     }
 

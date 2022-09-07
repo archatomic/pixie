@@ -29,6 +29,8 @@ export class ToolManager
      */
     data = null
 
+    event = null
+
     get active ()
     {
         return this.tool !== null && this.data !== null
@@ -46,9 +48,16 @@ export class ToolManager
      */
     start (tool, x, y, event)
     {
-        if (this.active) this.cancel()
+        const old = {
+            data: this.data,
+            tool: this.tool,
+            event: this.event
+        }
+    
+        if (this.active) this.tool.end(this.data, this.event)
 
         this.tool = this.getTool(tool)
+        this.toolName = this.getToolName(tool)
 
         if (!this.tool) return
 
@@ -63,7 +72,9 @@ export class ToolManager
             deltaY: 0
         }
 
-        this.tool.start(this.data, event)
+        this.tool.start(this.data, event, old)
+
+        this.event = event
     }
 
     getTool (tool)
@@ -74,6 +85,14 @@ export class ToolManager
         return Constructor.create()
     }
 
+    getToolName (tool)
+    {
+        if (tool instanceof BaseTool === false) return tool
+        for (const key of Object.keys(tools)) {
+            if (tool instanceof tools[key]) return key
+        }
+    }
+
     /**
      * @param {number} x 
      * @param {number} y 
@@ -81,6 +100,7 @@ export class ToolManager
     move (x, y, event)
     {
         if (this.inactive) return
+        this.event = event
         this.data.deltaX = x - this.data.prevX
         this.data.deltaY = y - this.data.prevY
         this.data.prevX = this.data.x
@@ -118,5 +138,6 @@ export class ToolManager
     {
         this.data = null
         this.tool = null
+        this.event = null
     }
 }

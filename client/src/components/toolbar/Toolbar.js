@@ -1,4 +1,4 @@
-import { TOOL_ERASER, TOOL_FILL, TOOL_MOVE, TOOL_PENCIL, TOOL_SELECT } from 'client/constants'
+import { TOOL_ERASER, TOOL_FILL, TOOL_MOVE, TOOL_PENCIL, TOOL_SELECT, TOOL_ZOOM } from 'client/constants'
 
 import { Component } from 'react'
 import { Icon } from 'client/components/icon/icon'
@@ -67,6 +67,7 @@ export class Toolbar extends Component
                 <Tool.Connected tool={TOOL_ERASER} />
                 <Tool.Connected tool={TOOL_FILL} icon='fill-drip'/>
                 <Tool.Connected tool={TOOL_MOVE} icon='arrows-up-down-left-right'/>
+                <Tool.Connected tool={TOOL_ZOOM} icon='magnifying-glass'/>
                 <Tool.Connected tool={TOOL_SELECT} icon='square'/>
             </div>
         )

@@ -63,3 +63,7 @@ export const TOOL_PAN = 'pan'
 export const TOOL_ZOOM = 'zoom'
 export const TOOL_SELECT = 'select'
 export const TOOL_FILL = 'fill'
+
+export const MIN_ZOOM = 1
+export const MAX_ZOOM = 64
+export const ZOOM_SPEED = 10

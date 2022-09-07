@@ -23,6 +23,14 @@ export class Pencil extends BaseTool
         if (!this.tab) this.tab = application.getActiveTab()
         if (!this.fragment) this.fragment = application.getActiveFragment()
         this.color = [0, 0, 0, 255]
+
+        // TODO: For pencil, and eraser
+        // this.brush = {
+        //     width: 1,
+        //     height: 1,
+        //     data: [1]
+        // }
+
         this.cel = this.fragment.getCel(this.tab.layer, this.tab.frame)
 
         if (this.cel.null) this.cel = this.fragment.newCel()

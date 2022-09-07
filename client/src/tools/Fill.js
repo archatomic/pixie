@@ -25,12 +25,13 @@ export class Fill extends BaseTool
         this.cel = this.fragment.getCel(this.tab.layer, this.tab.frame)
         if (this.cel.null) {
             this.cel = this.fragment.newCel()
+            this.imageData = this.cel.data.data
 
-            for (let i = 0; i < this.cel.data.data.length; i += 4) {
-                this.cel.data.data[i    ] = this.color[0] 
-                this.cel.data.data[i + 1] = this.color[1] 
-                this.cel.data.data[i + 2] = this.color[2] 
-                this.cel.data.data[i + 3] = this.color[3] 
+            for (let i = 0; i < this.imageData.length; i += 4) {
+                this.imageData[i    ] = this.color[0] 
+                this.imageData[i + 1] = this.color[1] 
+                this.imageData[i + 2] = this.color[2] 
+                this.imageData[i + 3] = this.color[3] 
             }
 
             return this.persist()
