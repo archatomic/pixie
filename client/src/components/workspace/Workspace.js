@@ -166,7 +166,6 @@ export class Workspace extends Component
 
     handlePointerCancel = (e) =>
     {
-        console.log(e)
         this.touch.cancel()
         this.pen.cancel()
     }
