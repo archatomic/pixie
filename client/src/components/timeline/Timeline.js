@@ -1,6 +1,6 @@
 import './Timeline.styl'
 
-import { Component } from 'client/components/Component'
+import { Component } from 'react'
 import classNames from 'classnames'
 import { connect } from 'client/util/connect'
 import { tabActions } from 'client/store/actions/applicationActions'
@@ -46,8 +46,8 @@ export class Timeline extends Component
     {
         const frames = this.props.fragment.frames.toArray()
         return (
-            <div className={this.className}>
-                <table className={this.bemElement('layers')}>
+            <div className={classNames('Timeline', this.props.className, {'Timeline--open': this.props.open})}>
+                <table className='Timeline-layers'>
                     <tbody>
                         {this.props.fragment.layers.toArray().map(
                             layer => this.renderLayer(layer, frames)
@@ -61,8 +61,8 @@ export class Timeline extends Component
     renderLayer (layer, frames)
     {
         return (
-            <tr key={layer.pk} className={this.bemElement('layer')} data-layer={layer.pk} onClick={this.handleLayerActivate}>
-                <td className={this.bemElement('layer-name')}>{layer.name}</td>
+            <tr key={layer.pk} className='Timeline-layer' data-layer={layer.pk} onClick={this.handleLayerActivate}>
+                <td className='Timeline-layer-name'>{layer.name}</td>
                 { frames.map(frame => this.renderFrame(layer, frame))}
             </tr>
         )
@@ -71,13 +71,12 @@ export class Timeline extends Component
     renderFrame (layer, frame)
     {
         const cel = this.props.fragment.getCel(layer, frame)
-        const kls = this.bemElement('cel')
         return (
             <td
                 key={frame.pk}
                 data-frame={frame.pk}
                 data-layer={layer.pk}
-                className={classNames(kls, { [`${kls}--empty`]: cel.inherits })}
+                className={classNames('Timeline-cel', { [`Timeline-cel--empty`]: cel.inherits })}
                 onClick={this.handleFrameActivate}
             ></td>
         )

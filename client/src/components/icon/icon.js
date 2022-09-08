@@ -1,13 +1,14 @@
 import '@fortawesome/fontawesome-free/css/all.css'
 import './icon.styl'
 
-import { Component } from '../Component'
+import { Component } from 'react'
 import { Transition } from '../Transition'
+import classNames from 'classnames'
 
 /**
  * @typedef {object} IconProps
  * @prop {string} name
- * @prop {boolean} button
+ * @prop {boolean} [button]
  */
 
 /**
@@ -31,8 +32,8 @@ export class Icon extends Component
     {
         const { name, button, className, ...props } = this.props
         return (
-            <Transition className={this.className} {...props}>
-                <i key={name} className={this.bemElement('glyph', 'fa', `fa-${name}`)} />
+            <Transition className={classNames('Icon', `Icon--${name}`, {'Icon--button': this.props.button})} {...props}>
+                <i key={name} className={`Icon-glyph fa fa-${name}`} />
             </Transition>
         )
     }

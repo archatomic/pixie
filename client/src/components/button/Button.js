@@ -1,5 +1,6 @@
-import { Component } from 'client/components/Component'
+import { Component } from 'react'
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 
 /**
  * @typedef {object} ButtonProps
@@ -24,25 +25,6 @@ import { Link } from 'react-router-dom'
  */
 export class Button extends Component
 {
-  bemBlock () { return 'Button' }
-
-  bemVariants ()
-  {
-    return [
-      'disabled',
-      'full',
-      'ghost',
-      'primary',
-      'secondary',
-      'tertiary',
-      'white',
-      'black',
-      'gradient',
-      {
-        'focused': 'focus'
-      }
-    ]
-  }
 
   state = {
     focused: false
@@ -64,6 +46,26 @@ export class Button extends Component
     return this.renderButton()
   }
 
+  get className ()
+  {
+    return classNames(
+      'Button',
+      this.props.className,
+      {
+        'Button--disabled': this.props.disabled,
+        'Button--full': this.props.full,
+        'Button--ghost': this.props.ghost,
+        'Button--primary': this.props.primary,
+        'Button--secondary': this.props.secondary,
+        'Button--tertiary': this.props.tertiary,
+        'Button--white': this.props.white,
+        'Button--black': this.props.black,
+        'Button--gradient': this.props.gradient,
+        'Button--focus': this.state.focused,
+      }
+    )
+  }
+
   renderLink () {
     return (
       <Link
@@ -74,7 +76,7 @@ export class Button extends Component
         onClick={this.props.onClick}
         to={this.props.disabled ? '#' : this.props.to}
       >
-        <span className={this.bemElement('label')}>
+        <span className='Button-label'>
           {this.props.label || this.props.children}
         </span>
       </Link>
@@ -91,7 +93,7 @@ export class Button extends Component
         onBlur={this.handleBlur}
         onClick={this.props.onClick}
       >
-        <span className={this.bemElement('label')}>
+        <span className={'Button-label'}>
           {this.props.label || this.props.children}
         </span>
       </button>
