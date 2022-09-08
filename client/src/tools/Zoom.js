@@ -1,7 +1,7 @@
 import { MAX_ZOOM, MIN_ZOOM } from 'client/constants'
 
 import { BaseTool } from './BaseTool'
-import { clamp } from 'client/util/clamp'
+import { clamp } from 'client/util/math'
 import { locate } from 'client/util/registry'
 import { tabActions } from 'client/store/actions/applicationActions'
 

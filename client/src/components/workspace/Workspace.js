@@ -6,7 +6,7 @@ import { applicationCreateNew, applicationCursorUpdate, tabActions } from 'clien
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
 import { ToolManager } from 'client/tools/ToolManager'
-import { clamp } from 'client/util/clamp'
+import { clamp } from 'client/util/math'
 import { connect } from 'client/util/connect'
 
 const OVERFLOW_MARGIN = 20

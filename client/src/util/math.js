@@ -7,3 +7,5 @@ export const clamp = (v, a, b) =>
 }
 
 export const lerp = (a, b, t) => (a + (b - a) * t)
+
+export const mod = (a, b) => ((a % b) + b) % b

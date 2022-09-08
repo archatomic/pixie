@@ -21,10 +21,6 @@ export class Timeline extends Component
         this
     )
 
-    bemBlock () { return 'Timeline' }
-
-    bemVariants () { return ['open'] }
-
     handleFrameActivate = (event) =>
     {
         event.stopPropagation()

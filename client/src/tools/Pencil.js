@@ -1,7 +1,7 @@
 import { fragmentActions, tabActions } from 'client/store/actions/applicationActions'
 
 import { BaseTool } from './BaseTool'
-import { lerp } from 'client/util/clamp'
+import { lerp } from 'client/util/math'
 import { locate } from 'client/util/registry'
 
 /**

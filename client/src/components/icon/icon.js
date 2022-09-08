@@ -16,18 +16,6 @@ import classNames from 'classnames'
  */
 export class Icon extends Component
 {
-    bemBlock () { return 'Icon' }
-    
-    bemVariants ()
-    {
-        return [
-            'button',
-            {
-                name: this.props.name
-            }
-        ]
-    }
-
     render ()
     {
         const { name, button, className, ...props } = this.props
