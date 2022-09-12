@@ -25,4 +25,17 @@
         &.exit-active
             transform translate(-50%, -50%) rotate(360deg)
             opacity 0
+
+    &--rotateLeft &-glyph
+        &.enter
+            transform translate(-50%, -50%) rotate(360deg)
+
+        &.exit
+            transform translate(-50%, -50%) rotate(0deg)
+
+        &.enter-active
+            transform translate(-50%, -50%) rotate(0deg)
+        
+        &.exit-active
+            transform translate(-50%, -50%) rotate(-360deg)
         

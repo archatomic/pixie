@@ -18,9 +18,21 @@ export class Icon extends Component
 {
     render ()
     {
-        const { name, button, className, ...props } = this.props
+        const { name, button, rotateLeft, className, ...props } = this.props
         return (
-            <Transition className={classNames('Icon', `Icon--${name}`, {'Icon--button': this.props.button})} {...props}>
+            <Transition
+                className={
+                    classNames(
+                        'Icon',
+                        `Icon--${name}`,
+                        {
+                            'Icon--button': button,
+                            'Icon--rotateLeft': rotateLeft
+                        }
+                    )
+                }
+                {...props}
+            >
                 <i key={name} className={`Icon-glyph fa fa-${name}`} />
             </Transition>
         )

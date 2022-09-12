@@ -36,7 +36,7 @@ export class Tool extends Component
                 `Toolbar-tool--${tool}`,
                 { 'Toolbar-tool--active': this.active }
             )}>
-                <Icon name={icon} onClick={this.handleClick}/>
+                <Icon name={icon} onClick={this.handleClick} {...this.props.iconProps}/>
             </div>
         )
 

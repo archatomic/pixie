@@ -31,7 +31,7 @@ export class Layers extends Component
     {
         return (
             <div className={classNames('Layers', { 'Layers--open': this.props.open })}>
-                <Tool.Connected className='Layers-toggle' icon={this.props.open ? 'close' : 'layer-group'} onClick={applicationLayersToggle} />
+                <Tool.Connected className='Layers-toggle' icon={this.props.open ? 'close' : 'layer-group'} iconProps={{ rotateLeft: this.props.open }} onClick={applicationLayersToggle} />
                 <Transition>
                     {this.renderLayerList()}
                 </Transition>
