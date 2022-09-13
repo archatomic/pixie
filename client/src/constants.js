@@ -41,10 +41,7 @@ export const IS_DESKTOP = IS_MAC || IS_LINUX || IS_WINDOWS
 
 export const IS_WEB = RUNTIME === WEB
 
-export const HAS_OS_MENU = IS_DESKTOP
 export const HAS_TITLE_BAR = IS_DESKTOP
-export const SUPPORTS_TABS = !IS_MOBILE
-export const SUPPORTS_MOUSE = IS_DESKTOP || IS_WEB
 // TODO: Support mouse on mobile?
 
 // GRAPHICS

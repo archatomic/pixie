@@ -24,6 +24,7 @@ export class Icon extends Component
                 className={
                     classNames(
                         'Icon',
+                        className,
                         `Icon--${name}`,
                         {
                             'Icon--button': button,

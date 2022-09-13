@@ -5,6 +5,8 @@ import {
     APPLICATION_FOCUS,
     APPLICATION_LAYERS_TOGGLE,
     APPLICATION_SAFE_AREA_UPDATE,
+    APPLICATION_SET_PRIMARY_COLOR,
+    APPLICATION_SWAP_COLORS,
     APPLICATION_THEME_UPDATE,
     APPLICATION_TITLE_UPDATE,
     APPLICATION_TOOL_SET
@@ -35,6 +37,13 @@ export const applicationReducer = (application = INITIAL_STATE, action = {}, glo
             return application.set('tool', action.payload)
         case APPLICATION_LAYERS_TOGGLE:
             return application.set('layers', !application.layers)
+        case APPLICATION_SWAP_COLORS:
+            return application.merge({
+                primaryColor: application.secondaryColor,
+                secondaryColor: application.primaryColor
+            })
+        case APPLICATION_SET_PRIMARY_COLOR:
+            return application.set('primaryColor', action.payload)
     }
 
     return application

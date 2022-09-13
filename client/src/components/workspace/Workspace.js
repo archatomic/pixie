@@ -1,7 +1,7 @@
 import './Workspace.styl'
 
 import { MAX_ZOOM, MIN_ZOOM, TOOL_ERASER, TOOL_EYEDROPPER, TOOL_PAN, TOOL_ZOOM, ZOOM_SPEED } from 'client/constants'
-import { applicationCreateNew, applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
+import { applicationCreateNew, applicationCursorUpdate, applicationSwapColors, tabActions } from 'client/store/actions/applicationActions'
 
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
@@ -58,12 +58,12 @@ export class Workspace extends Component
 
         // TODO: Respect "inherited"
         for (const { layer, cel } of frameCels) {
-            if (layer === activeLayer && this.tab.toolCel) cels.push(this.tab.toolCel)
-           
-            if (cel.null) continue
-            if (layer === activeLayer && this.tab.hideActive) continue
-            
-            cels.push(cel)
+            const renderToolCel = layer === activeLayer && this.tab.toolCel
+            const skipCel = cel.null || (this.tab.hideActive && layer === activeLayer)
+            const renderCel = !skipCel
+        
+            if (renderCel) cels.push(cel)
+            if (renderToolCel) cels.push(this.tab.toolCel)
         }
 
         return cels
@@ -152,6 +152,7 @@ export class Workspace extends Component
     handleKeyDown = (e) =>
     {
         if (e.key === 'Escape') return this.handlePointerCancel(e)
+        else if (e.key === 'x') return applicationSwapColors()
     }
 
     handleWheel = (e) =>

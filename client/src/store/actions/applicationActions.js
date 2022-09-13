@@ -46,5 +46,8 @@ export const applicationLayersToggle = () => action(APPLICATION_LAYERS_TOGGLE)
 export const APPLICATION_CREATE_LAYER = 'application.layers.create'
 export const applicationCreateLayer = (count = 1, at = null) => action(APPLICATION_CREATE_LAYER, { count, at })
 
-export const APPLICATION_COPY_INTO_CEL= 'application.cels.copyInto'
-export const applicationCopyIntoCel = (imageData) => action(APPLICATION_COPY_INTO_CEL, imageData)
+export const APPLICATION_SWAP_COLORS = 'application.colors.swap'
+export const applicationSwapColors = () => action(APPLICATION_SWAP_COLORS)
+
+export const APPLICATION_SET_PRIMARY_COLOR = 'application.colors.setPrimary'
+export const applicationSetPrimaryColor = (color) => action(APPLICATION_SET_PRIMARY_COLOR, color)

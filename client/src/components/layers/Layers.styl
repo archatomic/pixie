@@ -4,20 +4,31 @@
     left 100%
     bottom 0
     transition transform 0.3s ease-in-out
-    background grey(92)
+    z-index 0
 
-    &-toggle.Toolbar-tool
+    &-toolbar
         position absolute
         top 0
         right 100%
         margin-right rhythm--half
-        transition transform 0.3s ease-in-out
 
-    &--open &-toggle.Toolbar-tool
-        transform "translateX(%s)" % rhythm--half
+        display flex
+        height 100%
+        flex-direction column
+        z-index 0
+
+    &-spacer
+        flex-grow 1
 
     &--open
         transform translateX(-100%)
+    
+    &-drawer
+        position relative
+        overflow hidden
+        height 100%
+        background grey(92)
+        z-index 1
 
     &-list
         transition transform 0.3s ease-in-out

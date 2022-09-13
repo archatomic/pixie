@@ -18,7 +18,7 @@ export class Fill extends BaseTool
         const application = locate('store').getState().get('application')
         this.tab = application.getActiveTab()
         this.fragment = application.getActiveFragment()
-        this.color = [0, 0, 0, 255]
+        this.color = application.primaryColor.getChannels()
 
         if (this.color[3] === 0) return // Early bail, no alpha means no op
 

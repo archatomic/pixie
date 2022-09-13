@@ -1,0 +1,28 @@
+.ColorSelector
+    position absolute
+    bottom rhythm--half
+    right 0
+
+    &-picker
+        padding-left rhythm--half
+
+    &-swatch
+        position absolute
+        border-radius 0.4rem
+        right 100%
+        bottom 0
+        transform-origin right center
+        transition transform 0.2s ease-in-out
+    
+    // Flip animation
+    &--flip &-swatch
+        transition none
+
+    &-swatch--primary, &--flip &-swatch--secondary
+        transform translateY(0) scale(1)
+        z-index 2
+
+    &-swatch--secondary, &--flip &-swatch--primary
+        transform translateY(-100%) scale(0.6)
+        z-index 1
+        

@@ -22,7 +22,7 @@ export class Pencil extends BaseTool
         const application = locate('store').getState().get('application')
         if (!this.tab) this.tab = application.getActiveTab()
         if (!this.fragment) this.fragment = application.getActiveFragment()
-        this.color = [0, 0, 0, 255]
+        this.color = application.primaryColor.getChannels()
 
         // TODO: For pencil, and eraser
         // this.brush = {

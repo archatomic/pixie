@@ -1,4 +1,5 @@
 import { APP_NAME } from 'client/constants'
+import { Color } from './Color'
 import { PixieFragment } from './PixieFragment'
 import { Record } from './Record'
 import { Tab } from './Tab'
@@ -18,6 +19,8 @@ export class Application extends Record({
     layers: false,
     tabs: Tab.Collection.create(),
     fragments: PixieFragment.Collection.create(),
+    primaryColor: Color.Black,
+    secondaryColor: Color.White,
 }) {
     /**
      * @returns {Tab}

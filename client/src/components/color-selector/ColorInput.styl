@@ -1,0 +1,233 @@
+.ColorInput
+    toggleSize = 5rem
+    controlWidth = 32rem
+    channelHeight = 3rem
+    headerHeight = 8rem
+
+    hslSize = controlWidth
+    initialWidth = toggleSize
+    currentWidth = controlWidth - initialWidth
+    controlHeight = headerHeight + hslSize + 4 * channelHeight
+
+    position relative
+    width toggleSize
+    height toggleSize
+    overflow hidden
+    background grey(92)
+    border-radius 0.4rem
+    overflow hidden
+    outline 0.1rem solid grey(08)
+    z-index 0
+    
+    transition width 0.2s ease-in-out, height 0.2s ease-in-out, outline-color 0.2s ease-in-out
+
+    &-toggle
+        position absolute
+        width toggleSize
+        height toggleSize
+        border-radius 0.4rem
+        left 0
+        top 0
+
+        &::before
+            content ''
+            position absolute
+            left 0
+            top 0
+            right 0
+            bottom 0
+            background-image url(checker)
+            background-size 2rem
+            image-rendering pixelated
+            border-radius 0.4rem
+            z-index -1
+
+    &-control
+        position absolute
+        left 0
+        top 0
+        right 0
+        bottom 0
+    
+    &--expanded
+        width controlWidth
+        height controlHeight
+        outline-color grey(92)
+
+    &-close, &-commit
+        position absolute
+        top 0
+        left 0
+
+        &--bright
+            color black
+
+
+    &-commit
+        left auto
+        right 0
+
+    &-heading
+        display flex
+        border-bottom 0.1rem solid grey(80)
+        background-image url(checker)
+        background-size 2rem
+        image-rendering pixelated
+
+    &-initial
+        width initialWidth
+        height headerHeight
+
+    &-current
+        flex-grow 1
+        height headerHeight
+
+    &-hsl
+        position relative
+        width hslSize
+        height hslSize
+    
+    // Size of the hue ring
+    hueRingSize = 2rem
+
+    // Diameter of the circle inside the hue ring
+    innerDiameter = hslSize - 2 * (hueRingSize + rhythm--half)
+
+    // offset the satval square from the ring by this amount
+    insetSquare = 1rem
+
+    // size of the satval square
+    _tmpDiam = innerDiameter - insetSquare
+    inscribedSquare = math((_tmpDiam * _tmpDiam) / 2, 'sqrt')
+
+    &-hue
+        position absolute
+        left rhythm--half
+        top rhythm--half
+        right rhythm--half
+        bottom rhythm--half
+        border-radius 100vw
+        background-image conic-gradient(
+            hsl(0deg 100% 50%),
+            hsl(60deg 100% 50%),
+            hsl(120deg 100% 50%),
+            hsl(180deg 100% 50%),
+            hsl(240deg 100% 50%),
+            hsl(300deg 100% 50%),
+            hsl(360deg 100% 50%)
+        )
+
+        &::after
+            content ''
+            display block
+            position absolute
+            width innerDiameter
+            height innerDiameter
+            border-radius 100vw
+            left 50%
+            top 50%
+            background grey(92)
+            transform translate(-50%, -50%)
+    
+    &-satval
+        position absolute
+        left 50%
+        top 50%
+        width inscribedSquare
+        height inscribedSquare
+        transform translate(-50%, -50%)
+        background red
+
+        &::before, &::after
+            content ''
+            display block
+            position absolute
+            left 0
+            top 0
+            right 0
+            bottom 0
+        
+        &::before
+            mix-blend-mode saturation
+            background linear-gradient(to right, black, red)
+        
+        &::after
+            background linear-gradient(to bottom, white, transparent, black)
+
+
+    &-channel
+        display flex
+        width controlWidth
+        height channelHeight
+        padding-left rhythm--half
+        padding-right rhythm--half
+        align-items center
+
+    &-label
+        width 1.4rem
+
+    &-input
+        width 4rem
+        background grey(95)
+
+    &-track
+        position relative
+        height 1rem
+        flex-grow 1
+        background-blend-mode screen
+        border-radius 100vw
+        margin-left rhythm
+        margin-right rhythm
+        outline 0.1rem solid grey(95)
+
+    &-channel--a &-track
+        &:before
+            content ''
+            display block
+            position absolute
+            left 0
+            top 0
+            bottom 0
+            right 0
+            background-image url(checker)
+            background-size 1rem 1rem
+            border-radius 100vw
+            opacity 0.5
+            image-rendering pixelated
+            z-index 0
+
+        &:after
+            content ''
+            display block
+            position absolute
+            left 0
+            top 0
+            bottom 0
+            right 0
+            background-image linear-gradient(to right, transparent, black)
+            border-radius 100vw
+            z-index 0
+    
+    &-knob
+        position absolute
+        left 0
+        top 50%
+        transform translate(-50%, -50%)
+        width 2rem
+        height 2rem
+        outline 0.1rem solid grey(80)
+        border-radius 100vw
+        z-index 1
+        background-color white
+
+        &--hue
+            left calc(50% - 1rem)
+            top 0
+            transform rotate(0deg)
+            transform-origin center (innerDiameter / 2 + hueRingSize)
+
+        &--satval
+            left 0
+            top auto
+            transform translate(-50%, 50%)
+            bottom 0

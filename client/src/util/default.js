@@ -40,7 +40,8 @@ export function defAll (...values) {
  */
  export const isDefined = (val, nullDefined = false) => {
   if (val === undefined) return false
-  if (!nullDefined) return val !== null
+  if (val === null) return nullDefined
+  if (val && val.null) return nullDefined
   return true
 }
 
