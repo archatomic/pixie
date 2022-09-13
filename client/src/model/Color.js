@@ -50,8 +50,8 @@ export class Color extends Record({
     get A ()
     { return this.getChannel('a') }
 
-    get css ()
-    { return `rgba(${this.R}, ${this.G}, ${this.B}, ${this.a})` }
+    getCSS ({ r = this.R, g = this.G, b = this.B, a = this.a } = {})
+    { return `rgba(${r}, ${g}, ${b}, ${a})` }
     
     getChannel (channel)
     { return Math.floor(clamp(this.get(channel, 0) * 256, 0, 255)) }

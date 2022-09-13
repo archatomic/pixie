@@ -3,6 +3,7 @@ import './ColorInput.styl'
 import { Color } from 'client/model/Color'
 import { Component } from 'react'
 import { Icon } from 'client/components/icon/icon'
+import { Transition } from 'client/components/Transition'
 import { clamp } from 'client/util/math'
 import classNames from 'classnames'
 import { def } from 'client/util/default'
@@ -151,29 +152,34 @@ export class ColorInput extends Component
     render ()
     {
         return (
-            <div className={classNames('ColorInput', {'ColorInput--expanded': this.isOpen()})}>
-                {this.isOpen() ? this.renderControl() : this.renderToggle()}
+            <div className={classNames('ColorInput', { 'ColorInput--expanded': this.isOpen() })}>
+                <Transition>
+                    {this.isOpen() ? this.renderControl() : this.renderToggle()}
+                </Transition>
             </div>
         )
     }
 
     renderToggle ()
     {
-        const style = { backgroundColor: this.color.css }
+        const style = { '--color': this.color.getCSS() }
         const onClick = this.props.disabled ? undefined : this.handleOpen
         return (
-            <div className='ColorInput-toggle' style={style} onClick={onClick}/>
+            <div key='toggle' className='ColorInput-toggle' style={style} onClick={onClick}/>
         )
     }
 
     renderControl ()
     {
         return (
-            <div className='ColorInput-control'>
+            <div className='ColorInput-control' key='control'>
                 <Icon
                     className={classNames(
                         'ColorInput-close',
-                        { 'ColorInput-close--bright': this.state.initial.isBright() }
+                        {
+                            'ColorInput-close--bright': this.state.initial.isBright(),
+                            'ColorInput-close--transparent': this.state.initial.a < 0.5,
+                        }
                     )}
                     name='close'
                     onClick={this.handleCancel}
@@ -181,14 +187,17 @@ export class ColorInput extends Component
                 <Icon 
                     className={classNames(
                         'ColorInput-commit',
-                        { 'ColorInput-commit--bright': this.state.current.isBright() }
+                        {
+                            'ColorInput-commit--bright': this.state.current.isBright(),
+                            'ColorInput-close--transparent': this.state.current.a < 0.5,
+                        }
                     )}
                     name='check'
                     onClick={this.handleCommit}
                 />
                 <div className='ColorInput-heading'>
-                    <div className='ColorInput-initial' style={{ backgroundColor: this.state.initial.css }}/>
-                    <div className='ColorInput-current' style={{ backgroundColor: this.state.current.css }}/>
+                    <div className='ColorInput-initial' style={{ backgroundColor: this.state.initial.getCSS() }}/>
+                    <div className='ColorInput-current' style={{ backgroundColor: this.state.current.getCSS() }}/>
                 </div>
                 {this.renderHSL()}
                 <div className='ColorInput-rgb'>
@@ -229,12 +238,12 @@ export class ColorInput extends Component
         const knobPos = `${channel * 100 / 255}%`
 
         const trackStyle = c === 'a' ? {} : {
-            backgroundColor: background.css,
-            backgroundImage: `linear-gradient(to right, ${Color.Black.css}, ${Color.Black.set(c, 1).css})`
+            backgroundColor: background.getCSS({ a: 1 }),
+            backgroundImage: `linear-gradient(to right, black, ${Color.Black.set(c, 1).getCSS()})`
         }
 
         const knobStyle = {
-            backgroundColor: this.state.current.css,
+            backgroundColor: c === 'a' ? `white` : this.state.current.getCSS({ a: 1 }),
             left: knobPos,
         }
 

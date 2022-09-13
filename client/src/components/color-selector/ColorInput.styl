@@ -22,25 +22,38 @@
     transition width 0.2s ease-in-out, height 0.2s ease-in-out, outline-color 0.2s ease-in-out
 
     &-toggle
+        --color black
         position absolute
-        width toggleSize
-        height toggleSize
+        width 100%
+        height 100%
         border-radius 0.4rem
         left 0
         top 0
+        transition opacity 0.2s ease-in-out
+        z-index 1
 
-        &::before
+        &::before, &::after
             content ''
             position absolute
             left 0
             top 0
             right 0
             bottom 0
+            border-radius 0.4rem
+
+        &::before
             background-image url(checker)
             background-size 2rem
             image-rendering pixelated
-            border-radius 0.4rem
-            z-index -1
+
+        &::after
+            background-color var(--color)
+
+        &.exit, &.enter
+            opacity 0
+
+        &.enter-active
+            opacity 1
 
     &-control
         position absolute
@@ -48,6 +61,11 @@
         top 0
         right 0
         bottom 0
+        transition transform 0.2s ease-in-out
+        z-index 0
+
+        &.exit
+            transform translateY(-.1%)
     
     &--expanded
         width controlWidth
@@ -58,10 +76,17 @@
         position absolute
         top 0
         left 0
+        width 1.8em
+        height 1.8em
+        margin 0.4em
+        border-radius 100vw
 
         &--bright
             color black
 
+        &--transparent
+            color grey(8)
+            background grey(92)
 
     &-commit
         left auto
