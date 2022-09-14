@@ -1,7 +1,9 @@
 import { TOOL_ERASER, TOOL_FILL, TOOL_MOVE, TOOL_PENCIL, TOOL_SELECT, TOOL_ZOOM } from 'client/constants'
+import { redo, undo } from 'client/store/actions/undoActions'
 
 import { Component } from 'react'
 import { Icon } from 'client/components/icon/icon'
+import { Mobile } from '../platform'
 import { Panel } from '../panel'
 import { applicationToolSet } from 'client/store/actions/applicationActions'
 import classNames from 'classnames'
@@ -34,7 +36,7 @@ export class Tool extends Component
                 'Toolbar-tool',
                 this.props.className,
                 `Toolbar-tool--${tool}`,
-                { 'Toolbar-tool--active': this.active }
+                { 'Toolbar-tool--active': this.active, 'Toolbar-tool--disabled': this.props.disabled }
             )}>
                 <Icon name={icon} onClick={this.handleClick} {...this.props.iconProps}/>
             </div>
@@ -52,10 +54,17 @@ const KEY_BINDINGS = {
 export class Toolbar extends Component
 {
     static Connected = connect(
-        [
-            ['application', 'tool'],
-            ['application', 'layers']
-        ],
+        (state) =>
+        {
+            const application = state.get('application')
+            const fragment = application?.getActiveFragment()
+            const stack = fragment ? application?.undoManager?.getStack(fragment) : null
+            return {
+                fragment,
+                canUndo: stack?.canUndo,
+                canRedo: stack?.canRedo,
+            }
+        },
         this
     )
 
@@ -75,6 +84,16 @@ export class Toolbar extends Component
         if (tool) applicationToolSet(tool)
     }
 
+    handleUndo = () =>
+    {
+        if (this.props.fragment) undo(this.props.fragment)
+    }
+
+    handleRedo = () =>
+    {
+        if (this.props.fragment) redo(this.props.fragment)
+    }
+
     render ()
     {
         return (
@@ -88,6 +107,12 @@ export class Toolbar extends Component
                     {/*<Tool.Connected tool={TOOL_MOVE} icon='arrows-up-down-left-right'/>
                     <Tool.Connected tool={TOOL_SELECT} icon='square' />*/}
                 </Panel>
+                <Mobile>
+                    <div className='Toolbar-undo'>
+                        <Tool.Connected name='undo' icon='undo' onClick={this.handleUndo} disabled={!this.props.canUndo}/>
+                        <Tool.Connected name='redo' icon='redo' onClick={this.handleRedo} disabled={!this.props.canRedo}/>
+                    </div>
+                </Mobile>
             </div>
         )
     }

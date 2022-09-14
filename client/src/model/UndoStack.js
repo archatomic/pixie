@@ -51,7 +51,7 @@ export class UndoStack extends Record({
     undo (steps = 1)
     {
         if (this.nodes.count() === 0) return this
-        const head = Math.min(this.head + steps, this.nodes.count() - 1)
+        const head = Math.min(this.head + steps, this.firstItemIndex)
         if (head === this.head) return this
         return this.set('head', head)
     }
@@ -70,6 +70,17 @@ export class UndoStack extends Record({
         return this.set('head', head)
     }
 
+    get firstItemIndex ()
+    {
+        return this.nodes.count() - 1
+    }
+
+    // debug ()
+    // {
+    //     console.log(this.nodes.toArray().map(node => node.description))
+    //     return this
+    // }
+
     get currentNode ()
     {
         return this.nodes.get(this.head)
@@ -84,6 +95,16 @@ export class UndoStack extends Record({
     {
         return this.currentNode?.description
     }
+
+    get canUndo ()
+    {
+        return this.head < this.firstItemIndex
+    }
+
+    get canRedo ()
+    {
+        return this.head > 0
+    }
 }
 
 export class UndoManager extends Record({
@@ -91,11 +112,11 @@ export class UndoManager extends Record({
 }) {
     getStackKey (record)
     {
-        if (!isDefined(record) || !record) return
+        if (!isDefined(record) || !record) return UndoStack.Null
 
         if (record.undoKey instanceof Function) return record.undoKey()
         if (typeof record.undoKey === 'string') return record.undoKey
-        return record.pk
+        return `${record.constructor.name}:${record.pk}`
     }
 
     getStackKeyStrict (record)
@@ -112,8 +133,9 @@ export class UndoManager extends Record({
 
     getStack (record)
     {
-        if (this.hasStack(record)) return this.stacks.get(this.getStackKey(record))
-        return UndoStack.create({ _id: record.pk })
+        const key = this.getStackKey(record)
+        if (this.hasStack(record)) return this.stacks.get(key)
+        return UndoStack.create({ _id: key })
     }
 
     push (record, description)

@@ -10,6 +10,11 @@ export const connect = (schema, cls) => {
     if (typeof schema === 'string') schema = [schema]
 
     return reduxConnect((state, ownProps) => {
+
+        if (schema instanceof Function) {
+            return schema(state, ownProps)
+        }
+
         const props = {}
 
         for (const key of Object.keys(schema)) {

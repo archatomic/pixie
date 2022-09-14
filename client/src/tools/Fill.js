@@ -26,7 +26,8 @@ export class Fill extends BaseTool
         this.cel = this.fragment.getCel(this.tab.layer, this.tab.frame)
         if (this.cel.null) {
             this.cel = this.fragment.newCel()
-            this.imageData = this.cel.data.data
+            this._img = this.cel.data
+            this.imageData = this._img.data
 
             for (let i = 0; i < this.imageData.length; i += 4) {
                 this.imageData[i    ] = this.color[0] 
@@ -39,7 +40,8 @@ export class Fill extends BaseTool
         }
 
         const { x, y } = data
-        this.imageData = this.cel.data.data
+        this._img = this.cel.copyImageData()
+        this.imageData = this._img.data
         this.targetColor = this.sample(x, y)
 
         if (this.matches(this.targetColor, this.color)) return // Matching color to target. No op.
@@ -121,7 +123,7 @@ export class Fill extends BaseTool
             this.fragment.saveCel(
                 this.tab.layer,
                 this.tab.frame,
-                this.cel.set('data', new ImageData(this.imageData, this.cel.width, this.cel.height))
+                this.cel.set('data', this._img)
             ),
             { history: this.constructor.name }
         )

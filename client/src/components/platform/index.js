@@ -1,4 +1,4 @@
-import { IS_ANDROID, IS_DESKTOP, IS_IOS, IS_LINUX, IS_MAC, IS_MOBILE } from 'client/constants'
+import { IS_ANDROID, IS_DESKTOP, IS_IOS, IS_LINUX, IS_MAC, IS_MOBILE, IS_WEB, IS_WINDOWS } from 'client/constants'
 
 import { createPassthroughComponent } from 'client/util/children'
 
