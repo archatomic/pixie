@@ -6,10 +6,22 @@ export const action = (type, payload) => {
     return store.dispatch({type, payload})
 }
 
+const getDescriptions = maybe => typeof maybe === 'string' ? maybe : undefined
+
 export const collectionActions = (name) =>
 {
     return {
-        save : record => action(`${name}.save`, record),
+        save: (record, opts = {}) =>
+        {
+            action(`${name}.save`, record)
+            if (opts.history) action(
+                'undo.push',
+                {
+                    record,
+                    description: getDescriptions(opts.history)
+                }
+            )
+        },
         delete : record => action(`${name}.delete`, record),
         sort : payload => action(`${name}.sort`, payload),
     }

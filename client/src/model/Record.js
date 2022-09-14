@@ -1,5 +1,6 @@
 import { Record as ImmutableRecord, OrderedMap } from 'immutable'
 
+import { UNDO } from 'client/store/actions/undoActions'
 import { nanoid } from 'nanoid'
 import { toData } from 'client/util/toData'
 
@@ -12,7 +13,22 @@ import { toData } from 'client/util/toData'
 
 /**
  * @template T
- * @param {T} defaults 
+ *
+ * @typedef {BaseRecord & T} RecordInstance
+ */
+ 
+/**
+ * @template T
+ *
+ * @typedef {function(new:RecordInstance<T>)} RecordClass
+ * @property {() => RecordInstance<T>} create
+ * @property {RecordInstance<T>} Null
+ */
+ 
+/**
+ * @template T
+ * @param { T } defaults
+ * @returns {RecordClass<T>}
  */
 export function Record (defaults)
 {
@@ -171,6 +187,13 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
 
             return (collection = INITIAL_STATE, action, globalState) =>
             {
+                if (action.type === 'undo.restore' && action.payload instanceof OfType) {
+                    const stack = globalState.getIn(['application', 'undoManager']).getStack(action.payload)
+                    const restored = stack.current
+                    if (!restored) return collection.remove(action.payload)
+                    return collection.add(restored)
+                }
+
                 if (!action.type.startsWith(prefix)) return collection
 
                 const actionType = action.type.substring(prefix.length)

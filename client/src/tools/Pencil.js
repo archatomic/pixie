@@ -68,7 +68,7 @@ export class Pencil extends BaseTool
             )
         )
         
-        fragmentActions.save(fragment)
+        fragmentActions.save(fragment, { history: this.constructor.name })
     }
 
     cancel ()

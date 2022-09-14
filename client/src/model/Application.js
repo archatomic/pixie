@@ -3,6 +3,7 @@ import { Color } from './Color'
 import { PixieFragment } from './PixieFragment'
 import { Record } from './Record'
 import { Tab } from './Tab'
+import { UndoManager } from './UndoStack'
 import { getDefaultTheme } from 'client/util/theme'
 import { locate } from 'client/util/registry'
 
@@ -21,6 +22,7 @@ export class Application extends Record({
     fragments: PixieFragment.Collection.create(),
     primaryColor: Color.Black,
     secondaryColor: Color.White,
+    undoManager: new UndoManager()
 }) {
     /**
      * @returns {Tab}
@@ -82,6 +84,7 @@ export class Application extends Record({
         const fragment = PixieFragment.create({ width, height })
         let op = this.delegateSet('fragments', 'add', fragment)
         op = op.openTab(fragment)
+        op = op.delegateSet('undoManager', 'push', fragment, 'Created')
         return op
     }
 

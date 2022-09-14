@@ -2,6 +2,7 @@ import './Workspace.styl'
 
 import { MAX_ZOOM, MIN_ZOOM, TOOL_ERASER, TOOL_EYEDROPPER, TOOL_PAN, TOOL_ZOOM, ZOOM_SPEED } from 'client/constants'
 import { applicationCreateNew, applicationCursorUpdate, applicationSwapColors, tabActions } from 'client/store/actions/applicationActions'
+import { redo, undo } from 'client/store/actions/undoActions'
 
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
@@ -153,6 +154,8 @@ export class Workspace extends Component
     {
         if (e.key === 'Escape') return this.handlePointerCancel(e)
         else if (e.key === 'x') return applicationSwapColors()
+        else if (e.key === 'z' && e.shiftKey && (e.ctrlKey || e.metaKey)) return redo(this.fragment)
+        else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) return undo(this.fragment)
     }
 
     handleWheel = (e) =>
@@ -204,8 +207,8 @@ export class Workspace extends Component
         const { x, y } = this.clientToPixel(e)
         switch (e.pointerType) {
             case 'mouse':
-                if (this.pen.active) return this.pen.move(x, y, e)
-                else return this.setCursor(x, y, e)
+                if (this.pen.active) this.pen.move(x, y, e)
+                return this.setCursor(x, y)
             case 'pen':
                 return this.pen.move(x, y, e)
             case 'touch':
@@ -268,7 +271,7 @@ export class Workspace extends Component
 
     setCursor (x, y)
     {
-        const down = x > -1 && y > -1 && x < this.fragment.width && y < this.fragment.height
+        const down = x > -1 && y > -1 && x < this.fragment.width && y < this.fragment.height && !this.pen.active
         applicationCursorUpdate(x, y, down)
     }
 
@@ -322,6 +325,7 @@ export class Workspace extends Component
     {
         if (!this.props.cursorDown) return null
         let transform = `translate(${this.props.cursorX}px, ${this.props.cursorY}px)`
-        return <div className='Workspace-cursor' style={{ transform }}></div>
+        const style = { transform } // Todo... support cursor specific styles
+        return <div className='Workspace-cursor' style={style}></div>
     }
 }

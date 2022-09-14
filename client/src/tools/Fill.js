@@ -1,6 +1,7 @@
 import { BaseTool } from './BaseTool'
 import { fragmentActions } from 'client/store/actions/applicationActions'
 import { locate } from 'client/util/registry'
+import { undoPush } from 'client/store/actions/undoActions'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
@@ -121,7 +122,8 @@ export class Fill extends BaseTool
                 this.tab.layer,
                 this.tab.frame,
                 this.cel.set('data', new ImageData(this.imageData, this.cel.width, this.cel.height))
-            )
+            ),
+            { history: this.constructor.name }
         )
     }
 }
