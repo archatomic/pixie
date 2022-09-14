@@ -98,9 +98,9 @@ export class Toolbar extends Component
     {
         return (
             <div className={classNames('Toolbar', this.props.className)}>
-                <Tool.Connected name='home' icon='bolt' to='/' />
+                <Tool.Connected className='Toolbar-item' name='home' icon='bolt' to='/' />
                 <div className='Toolbar-spacer' />
-                <Panel tight>
+                <Panel tight className='Toolbar-item'>
                     <Tool.Connected tool={TOOL_PENCIL} />
                     <Tool.Connected tool={TOOL_ERASER} />
                     <Tool.Connected tool={TOOL_FILL} icon='fill-drip'/>

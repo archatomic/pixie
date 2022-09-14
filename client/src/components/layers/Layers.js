@@ -33,7 +33,9 @@ export class Layers extends Component
         return (
             <div className={classNames('Layers', { 'Layers--open': this.props.open })}>
                 <div className='Layers-toolbar'>
-                    <Tool.Connected className='Layers-toggle' icon={this.props.open ? 'close' : 'layer-group'} iconProps={{ rotateLeft: this.props.open }} onClick={applicationLayersToggle} />
+                    <div className='Layers-toggle'>
+                        <Tool.Connected icon={this.props.open ? 'close' : 'layer-group'} iconProps={{ rotateLeft: this.props.open }} onClick={applicationLayersToggle} />
+                    </div>
                     <div className='Layers-spacer'></div>
                     <ColorSelector.Connected />
                 </div>
