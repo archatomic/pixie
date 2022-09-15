@@ -17,6 +17,7 @@ export class Color extends Record({
 
     static Black = this.create(0, 0, 0)
     static White = this.create(1, 1, 1)
+    static Transparent = this.create(0, 0, 0, 0)
 
     /**
      * Return the 0 - 255 value of the red channel

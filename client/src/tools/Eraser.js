@@ -1,4 +1,6 @@
+import { Color } from 'client/model/Color'
 import { Pencil } from './Pencil'
+import { Stamp } from './Stamp'
 import { tabActions } from 'client/store/actions/applicationActions'
 
 /**
@@ -8,6 +10,15 @@ import { tabActions } from 'client/store/actions/applicationActions'
 
 export class Eraser extends Pencil
 {
+    getBrush ()
+    {
+        return new Stamp({
+            color: Color.Transparent,
+            blendAlpha: false,
+            data: [{x: 0, y: 0},{x: 1, y: 0},{x: 0, y: 1},{x: 1, y: 1}]
+        })
+    }
+
     drawPixel (x, y)
     {
         const last = this.pixels[this.pixels.length - 1]
@@ -22,20 +33,7 @@ export class Eraser extends Pencil
 
     getImageData (cel = this.cel)
     {
-        const imageData = cel.copyImageData()
-
-        const data = imageData.data
-        for (const p of this.pixels) {
-            const i = cel.coordsToIndex(p.x, p.y)
-            data[i + 3] = 0
-        }
-
-        return imageData
-    }
-
-    writeImageData (cel = this.cel)
-    {
-        return this.getImageData(cel)
+        return this.writeImageData(cel)
     }
 
     updateToolCel ()

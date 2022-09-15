@@ -1,6 +1,7 @@
 import { fragmentActions, tabActions } from 'client/store/actions/applicationActions'
 
 import { BaseTool } from './BaseTool'
+import { Stamp } from './Stamp'
 import { lerp } from 'client/util/math'
 import { locate } from 'client/util/registry'
 
@@ -19,18 +20,11 @@ export class Pencil extends BaseTool
         /**
          * @type {Application}
          */
-        const application = locate('store').getState().get('application')
-        if (!this.tab) this.tab = application.getActiveTab()
-        if (!this.fragment) this.fragment = application.getActiveFragment()
-        this.color = application.primaryColor.getChannels()
+        this.application = locate('store').getState().get('application')
+        if (!this.tab) this.tab = this.application.getActiveTab()
+        if (!this.fragment) this.fragment = this.application.getActiveFragment()
 
-        // TODO: For pencil, and eraser
-        // this.brush = {
-        //     width: 1,
-        //     height: 1,
-        //     data: [1]
-        // }
-
+        this.brush = this.getBrush()
         this.cel = this.fragment.getCel(this.tab.layer, this.tab.frame)
 
         if (this.cel.null) this.cel = this.fragment.newCel()
@@ -38,6 +32,11 @@ export class Pencil extends BaseTool
         this.pixels = [{ x: data.x, y: data.y }]
         
         this.updateToolCel()
+    }
+
+    getBrush ()
+    {
+        return new Stamp({ color: this.application.primaryColor })
     }
 
     /**
@@ -133,59 +132,14 @@ export class Pencil extends BaseTool
     getImageData (cel = this.cel)
     {
         this.imageData = cel.createBlankImageData()
-
-        for (const p of this.pixels) {
-            const i = cel.coordsToIndex(p.x, p.y)
-            this.imageData.data[i] = this.color[0]
-            this.imageData.data[i + 1] = this.color[1]
-            this.imageData.data[i + 2] = this.color[2]
-            this.imageData.data[i + 3] = this.color[3]
-        }
-
+        this.brush.applyToPath(this.pixels, this.imageData)
         return this.imageData
     }
 
     writeImageData (cel = this.cel)
     {
         const imageData = cel.copyImageData()
-        const data = imageData.data
-        const [br, bg, bb, _ba] = this.color
-
-        const ba = _ba / 255
-
-        // Full opacity: write the color directly
-        if (ba >= 1) {
-            for (const p of this.pixels) {
-                const i = cel.coordsToIndex(p.x, p.y)
-                data[i    ] = br
-                data[i + 1] = bg
-                data[i + 2] = bb
-                data[i + 3] = 255
-            }
-            return imageData
-        }
-
-        // Blend the colors
-        for (const p of this.pixels) {
-            const i = cel.coordsToIndex(p.x, p.y)
-
-             // Todo: pull color math out into a util / class
-            const ar = data[i]
-            const ag = data[i + 1]
-            const ab = data[i + 2]
-            const aa = data[i + 3] / 255
-
-            const a = aa + ba * (1 - aa)
-            const r = (ar * aa + br * ba * (1 - aa)) / a
-            const g = (ag * aa + bg * ba * (1 - aa)) / a
-            const b = (ab * aa + bb * ba * (1 - aa)) / a
-            
-            data[i    ] = r
-            data[i + 1] = g
-            data[i + 2] = b
-            data[i + 3] = a * 255
-        }
-
+        this.brush.applyToPath(this.pixels, imageData)
         return imageData
     }
 
