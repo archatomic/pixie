@@ -12,11 +12,13 @@ export class Eraser extends Pencil
 {
     getBrush ()
     {
-        return new Stamp({
-            color: Color.Transparent,
-            blendAlpha: false,
-            data: [{x: 0, y: 0},{x: 1, y: 0},{x: 0, y: 1},{x: 1, y: 1}]
-        })
+        return Stamp.circle(
+            this.application.eraserSize,
+            {
+                color: Color.Transparent,
+                blendAlpha: false
+            }
+        )
     }
 
     drawPixel (x, y)

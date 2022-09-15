@@ -36,7 +36,10 @@ export class Pencil extends BaseTool
 
     getBrush ()
     {
-        return new Stamp({ color: this.application.primaryColor })
+        return Stamp.circle(
+            this.application.pencilSize,
+            { color: this.application.primaryColor }
+        )
     }
 
     /**

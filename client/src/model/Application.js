@@ -22,6 +22,8 @@ export class Application extends Record({
     fragments: PixieFragment.Collection.create(),
     primaryColor: Color.Black,
     secondaryColor: Color.White,
+    pencilSize: 1,
+    eraserSize: 2,
     undoManager: new UndoManager()
 }) {
     /**
