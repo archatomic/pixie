@@ -1,7 +1,7 @@
 import './Workspace.styl'
 
 import { MAX_ZOOM, MIN_ZOOM, TOOL_ERASER, TOOL_EYEDROPPER, TOOL_PAN, TOOL_ZOOM, ZOOM_SPEED } from 'client/constants'
-import { applicationCreateNew, applicationCursorUpdate, applicationSwapColors, tabActions } from 'client/store/actions/applicationActions'
+import { applicationCreateNew, applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
 import { redo, undo } from 'client/store/actions/undoActions'
 
 import { Cel } from '../cel/Cel'
@@ -167,7 +167,6 @@ export class Workspace extends Component
     handleKeyDown = (e) =>
     {
         if (e.key === 'Escape') return this.handlePointerCancel(e)
-        else if (e.key === 'x') return applicationSwapColors()
         else if (e.key === 'z' && e.shiftKey && (e.ctrlKey || e.metaKey)) return redo(this.fragment)
         else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) return undo(this.fragment)
     }

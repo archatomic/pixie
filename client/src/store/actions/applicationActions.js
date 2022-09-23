@@ -52,9 +52,6 @@ export const applicationTimelineToggle = () => action(APPLICATION_TIMELINE_TOGGL
 export const APPLICATION_CREATE_LAYER = 'application.layers.create'
 export const applicationCreateLayer = (count = 1, at = null) => action(APPLICATION_CREATE_LAYER, { count, at })
 
-export const APPLICATION_SWAP_COLORS = 'application.colors.swap'
-export const applicationSwapColors = () => action(APPLICATION_SWAP_COLORS)
-
 export const APPLICATION_SET_PRIMARY_COLOR = 'application.colors.setPrimary'
 export const applicationSetPrimaryColor = (color) => action(APPLICATION_SET_PRIMARY_COLOR, color)
 
