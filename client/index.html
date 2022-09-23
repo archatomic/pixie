@@ -7,6 +7,51 @@
         <title>Pixie</title>
     </head>
     <body>
+        <svg class='App-filters' width='0' height='0' viewBox='0 0 0 0'>
+            <defs>
+                <filter id="outline">
+                    <feMorphology in="SourceAlpha" operator="dilate" radius='1' result="DILATED" />
+                    <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0" result="ALPHABIT" />
+                    <feComposite in="DILATED" in2="ALPHABIT" operator="out"/>
+                </filter>
+                <filter id="marching-ants">
+                    <feImage width='10' height='10' xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAABdJREFUCJkFwQEBAAAAgiD7P5ogqKyCDlXFCPlryZ/bAAAAAElFTkSuQmCC" />
+                    <feTile xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAABdJREFUCJkFwQEBAAAAgiD7P5ogqKyCDlXFCPlryZ/bAAAAAElFTkSuQmCC" />
+                    <feColorMatrix values="
+                        1000 0 0 0 -500
+                        0 1000 0 0 -500
+                        0 0 1000 0 -500
+                        0 0 0 1 0
+                    "/>
+                    <feOffset dx='0' dy='0' result="CHECKER" >
+                        <animate
+                            attributeName="dx"
+                            values="-10;10"
+                            dur="1s"
+                            repeatCount="indefinite"
+                        />
+                        <animate
+                            attributeName="dy"
+                            values="-10;10"
+                            dur="1s"
+                            repeatCount="indefinite"
+                        />
+                    </feOffset>
+
+                    <feColorMatrix
+                        in="SourceAlpha"
+                        values="
+                            0 0 0 0 0
+                            0 0 0 0 0
+                            0 0 0 0 0
+                            0 0 0 1 0
+                        "
+                        result="ALPHA"
+                    />
+                    <feComposite in="CHECKER" in2="ALPHA" operator="in"/>
+                </filter>
+            </defs>
+        </svg>
         <script src="./src/entry.js" type="module"></script>
     </body>
 </html>

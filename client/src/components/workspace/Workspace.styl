@@ -11,7 +11,7 @@
     .Theme--light &
         background-color grey(20)
 
-    &-stage
+    &-stage, &-cel-wrapper
         position absolute
 
     &-wrapper
@@ -45,10 +45,12 @@
         z-index 2
     
     &-cel
+        transform-origin top left
         pointer-events none
         position absolute
         left 0
         top 0
+        image-rendering pixelated
         z-index 1
     
     &-cursor

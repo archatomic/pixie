@@ -195,36 +195,53 @@ export class Workspace extends Component
         e.target.setPointerCapture(e.pointerId)
         const { x, y } = this.clientToPixel(e)
 
-        switch (e.pointerType) {
-            case 'mouse':
-            case 'pen':
-                // start tool
-                // Determine if barrel button is pressed
-                const tool = e.button === 2
-                    ? TOOL_EYEDROPPER
-                    : e.button === 5
-                    ? TOOL_ERASER
-                    : this.props.tool
-                return this.pen.start(tool, x, y, e)
-            case 'touch':
-                // start touch manipulations
-                const touchTool = this.touch.active ? TOOL_ZOOM : TOOL_PAN
-                const bail = this.touch.active && this.touch.toolName === TOOL_ZOOM
-                if (bail) return // We're already zoomin', don't re init
-                return this.touch.start(touchTool, x, y, e)
+        if (this.usePen(e)) {
+            // start tool
+            // Determine if barrel button is pressed
+            const tool = e.button === 2
+                ? TOOL_EYEDROPPER
+                : e.button === 5
+                ? TOOL_ERASER
+                : this.props.tool
+            return this.pen.start(tool, x, y, e)
         }
+
+        if (this.useTouch(e)) {
+            // start touch manipulations
+            const touchTool = this.touch.active || e.shiftKey ? TOOL_ZOOM : TOOL_PAN
+            const bail = this.touch.active && this.touch.toolName === TOOL_ZOOM
+            if (bail) return // We're already zoomin', don't re init
+            return this.touch.start(touchTool, x, y, e)
+        }
+    }
+
+    useTouch (e)
+    {
+        if (e.pointerType === 'touch') return true
+        if (e.pointerType !== 'mouse') return false
+        if (e.button === 1) return true
+        return e.buttons & 4
+    }
+
+    usePen (e)
+    {
+        if (e.pointerType === 'pen') return true
+        if (e.pointerType !== 'mouse') return false
+        if (e.button === 1) return false
+        return !(e.buttons & 4)
     }
 
     handlePointerMove = (e) =>
     {
         const { x, y } = this.clientToPixel(e)
-        switch (e.pointerType) {
-            case 'mouse':
-            case 'pen':
-                if (this.pen.active) this.pen.move(x, y, e)
-                return this.setCursor(x, y)
-            case 'touch':
-                return this.touch.move(x, y, e)
+
+        if (this.usePen(e)) {
+            if (this.pen.active) this.pen.move(x, y, e)
+            return this.setCursor(x, y)
+        }
+
+        if (this.useTouch(e)) {
+            return this.touch.move(x, y, e)
         }
     }
 
@@ -237,12 +254,12 @@ export class Workspace extends Component
     handlePointerUp = (e) =>
     {
         const { x, y } = this.clientToPixel(e)
-        switch (e.pointerType) {
-            case 'mouse':
-            case 'pen':
-                return this.pen.end(x, y, e)
-            case 'touch':
-                return this.touch.end(x, y, e)
+        if (this.usePen(e)) {
+            return this.pen.end(x, y, e)
+        }
+
+        if (this.useTouch(e)) {
+            return this.touch.end(x, y, e)
         }
     }
 
@@ -320,7 +337,18 @@ export class Workspace extends Component
                 <div className='Workspace-stage' style={this.stageStyle}></div>
                 <div className='Workspace-wrapper' style={this.wrapperStyle} ref={this.handleWrapperRef}>
                     {this.renderCursor()}
-                    {this.frameCels.map(cel => <Cel className='Workspace-cel' key={cel.pk} cel={cel}/>)}
+                </div>
+                {this.frameCels.map(cel => this.renderCel(cel))}
+            </div>
+        )
+    }
+
+    renderCel (cel)
+    {
+        return (
+            <div key={cel.pk} className='Workspace-cel-wrapper' style={this.stageStyle}>
+                <div className='Workspace-cel' style={{transform: `scale(${this.tab.zoom})`}}>
+                    <Cel key={cel.pk} cel={cel}/>
                 </div>
             </div>
         )
