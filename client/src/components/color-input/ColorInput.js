@@ -6,8 +6,7 @@ import classNames from 'classnames'
 import { def } from 'client/util/default'
 import { safeCall } from 'client/util/safeCall'
 import { XYInput } from 'client/components/XYInput'
-
-import './ColorInput.styl'
+import { ColorSwatch } from 'client/components/color-swatch'
 
 export class ColorInput extends Component
 {
@@ -48,7 +47,7 @@ export class ColorInput extends Component
             expanded: false,
             initial: this.state.current
         })
-
+        document.removeEventListener('click', this.handleCommit)
         safeCall(this.props.onChange, this.state.current)
     }
 
@@ -58,6 +57,7 @@ export class ColorInput extends Component
             expanded: false,
             current: this.state.initial
         })
+        document.removeEventListener('click', this.handleCommit)
     }
 
     handleOpen = () =>
@@ -68,6 +68,7 @@ export class ColorInput extends Component
             current: this.color,
             ...this.color.getHSL()
         })
+        document.addEventListener('click', this.handleCommit)
     }
 
     handleHue = ({x, y}) =>
@@ -78,6 +79,8 @@ export class ColorInput extends Component
             current: this.state.current.setHSL(h, this.state.s, this.state.l)
         })
     }
+
+    stopPropagation = e => e.stopPropagation()
 
     handleSatVal = ({ x, y }) =>
     {
@@ -117,7 +120,7 @@ export class ColorInput extends Component
     render ()
     {
         return (
-            <div className={classNames('ColorInput', this.props.className, { 'ColorInput--expanded': this.isOpen() })}>
+            <div onClick={this.stopPropagation} className={classNames('ColorInput', this.props.className, { 'ColorInput--expanded': this.isOpen() })}>
                 <Transition>
                     {this.isOpen() ? this.renderControl() : this.renderToggle()}
                 </Transition>
@@ -127,13 +130,15 @@ export class ColorInput extends Component
 
     renderToggle ()
     {
-        const style = {
-            '--color': this.color.getCSS({ alpha: 1 }),
-            '--invalpha': 1 - this.color.a
-        }
         const onClick = this.props.disabled ? undefined : this.handleOpen
         return (
-            <div key='toggle' className='ColorInput-toggle' style={style} onClick={onClick}/>
+            <ColorSwatch
+                key='toggle'
+                className='ColorInput-toggle'
+                color={this.color}
+                gridSize='1rem'
+                onClick={onClick}
+            />
         )
     }
 
@@ -164,8 +169,8 @@ export class ColorInput extends Component
                     onClick={this.handleCommit}
                 />
                 <div className='ColorInput-heading'>
-                    <div className='ColorInput-initial' style={{ backgroundColor: this.state.initial.getCSS() }}/>
-                    <div className='ColorInput-current' style={{ backgroundColor: this.state.current.getCSS() }}/>
+                    <ColorSwatch className='ColorInput-initial' color={this.state.initial}/>
+                    <ColorSwatch className='ColorInput-current' color={this.state.current}/>
                 </div>
                 {this.renderHSL()}
                 <div className='ColorInput-rgb'>

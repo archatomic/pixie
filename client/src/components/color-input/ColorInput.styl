@@ -24,8 +24,6 @@
     transition width 0.2s ease-in-out, height 0.2s ease-in-out, border-radius 0.2s ease-in-out, transform 0.2s ease-in-out
 
     &-toggle
-        --color black
-        --invalpha 0
         position absolute
         width 100%
         height 100%
@@ -33,23 +31,6 @@
         top 0
         transition opacity 0.2s ease-in-out
         z-index 1
-
-        &::before, &::after
-            content ''
-            position absolute
-            left 0
-            top 0
-            right 0
-            bottom 0
-
-        &::after
-            background-image url(checker)
-            background-size 2rem
-            image-rendering pixelated
-            opacity var(--invalpha)
-
-        &::before
-            background-color var(--color)
 
         &.exit, &.enter
             opacity 0
@@ -83,6 +64,7 @@
         margin 0.4em
         border-radius 100vw
         color white
+        z-index 1
 
         &--bright
             color black
@@ -97,15 +79,14 @@
 
     &-heading
         display flex
-        background-image url(checker)
-        background-size 2rem
-        image-rendering pixelated
 
     &-initial
+        position relative
         width initialWidth
         height headerHeight
 
     &-current
+        position relative
         flex-grow 1
         height headerHeight
 

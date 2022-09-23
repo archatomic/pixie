@@ -1,0 +1,22 @@
+.ColorSwatch
+    --color black
+    --opacity 1
+    --grid-size 2rem
+
+    &::before, &::after
+        content ''
+        display block
+        position absolute
+        left 0
+        top 0
+        bottom 0
+        right 0
+
+    &::before
+        background-color var(--color)
+
+    &::after
+        opacity var(--opacity)
+        background-image url(checker)
+        background-size var(--grid-size)
+        image-rendering pixelated

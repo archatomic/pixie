@@ -1,8 +1,5 @@
-import { ColorSelector } from 'client/components/color-selector/ColorSelector'
 import { Component } from 'react'
-import { Tool } from 'client/components/ui/toolbar'
 import { Transition } from 'client/components/Transition'
-import { applicationLayersToggle } from 'client/store/actions/applicationActions'
 import classNames from 'classnames'
 import { connect } from 'client/util/connect'
 
