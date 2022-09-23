@@ -1,22 +1,13 @@
 .Toolbar
     position absolute
-    top 0
     left rhythm--half
-    bottom rhythm--half
-    width 0
+    top rhythm--half
     display flex
     flex-direction column
     z-index 1
 
-    &-item
-        width 4.8rem
-        position relative
-
-    &-spacer
-        flex-grow 1
-
     &-tool
-        font-size 2rem
+        font-size 1.6rem
         border-bottom-width 0
         width auto
 
@@ -35,17 +26,5 @@
                 border-bottom-left-radius 0.4rem
                 border-bottom-right-radius 0.4rem
 
-        &--active
-            color theme.active
-
-        &--disabled
-            color grey(70)
-
-    &-undo
-        display flex
-        position fixed
-        bottom rhythm--half
-        left 50%
-        transform translateX(-50%)
-        background grey(92)
-        border-radius 100vw
+    &-panel
+        margin-bottom rhythm--half

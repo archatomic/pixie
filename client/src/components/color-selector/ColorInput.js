@@ -1,48 +1,13 @@
-import './ColorInput.styl'
-
 import { Color } from 'client/model/Color'
 import { Component } from 'react'
 import { Icon } from 'client/components/icon/icon'
 import { Transition } from 'client/components/Transition'
-import { clamp } from 'client/util/math'
 import classNames from 'classnames'
 import { def } from 'client/util/default'
 import { safeCall } from 'client/util/safeCall'
+import { XYInput } from 'client/components/XYInput'
 
-class XYInput extends Component
-{
-    handlePointerDown = (e) =>
-    {
-        e.currentTarget.setPointerCapture(e.pointerId)
-        this.handlePointerMove(e)
-        e.currentTarget.addEventListener('pointermove', this.handlePointerMove)
-    }
-
-    handlePointerMove = (e) =>
-    {
-        const rect = e.currentTarget.getBoundingClientRect()
-        safeCall(this.props.onInput, {
-            x: clamp((e.clientX - rect.left) / rect.width, 0, 1),
-            y: clamp((e.clientY - rect.top) / rect.height, 0, 1)
-        })
-    }
-
-    handlePointerUp = (e) =>
-    {
-        e.currentTarget.removeEventListener('pointermove', this.handlePointerMove)
-        this.handlePointerMove(e)
-    }
-
-    render ()
-    {
-        const { onInput, ...props } = this.props
-        return <div
-            {...props}
-            onPointerDown={this.handlePointerDown}
-            onPointerUp={this.handlePointerUp}
-        />
-    }
-}
+import './ColorInput.styl'
 
 export class ColorInput extends Component
 {
@@ -152,7 +117,7 @@ export class ColorInput extends Component
     render ()
     {
         return (
-            <div className={classNames('ColorInput', { 'ColorInput--expanded': this.isOpen() })}>
+            <div className={classNames('ColorInput', this.props.className, { 'ColorInput--expanded': this.isOpen() })}>
                 <Transition>
                     {this.isOpen() ? this.renderControl() : this.renderToggle()}
                 </Transition>
@@ -162,7 +127,10 @@ export class ColorInput extends Component
 
     renderToggle ()
     {
-        const style = { '--color': this.color.getCSS() }
+        const style = {
+            '--color': this.color.getCSS({ alpha: 1 }),
+            '--invalpha': 1 - this.color.a
+        }
         const onClick = this.props.disabled ? undefined : this.handleOpen
         return (
             <div key='toggle' className='ColorInput-toggle' style={style} onClick={onClick}/>
@@ -184,7 +152,7 @@ export class ColorInput extends Component
                     name='close'
                     onClick={this.handleCancel}
                 />
-                <Icon 
+                <Icon
                     className={classNames(
                         'ColorInput-commit',
                         {

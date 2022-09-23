@@ -18,6 +18,7 @@ export class Application extends Record({
     activeTab: null,
     tool: 'pencil',
     layers: false,
+    timeline: false,
     tabs: Tab.Collection.create(),
     fragments: PixieFragment.Collection.create(),
     primaryColor: Color.Black,
@@ -98,5 +99,11 @@ export class Application extends Record({
     blur ()
     {
         return this.focus(false)
+    }
+
+    toggleTheme ()
+    {
+        if (this.theme !== 'dark') return this.set('theme', 'dark')
+        return this.set('theme', 'light')
     }
 }

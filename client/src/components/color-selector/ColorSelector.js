@@ -1,11 +1,11 @@
-import './ColorSelector.styl'
-
 import { applicationSetPrimaryColor, applicationSwapColors } from 'client/store/actions/applicationActions'
 
 import { ColorInput } from './ColorInput'
 import { Component } from 'react'
 import classNames from 'classnames'
 import { connect } from 'client/util/connect'
+
+import './ColorSelector.styl'
 
 export class ColorSelector extends Component
 {
@@ -27,7 +27,7 @@ export class ColorSelector extends Component
             && this.props.primary.pk !== this.props.secondary.pk
         )
 
-        if (colorsWereSwapped) this.playSwapAnimation()
+        if (colorsWereSwapped && this.props.renderSecondary) this.playSwapAnimation()
     }
 
     playSwapAnimation ()
@@ -48,7 +48,7 @@ export class ColorSelector extends Component
         return (
             <div className='ColorSelector' ref={this.handleRef}>
                 {[
-                    this.renderColor(this.props.secondary, 'secondary', applicationSwapColors),
+                    this.props.renderSecondary && this.renderColor(this.props.secondary, 'secondary', applicationSwapColors),
                     this.renderColor(this.props.primary, 'primary')
                 ]}
             </div>

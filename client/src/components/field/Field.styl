@@ -64,20 +64,20 @@
             transform translateY(0)
 
     &-content
-        border 2px solid grey(92)
+        border 2px solid theme.panel
         border-radius 0.4rem
         width 100%
         padding 0.8em
         position relative
         z-index 1
-        background grey(92)
+        background theme.panel
         transition background-color speed ease-in-out
 
         &:hover
             border-color grey(50)
 
     &--empty &-content
-        background grey(92)
+        background theme.panel
 
     &--text &-content
         cursor text

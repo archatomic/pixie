@@ -51,33 +51,37 @@
         flex-direction column
         align-items center
         justify-content center
-        transform "translateY(calc(-100% + %s))" % top-border-hidden
-        background-color theme.secondary
-        background-image radial-gradient(closest-side, theme.primary, transparent), radial-gradient(closest-side, theme.tertiary, transparent)
-        background-repeat no-repeat, no-repeat
-        background-size backgroundSize backgroundSize, backgroundSize backgroundSize
-        transition transform transitionSpeed ease-in-out
-        animation spin animationSpeed linear infinite
+        background-color grey(95)
+        transform translateY(-100%)
+        
+        .Page--accent &
+            transform "translateY(calc(-100% + %s))" % top-border-hidden
+            background-color theme.secondary
+            background-image radial-gradient(closest-side, theme.primary, transparent), radial-gradient(closest-side, theme.tertiary, transparent)
+            background-repeat no-repeat, no-repeat
+            background-size backgroundSize backgroundSize, backgroundSize backgroundSize
+            transition transform transitionSpeed ease-in-out
+            animation spin animationSpeed linear infinite
 
-        .App--focused &
-            transform "translateY(calc(-100% + %s))" % top-border-width
+            .App--focused &
+                transform "translateY(calc(-100% + %s))" % top-border-width
 
-        &::before
-            content ''
-            display block
-            position absolute
-            left 0
-            top 0
-            right 0
-            bottom 0
-            background grey(90)
-            transition opacity transitionSpeed ease-in-out
-            opacity 1
-            z-index -1
+            &::before
+                content ''
+                display block
+                position absolute
+                left 0
+                top 0
+                right 0
+                bottom 0
+                background grey(90)
+                transition opacity transitionSpeed ease-in-out
+                opacity 1
+                z-index -1
 
-            .App--focused &,
-            .Page--top &
-                opacity 0
+                .App--focused &,
+                .Page--top &
+                    opacity 0
 
     &--top &-top
         transform translateY(0)
@@ -86,12 +90,14 @@
         z-index 0
         position relative
         background grey(95)
-        border-top top-border-width solid transparent
         height 100%
         width 100%
         transition transform transitionSpeed ease-in-out
         overflow-x hidden
         overflow-y auto
+
+        .Page--acent &
+            border-top top-border-width solid transparent
 
     &:not(&--tight) &-body
             padding rhythm

@@ -8,6 +8,9 @@
     overflow hidden
     touch-action none
 
+    .Theme--light &
+        background-color grey(20)
+
     &-stage
         position absolute
 
@@ -16,6 +19,7 @@
         image-rendering pixelated
         background-color grey
         outline 1px solid grey(98)
+        cursor none
 
     &-wrapper:before
         content ''

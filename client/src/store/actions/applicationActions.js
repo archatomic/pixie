@@ -13,6 +13,9 @@ export const applicationSafeAreaUpdate = (safeArea) =>
     return action(APPLICATION_SAFE_AREA_UPDATE, safeArea)
 }
 
+export const APPLICATION_THEME_TOGGLE = 'application.theme.toggle'
+export const applicationThemeToggle = () => action(APPLICATION_THEME_TOGGLE)
+
 export const APPLICATION_THEME_UPDATE = 'application.theme.update'
 export const applicationThemeUpdate = (theme) => action(APPLICATION_THEME_UPDATE, theme)
 
@@ -43,6 +46,9 @@ export const applicationToolSet = (tool) => action(APPLICATION_TOOL_SET, tool)
 export const APPLICATION_LAYERS_TOGGLE = 'application.layers.toggle'
 export const applicationLayersToggle = () => action(APPLICATION_LAYERS_TOGGLE)
 
+export const APPLICATION_TIMELINE_TOGGLE = 'application.timeline.toggle'
+export const applicationTimelineToggle = () => action(APPLICATION_TIMELINE_TOGGLE)
+
 export const APPLICATION_CREATE_LAYER = 'application.layers.create'
 export const applicationCreateLayer = (count = 1, at = null) => action(APPLICATION_CREATE_LAYER, { count, at })
 
@@ -51,3 +57,9 @@ export const applicationSwapColors = () => action(APPLICATION_SWAP_COLORS)
 
 export const APPLICATION_SET_PRIMARY_COLOR = 'application.colors.setPrimary'
 export const applicationSetPrimaryColor = (color) => action(APPLICATION_SET_PRIMARY_COLOR, color)
+
+export const APPLICATION_SET_BRUSH_SIZE = 'application.brush.setSize'
+export const applicationSetBrushSize = (size) => action(APPLICATION_SET_BRUSH_SIZE, size)
+
+export const APPLICATION_SET_ERASER_SIZE = 'application.eraser.setSize'
+export const applicationSetEraserSize = (size) => action(APPLICATION_SET_ERASER_SIZE, size)

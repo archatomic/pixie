@@ -1,0 +1,177 @@
+.Slider
+    position relative
+    width 2rem
+    height 2rem
+    
+    &-wrapper
+        position absolute
+        bottom 0
+        left 0
+        width 2rem
+        height 2rem
+        background theme.panel
+        overflow hidden
+        border-radius 0.4rem
+        transition height 0.15s ease-in-out, width 0.15s ease-in-out
+
+    &-label
+        width 2rem
+        height 2rem
+        display flex
+        align-items center
+        justify-content center
+        position absolute
+        bottom 0
+        left 0
+        user-select none
+
+    &--horizontal&--open &-wrapper
+        width 24rem
+
+    &--vertical&--open &-wrapper
+        height 24rem
+
+    &-track
+        background theme.black
+        position absolute
+        border-radius 0.25rem
+    
+    &--horizontal &-track
+        width 20rem
+        height 0.5rem
+        transform translateY(50%)
+        bottom 50%
+        left 3rem
+
+    &--vertical &-track
+        width 0.5rem
+        height 20rem
+        transform translateX(-50%)
+        bottom 3rem
+        left 50%
+        
+    &-knob
+        background theme.white
+        border 0.1rem solid theme.black
+        position absolute
+        left 50%
+        bottom 50%
+        transform translate(-50%, 50%)
+        border-radius 0.3rem
+
+    &--horizontal &-knob
+        width 1rem
+        height 2rem
+
+    &--vertical &-knob
+        height 1rem
+        width 2rem
+
+    &-indicator
+        position absolute
+        left 50%
+        bottom 50%
+        transform translate(-50%, 50%)
+        border-radius 0.3rem
+        transition left 0.15s ease-in-out, bottom 0.15s ease-in-out
+
+        &::before, &::after
+            content ''
+            display block
+            position absolute
+            border 0.5rem solid transparent
+
+    &--horizontal &-indicator
+        height 100%
+
+        &::before
+            bottom 100%
+            border-bottom-width 0
+            border-top-color grey(60)
+            transform translateX(-50%)
+
+        &::after
+            top 100%
+            border-top-width 0
+            border-bottom-color grey(60)
+            transform translateX(-50%)
+
+    &--vertical &-indicator
+        width 100%
+
+        &::before
+            right 100%
+            border-right-width 0
+            border-left-color grey(60)
+            transform translateY(-50%)
+
+        &::after
+            left 100%
+            border-left-width 0
+            border-right-color grey(60)
+            transform translateY(-50%)
+
+    &-tooltip-label
+        position absolute
+        background theme.panel
+        color grey(50)
+        padding 0.2em 0.4em
+        border-radius 0.4rem
+        pointer-events none
+    
+    &--vertical &-tooltip
+        position absolute
+        left 100%
+        margin-left rhythm--half
+        bottom 3rem
+        height 20rem
+        width 0
+        opacity 0
+        transform translateX(-1rem)
+        transition transform 0.15s ease-in-out, opacity 0.15s ease-in-out
+
+        &-label
+            transform translateY(50%)
+
+            &::before
+                content ''
+                display block
+                position absolute
+                right 100%
+                top 50%
+                border 0.2em solid transparent
+                transform translateY(-50%)
+                border-left 0
+                border-right-color theme.panel
+    
+    &--horizontal &-tooltip
+        position absolute
+        bottom 100%
+        margin-bottom rhythm--half
+        left 3rem
+        width 20rem
+        height 0
+        opacity 0
+        transform translateY(1rem)
+        transition transform 0.15s ease-in-out, opacity 0.15s ease-in-out
+
+        &-label
+            transform translateX(-50%)
+            bottom 100%
+
+            &::before
+                content ''
+                display block
+                position absolute
+                top 100%
+                left 50%
+                border 0.2em solid transparent
+                transform translateX(-50%)
+                border-bottom 0
+                border-top-color theme.panel
+    
+    &--open &-tooltip
+        opacity 1
+        transform translate(0, 0)
+        
+        

@@ -3,7 +3,7 @@
 themes = {
     light: {
         white: #efefef,
-        active: #4ccafc,
+        active: #39d804,
         grey: #89a,
         black: #050306,
         primary: #f7545c,
@@ -26,7 +26,7 @@ themes = {
     },
     dark: {
         white: #050306,
-        active: #4ccafc,
+        active: #b9fc4c,
         grey: #89a,
         black: #efefef,
         primary: #f7545c,
@@ -77,6 +77,8 @@ for __theme, __colors in themes
 theme = {}
 for __name, __color in themes[defaultTheme]
     theme[__name] = var(unquote('--theme-' + __name), __color)
+
+theme.panel = grey(92)
 
 enableThemes()
     for theme, colors in themes

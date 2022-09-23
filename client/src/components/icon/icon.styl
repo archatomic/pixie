@@ -3,6 +3,29 @@
     width 2.4em
     height 2.4em
 
+    &--tight
+        width 1em
+        height 1em
+
+    &--subtle
+        color grey(60)
+
+        .Theme--light &
+            color grey(30)
+
+    &--active
+        color theme.active;
+
+        .Theme--light &
+            color theme.active;
+
+    &--disabled
+        cursor default
+        color grey(85)
+
+        .Theme--light &
+            color grey(70)
+
     &-glyph
         position absolute
         left 50%

@@ -1,7 +1,7 @@
-import { ColorSelector } from '../color-selector/ColorSelector'
+import { ColorSelector } from 'client/components/color-selector/ColorSelector'
 import { Component } from 'react'
-import { Tool } from '../toolbar'
-import { Transition } from '../Transition'
+import { Tool } from 'client/components/ui/toolbar'
+import { Transition } from 'client/components/Transition'
 import { applicationLayersToggle } from 'client/store/actions/applicationActions'
 import classNames from 'classnames'
 import { connect } from 'client/util/connect'
@@ -32,13 +32,9 @@ export class Layers extends Component
     {
         return (
             <div className={classNames('Layers', { 'Layers--open': this.props.open })}>
-                <div className='Layers-toolbar'>
-                    <div className='Layers-toggle'>
-                        <Tool.Connected icon={this.props.open ? 'close' : 'layer-group'} iconProps={{ rotateLeft: this.props.open }} onClick={applicationLayersToggle} />
-                    </div>
-                    <div className='Layers-spacer'></div>
+                {/* <div className='Layers-toolbar'>
                     <ColorSelector.Connected />
-                </div>
+                </div> */}
                 <Transition className='Layers-drawer'>
                     {this.renderLayerList()}
                 </Transition>

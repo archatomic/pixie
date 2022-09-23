@@ -9,7 +9,11 @@ import {
     APPLICATION_SWAP_COLORS,
     APPLICATION_THEME_UPDATE,
     APPLICATION_TITLE_UPDATE,
-    APPLICATION_TOOL_SET
+    APPLICATION_THEME_TOGGLE,
+    APPLICATION_TOOL_SET,
+    APPLICATION_TIMELINE_TOGGLE,
+    APPLICATION_SET_BRUSH_SIZE,
+    APPLICATION_SET_ERASER_SIZE
 } from 'client/store/actions/applicationActions'
 
 import { Application } from 'client/model/Application'
@@ -27,6 +31,8 @@ export const applicationReducer = (application = INITIAL_STATE, action = {}, glo
             return application.focus()
         case APPLICATION_BLUR:
             return application.blur()
+        case APPLICATION_THEME_TOGGLE:
+            return application.toggleTheme()
         case APPLICATION_THEME_UPDATE:
             return application.set('theme', action.payload)
         case APPLICATION_SAFE_AREA_UPDATE:
@@ -37,6 +43,8 @@ export const applicationReducer = (application = INITIAL_STATE, action = {}, glo
             return application.set('tool', action.payload)
         case APPLICATION_LAYERS_TOGGLE:
             return application.set('layers', !application.layers)
+        case APPLICATION_TIMELINE_TOGGLE:
+            return application.set('timeline', !application.timeline)
         case APPLICATION_SWAP_COLORS:
             return application.merge({
                 primaryColor: application.secondaryColor,
@@ -44,6 +52,10 @@ export const applicationReducer = (application = INITIAL_STATE, action = {}, glo
             })
         case APPLICATION_SET_PRIMARY_COLOR:
             return application.set('primaryColor', action.payload)
+        case APPLICATION_SET_BRUSH_SIZE:
+            return application.set('pencilSize', action.payload)
+        case APPLICATION_SET_ERASER_SIZE:
+            return application.set('eraserSize', action.payload)
     }
 
     return application

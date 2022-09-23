@@ -9,6 +9,11 @@ import classNames from 'classnames'
  * @typedef {object} IconProps
  * @prop {string} name
  * @prop {boolean} [button]
+ * @prop {boolean} [tight]
+ * @prop {boolean} [rotateLeft]
+ * @prop {boolean} [disabled]
+ * @prop {boolean} [active]
+ * @prop {boolean} [subtle]
  */
 
 /**
@@ -18,7 +23,17 @@ export class Icon extends Component
 {
     render ()
     {
-        const { name, button, rotateLeft, className, ...props } = this.props
+        const {
+            name,
+            button,
+            subtle,
+            disabled,
+            rotateLeft,
+            active,
+            className,
+            tight,
+            ...props
+        } = this.props
         return (
             <Transition
                 className={
@@ -27,8 +42,12 @@ export class Icon extends Component
                         className,
                         `Icon--${name}`,
                         {
+                            'Icon--subtle': subtle,
                             'Icon--button': button,
-                            'Icon--rotateLeft': rotateLeft
+                            'Icon--disabled': disabled,
+                            'Icon--rotateLeft': rotateLeft,
+                            'Icon--tight': tight,
+                            'Icon--active': active
                         }
                     )
                 }

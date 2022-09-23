@@ -89,9 +89,21 @@ export class Workspace extends Component
         }
     }
 
+    get targetHeight ()
+    {
+        if (!this.el) return window.innerHeight
+        return this.el.getBoundingClientRect().height
+    }
+
+    get targetWidth ()
+    {
+        if (!this.el) return window.innerHeight
+        return this.el.getBoundingClientRect().width
+    }
+
     maxX (zoom = this.tab.zoom)
     {
-        return (window.innerWidth + zoom * this.fragment.width) / 2 - OVERFLOW_MARGIN
+        return (this.targetWidth + zoom * this.fragment.width) / 2 - OVERFLOW_MARGIN
     }
 
     minX (zoom = this.tab.zoom)
@@ -101,7 +113,7 @@ export class Workspace extends Component
 
     maxY (zoom = this.tab.zoom)
     {
-        return (window.innerHeight + zoom * this.fragment.height) / 2 - OVERFLOW_MARGIN
+        return (this.targetHeight + zoom * this.fragment.height) / 2 - OVERFLOW_MARGIN
     }
 
     minY (zoom = this.tab.zoom)
@@ -135,6 +147,7 @@ export class Workspace extends Component
         this.el.removeEventListener('wheel', this.handleWheel)
         this.el.removeEventListener('pointerdown', this.handlePointerDown)
         this.el.removeEventListener('pointermove', this.handlePointerMove)
+        this.el.removeEventListener('pointerleave', this.handlePointerLeave)
         this.el.removeEventListener('pointerup', this.handlePointerUp)
         this.el.removeEventListener('pointercancel', this.handlePointerCancel)
     }
@@ -146,6 +159,7 @@ export class Workspace extends Component
         this.el.addEventListener('wheel', this.handleWheel, { passive: false })
         this.el.addEventListener('pointerdown', this.handlePointerDown)
         this.el.addEventListener('pointermove', this.handlePointerMove)
+        this.el.addEventListener('pointerleave', this.handlePointerLeave)
         this.el.addEventListener('pointerup', this.handlePointerUp)
         this.el.addEventListener('pointercancel', this.handlePointerCancel)
     }
@@ -207,13 +221,18 @@ export class Workspace extends Component
         const { x, y } = this.clientToPixel(e)
         switch (e.pointerType) {
             case 'mouse':
+            case 'pen':
                 if (this.pen.active) this.pen.move(x, y, e)
                 return this.setCursor(x, y)
-            case 'pen':
-                return this.pen.move(x, y, e)
             case 'touch':
                 return this.touch.move(x, y, e)
         }
+    }
+
+    handlePointerLeave = (e) =>
+    {
+        const { x, y } = this.clientToPixel(e)
+        this.setCursor(x, y, false)
     }
 
     handlePointerUp = (e) =>
@@ -244,21 +263,6 @@ export class Workspace extends Component
         }
     }
 
-    handleTouchStart = (e) =>
-    {
-        
-    }
-
-    handleTouchMove = (e) =>
-    {
-        //console.log('move', e.touches)
-    }
-
-    handleTouchEnd = (e) =>
-    {
-        //console.log('end', e.touches)
-    }
-
     handleWrapperRef = e => this.wrapper = e
 
     translate (x, y)
@@ -269,26 +273,28 @@ export class Workspace extends Component
         })
     }
 
-    setCursor (x, y)
+    setCursor (x, y, d = null)
     {
-        const down = x > -1 && y > -1 && x < this.fragment.width && y < this.fragment.height && !this.pen.active
+        const down = d == null
+            ? x > -1 && y > -1 && x < this.fragment.width && y < this.fragment.height && !this.pen.active
+            : d
         applicationCursorUpdate(x, y, down)
     }
 
     zoom (amt, originX, originY)
     {
-        amt = amt / window.innerHeight // based on window height
+        amt = amt / this.targetHeight // based on window height
 
         let zAmt = ZOOM_SPEED * amt
 
         const zoom = clamp(this.tab.zoom * (1 + zAmt), MIN_ZOOM, MAX_ZOOM)
         zAmt = zoom / this.tab.zoom - 1
 
-        const scaleOriginX = window.innerWidth / 2 + this.tab.x
+        const scaleOriginX = this.targetWidth / 2 + this.tab.x
         const offsetX = (originX - scaleOriginX)
         const oDeltaX = - offsetX * zAmt
 
-        const scaleOriginY = window.innerHeight / 2 + this.tab.y
+        const scaleOriginY = this.targetHeight / 2 + this.tab.y
         const offsetY = (originY - scaleOriginY)
         const oDeltaY = - offsetY * zAmt
         

@@ -14,6 +14,7 @@ import classNames from 'classnames'
  * @property {string} [name]
  * @property {boolean} [top]
  * @property {boolean} [tight]
+ * @property {boolean} [accent]
  * @property {import('react').ReactNode} [children]
  */
 
@@ -40,6 +41,7 @@ export class Page extends Component {
             {
               [`Page--${this.props.name}`]: this.props.name,
               'Page--top': this.props.top,
+              'Page--accent': this.props.accent,
               'Page--tight': this.props.tight,
             },
             this.props.className

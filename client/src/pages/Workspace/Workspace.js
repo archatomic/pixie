@@ -1,12 +1,10 @@
-import { Layers } from 'client/components/layers'
 import { Page } from 'client/components/page/Page'
-import { Toolbar } from 'client/components/toolbar'
+import { WorkspaceUI } from 'client/components/ui/workspace-ui'
 import { Workspace as WorkspaceComponent } from 'client/components/workspace/Workspace'
 
 export const Workspace = () => (
     <Page tight title="Workspace">
+        <WorkspaceUI/>
         <WorkspaceComponent.Connected />
-        <Toolbar.Connected />
-        <Layers.Connected />
     </Page>
 )

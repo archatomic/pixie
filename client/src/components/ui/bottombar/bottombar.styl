@@ -1,0 +1,94 @@
+.BottomBar
+    position relative
+    transition transform 0.2s ease-in-out
+    transform translateY(100%)
+
+    &--timeline
+        transform translateY(0%)
+
+    &-overlay
+        position absolute
+        bottom 100%
+        left 0
+        right 0
+        z-index 1
+    
+    &-undo
+        position absolute
+        bottom rhythm--half
+        left rhythm--half
+    
+    &-redo
+        position absolute
+        bottom rhythm--half
+        right rhythm--half
+
+    &-undo, &-redo
+        background theme.panel
+        border-radius 100vw
+
+        &--disabled
+            color grey(80)
+
+    &-options
+        position absolute
+        display flex
+        align-items center
+        bottom 0
+        left 50%
+        transform translate(-50%, (- rhythm--half))
+        transition transform 0.2s ease-in-out
+
+        &.enter
+            transform translate(-50%, 100%)
+
+        &.enter-active, &.exit
+            transform translate(-50%, (- rhythm--half))
+
+        &.exit-active
+            transform translate(-50%, 100%)
+
+    &-timeline
+        transition transform 0.2s ease-in-out
+        background theme.panel;
+        transform translateY(0%)
+        position relative
+        z-index 2
+
+        &.enter
+            transform translateY(100%)
+
+        &.enter-active, &.exit
+            transform translateY(0%)
+
+        &.exit-active
+            transform translateY(100%)
+    
+    &-color
+        position relative
+        height 2rem
+        width 2rem
+
+        .ColorInput
+            position absolute
+            bottom 0
+            left 50%
+            transform translateX(-50%)
+
+            &--expanded
+                transform translate(-50%, (rhythm--half))
+                z-index 10
+    &-brush-size
+        display block
+        width 0.1rem
+        height 0.1rem
+        border-radius 100vw
+        border 1px solid grey(50)
+        position absolute
+        left 50%
+        top 50%
+        transform translate(-50%, -50%)
+
+    &-options > * + *
+        margin-left rhythm--half
+
