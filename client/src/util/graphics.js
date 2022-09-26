@@ -1,13 +1,16 @@
 import { createNode } from 'client/util/createNode'
 
+/** @type {HTMLCanvasElement} */
+const canvas = createNode({ tag: 'canvas' })
+    
 /** @type {CanvasRenderingContext2D} */
-const context = createNode({ tag: 'canvas' }).getContext('2d')
+const context = canvas.getContext('2d')
 
 const DEBUG_PATTERN = false
 
 export const createImageData = (width, height) =>
 {
-    const op = context.createImageData(width, height)
+    const op = new ImageData(width, height)
 
     if (DEBUG_PATTERN) {
         const randomDot = Math.floor(Math.random() * op.data.length / 4) * 4
@@ -18,4 +21,13 @@ export const createImageData = (width, height) =>
     }
 
     return op
+}
+
+export const imageDataToDataURI = (imagedata) =>
+{
+    console.log('generating a data uri')
+    canvas.width = imagedata.width
+    canvas.height = imagedata.height
+    context.putImageData(imagedata, 0, 0)
+    return canvas.toDataURL()
 }

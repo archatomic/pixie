@@ -15,10 +15,9 @@
                     <feComposite in="DILATED" in2="ALPHABIT" operator="out"/>
                 </filter>
                 <filter id="marching-ants">
-                    <feImage width='20' height='20' xlink:href="data:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAC4jAAAuIwF4pT92AAAARklEQVQ4je3LMQrAMAwEwfv56eebJhAcJCyr9vQj1cKmFvadd26mpPEMu8zbCeS5M/PcnEnuz38+mks+nV8ezDfPJqDxBB5DBFWzG//T9QAAAABJRU5ErkJggg==" />
+                    <feImage x='0' y='0' width="20" height="20" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAbElEQVQ4ja3UMQ6AMAxDUd88vflnKAIKpdDGkTzmKUssSVxTIvgzJYL77h4rdoImrIJGDFkxCTmxEvENzmDAGJzFhuAK9gquYl0wgz3ALNaADuwAXRhQP8WFAW3bZLH9OCs2BheLw4r1wUylbQjn5DJW9wHnAAAAAElFTkSuQmCC" result="TILE0"/>
                     <feTile/>
-                    <feColorMatrix values="1000 0 0 0 -500 0 1000 0 0 -500 0 0 1000 0 -500 0 0 0 1 0"/>
-                    <feOffset dx='0' dy='0' result="CHECKER" >
+                    <feOffset dx='0' dy='0'>
                         <animate
                             attributeName="dx"
                             values="-10;10"
@@ -32,7 +31,7 @@
                             repeatCount="indefinite"
                         />
                     </feOffset>
-
+                    <feColorMatrix result="CHECKER" values="1000 0 0 0 -500 0 1000 0 0 -500 0 0 1000 0 -500 0 0 0 1 0"/>
                     <feColorMatrix
                         in="SourceAlpha"
                         values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"

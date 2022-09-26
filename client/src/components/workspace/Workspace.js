@@ -7,8 +7,9 @@ import { redo, undo } from 'client/store/actions/undoActions'
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
 import { ToolManager } from 'client/tools/ToolManager'
-import { clamp } from 'client/util/math'
+import { clamp, int } from 'client/util/math'
 import { connect } from 'client/util/connect'
+import { Cursor } from 'client/components/cursor'
 
 const OVERFLOW_MARGIN = 20
 
@@ -34,8 +35,8 @@ export class Workspace extends Component
         this
     )
 
-    pen = new ToolManager()
-    touch = new ToolManager()
+    pen = new ToolManager(this.props.tool)
+    touch = new ToolManager(TOOL_PAN)
 
     get tab ()
     {
@@ -83,9 +84,9 @@ export class Workspace extends Component
     {
         // apply scale
         return {
-            width: `${this.fragment.width * this.tab.zoom}px`,
-            height: `${this.fragment.height * this.tab.zoom}px`,
-            transform: `translate(${Math.floor(this.tab.x)}px, ${Math.floor(this.tab.y)}px) rotate(${this.tab.rotate}deg)`
+            width: `${int(this.fragment.width * this.tab.zoom)}px`,
+            height: `${int(this.fragment.height * this.tab.zoom)}px`,
+            transform: `translate(${int(this.tab.x)}px, ${int(this.tab.y)}px) rotate(${this.tab.rotate}deg)`
         }
     }
 
@@ -130,6 +131,13 @@ export class Workspace extends Component
     componentWillUnmount ()
     {
         this.destroyListeners()
+    }
+
+    componentDidUpdate (props)
+    {
+        if (props.tool !== this.props.tool) {
+            this.pen.setTool(this.props.tool)
+        }
     }
 
     handleRef = el =>
@@ -334,11 +342,10 @@ export class Workspace extends Component
         if (this.fragment.null) return null
         return (
             <div className='Workspace' ref={this.handleRef}>
-                <div className='Workspace-stage' style={this.stageStyle}></div>
-                <div className='Workspace-wrapper' style={this.wrapperStyle} ref={this.handleWrapperRef}>
-                    {this.renderCursor()}
+                <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
+                    {this.frameCels.map(cel => this.renderCel(cel))}
+                    <Cursor.Connected className='Workspace-cursor' data={this.pen.cursor()} scale={this.tab.zoom} />
                 </div>
-                {this.frameCels.map(cel => this.renderCel(cel))}
             </div>
         )
     }
@@ -346,19 +353,9 @@ export class Workspace extends Component
     renderCel (cel)
     {
         return (
-            <div key={cel.pk} className='Workspace-cel-wrapper' style={this.stageStyle}>
-                <div className='Workspace-cel' style={{transform: `scale(${this.tab.zoom})`}}>
-                    <Cel key={cel.pk} cel={cel}/>
-                </div>
+            <div key={cel.pk} className='Workspace-cel' style={{transform: `scale(${this.tab.zoom})`}}>
+                <Cel key={cel.pk} cel={cel}/>
             </div>
         )
-    }
-
-    renderCursor ()
-    {
-        if (!this.props.cursorDown) return null
-        let transform = `translate(${this.props.cursorX}px, ${this.props.cursorY}px)`
-        const style = { transform } // Todo... support cursor specific styles
-        return <div className='Workspace-cursor' style={style}></div>
     }
 }

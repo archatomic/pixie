@@ -21,8 +21,8 @@ export class Pencil extends BaseTool
          * @type {Application}
          */
         this.application = locate('store').getState().get('application')
-        if (!this.tab) this.tab = this.application.getActiveTab()
-        if (!this.fragment) this.fragment = this.application.getActiveFragment()
+        this.tab = this.application.getActiveTab()
+        this.fragment = this.application.getActiveFragment()
 
         this.brush = this.getBrush()
         this.cel = this.fragment.getCel(this.tab.layer, this.tab.frame)
@@ -150,5 +150,10 @@ export class Pencil extends BaseTool
     {
         this.tab = this.tab.updateToolCel(this.getImageData())
         tabActions.save(this.tab)
+    }
+
+    cursor ()
+    {
+        return this.getBrush().getImageData()
     }
 }

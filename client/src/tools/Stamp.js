@@ -71,6 +71,8 @@ export class Stamp
 
     static circle (size, opts = {})
     {
+        opts.width = size
+        opts.height = size
         opts.data = this._getCircleData(size)
         return new this(opts)
     }
@@ -83,6 +85,8 @@ export class Stamp
         preventSelfIntersection = true,
         allowOverflow = false,
         blendAlpha = true,
+        width = 1,
+        height = 1,
         data = [{ x: 0, y: 0 }]
     } = {})
     {
@@ -111,6 +115,36 @@ export class Stamp
          * The stamp image data.
          */
         this.data = data
+
+        this.width = width
+        this.height = height
+    }
+
+    getImageData ()
+    {
+        if (this.imageData) return this.imageData
+
+        this.imageData = new ImageData(this.width, this.height)
+        let offsetX = 0
+        let offsetY = 0
+
+        for (const p of this.data) {
+            offsetX = Math.min(p.x, offsetX)
+            offsetY = Math.min(p.y, offsetY)
+        }
+
+        for (const p of this.data) {
+            this.putPixel(
+                p.x - offsetX,
+                p.y - offsetY,
+                this.getColor(p),
+                this.imageData)
+        }
+
+        this.imageData.offsetX = offsetX
+        this.imageData.offsetY = offsetY
+
+        return this.imageData
     }
     
     /**

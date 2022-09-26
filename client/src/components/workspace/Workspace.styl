@@ -11,17 +11,14 @@
     .Theme--light &
         background-color grey(20)
 
-    &-stage, &-cel-wrapper
+    &-stage
         position absolute
-
-    &-wrapper
-        position relative
         image-rendering pixelated
-        background-color grey
         outline 1px solid grey(98)
-        cursor none
+        background-color grey
+        pointer-events none
 
-    &-wrapper:before
+    &-stage:before
         content ''
         display block
         position absolute
@@ -33,32 +30,10 @@
         background-size 32px 32px
         mix-blend-mode multiply
         opacity 0.25
-
-    &-wrapper:after
-        content ''
-        display block
-        position absolute
-        left 0
-        top 0
-        right 0
-        bottom 0
-        z-index 2
     
-    &-cel
+    &-cel, &-cursor
         transform-origin top left
         pointer-events none
         position absolute
         left 0
         top 0
-        image-rendering pixelated
-        z-index 1
-    
-    &-cursor
-        z-index 1
-        display block
-        position absolute
-        left 0
-        top 0
-        width 1px
-        height 1px
-        background black

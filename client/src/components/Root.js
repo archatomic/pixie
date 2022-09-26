@@ -49,6 +49,7 @@ export class Root extends Component
               `App--${RUNTIME}`,
               {
                 'App--focused': this.props.application.focused,
+                'App--unfocused': !this.props.application.focused,
                 'App--mobile': IS_MOBILE,
                 'App--web': IS_WINDOWS,
                 'App--desktop': IS_DESKTOP

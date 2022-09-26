@@ -1,0 +1,16 @@
+.Cursor
+    width 100%
+    height 100%
+
+    &-cursor
+        position absolute
+        left 0
+        top 0
+        transform-origin top left
+
+    &--image
+        filter url('#outline')
+
+    // e.g. if I wanted to make the outline more visible on dark backgrounds
+    // &--dark&--image
+    //     filter url('#outline') invert()

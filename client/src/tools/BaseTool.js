@@ -2,6 +2,10 @@
  * @typedef {import('./ToolManager').ToolData} ToolData
  */
 
+/**
+ * @typedef {ImageData|string} CursorData
+ */
+
 export class BaseTool
 {
     static create ()
@@ -25,4 +29,9 @@ export class BaseTool
     end (data) { }
 
     cancel () { }
+
+    /**
+     * @param {CursorData} data 
+     */
+    cursor () { return 'auto' }
 }

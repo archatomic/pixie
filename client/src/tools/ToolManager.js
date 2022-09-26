@@ -31,23 +31,17 @@ export class ToolManager
 
     event = null
 
-    get active ()
-    {
-        return this.tool !== null && this.data !== null
-    }
+    active = false
 
     get inactive ()
     {
         return !this.active
     }
 
-    /**
-     * @param {BaseTool | string} tool
-     * @param {number} x 
-     * @param {number} y 
-     */
-    start (tool, x, y, event)
+    setTool (tool)
     {
+        if (tool === this.toolName) return
+
         const old = {
             data: this.data,
             tool: this.tool,
@@ -58,6 +52,18 @@ export class ToolManager
 
         this.tool = this.getTool(tool)
         this.toolName = this.getToolName(tool)
+
+        return old
+    }
+
+    /**
+     * @param {BaseTool | string} tool
+     * @param {number} x 
+     * @param {number} y 
+     */
+    start (tool, x, y, event)
+    {
+        const old = this.setTool(tool)
 
         if (!this.tool) return
 
@@ -75,6 +81,8 @@ export class ToolManager
         this.tool.start(this.data, event, old)
 
         this.event = event
+
+        this.active = true
     }
 
     getTool (tool)
@@ -134,10 +142,18 @@ export class ToolManager
         this.reset()
     }
 
+    cursor ()
+    {
+        if (!this.tool) return 'auto'
+        return this.tool.cursor()
+    }
+
     reset ()
     {
-        this.data = null
+        /* this.data = null
         this.tool = null
+        this.toolName = null */
         this.event = null
+        this.active = false
     }
 }
