@@ -1,8 +1,9 @@
+import { warn } from 'client/util/log'
 import { locate } from "./registry"
 
 export const action = (type, payload) => {
     const store = locate('store')
-    if (!store) return
+    if (!store) return warn(`Tried to call an action before the store was registered: ${type}`)
     return store.dispatch({type, payload})
 }
 

@@ -1,5 +1,6 @@
 import { Capacitor } from '@capacitor/core'
 import { def } from 'client/util/default'
+import { createEnum } from 'client/util/enum'
 
 export const APP_NAME = def(process.env.APP_NAME, 'Pixie')
 
@@ -52,15 +53,34 @@ export const DEFAULT_FRAGMENT_NUM_FRAMES = def(process.env.DEFAULT_FRAGMENT_NUM_
 export const DEFAULT_FRAME_DURATION = def(process.env.DEFAULT_FRAME_DURATION, 1 / 12)
 
 // tools
-export const TOOL_PENCIL = 'pencil'
-export const TOOL_ERASER = 'eraser'
-export const TOOL_EYEDROPPER = 'eyedropper'
-export const TOOL_MOVE = 'move'
-export const TOOL_PAN = 'pan'
-export const TOOL_ZOOM = 'zoom'
-export const TOOL_SELECT = 'select'
-export const TOOL_FILL = 'fill'
+export const TOOL = createEnum([
+    'PENCIL',
+    'ERASER',
+    'EYEDROPPER',
+    'MOVE',
+    'PAN',
+    'ZOOM',
+    'SELECT',
+    'FILL'
+])
+
+export const TOOLOPT = createEnum([
+    'PENCIL_SIZE',
+    'ERASER_SIZE',
+    'COLOR'
+])
 
 export const MIN_ZOOM = 1
 export const MAX_ZOOM = 64
 export const ZOOM_SPEED = 10
+
+export const BLENDMODE = createEnum([
+    'REPLACE',
+    'ALPHA',
+    // todo: multiply, dodge, etc...
+])
+
+export const OVERFLOW = createEnum([
+    'NONE',
+    'REPEAT'
+])

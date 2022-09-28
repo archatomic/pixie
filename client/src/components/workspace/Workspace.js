@@ -1,6 +1,6 @@
 import './Workspace.styl'
 
-import { MAX_ZOOM, MIN_ZOOM, TOOL_ERASER, TOOL_EYEDROPPER, TOOL_PAN, TOOL_ZOOM, ZOOM_SPEED } from 'client/constants'
+import { MAX_ZOOM, MIN_ZOOM, TOOL, ZOOM_SPEED } from 'client/constants'
 import { applicationCreateNew, applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
 import { redo, undo } from 'client/store/actions/undoActions'
 
@@ -25,7 +25,7 @@ export class Workspace extends Component
 {
     static Connected = connect(
         {
-            'tool': ['application', 'tool'],
+            'tool': ['application', 'toolbox', 'active'],
             'cursorDown': ['application', 'cursorDown'],
             'cursorX': ['application', 'cursorX'],
             'cursorY': ['application', 'cursorY'],
@@ -36,7 +36,7 @@ export class Workspace extends Component
     )
 
     pen = new ToolManager(this.props.tool)
-    touch = new ToolManager(TOOL_PAN)
+    touch = new ToolManager(TOOL.PAN)
 
     get tab ()
     {
@@ -71,21 +71,12 @@ export class Workspace extends Component
         return cels
     }
 
-    get wrapperStyle ()
-    {
-        return {
-            width: `${this.fragment.width}px`,
-            height: `${this.fragment.height}px`,
-            transform: `translate(${Math.floor(this.tab.x)}px, ${Math.floor(this.tab.y)}px) scale(${this.tab.zoom}) rotate(${this.tab.rotate}deg)`
-        }
-    }
-
     get stageStyle ()
     {
         // apply scale
         return {
-            width: `${int(this.fragment.width * this.tab.zoom)}px`,
-            height: `${int(this.fragment.height * this.tab.zoom)}px`,
+            width: `${this.fragment.width * this.tab.zoom}px`,
+            height: `${this.fragment.height * this.tab.zoom}px`,
             transform: `translate(${int(this.tab.x)}px, ${int(this.tab.y)}px) rotate(${this.tab.rotate}deg)`
         }
     }
@@ -207,17 +198,17 @@ export class Workspace extends Component
             // start tool
             // Determine if barrel button is pressed
             const tool = e.button === 2
-                ? TOOL_EYEDROPPER
+                ? TOOL.EYEDROPPER
                 : e.button === 5
-                ? TOOL_ERASER
+                ? TOOL.ERASER
                 : this.props.tool
             return this.pen.start(tool, x, y, e)
         }
 
         if (this.useTouch(e)) {
             // start touch manipulations
-            const touchTool = this.touch.active || e.shiftKey ? TOOL_ZOOM : TOOL_PAN
-            const bail = this.touch.active && this.touch.toolName === TOOL_ZOOM
+            const touchTool = this.touch.active || e.shiftKey ? TOOL.ZOOM : TOOL.PAN
+            const bail = this.touch.active && this.touch.toolName === TOOL.ZOOM
             if (bail) return // We're already zoomin', don't re init
             return this.touch.start(touchTool, x, y, e)
         }
@@ -343,6 +334,7 @@ export class Workspace extends Component
         return (
             <div className='Workspace' ref={this.handleRef}>
                 <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
+                    <div className='Workspace-backdrop' style={{transform: `scale(${this.tab.zoom})`}} />
                     {this.frameCels.map(cel => this.renderCel(cel))}
                     <Cursor.Connected className='Workspace-cursor' data={this.pen.cursor()} scale={this.tab.zoom} />
                 </div>

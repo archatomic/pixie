@@ -31,3 +31,19 @@ export const imageDataToDataURI = (imagedata) =>
     context.putImageData(imagedata, 0, 0)
     return canvas.toDataURL()
 }
+
+export const loadImageContext = async (url) =>
+{
+    const response = await fetch(url)
+    const blob = await response.blob()
+    const image = await createImageBitmap(blob, {})
+
+    const canvas = createNode({ tag: 'canvas' })
+    const context = canvas.getContext('2d')
+
+    canvas.width = image.width
+    canvas.height = image.height
+    context.drawImage(image, 0, 0)
+
+    return context
+}

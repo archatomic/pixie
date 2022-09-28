@@ -1,7 +1,7 @@
 import { BaseTool } from './BaseTool'
 import { fragmentActions } from 'client/store/actions/applicationActions'
 import { locate } from 'client/util/registry'
-import { undoPush } from 'client/store/actions/undoActions'
+import { TOOLOPT } from 'client/constants'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
@@ -19,7 +19,7 @@ export class Fill extends BaseTool
         const application = locate('store').getState().get('application')
         this.tab = application.getActiveTab()
         this.fragment = application.getActiveFragment()
-        this.color = application.primaryColor.getChannels()
+        this.color = application.toolbox.getOption(TOOLOPT.COLOR).getChannels()
 
         if (this.color[3] === 0) return // Early bail, no alpha means no op
 

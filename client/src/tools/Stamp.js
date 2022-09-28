@@ -19,64 +19,6 @@ import { Color } from 'client/model/Color'
 
 export class Stamp
 {
-    static _circleData = {
-        1: [{x: 0, y: 0}],
-        2: [{x: -1, y: -1},{x: 0, y: -1},{x: -1, y: 0},{x: 0, y: 0}],
-        3: [
-            { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 },
-            { x: -1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 0 },
-            { x: -1, y: 1 }, { x: 0, y: 1 }, { x: 1, y: 1 }
-        ],
-        4: [
-            { x: -1, y: -2 }, { x: 0, y: -2 },
-            { x: -2, y: -1 }, { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 },
-            { x: -2, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 0 }, { x: 1, y: 0 },
-            { x: -1, y: 1 }, { x: 0, y: 1 }
-        ]
-    }
-
-    static _getCircleData (size)
-    {
-        size = Math.floor(size)
-        if (!this._circleData[size]) this._writeCircleData(size)
-        return this._circleData[size]
-    }
-    
-    static _writeCircleData (size)
-    {
-        const radius = size / 2
-        const rSq = radius * radius
-
-        const data = []
-        for (let x = 0; x < radius; x++) {
-            for (let y = 0; y < radius; y++) {
-                // TODO: This algorithm is... not great. I'd like something
-                // that generates better shapes, so I can do away with my cached
-                // brush data stopgap
-                if (x * x + y * y > rSq) continue // Out of bounds
-
-                data.push({ x, y })
-
-                const mirrorX = x != 0
-                const mirrorY = y != 0
-                
-                if (mirrorX) data.push({ x: -x, y })
-                if (mirrorY) data.push({ x, y: -y })
-                if (mirrorX && mirrorX) data.push({ x: -x, y: -y })
-            }
-        }
-
-        this._circleData[size] = data
-    }
-
-    static circle (size, opts = {})
-    {
-        opts.width = size
-        opts.height = size
-        opts.data = this._getCircleData(size)
-        return new this(opts)
-    }
-
     /**
      * @param {StampOpts} [param0]
      */

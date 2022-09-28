@@ -14,6 +14,9 @@ export class Tab extends Record({
 }) {
     updateToolCel (imageData, hideActive = false)
     {
+        // Ensure we're creating a new instance here
+        imageData = new ImageData(imageData.data, imageData.width, imageData.height)
+
         if (this.toolCel) return this.setIn(['toolCel', 'data'], imageData)
         return this.merge({
             toolCel: PixieCel.fromImageData(imageData),

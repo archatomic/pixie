@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { SparseImage } from 'client/model/SparseImage'
 import { connect } from 'client/util/connect'
 import { imageDataToDataURI } from 'client/util/graphics'
 import { Component } from 'react'
@@ -56,6 +57,11 @@ export class Cursor extends Component
         return this.props.data instanceof Function
     }
 
+    get isSparseImageCursor ()
+    {
+        return this.props.data instanceof SparseImage
+    }
+
     get cssCursor ()
     {
         if (this.isCssCursor) return this.props.data
@@ -72,7 +78,7 @@ export class Cursor extends Component
                     'Cursor',
                     this.props.className,
                     {
-                        'Cursor--image': this.isImageCursor,
+                        'Cursor--image': this.isImageCursor || this.isSparseImageCursor,
                         'Cursor--css': this.isCssCursor,
                         'Cursor--function': this.isFunctionCursor
                     }
@@ -99,9 +105,16 @@ export class Cursor extends Component
 
     renderCursor ()
     {
+        if (this.isSparseImageCursor) return this.renderSparseImageCursor()
         if (this.isImageCursor) return this.renderImageDataCursor()
         if (this.isFunctionCursor) return this.renderFunctionCursor()
         return null
+    }
+
+    renderSparseImageCursor ()
+    {
+        const datauri = this.props.data.dataURI
+        return <img className='Cursor-cursor' src={datauri} style={this.style}/>
     }
 
     renderImageDataCursor ()
@@ -113,9 +126,6 @@ export class Cursor extends Component
     renderFunctionCursor ()
     {
         const fn = this.props.data
-
-        const x = this.props.x
-        const y = this.props.y
         return <div className='Cursor-cursor' style={this.style}>{fn()} </div>
     }
 }

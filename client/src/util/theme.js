@@ -1,4 +1,3 @@
-import { applicationTitleUpdate } from 'client/store/actions/applicationActions'
 import { error } from './log'
 
 const THEME_LIGHT = 'light'
@@ -8,7 +7,6 @@ let browserDefault = THEME_LIGHT
 
 const updateTheme = (theme) => {
     browserDefault = theme
-    applicationTitleUpdate(theme)
 }
 
 const handleColorSchemePreference = match => {

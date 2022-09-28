@@ -16,14 +16,10 @@
         image-rendering pixelated
         outline 1px solid grey(98)
         background-color grey
-        pointer-events none
+        overflow hidden
 
-    &-stage:before
-        content ''
+    &-backdrop
         display block
-        position absolute
-        left 0
-        top 0
         right 0
         bottom 0
         background-image url(checker)
@@ -31,9 +27,12 @@
         mix-blend-mode multiply
         opacity 0.25
     
-    &-cel, &-cursor
+    &-cel, &-cursor, &-backdrop
         transform-origin top left
-        pointer-events none
         position absolute
         left 0
         top 0
+
+    &-cel
+        touch-action none
+        pointer-events none

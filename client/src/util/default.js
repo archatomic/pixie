@@ -35,7 +35,7 @@ export function defAll (...values) {
  * Check whether or not this value is defined and not-null
  *
  * @param {any} val
- * @param {boolean} nullDefined
+ * @param {boolean} [nullDefined = false]
  * @returns {boolean}
  */
  export const isDefined = (val, nullDefined = false) => {

@@ -1,7 +1,8 @@
-import { Color } from 'client/model/Color'
 import { Pencil } from './Pencil'
-import { Stamp } from './Stamp'
 import { tabActions } from 'client/store/actions/applicationActions'
+import { BLENDMODE, TOOLOPT } from 'client/constants'
+import { Color } from 'client/model/Color'
+import { DrawJob } from 'client/util/DrawJob'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
@@ -10,37 +11,15 @@ import { tabActions } from 'client/store/actions/applicationActions'
 
 export class Eraser extends Pencil
 {
-    getBrush ()
+    get size ()
     {
-        return Stamp.circle(
-            this.application.eraserSize,
-            {
-                color: Color.Transparent,
-                blendAlpha: false
-            }
-        )
+        return this.application.toolbox.getOption(TOOLOPT.ERASER_SIZE)
     }
 
-    drawPixel (x, y)
-    {
-        const last = this.pixels[this.pixels.length - 1]
-        if (last.x === x && last.y === y) return
-        this.pixels.push({ x, y })
-    }
-
-    cancel ()
-    {
-        tabActions.save(this.tab.clearToolCel())
-    }
-
-    getImageData (cel = this.cel)
-    {
-        return this.writeImageData(cel)
-    }
-
-    updateToolCel ()
-    {
-        this.tab = this.tab.updateToolCel(this.getImageData(), true)
-        tabActions.save(this.tab)
+    drawOpts = {
+        color: Color.Transparent,
+        blendmode: BLENDMODE.REPLACE,
+        pixelPerfect: false,
+        previewIncludesTarget: true
     }
 }

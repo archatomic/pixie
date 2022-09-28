@@ -1,5 +1,4 @@
 import { action } from 'client/util/action'
-import { locate } from 'client/util/registry'
 
 export const UNDO_PUSH = 'undo.push'
 export const undoPush = (record, description) => action(UNDO_PUSH, { record, description })

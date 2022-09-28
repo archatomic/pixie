@@ -1,40 +1,48 @@
-import { TOOL_ERASER, TOOL_FILL, TOOL_MOVE, TOOL_PENCIL, TOOL_SELECT, TOOL_ZOOM } from 'client/constants'
+import { TOOL } from 'client/constants'
 
 import { Component } from 'react'
 import { Icon } from 'client/components/icon/icon'
 import { Panel } from 'client/components/panel'
-import { applicationToolSet, applicationTimelineToggle } from 'client/store/actions/applicationActions'
+import { applicationTimelineToggle } from 'client/store/actions/applicationActions'
+import { activateTool } from 'client/store/actions/toolboxActions'
 import classNames from 'classnames'
 import { connect } from 'client/util/connect'
-import { def } from 'client/util/default'
+import { def, isDefined } from 'client/util/default'
 import { go } from 'client/util/navigate'
+import { warn } from 'client/util/log'
+import { safeCall } from 'client/util/safeCall'
 
 export class Tool extends Component
 {
-    static Connected = connect({ 'activeTool': ['application', 'tool'] }, this)
+    static Connected = connect({
+        'activeTool': ['application', 'toolbox', 'active'],
+        'toolRecord': (state, props) => state.getIn(['application', 'toolbox']).getTool(props.tool)
+    }, this)
 
     get active ()
     {
-        if (this.props.active) return true
-        return this.props.activeTool && this.props.activeTool === this.props.tool
+        return def(this.props.active, this.props.activeTool === this.props.tool)
     }
 
     handleClick = () =>
     {
         if (this.props.to) return go(this.props.to)
         if (this.props.onClick) return this.props.onClick()
-        if (this.props.tool) return applicationToolSet(this.props.tool)
+        if (isDefined(this.props.toolRecord)) return activateTool(this.props.tool)
     }
 
     render ()
     {
-        const icon = def(this.props.icon, this.props.tool)
-        const tool = def(this.props.tool, this.props.icon)
+        const icon = def(this.props.icon, this.props.toolRecord.icon)
+        const toolName = def(this.props.name, this.props.toolRecord.name)
+
+        if (!icon) return warn(`Refusing to render an unrenderable tool. NAME="${toolName}", ID="${this.props.tool}"`)
+
         return (
             <div className={classNames(
                 'Toolbar-tool',
                 this.props.className,
-                `Toolbar-tool--${tool}`
+                `Toolbar-tool--${toolName}`
             )}>
                 <Icon
                     subtle
@@ -51,9 +59,9 @@ export class Tool extends Component
 }
 
 const KEY_BINDINGS = {
-    b: TOOL_PENCIL,
-    e: TOOL_ERASER,
-    g: TOOL_FILL,
+    b: () => activateTool(TOOL.PENCIL),
+    e: () => activateTool(TOOL.ERASER),
+    g: () => activateTool(TOOL.FILL),
     t: applicationTimelineToggle
 }
 
@@ -74,8 +82,7 @@ export class Toolbar extends Component
     handleKeyDown = (e) =>
     {
         const tool = KEY_BINDINGS[e.key]
-        if (typeof tool === 'string') applicationToolSet(tool)
-        else if (tool instanceof Function) tool()
+        safeCall(tool)
     }
 
     render ()
@@ -83,11 +90,11 @@ export class Toolbar extends Component
         return (
             <div className='Toolbar'>
                 <Panel tight className='Toolbar-panel'>
-                    <Tool.Connected tool={TOOL_PENCIL} />
-                    <Tool.Connected tool={TOOL_ERASER} />
-                    <Tool.Connected tool={TOOL_FILL} icon='fill-drip'/>
-                    {/*<Tool.Connected tool={TOOL_MOVE} icon='arrows-up-down-left-right'/>
-                    <Tool.Connected tool={TOOL_SELECT} icon='square' />*/}
+                    <Tool.Connected tool={TOOL.PENCIL}/>
+                    <Tool.Connected tool={TOOL.ERASER}/>
+                    <Tool.Connected tool={TOOL.FILL}/>
+                    {/*<Tool.Connected tool={TOOL.MOVE} icon='arrows-up-down-left-right'/>
+                    <Tool.Connected tool={TOOL.SELECT} icon='square' />*/}
                 </Panel>
                 <Panel tight className='Toolbar-panel'>
                     <Tool.Connected active={this.props.timeline} name='timeline' icon='clock' onClick={applicationTimelineToggle}/>

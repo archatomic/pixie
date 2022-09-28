@@ -34,10 +34,17 @@ export class ColorInput extends Component
         return def(this.props.color, Color.Black)
     }
 
-    componentDidUpdate ()
+    componentDidUpdate (props, state)
     {
         if (this.state.expanded && !this.isOpen()) {
             this.handleCancel()
+        }
+
+        if (state.current !== this.state.current) {
+            safeCall(this.props.onInput, {
+                name: this.props.name,
+                value: this.state.current
+            })
         }
     }
 
@@ -47,8 +54,13 @@ export class ColorInput extends Component
             expanded: false,
             initial: this.state.current
         })
+
         document.removeEventListener('click', this.handleCommit)
-        safeCall(this.props.onChange, this.state.current)
+
+        safeCall(this.props.onChange, {
+            name: this.props.name,
+            value: this.state.current
+        })
     }
 
     handleCancel = () =>

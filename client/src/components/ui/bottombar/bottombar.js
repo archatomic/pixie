@@ -5,8 +5,8 @@ import { Panel } from 'client/components/panel'
 import { Mobile } from 'client/components/platform'
 import { Slider } from 'client/components/slider'
 import { Transition } from 'client/components/Transition'
-import { TOOL_ERASER, TOOL_FILL, TOOL_PENCIL } from 'client/constants'
-import { applicationSetBrushSize, applicationSetEraserSize, applicationSetPrimaryColor } from 'client/store/actions/applicationActions'
+import { Color } from 'client/model/Color'
+import { setToolOption } from 'client/store/actions/toolboxActions'
 import { redo, undo } from 'client/store/actions/undoActions'
 import { connect } from 'client/util/connect'
 import { int } from 'client/util/math'
@@ -23,12 +23,9 @@ export class BottomBar extends Component
             return {
                 fragment,
                 timeline: application.timeline,
-                color: application.primaryColor,
                 canUndo: stack?.canUndo,
                 canRedo: stack?.canRedo,
-                pencilSize: application?.pencilSize,
-                eraserSize: application?.eraserSize,
-                tool: application?.tool
+                tool: application?.toolbox?.tool
             }
         },
         this
@@ -36,6 +33,7 @@ export class BottomBar extends Component
 
     handleUndo = () => undo(this.props.fragment)
     handleRedo = () => redo(this.props.fragment)
+    handleOptionChanged = ({ name, value }) => setToolOption(name, value)
 
     render ()
     {
@@ -71,15 +69,22 @@ export class BottomBar extends Component
 
     renderToolOptions ()
     {
-        switch (this.props.tool) {
-            case TOOL_PENCIL:
-                return this.renderPencilOptions()
-            case TOOL_ERASER:
-                return this.renderEraserOptions()
-            case TOOL_FILL:
-                return this.renderFillOptions()
-        }
-        return null
+        if (!this.props.tool.options.length) return null
+        
+        return (
+            <Panel key={this.props.tool.name} className='BottomBar-options'>
+                {this.props.tool.options.map (option => this.renderToolOption(option))}
+            </Panel>
+        )
+    }
+
+    renderToolOption (option)
+    {
+        if (option.value instanceof Color)
+            return this.renderColorPicker(option.id, option.value)
+        
+        if (typeof option.value === 'number')
+            return this.renderSlider(option.id, option.value)
     }
 
     renderTimeline ()
@@ -88,53 +93,37 @@ export class BottomBar extends Component
         return <div className='BottomBar-timeline'>Timeline</div>
     }
 
-    renderPrimaryColorOption ()
+    renderColorPicker (name, color = Color.Black)
     {
-        const color = this.props.color
         return (
-            <div className='BottomBar-color'>
+            <div key={name} className='BottomBar-color'>
                 <ColorInput
+                    name={name}
                     color={color}
-                    onChange={applicationSetPrimaryColor}
+                    onChange={this.handleOptionChanged}
                 />
             </div>
         )
     }
 
-    renderPencilSizeSlider ()
+    renderSlider (name, value = 1)
     {
         return (
-            <div className='BottomBar-size'>
+            <div key={name} className='BottomBar-size'>
                 <Slider
                     vertical
-                    value={this.props.pencilSize}
+                    name={name}
+                    value={value}
                     min={1}
                     max={20}
                     transform={int}
-                    onChange={applicationSetBrushSize}
+                    onChange={this.handleOptionChanged}
                     renderLabel={this.renderLabel}
                 />
             </div>
         )
     }
 
-    renderEraserSizeSlider ()
-    {
-        return (
-            <div className='BottomBar-size'>
-                <Slider
-                    vertical
-                    value={this.props.eraserSize}
-                    min={1}
-                    max={20}
-                    transform={int}
-                    onChange={applicationSetEraserSize}
-                    renderLabel={this.renderLabel}
-                />
-            </div>
-        )
-    }
-    
     renderLabel ({ denormalized })
     {
         const size = `${denormalized / 10}rem`
@@ -145,36 +134,5 @@ export class BottomBar extends Component
                 height: size
             }}
         />
-    }
-
-    renderPencilOptions ()
-    {
-        return <Panel
-            key={this.props.tool}
-            className='BottomBar-options'
-        >
-            {this.renderPrimaryColorOption()}
-            {this.renderPencilSizeSlider()}
-        </Panel>
-    }
-
-    renderEraserOptions ()
-    {
-        return <Panel
-            key={this.props.tool}
-            className='BottomBar-options'
-        >
-            {this.renderEraserSizeSlider()}
-        </Panel>
-    }
-
-    renderFillOptions ()
-    {
-        return <Panel
-            key={this.props.tool}
-            className='BottomBar-options'
-        >
-            {this.renderPrimaryColorOption()}
-        </Panel>
     }
 }

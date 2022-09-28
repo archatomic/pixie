@@ -7,6 +7,7 @@ import { combineReducers } from 'client/store/combineReducers'
 import { promising } from 'client/store/middleware/promising'
 import { register } from 'client/util/registry'
 import { undoReducer } from 'client/store/reducers/undoReducer'
+import { toolboxReducer } from 'client/store/reducers/toolboxReducer'
 
 const compose = _c //window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _c
 
@@ -16,7 +17,8 @@ const reducers = {
     {
       undoManager: undoReducer,
       fragments: PixieFragment.Collection.createReducer('fragment'),
-      tabs: Tab.Collection.createReducer('tab')
+      tabs: Tab.Collection.createReducer('tab'),
+      toolbox: toolboxReducer
     }
   ],
 }

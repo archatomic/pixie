@@ -6,6 +6,7 @@ import { Tab } from './Tab'
 import { UndoManager } from './UndoStack'
 import { getDefaultTheme } from 'client/util/theme'
 import { locate } from 'client/util/registry'
+import { ToolBox } from 'client/model/ToolBox'
 
 export class Application extends Record({
     title: APP_NAME,
@@ -16,16 +17,12 @@ export class Application extends Record({
     cursorX: 0,
     cursorY: 0,
     activeTab: null,
-    tool: 'pencil',
     layers: false,
     timeline: false,
     tabs: Tab.Collection.create(),
     fragments: PixieFragment.Collection.create(),
-    primaryColor: Color.Black,
-    secondaryColor: Color.White,
-    pencilSize: 1,
-    eraserSize: 2,
-    undoManager: new UndoManager()
+    undoManager: new UndoManager(),
+    toolbox: ToolBox.create()
 }) {
     /**
      * @returns {Tab}

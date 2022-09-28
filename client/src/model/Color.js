@@ -1,3 +1,4 @@
+import { BLENDMODE } from 'client/constants'
 import { clamp, mod } from 'client/util/math'
 
 import { Record } from './Record'
@@ -13,6 +14,20 @@ export class Color extends Record({
     static create (r, g, b, a = 1)
     {
         return new this({r, g, b, a})
+    }
+
+    static fromImageData (x, y, imageData)
+    {
+        let i = x
+        if (y instanceof ImageData) imageData = y
+        else i = (x + imageData.width * y) * 4
+
+        return Color.create(
+            imageData.data[i] / 255,
+            imageData.data[i + 1] / 255,
+            imageData.data[i + 2] / 255,
+            imageData.data[i + 3] / 255,
+        )
     }
 
     static Black = this.create(0, 0, 0)
@@ -128,7 +143,6 @@ export class Color extends Record({
                 bPrime = x
                 break
         }
-
 
         return this.merge({
             r: rPrime + m,

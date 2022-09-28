@@ -54,15 +54,28 @@ export class Slider extends Component
     handleStop = () =>
     {
         this.setState({ open: false })
-        safeCall(this.props.onChange, this.state.denormalized)
+        safeCall(this.props.onChange, {
+            name: this.props.name,
+            value: this.state.denormalized,
+            normalized: this.state.value
+        })
     }
 
     handleChange = e =>
     {
         const value = this.props.vertical ? 1 - e.y : e.x
-        this.setState({
+
+        const state = {
             value,
             denormalized: this.denormalize(value)
+        }
+
+        this.setState(state)
+
+        safeCall(this.props.onInput, {
+            name: this.props.name,
+            value: state.denormalized,
+            normalized: state.value
         })
     }
 

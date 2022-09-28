@@ -38,18 +38,19 @@ export const applicationReducer = (application = INITIAL_STATE, action = {}, glo
             return application.set('safeArea', action.payload)
         case APPLICATION_CREATE_NEW:
             return application.createNew(action.payload.width, action.payload.height)
-        case APPLICATION_TOOL_SET:
-            return application.set('tool', action.payload)
         case APPLICATION_LAYERS_TOGGLE:
             return application.set('layers', !application.layers)
         case APPLICATION_TIMELINE_TOGGLE:
             return application.set('timeline', !application.timeline)
-        case APPLICATION_SET_PRIMARY_COLOR:
-            return application.set('primaryColor', action.payload)
-        case APPLICATION_SET_BRUSH_SIZE:
-            return application.set('pencilSize', action.payload)
-        case APPLICATION_SET_ERASER_SIZE:
-            return application.set('eraserSize', action.payload)
+
+        // case APPLICATION_TOOL_SET:
+        //     return application.set('tool', action.payload)
+        // case APPLICATION_SET_PRIMARY_COLOR:
+        //     return application.set('primaryColor', action.payload)
+        // case APPLICATION_SET_BRUSH_SIZE:
+        //     return application.set('pencilSize', action.payload)
+        // case APPLICATION_SET_ERASER_SIZE:
+        //     return application.set('eraserSize', action.payload)
     }
 
     return application
