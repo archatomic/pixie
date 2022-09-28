@@ -25,7 +25,6 @@ export const createImageData = (width, height) =>
 
 export const imageDataToDataURI = (imagedata) =>
 {
-    console.log('generating a data uri')
     canvas.width = imagedata.width
     canvas.height = imagedata.height
     context.putImageData(imagedata, 0, 0)
