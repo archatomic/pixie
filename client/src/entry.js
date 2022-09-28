@@ -11,8 +11,10 @@ import { error } from 'client/util/log'
 import { IS_ANDROID } from './constants'
 import { registerTools } from 'client/registerTools'
 
-if (module?.hot) {
+try {
   module.hot.accept()
+} catch (e) {
+  // suppress
 }
 
 async function setupStatusBar ()
