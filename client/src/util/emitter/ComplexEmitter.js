@@ -1,6 +1,7 @@
 import { SimpleEmitter } from './SimpleEmitter'
 
-export class ComplexEmitter {
+export class ComplexEmitter
+{
      /**
       * Initialize emitters dictionary and the root emitter
       */

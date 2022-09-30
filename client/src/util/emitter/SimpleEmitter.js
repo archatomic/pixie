@@ -1,4 +1,5 @@
-export class SimpleEmitter {
+export class SimpleEmitter
+{
     handlers = []
 
     /**

@@ -1,6 +1,4 @@
 import { Record as ImmutableRecord, OrderedMap } from 'immutable'
-
-import { UNDO } from 'client/store/actions/undoActions'
 import { nanoid } from 'nanoid'
 import { toData } from 'client/util/toData'
 

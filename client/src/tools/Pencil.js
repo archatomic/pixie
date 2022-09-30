@@ -77,6 +77,7 @@ export class Pencil extends BaseTool
      */
     move (data)
     {
+        if (!this.job) return
         this.job.lineTo(data.x, data.y)
         this.job.update()
         this.updateToolCel()
@@ -84,6 +85,7 @@ export class Pencil extends BaseTool
 
     end (data)
     {
+        if (!this.job) return
         this.job.lineTo(data.x, data.y)
         this.job.commit()
         this.persist()

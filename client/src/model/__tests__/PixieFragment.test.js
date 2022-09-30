@@ -1,4 +1,5 @@
 /* eslint-env jest */
+
 const { PixieFragment } = require('../PixieFragment')
 
 describe('PixieFragment', () => {

@@ -11,7 +11,8 @@
         pointer-events none
 
     &--image
-        filter url('#outline')
+        filter url('#outline') invert()
+        mix-blend-mode difference
 
     // e.g. if I wanted to make the outline more visible on dark backgrounds
     // &--dark&--image
