@@ -3,42 +3,117 @@ import { nanoid } from 'nanoid'
 import { toData } from 'client/util/toData'
 
 /**
- * @typedef {object} BaseRecord
+ * There is a problem with this design. The child classes of my record
+ * definitions cannot utilize parent record mutators without losing their
+ * type and requiring recasting.
+ * 
+ * e.g.
+ * ```js
+ * class Foo extends Record({ foo: true }) {
+ *      bar() {
+ *          return false
+ *      }
+ * }
+ * 
+ * Foo.create() // not typed as Foo, rather typed as RecordInstance<{foo: true}>
+ * ```
+ *
+ * @see https://github.com/microsoft/TypeScript/issues/5863
+ */
+
+/**
+ * @typedef {object} BaseRecordProps
  *
  * @property {string} _id
+ * An internal id that tracks permutations of a given record. Most
+ * of the time you'll want to use .pk instead.
+ *
  * @property {boolean} _isNull
+ * Whether or not this is a null record. Set once on creation, and
+ * read using the .null accessor. If you're trying to create
+ * a null record, try referencing Class.Null instead.
  */
 
 /**
  * @template T
  *
- * @typedef {BaseRecord & T} RecordInstance
+ * @typedef {BaseRecordProps & T} RecordProps
+ */
+
+/**
+ * @template T
+ *
+ * @typedef {Partial<RecordProps<T>>} RecordDefinition
+ */
+
+/**
+ * @template T
+ *
+ * @typedef {object} RecordMethods
+ *
+ * @property {boolean} null
+ * Whether or not this is a null record.
+ *
+ * @property {string} pk
+ * The primary key on this model. This is a normalized lookup and will pass
+ * through to whatever the key is on this record.
+ *
+ * @property {(child: string, method: string, ...args: any[]) => any} delegate
+ * Call a child method blindly from it's parent.
+ *
+ * @property {(child: string, method: string, ...args: any[]) => typeof(this)} delegateSet
+ * Call a child mutator and return a mutated instance of this Record.
+ *
+ * @property {(shape: {[key: string]: any}) => boolean} matches
+ * Compare the properties on this record to some dictionary. Returns true if all
+ * of the data in the dictionary matches the data in this record.
+ *
+ * @property {() => any} toData
+ * An overrideable serialization method. Returns either a primitive, or an array
+ * of primitives, or a dictionary of primitives.
+ */
+
+/**
+ * @template T
+ *
+ * @typedef {RecordProps<T> & RecordMethods<T>} RecordInstance
+ */
+
+/**
+ * @template T
+ *
+ * @typedef {object} RecordClassMethods
+ * @property {RecordCollection<T>} Collection
+ * The collection class for this Record.
+ *
+ * @property {RecordInstance<T>} Null
+ * The null record for this Record.
+ *
+ * @property {([props]: RecordDefinition<T>) => RecordInstance<T>} create
+ * Construct an instance without the new keyword. Convenienc method.
  */
  
 /**
  * @template T
  *
- * @typedef {function(new:RecordInstance<T>)} RecordClass
- * @property {() => RecordInstance<T>} create
- * @property {RecordInstance<T>} Null
+ * @typedef {(new([props]: RecordDefinition<T>) => RecordInstance<T>) & RecordClassMethods<T>} RecordClass
  */
  
 /**
  * @template T
- * @param { T } defaults
+ * @param { T } defaults A record schema.
+ * @param { string } [key = 'id'] The primary key of this record. Must be unique.
  * @returns {RecordClass<T>}
  */
-export function Record (defaults)
+export function Record (defaults, key = '_id')
 {
     /**
-     * @type {Partial<T | BaseRecord>}
+     * @type {RecordDefinition<T>}
      */
     const defaultValues = {
         _id: '',
         _isNull: false
     }
-
-    const key = '_id'
 
     /**
      * @typedef {object} Initializer
@@ -173,6 +248,39 @@ export function Record (defaults)
         }
     }
 }
+
+/**
+ * @template T
+ * @typedef {object} RecordCollectionClass
+ * @property {() => (state: RecordCollectionInstance<T>, action: any, globalState: any) => RecordCollectionInstance<T>} createReducer
+ * @property {() => RecordCollectionInstance<T>} create
+ */
+
+/**
+ * @template T
+ * @typedef {object} RecordCollectionInstance
+ */
+
+/**
+ * @template T
+ * @typedef {new:() => RecordCollectionInstance<T> & RecordCollectionClass<T>} RecordCollection
+ */
+
+/**
+ * @template T
+ *
+ * @param {RecordClass<T>} OfType
+ * The record class this collection manages
+ * 
+ * @param {string} [key = '_id']
+ * The primary key. Used to identify when two permutations attach to the same
+ * conceptual record.
+ *
+ * @param {null|RecordInstance<T>} [nullItem = null]
+ * The item to use as a return when get operations don't match anything.
+ * 
+ * @returns {RecordCollection<T>}
+ */
 
 export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
     const pk = (v) => v[key]
