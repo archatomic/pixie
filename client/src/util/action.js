@@ -1,3 +1,4 @@
+import { UNDO_PUSH } from 'client/store/actions/undoActions'
 import { warn } from 'client/util/log'
 import { locate } from "./registry"
 
@@ -16,7 +17,7 @@ export const collectionActions = (name) =>
         {
             action(`${name}.save`, record)
             if (opts.history) action(
-                'undo.push',
+                UNDO_PUSH,
                 {
                     record,
                     description: getDescriptions(opts.history)

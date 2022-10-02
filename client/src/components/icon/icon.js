@@ -21,6 +21,15 @@ import classNames from 'classnames'
  */
 export class Icon extends Component
 {
+    get faClassName ()
+    {
+        return [
+            'fa',
+            this.props.lined ? 'fa-regular' : 'fa-solid',
+            `fa-${this.props.name}`
+        ]
+    }
+
     render ()
     {
         const {
@@ -32,6 +41,7 @@ export class Icon extends Component
             active,
             className,
             tight,
+            lined,
             ...props
         } = this.props
         return (
@@ -47,13 +57,14 @@ export class Icon extends Component
                             'Icon--disabled': disabled,
                             'Icon--rotateLeft': rotateLeft,
                             'Icon--tight': tight,
-                            'Icon--active': active
+                            'Icon--active': active,
+                            'Icon--lined': lined
                         }
                     )
                 }
                 {...props}
             >
-                <i key={name} className={`Icon-glyph fa fa-${name}`} />
+                <i key={name} className={classNames('Icon-glyph', this.faClassName)} />
             </Transition>
         )
     }

@@ -1,4 +1,4 @@
-import { IS_DESKTOP, IS_MOBILE, IS_WINDOWS, RUNTIME } from 'client/constants'
+import { IS_DESKTOP, IS_MOBILE, IS_WEB, RUNTIME } from 'client/constants'
 import { applicationBlur, applicationFocus } from 'client/store/actions/applicationActions'
 
 import { Component } from 'react'
@@ -51,7 +51,7 @@ export class Root extends Component
                 'App--focused': this.props.application.focused,
                 'App--unfocused': !this.props.application.focused,
                 'App--mobile': IS_MOBILE,
-                'App--web': IS_WINDOWS,
+                'App--web': IS_WEB,
                 'App--desktop': IS_DESKTOP
               }
             )

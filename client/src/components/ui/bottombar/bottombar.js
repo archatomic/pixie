@@ -4,6 +4,7 @@ import { Icon } from 'client/components/icon/icon'
 import { Panel } from 'client/components/panel'
 import { Mobile } from 'client/components/platform'
 import { Slider } from 'client/components/slider'
+import { Timeline } from 'client/components/timeline/Timeline'
 import { Transition } from 'client/components/Transition'
 import { Color } from 'client/model/Color'
 import { setToolOption } from 'client/store/actions/toolboxActions'
@@ -90,7 +91,11 @@ export class BottomBar extends Component
     renderTimeline ()
     {
         if (!this.props.timeline) return null
-        return <div className='BottomBar-timeline'>Timeline</div>
+        return (
+            <div className='BottomBar-timeline'>
+                <Timeline.Connected/>
+            </div>
+        )
     }
 
     renderColorPicker (name, color = Color.Black)

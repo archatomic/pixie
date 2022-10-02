@@ -14,10 +14,15 @@ import { Record } from './Record'
 const FIT_PADDING = 20
 
 export class PixieFragment extends Record({
+    /** @type {number} */
     width: DEFAULT_FRAGMENT_WIDTH,
+    /** @type {number} */
     height: DEFAULT_FRAGMENT_HEIGHT,
+    /** @type {PixieLayer.Collection} */
     layers: PixieLayer.Collection.create(),
+    /** @type {PixieFrame.Collection} */
     frames: PixieFrame.Collection.create(),
+    /** @type {Map<any, Map<any, PixieCel>>} */
     cels: Map()
 }) {
     static create ({

@@ -326,6 +326,11 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
             return this.items.forEach(cb)
         }
 
+        keys ()
+        {
+            return this.items.keySeq()
+        }
+
         filter (criteria)
         {
             return this.items.valueSeq().filter(criteria)
@@ -398,6 +403,12 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
             const member = this.items.valueSeq().get(index)
             if (!member) return null
             return member._id
+        }
+
+        positionOf (any)
+        {
+            const id = this.getID(any)
+            return this.items.keySeq().indexOf(id)
         }
 
         remove (v)

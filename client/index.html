@@ -10,9 +10,9 @@
         <svg class='App-filters' width='0' height='0' viewBox='0 0 0 0'>
             <defs>
                 <filter id="outline">
-                    <feMorphology in="SourceAlpha" operator="dilate" radius='1' result="DILATED" />
+                    <feMorphology in="SourceAlpha" operator="erode" radius='1' result="ERODED" />
                     <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0" result="ALPHABIT" />
-                    <feComposite in="DILATED" in2="ALPHABIT" operator="out"/>
+                    <feComposite in="ALPHABIT" in2="ERODED" operator="out"/>
                 </filter>
                 <filter id="marching-ants">
                     <feImage x='0' y='0' width="20" height="20" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAbElEQVQ4ja3UMQ6AMAxDUd88vflnKAIKpdDGkTzmKUssSVxTIvgzJYL77h4rdoImrIJGDFkxCTmxEvENzmDAGJzFhuAK9gquYl0wgz3ALNaADuwAXRhQP8WFAW3bZLH9OCs2BheLw4r1wUylbQjn5DJW9wHnAAAAAElFTkSuQmCC" result="TILE0"/>
