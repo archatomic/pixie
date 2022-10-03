@@ -8,6 +8,9 @@
 
     speed = 0.1s
 
+    &--tight
+        margin 0
+
     &-label
         position absolute
         z-index 1
@@ -34,7 +37,7 @@
 
     &--focus &-label
         color theme.white
-        background theme.cyan
+        background theme.active
 
     &--error:not(&--empty) &-label
         color theme.error
@@ -73,7 +76,7 @@
         background theme.panel
         transition background-color speed ease-in-out
 
-        &:hover
+    &:not(&--focus):hover &-content
             border-color grey(50)
 
     &--empty &-content
@@ -92,7 +95,7 @@
         border-bottom-right-radius 0
 
     &--focus &-content
-        border-color theme.cyan
+        border-color theme.active
         background theme.white
 
     &--pill &-content

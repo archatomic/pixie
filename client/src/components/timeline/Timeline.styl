@@ -2,7 +2,7 @@
     frame-size = 3rem
     inactive-color = grey(80)
 
-    padding rhythm--half
+    padding 0 rhythm--half rhythm--half
 
     &-layer
         display block
@@ -26,4 +26,20 @@
         &--active
             color theme.panel;
             background theme.active;
-   
+    
+    &-controls
+        display flex
+        margin-bottom rhythm--half
+        align-items center
+    
+    &-control
+        color inactive-color
+        font-size 1.2rem
+        width 3rem
+        height 2rem
+
+    &-info
+        font-size 1.2rem
+        flex-grow 1
+        display flex
+        align-items center

@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { connect } from 'client/util/connect'
 import { tabActions, fragmentActions } from 'client/store/actions/applicationActions'
 import { Icon } from 'client/components/icon/icon'
+import { Text } from 'client/components/field/Text'
 
 /**
  * @typedef {import('client/model/PixieFragment').PixieFragment} PixieFragment
@@ -37,24 +38,16 @@ export class Timeline extends Component
         this
     )
 
-    handleFrameActivate = (event) =>
-    {
-        event.stopPropagation()
-        
-    }
-    
-    handleLayerActivate = (event) =>
-    {
-        event.stopPropagation()
-        tabActions.save(this.props.tab.merge({
-            layer: event.currentTarget.dataset.layer
-        }))
-    }
-
     render ()
     {
+        // TODO: Move timeline controls into their own thing
         return (
             <div className={classNames('Timeline', this.props.className, { 'Timeline--open': this.props.open })}>
+                <TimelineControls.Connected
+                    fragment={this.props.fragment}
+                    tab={this.props.tab}
+                    frame={this.props.tab.frame}
+                />
                 <TimelineLayer.Connected
                     tab={this.props.tab}
                     layer={this.props.tab.layer}
@@ -64,6 +57,76 @@ export class Timeline extends Component
             </div>
         )
     }
+}
+
+class TimelineControls extends Component
+{
+    static Connected = connect((state, props) =>
+    {
+        /** @type {Application} */
+        const application = state.get('application')
+        const fragment = props.fragment || application.getActiveFragment()
+        const frame = fragment.frames.find(props.frame)
+
+        return {
+            position: fragment.frames.positionOf(frame) + 1,
+            numFrames: fragment.frames.length,
+            frame
+        }
+    }, this)
+
+    get canDeleteFrame ()
+    {
+        return this.props.numFrames > 1
+    }
+
+    handleBack = () =>
+    {
+        this.setFrame(this.props.position - 2)
+    }
+
+    handleForward = () =>
+    {
+        this.setFrame(this.props.position)
+    }
+
+    handleReset = () =>
+    {
+        this.setFrame(0)
+    }
+
+    handleDeleteFrame = () =>
+    {
+        if (!this.canDeleteFrame) return
+        fragmentActions.save(
+            this.props.fragment.deleteFrame(this.props.frame),
+            { history: 'Delete Frame' }
+        )
+    }
+
+    setFrame (frame)
+    {
+        if (frame < 0) frame = this.props.numFrames - 1
+        if (frame >= this.props.numFrames) frame = 0
+        tabActions.save(this.props.tab.set('frame', frame))
+    }
+
+    render ()
+    {
+        return (
+            <div className='Timeline-controls'>
+                <Icon className='Timeline-control' tight name='backward-fast' onClick={ this.handleReset }/>
+                <Icon className='Timeline-control' tight name='backward-step' onClick={ this.handleBack }/>
+                <Icon className='Timeline-control' tight name='play'/>
+                <Icon className='Timeline-control' tight name='forward-step' onClick={ this.handleForward }/>
+                <div className='Timeline-info'>
+                    <div className='Timeline-frame-number'>{this.props.position}</div>
+                    <Text label='Duration' tight value={this.props.frame.duration}/>
+                    <Icon name='trash' disabled={!this.canDeleteFrame} onClick={this.handleDeleteFrame}/>
+                </div>
+            </div>
+        )
+    }    
 }
 
 class TimelineLayer extends Component

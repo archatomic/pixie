@@ -17,6 +17,7 @@ import { validate } from 'client/util/validation'
  * @prop {string} [className]
  * @prop {boolean} [disabled]
  * @prop {boolean} [pill]
+ * @prop {boolean} [tight]
  * @prop {boolean} [validateOnChange]
  */
 
@@ -106,6 +107,7 @@ export class Field extends Component {
           'Field--error': this.invalid,
           'Field--pill': this.props.pill,
           'Field--disabled': this.props.disabled,
+          'Field--tight': this.props.tight,
           'Field--empty': isEmpty(this.state.value)
         }
       )}
