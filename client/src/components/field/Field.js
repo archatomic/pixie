@@ -4,9 +4,10 @@ import { Component } from 'react'
 import { FormContext } from './Form'
 import { Transition } from '../Transition'
 import classNames from 'classnames'
-import { isEmpty } from 'client/util/default'
+import { def, isEmpty } from 'client/util/default'
 import { randomString } from 'client/util/random'
 import { validate } from 'client/util/validation'
+import { safeCall } from 'client/util/safeCall'
 
 /**
  * @typedef {object} FieldProps
@@ -18,6 +19,8 @@ import { validate } from 'client/util/validation'
  * @prop {boolean} [disabled]
  * @prop {boolean} [pill]
  * @prop {boolean} [tight]
+ * @prop {boolean} [inline]
+ * @prop {boolean} [placeholderLabel]
  * @prop {boolean} [validateOnChange]
  */
 
@@ -37,7 +40,8 @@ export class Field extends Component {
   context
 
   state = {
-    value: this.props.value || this.defaultValue(),
+    rawValue: this.transformValue(def(this.props.value, this.defaultValue())),
+    value: this.transformValue(def(this.props.value, this.defaultValue())),
     id: randomString(),
     focused: false,
     errors: []
@@ -49,25 +53,33 @@ export class Field extends Component {
 
   focus = () => this.setState({ focused: true })
 
-  blur = () => {
-    this.setState({ focused: false })
-    if (this.props.validateOnChange) this.validate()
+  blur = () =>
+  {
+    this.setState({ focused: false, rawValue: this.state.value })
   }
 
-  setValue (value) {
-    this.setState({ value, errors: this.state.value === value ? this.state.errors : [] })
-    if (this.props.validateOnChange) this.validate()
+  setValue (rawValue)
+  {
+    const value = this.transformValue(rawValue)
+    if (!this.state.focused) rawValue = value
+    this.setState({
+      rawValue,
+      value,
+      errors: this.state.value === value ? this.state.errors : []
+    })
+    if (this.props.validateOnChange) this.validate(value)
   }
 
-  validate () {
-    this.setState({ errors: validate(this.state.value, this.props.validate) })
+  validate (value = this.state.value) {
+    this.setState({ errors: validate(value, this.props.validate) })
   }
 
   get invalid () {
     return this.state.errors.length > 0
   }
 
-  componentDidMount () {
+  componentDidMount ()
+  {
     if (!this.context) return
     this.context.registerField(this)
   }
@@ -80,9 +92,21 @@ export class Field extends Component {
   /**
    * @param {FieldProps} props
    */
-  componentDidUpdate (props) {
+  componentDidUpdate (props, state) {
     if (props.value !== this.props.value) {
       this.setValue(this.props.value)
+    }
+
+    if (state.rawValue !== this.state.rawValue) {
+      safeCall(
+        this.props.onChange,
+        {
+          field: this,
+          name: this.props.name,
+          value: this.state.rawValue,
+          oldValue: state.rawValue
+        }
+      )
     }
   }
 
@@ -90,6 +114,12 @@ export class Field extends Component {
 
   contentWasClicked (event) {
     // To be implemented in subclasses
+  }
+
+  transformValue (value)
+  {
+    // to be implemented in subclasses
+    return value
   }
 
   getVariant () {
@@ -103,12 +133,16 @@ export class Field extends Component {
         `Field--${this.getVariant()}`,
         this.props.className,
         {
+          'Field--unfocus': !this.state.focused,
           'Field--focus': this.state.focused,
           'Field--error': this.invalid,
+          'Field--inline': this.props.inline,
+          'Field--placeholderLabel': this.props.placeholderLabel,
           'Field--pill': this.props.pill,
           'Field--disabled': this.props.disabled,
           'Field--tight': this.props.tight,
-          'Field--empty': isEmpty(this.state.value)
+          'Field--empty': isEmpty(this.state.value),
+          'Field--filled': !isEmpty(this.state.value)
         }
       )}
       >

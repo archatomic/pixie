@@ -15,6 +15,8 @@ export class Fill extends BaseTool
      */
     end (data)
     {
+        if (data.x < 0 || data.y < 0) return
+
         /** @type {import('client/model/Application').Application} */
         const application = locate('store').getState().get('application')
         this.tab = application.getActiveTab()
@@ -24,6 +26,8 @@ export class Fill extends BaseTool
         if (this.color[3] === 0) return // Early bail, no alpha means no op
 
         this.cel = this.fragment.getCel(this.tab.layer, this.tab.frame)
+        if (data.x >= this.cel.width || data.y >= this.cel.height) return
+
         if (this.cel.null) {
             this.cel = this.fragment.newCel()
             this._img = this.cel.data

@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { connect } from 'client/util/connect'
 import { tabActions, fragmentActions } from 'client/store/actions/applicationActions'
 import { Icon } from 'client/components/icon/icon'
-import { Text } from 'client/components/field/Text'
+import { NumberField } from 'client/components/field/Number'
 
 /**
  * @typedef {import('client/model/PixieFragment').PixieFragment} PixieFragment
@@ -104,6 +104,14 @@ class TimelineControls extends Component
         )
     }
 
+    handleDurationChanged = ({value}) =>
+    {
+        fragmentActions.save(
+            this.props.fragment.setFrame(this.props.frame.set('duration', value)),
+            { history: 'Delete Frame' }
+        )
+    }
+
     setFrame (frame)
     {
         if (frame < 0) frame = this.props.numFrames - 1
@@ -119,14 +127,33 @@ class TimelineControls extends Component
                 <Icon className='Timeline-control' tight name='backward-step' onClick={ this.handleBack }/>
                 <Icon className='Timeline-control' tight name='play'/>
                 <Icon className='Timeline-control' tight name='forward-step' onClick={ this.handleForward }/>
-                <div className='Timeline-info'>
-                    <div className='Timeline-frame-number'>{this.props.position}</div>
-                    <Text label='Duration' tight value={this.props.frame.duration}/>
-                    <Icon name='trash' disabled={!this.canDeleteFrame} onClick={this.handleDeleteFrame}/>
-                </div>
+                {this.renderTimelineInfo()}
             </div>
         )
-    }    
+    }
+    
+    renderTimelineInfo ()
+    {
+        if (this.props.frame.null) return null
+        return (
+            <div className='Timeline-info' key={this.props.frame.pk}>
+                <div className='Timeline-frame-number'>Frame {this.props.position}</div>
+                <NumberField
+                    className='Timeline-duration'
+                    inline
+                    tight
+                    autoSelectOnFocus
+                    precision={4}
+                    min={0.0001}
+                    max={10}
+                    label='Duration'
+                    value={this.props.frame.duration}
+                    onChange={this.handleDurationChanged}
+                />
+                <Icon name='trash' disabled={!this.canDeleteFrame} onClick={this.handleDeleteFrame}/>
+            </div>
+        )
+    }
 }
 
 class TimelineLayer extends Component
@@ -174,7 +201,7 @@ class TimelineLayer extends Component
                         frame={frame}
                         layer={this.props.layer}
                         tab={this.props.tab}
-                        active={i === this.props.frame || frame.pk === this.props.frame} />
+                        active={this.props.frame} />
                 ))}
                 <div className='Timeline-layer-frame Timeline-layer-frame--button'>
                     <Icon name='plus' onClick={this.handleAddFrame}/>
@@ -198,7 +225,8 @@ class TimelineFrame extends Component
                 : application.getActiveFragment()
             const cel = fragment.getCel(props.layer, props.frame)
             return {
-                cel
+                cel,
+                activeFrame: fragment.frames.find(props.active)
             }
         },
         this
@@ -214,7 +242,7 @@ class TimelineFrame extends Component
     render ()
     {
         const empty = this.props.cel.inherited
-        const active = this.props.active
+        const active = this.props.activeFrame.pk === this.props.frame.pk
         return (
             <div
                 className={classNames(

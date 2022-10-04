@@ -3,44 +3,30 @@
     flex-direction column
     margin-bottom 2em
     margin-top 0.5em
-    align-items flex-end
+    align-items flex-start
     position relative
 
+    unfocused = grey(50)
     speed = 0.1s
 
-    &--tight
-        margin 0
-
     &-label
-        position absolute
-        z-index 1
-        cursor text
-        left calc(0.2em + 0.2rem)
-        top calc(0.8em + 0.2rem)
         display block
+        width auto
         padding-left 0.4em
         padding-right 0.4em
-        transform-origin left
-        transition transform speed ease-in-out, background-color speed ease-in-out, unquote('color') speed ease-in-out
-        transform translate(0, calc(-1.2em - 0.2rem)) scale(0.8)
-        color grey(20)
+        color unfocused
         overflow hidden
-        max-width calc(100% - 0.6em)
-        background-color transparent
-        z-index 2
-        border-radius 1000vh
-
-    &--empty:not(&--focus) &-label
-        transform translate(0, 0) scale(1)
-        color grey(50)
-        background-color transparent
-
-    &--focus &-label
-        color theme.white
-        background theme.active
-
-    &--error:not(&--empty) &-label
-        color theme.error
+        transition transform speed ease-in-out, background-color speed ease-in-out, unquote('color') speed ease-in-out
+    
+    &-content
+        border 2px solid theme.panel
+        border-radius 0.4rem
+        width 100%
+        padding 0.8em
+        position relative
+        z-index 1
+        background theme.panel
+        transition background-color speed ease-in-out, border-color speed ease-in-out
 
     &-errors
         background theme.error
@@ -66,42 +52,94 @@
         &.enter-active
             transform translateY(0)
 
-    &-content
-        border 2px solid theme.panel
-        border-radius 0.4rem
-        width 100%
-        padding 0.8em
-        position relative
-        z-index 1
-        background theme.panel
-        transition background-color speed ease-in-out
-
-    &:not(&--focus):hover &-content
-            border-color grey(50)
+    // Focus / blur styles
+    &--focus
+        .Field-label
+            color theme.active
+        
+        .Field-content
+            border-color theme.active
+            background theme.white
+    
+    &--unfocus:hover &-content
+        border-color grey(50)
 
     &--empty &-content
         background theme.panel
 
-    &--text &-content
-        cursor text
+    // Error styles
+    &--error
+        .Field-label
+            color theme.error
 
-    &-text
-        background transparent
-        display block
-        width 100%
+        .Field-content
+            border-color theme.error
+            border-bottom-right-radius 0
 
-    &--error &-content
-        border-color theme.error
-        border-bottom-right-radius 0
-
-    &--focus &-content
-        border-color theme.active
-        background theme.white
-
+    // Pill variant. Rounds off the content ends.
     &--pill &-content
         border-radius 1.5em
         padding-left 1.5em
         padding-right 1.5em
 
-    &--pill &-label
-        left 1em
+    // Tight variant. Removes padding from around and within the element
+    &--tight
+        margin 0
+    
+        .Field-content
+            padding 0.2em 0.4em
+            border-width 0.1rem
+
+    // Inline variant. Puts label and field sbs
+    &--inline
+        flex-direction row
+        align-items center
+
+        .Field-label
+            flex-shrink 0
+
+    // Variant that uses the label as the placeholder. Will animate out into
+    // part of the border when focused / errored.
+    &--placeholderLabel
+        .Field-label
+            position absolute
+            cursor text
+            left calc(0.2em + 0.2rem)
+            top calc(0.8em + 0.2rem)
+            transform-origin left
+            transform translate(0, calc(-1.2em - 0.2rem)) scale(0.8)
+            max-width calc(100% - 0.6em)
+            background-color transparent
+            z-index 2
+            border-radius 1000vh
+
+        &.Field--pill .Field-label
+            left 1em
+            
+        &.Field--unfocus:hover .Field-label
+            color theme.white
+            background unfocused
+
+        &.Field--empty
+            &.Field--unfocus .Field-label
+                transform translate(0, 0) scale(1)
+                color unfocused
+                background-color transparent
+
+        &.Field--error .Field-label
+            color theme.white
+            background theme.error
+
+        &.Field--focus .Field-label
+            color theme.white
+            background theme.active
+
+    // Text fields specifically
+    &--text 
+        .Field-content
+            cursor text
+
+    input, textarea
+        background transparent
+        display block
+        width 100%

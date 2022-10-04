@@ -72,6 +72,11 @@ export class PixieFragment extends Record({
         return this.delegateSet('frames', 'insert', PixieFrame.create(), at)
     }
 
+    setFrame (frame)
+    {
+        return this.delegateSet('frames', 'add', frame)
+    }
+
     newCel ()
     {
         return PixieCel.create({ width: this.width, height: this.height })

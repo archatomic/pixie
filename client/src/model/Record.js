@@ -1,6 +1,7 @@
 import { Record as ImmutableRecord, OrderedMap } from 'immutable'
 import { nanoid } from 'nanoid'
 import { toData } from 'client/util/toData'
+import { mod } from 'client/util/math'
 
 /**
  * There is a problem with this design. The child classes of my record
@@ -400,7 +401,8 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
 
         positionToID (index)
         {
-            const member = this.items.valueSeq().get(index)
+            const values = this.items.valueSeq()
+            const member = values.get(mod(index, values.count()))
             if (!member) return null
             return member._id
         }
