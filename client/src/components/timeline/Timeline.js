@@ -108,7 +108,15 @@ class TimelineControls extends Component
     {
         fragmentActions.save(
             this.props.fragment.setFrame(this.props.frame.set('duration', value)),
-            { history: 'Delete Frame' }
+            { history: 'Set Duration' }
+        )
+    }
+
+    handleFPSChanged = ({value}) =>
+    {
+        fragmentActions.save(
+            this.props.fragment.setFrame(this.props.frame.setFps(value)),
+            { history: 'Set FPS' }
         )
     }
 
@@ -149,6 +157,18 @@ class TimelineControls extends Component
                     label='Duration'
                     value={this.props.frame.duration}
                     onChange={this.handleDurationChanged}
+                />
+                <NumberField
+                    className='Timeline-duration'
+                    inline
+                    tight
+                    autoSelectOnFocus
+                    precision={4}
+                    min={0.1}
+                    max={10000}
+                    label='FPS'
+                    value={this.props.frame.fps}
+                    onChange={this.handleFPSChanged}
                 />
                 <Icon name='trash' disabled={!this.canDeleteFrame} onClick={this.handleDeleteFrame}/>
             </div>
