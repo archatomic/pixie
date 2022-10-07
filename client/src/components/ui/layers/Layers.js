@@ -153,6 +153,12 @@ class Layer extends Component
                 )}
                 onClick={this.handleLayerActiveSet}
             >
+                <Icon
+                    tight
+                    className='Layers-visibility'
+                    name={this.props.layer.hidden ? 'eye-slash' : 'eye'}
+                    onClick={this.handleVisibilityToggled}
+                />
                 <div className='Layers-preview'>
                     <Image className='Layers-image' cel={this.props.cel} />
                 </div>
@@ -165,12 +171,7 @@ class Layer extends Component
                     />
                 </div>
                 <Icon
-                    className='Layers-visibility'
-                    name={this.props.layer.hidden ? 'eye-slash' : 'eye'}
-                    onClick={this.handleVisibilityToggled}
-                    lined
-                />
-                <Icon
+                    tight
                     className='Layers-delete'
                     name='trash'
                     onClick={this.handleDelete}

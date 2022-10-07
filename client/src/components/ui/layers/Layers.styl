@@ -41,6 +41,10 @@
         padding rhythm--quarter rhythm--half
         width 20rem
 
+        > *
+            flex-shrink 0
+            flex-grow 0
+
     &-add
         border-top 0.1rem solid subtle-border
     
@@ -55,9 +59,15 @@
         color theme.black
         padding 0.3em
         white-space nowrap
+        flex-shrink 1
+        flex-grow 1
     
     &-visibility
         color inactive-color
+        margin-right rhythm--half
+    
+    &-delete
+        margin-left rhythm--half
 
     &-layer--visible &-visibility
         color theme.black
@@ -69,3 +79,5 @@
         background grey(95)
         border none
 
+    &-visibility, &-delete
+        font-size fs--tiny
