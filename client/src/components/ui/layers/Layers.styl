@@ -56,6 +56,8 @@
         border 0.1rem solid subtle-border
 
     &-name
+        font-size fs--small
+        margin-left rhythm--quarter
         color theme.black
         padding 0.3em
         white-space nowrap
@@ -65,9 +67,11 @@
     &-visibility
         color inactive-color
         margin-right rhythm--half
+        font-size fs--tiny
     
     &-delete
-        margin-left rhythm--half
+        margin-left rhythm--quarter
+        font-size fs--tiny
 
     &-layer--visible &-visibility
         color theme.black
@@ -77,7 +81,7 @@
 
     &-layer--active
         background grey(95)
-        border none
+        border-color transparent
 
-    &-visibility, &-delete
-        font-size fs--tiny
+        + *
+            border-top-color transparent
