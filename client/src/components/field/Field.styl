@@ -19,7 +19,7 @@
         transition transform speed ease-in-out, background-color speed ease-in-out, unquote('color') speed ease-in-out
     
     &-content
-        border 2px solid theme.panel
+        border 0.2rem solid theme.panel
         border-radius 0.4rem
         width 100%
         padding 0.8em
@@ -32,7 +32,7 @@
         background theme.error
         color theme.errorText
         padding 0 0.8em
-        font-size 0.8em
+        font-size fs--tiny
         height 1.4em
         margin-bottom -1.4em
         border-radius 0 0 0.4rem 0.4rem
@@ -133,6 +133,23 @@
         &.Field--focus .Field-label
             color theme.white
             background theme.active
+
+    // invisible variant. looks like text
+    &--invisible
+        &, .Field-content, .Field-text
+            border none
+            border-color transparent
+            border-radius 0
+            background transparent
+            padding 0
+            margin 0
+            display static
+
+        .Field-content
+            border-bottom 0.1rem solid transparent
+        
+        &.Field--focus .Field-content
+            border-bottom 0.1rem solid subtle-border
 
     // Text fields specifically
     &--text 

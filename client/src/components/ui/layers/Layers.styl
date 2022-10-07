@@ -5,19 +5,10 @@
     bottom 0
     transition transform 0.3s ease-in-out
     z-index 0
-
-    &-toolbar
-        position absolute
-        top 0
-        right 100%
-        width 0
-        bottom rhythm--half
-        margin-right rhythm--half
-
-        display flex
-        flex-direction column
-        justify-content flex-end
-        z-index 0
+    background theme.panel;
+    // Note: This fixes a mid-animation issue where the right panel snaps
+    // to height while the bottom drawer animates in.
+    box-shadow 50vh 0 0 50vh theme.panel;
 
     &--open
         transform translateX(-100%)
@@ -26,12 +17,11 @@
         position relative
         overflow hidden
         height 100%
-        background theme.panel
         z-index 1
 
     &-list
+        border-bottom 0.1rem solid subtle-border
         transition transform 0.3s ease-in-out
-        margin rhythm--half
         transform translateX(0)
     
     &-list.exit
@@ -44,21 +34,38 @@
         transform translateX(0)
 
     &-layer
-        width 10rem
-        border-radius 0.3rem
-        overflow hidden
-        box-shadow 0 0.3rem 0.3rem rgba(0, 0, 0, 0.2)
-        border 1px solid grey(75)
-    
-        & + &
-            margin-top rhythm--half
+        border-top 0.1rem solid subtle-border
+        display flex
+        align-items center
+        font-size fs--medium
+        padding rhythm--quarter rhythm--half
+        width 20rem
+
+    &-add
+        border-top 0.1rem solid subtle-border
     
     &-preview
-        background white
-        padding-bottom 100%
+        position relative
+        width 2rem
+
+    &-image
+        border 0.1rem solid subtle-border
 
     &-name
-        background theme.white
         color theme.black
         padding 0.3em
+        white-space nowrap
+    
+    &-visibility
+        color inactive-color
+
+    &-layer--visible &-visibility
+        color theme.black
+
+    &-layer--solo &-visibility
+        color theme.active
+
+    &-layer--active
+        background grey(95)
+        border none
 

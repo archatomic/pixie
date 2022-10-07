@@ -84,3 +84,9 @@ export const OVERFLOW = createEnum([
     'NONE',
     'REPEAT'
 ])
+
+export const VISIBILITY = createEnum([
+    'VISIBLE',
+    'HIDDEN',
+    'SOLO'
+])

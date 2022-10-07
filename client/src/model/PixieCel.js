@@ -9,8 +9,7 @@ export class PixieCel extends Record({
     {
         if (props._isNull) return null // Don't create image data
         return new ImageData(props.width, props.height)
-    },
-    inherited: true
+    }
 }) {
     /**
      * @param {ImageData} imageData 

@@ -57,12 +57,12 @@ export class Workspace extends Component
             .toArray()
         
         const activeLayer = this.fragment.getLayer(this.tab.layer).pk
+        const isSoloing = this.fragment.isSoloing()
 
-        // TODO: Respect "inherited"
         for (const { layer, cel } of frameCels) {
             const renderToolCel = layer === activeLayer && this.tab.toolCel
             const skipCel = cel.null || (this.tab.hideActive && layer === activeLayer)
-            const renderCel = !skipCel
+            const renderCel = !skipCel && this.fragment.layers.find(layer).isVisible(isSoloing)
         
             if (renderCel) cels.push(cel)
             if (renderToolCel) cels.push(this.tab.toolCel)

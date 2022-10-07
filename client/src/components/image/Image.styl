@@ -1,0 +1,29 @@
+.Image
+    --width auto
+    --height auto
+    --ar 0
+
+    position relative
+    display block    
+    height auto
+    padding-bottom var(--ar) // Ensure we can set width and height adjusts
+    background white
+    overflow hidden
+    image-rendering pixelated
+
+    &:before, &-canvas
+        content ''
+        display block
+        position absolute
+        left 50%
+        top 50%
+        width var(--width)
+        height var(--width)
+        width 100%
+        height 100%
+        transform translate(-50%, -50%)
+    
+    &:before
+        background url(checker)
+        background-size 10
+        opacity 0.2

@@ -44,7 +44,7 @@ themes = {
         magenta: #b32ba5,
         error: #f7545c,
         errorText: #4f0c0f,
-        success: #79d962
+        success: #79d962,
         successText: #fafafa
     }
 }
@@ -74,11 +74,12 @@ for __theme, __colors in themes
     addGradientTo(__theme, 'grey', __colors.black, __colors.grey, __colors.white)
     addGradientTo(__theme, 'primary', __colors.primary, __colors.secondary, __colors.tertiary)
 
+themes.dark.panel = grey(92)
+themes.light.panel = grey(100)
+
 theme = {}
 for __name, __color in themes[defaultTheme]
     theme[__name] = var(unquote('--theme-' + __name), __color)
-
-theme.panel = grey(92)
 
 enableThemes()
     for theme, colors in themes

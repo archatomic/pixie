@@ -17,6 +17,7 @@ import { safeCall } from 'client/util/safeCall'
  * @prop {string} [name] Machine readable name of the field.
  * @prop {string} [className]
  * @prop {boolean} [disabled]
+ * @prop {boolean} [invisibile]
  * @prop {boolean} [pill]
  * @prop {boolean} [tight]
  * @prop {boolean} [inline]
@@ -140,6 +141,7 @@ export class Field extends Component {
           'Field--placeholderLabel': this.props.placeholderLabel,
           'Field--pill': this.props.pill,
           'Field--disabled': this.props.disabled,
+          'Field--invisible': this.props.invisible,
           'Field--tight': this.props.tight,
           'Field--empty': isEmpty(this.state.value),
           'Field--filled': !isEmpty(this.state.value)

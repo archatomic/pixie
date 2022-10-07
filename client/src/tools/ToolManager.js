@@ -40,8 +40,6 @@ export class ToolManager
 
     setTool (tool)
     {
-        if (tool === this.toolName) return
-
         const old = {
             data: this.data,
             tool: this.tool,

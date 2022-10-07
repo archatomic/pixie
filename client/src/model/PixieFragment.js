@@ -82,10 +82,15 @@ export class PixieFragment extends Record({
         return PixieCel.create({ width: this.width, height: this.height })
     }
 
+    nullCel ()
+    {
+        return PixieCel.Null.merge({width: this.width, height: this.height})
+    }
+
     getCel(layer, frame) {
         layer = this.layers.getID(layer)
         frame = this.frames.getID(frame)
-        return this.cels.getIn([frame, layer], PixieCel.Null)
+        return this.cels.getIn([frame, layer], this.nullCel())
     }
     
     fillCels ()
@@ -125,6 +130,14 @@ export class PixieFragment extends Record({
                 cel: this.getCel(layer, frame)
             }
         })
+    }
+
+    isSoloing ()
+    {
+        for (const layer of this.layers.toArray()) {
+            if (layer.soloed) return true
+        }
+        return false
     }
 
     saveCel (layer, frame, cel)
