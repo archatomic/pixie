@@ -57,6 +57,14 @@ export class Field extends Component {
   blur = () =>
   {
     this.setState({ focused: false, rawValue: this.state.value })
+    safeCall(
+      this.props.onCommit,
+      {
+        field: this,
+        name: this.props.name,
+        value: this.state.rawValue
+      }
+    )
   }
 
   setValue (rawValue)

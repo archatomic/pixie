@@ -166,8 +166,14 @@ export class Workspace extends Component
     handleKeyDown = (e) =>
     {
         if (e.key === 'Escape') return this.handlePointerCancel(e)
-        else if (e.key === 'z' && e.shiftKey && (e.ctrlKey || e.metaKey)) return redo(this.fragment)
-        else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) return undo(this.fragment)
+        else if (e.key === 'z' && e.shiftKey && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault()
+            return redo(this.fragment)
+        }
+        else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault()
+            return undo(this.fragment)
+        }
     }
 
     handleWheel = (e) =>

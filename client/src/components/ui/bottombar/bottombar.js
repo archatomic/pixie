@@ -32,7 +32,7 @@ export class BottomBar extends Component
         this
     )
 
-    handleUndo = () => undo(this.props.fragment)
+    handleUndo = (e) => undo (this.props.fragment)
     handleRedo = () => redo(this.props.fragment)
     handleOptionChanged = ({ name, value }) => setToolOption(name, value)
 

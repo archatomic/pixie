@@ -157,7 +157,12 @@ class Layer extends Component
                     <Image className='Layers-image' cel={this.props.cel} />
                 </div>
                 <div className='Layers-name'>
-                    <Text autoSelectOnFocus invisible value={this.props.layer.name} onChange={this.props.handleNameChanged}/>
+                    <Text
+                        invisible
+                        autoSelectOnFocus
+                        value={this.props.layer.name}
+                        onCommit={this.handleNameChanged}
+                    />
                 </div>
                 <Icon
                     className='Layers-visibility'
