@@ -1,3 +1,5 @@
+let maxSymbol = 0
+
 /**
  * Create an enum of unique values.
  * 
@@ -19,7 +21,7 @@ export const createEnum = (values, { useNames = false } = {}) =>
         }
     } else {
         for (let i = 0; i < values.length; i++) {
-            op[values[i]] = i
+            op[values[i]] = ++maxSymbol
         }
     }
 

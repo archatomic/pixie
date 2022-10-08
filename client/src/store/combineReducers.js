@@ -1,5 +1,7 @@
 import { Map, isImmutable } from 'immutable'
 
+let INITIAL_STATE = Map({})
+
 const get = (object, prop) => {
   if (!object) return undefined
   if (isImmutable(object)) return object.get(prop)
@@ -32,8 +34,13 @@ const execReducer = (reducer, state, action, global = state) => {
   return state
 }
 
+export const setInitialState = (state) =>
+{
+  INITIAL_STATE = state
+}
+
 export const combineReducers = (...args) => {
-  return (state = Map({}), action) => {
+  return (state = INITIAL_STATE, action) => {
     const global = state
 
     for (const reducer of args) {

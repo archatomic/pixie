@@ -28,20 +28,8 @@ export const applicationBlur = () => action(APPLICATION_BLUR)
 export const APPLICATION_CURSOR_UPDATE = 'application.cursor.update'
 export const applicationCursorUpdate = (x, y, down) => action(APPLICATION_CURSOR_UPDATE, { x, y, down })
 
-export const APPLICATION_TAB_OPEN = 'application.tab.open'
-export const applicationTabOpen = (fragment) => action(APPLICATION_TAB_OPEN, fragment)
-
-export const APPLICATION_TAB_CLOSE = 'application.tab.close'
-export const applicationTabClose = (tab) => action(APPLICATION_TAB_CLOSE, tab)
-
-export const APPLICATION_CREATE_NEW = 'application.create.new'
-export const applicationCreateNew = (width, height) => action(APPLICATION_CREATE_NEW, { width, height })
-
-export const tabActions = collectionActions('tab')
-export const fragmentActions = collectionActions('fragment')
-
-export const APPLICATION_TOOL_SET = 'application.tool.set'
-export const applicationToolSet = (tool) => action(APPLICATION_TOOL_SET, tool)
+export const APPLICATION_TAB_FOCUS = 'application.tab.focus'
+export const applicationTabFocus = (tabID) => action(APPLICATION_TAB_FOCUS, tabID)
 
 export const APPLICATION_LAYERS_TOGGLE = 'application.layers.toggle'
 export const applicationLayersToggle = () => action(APPLICATION_LAYERS_TOGGLE)
@@ -49,5 +37,14 @@ export const applicationLayersToggle = () => action(APPLICATION_LAYERS_TOGGLE)
 export const APPLICATION_TIMELINE_TOGGLE = 'application.timeline.toggle'
 export const applicationTimelineToggle = () => action(APPLICATION_TIMELINE_TOGGLE)
 
+export const APPLICATION_TOOL_SET = 'application.tool.set'
+export const applicationToolSet = (tool) => action(APPLICATION_TOOL_SET, tool)
+
 export const APPLICATION_CREATE_LAYER = 'application.layers.create'
 export const applicationCreateLayer = (count = 1, at = null) => action(APPLICATION_CREATE_LAYER, { count, at })
+
+export const tabActions = collectionActions('tab')
+export const fragmentActions = collectionActions('fragment')
+export const layerActions = collectionActions('layer')
+export const frameActions = collectionActions('frame')
+export const celActions = collectionActions('cel')

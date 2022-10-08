@@ -1,6 +1,6 @@
 import { UNDO_PUSH } from 'client/store/actions/undoActions'
-import { warn } from 'client/util/log'
 import { locate } from "./registry"
+import { warn } from 'client/util/log'
 
 export const action = (type, payload) => {
     const store = locate('store')
