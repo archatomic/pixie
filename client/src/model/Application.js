@@ -1,12 +1,11 @@
 import { APP_NAME } from 'client/constants'
-import { Color } from './Color'
 import { PixieFragment } from './PixieFragment'
 import { Record } from './Record'
 import { Tab } from './Tab'
+import { ToolBox } from 'client/model/ToolBox'
 import { UndoManager } from './UndoStack'
 import { getDefaultTheme } from 'client/util/theme'
 import { locate } from 'client/util/registry'
-import { ToolBox } from 'client/model/ToolBox'
 
 export class Application extends Record({
     title: APP_NAME,
@@ -19,8 +18,6 @@ export class Application extends Record({
     activeTab: null,
     layers: false,
     timeline: false,
-    tabs: Tab.Collection.create(),
-    fragments: PixieFragment.Collection.create(),
     undoManager: new UndoManager(),
     toolbox: ToolBox.create()
 }) {
@@ -29,7 +26,8 @@ export class Application extends Record({
      */
     getActiveTab ()
     {
-        return this.tabs.find(this.activeTab)
+        // remove me?
+        return this.state.tabs.find(this.activeTab)
     }
 
     /**
@@ -37,7 +35,8 @@ export class Application extends Record({
      */
     getActiveFragment ()
     {
-        return this.fragments.find(this.getActiveTab().fragment)
+        // remove me, this should go on the tab
+        return this.state.fragments.find(this.getActiveTab().fragment)
     }
 
     /**
@@ -57,35 +56,6 @@ export class Application extends Record({
             cursorY: y,
             cursorDown: down
         })
-    }
-
-    openTab (fragment)
-    {
-        let tab = this.tabs.where({ fragment: fragment.pk }).first()
-        let op = this
-    
-        if (!tab) {
-            tab = Tab.create({ fragment: fragment.pk, zoom: fragment.getDefaultZoom() })
-            op = op.delegateSet('tabs', 'add', tab)
-        }
-
-        return op.set('activeTab', tab.pk)
-    }
-
-    closeTab (tab)
-    {
-        let op = this.delegateSet('tabs', 'delete', tab)
-        if (op.activeTab == this.tabs.getID(tab)) op = op.set('activeTab', this.tabs.first())
-        return op
-    }
-
-    createNew (width, height)
-    {
-        const fragment = PixieFragment.create({ width, height })
-        let op = this.delegateSet('fragments', 'add', fragment)
-        op = op.openTab(fragment)
-        op = op.delegateSet('undoManager', 'push', fragment, 'Created')
-        return op
     }
 
     focus (focused = true)

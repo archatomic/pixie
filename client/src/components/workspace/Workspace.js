@@ -1,15 +1,16 @@
 import './Workspace.styl'
 
 import { MAX_ZOOM, MIN_ZOOM, TOOL, ZOOM_SPEED } from 'client/constants'
-import { applicationCreateNew, applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
+import { applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
+import { clamp, int } from 'client/util/math'
 import { redo, undo } from 'client/store/actions/undoActions'
 
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
-import { ToolManager } from 'client/tools/ToolManager'
-import { clamp, int } from 'client/util/math'
-import { connect } from 'client/util/connect'
 import { Cursor } from 'client/components/cursor'
+import { Operation } from 'client/store/operations'
+import { ToolManager } from 'client/tools/ToolManager'
+import { connect } from 'client/util/connect'
 
 const OVERFLOW_MARGIN = 20
 
@@ -116,7 +117,7 @@ export class Workspace extends Component
     componentDidMount ()
     {
         // TODO: Remove this. This is just a test / dev stub
-        applicationCreateNew(128, 128)
+        Operation.createFragment({ width: 128, height: 128 })
     }
 
     componentWillUnmount ()

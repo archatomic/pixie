@@ -1,7 +1,9 @@
 import { Record as ImmutableRecord, OrderedMap } from 'immutable'
+
+import { locate } from 'client/util/registry'
+import { mod } from 'client/util/math'
 import { nanoid } from 'nanoid'
 import { toData } from 'client/util/toData'
-import { mod } from 'client/util/math'
 
 /**
  * There is a problem with this design. The child classes of my record
@@ -54,6 +56,9 @@ import { mod } from 'client/util/math'
  *
  * @property {boolean} null
  * Whether or not this is a null record.
+ *
+ * @property {import('./State').State} state
+ * Store state convenience getter.
  *
  * @property {string} pk
  * The primary key on this model. This is a normalized lookup and will pass
@@ -166,6 +171,14 @@ export function Record (defaults, key = '_id')
         }
 
         /**
+         * @type {import('./State').State}
+         */
+        get state ()
+        {
+            return locate('store').getState()
+        }
+
+        /**
          * @param {Partial<typeof defaultValues & typeof defaults> | undefined} props
          */
         constructor(props = {})
@@ -260,6 +273,7 @@ export function Record (defaults, key = '_id')
 /**
  * @template T
  * @typedef {object} RecordCollectionInstance
+ * @property {() => {}} forEach
  */
 
 /**
