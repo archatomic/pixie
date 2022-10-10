@@ -6,8 +6,9 @@ import { Image } from 'client/components/image'
 import { Icon } from 'client/components/icon/icon'
 import { def } from 'client/util/default'
 import { VISIBILITY } from 'client/constants'
-import { fragmentActions, tabActions } from 'client/store/actions/applicationActions'
+import { fragmentActions, layerActions, tabActions } from 'client/store/actions/applicationActions'
 import { Text } from 'client/components/field/Text'
+import { Operation } from 'client/store/operations'
 
 export class Layers extends Component
 {
@@ -25,8 +26,8 @@ export class Layers extends Component
                 open: application.layers,
                 tab,
                 fragment,
-                layerPos: fragment.layers.positionOf(tab.layer),
-                layers: fragment.layers
+                layerPos: fragment.layers.indexOf(tab.layer),
+                layers: state.layers.findAll(fragment.layers)
             }
         },
         this
@@ -35,7 +36,7 @@ export class Layers extends Component
     handleLayerAdd = () =>
     {
         const newPos = this.props.layerPos + 1
-        fragmentActions.save(this.props.fragment.addLayer(newPos), { history: 'Create Layer' })
+        Operation.addLayerToFragment(this.props.fragment.pk, newPos)
         tabActions.save(this.props.tab.set('layer', newPos))
     }
 
@@ -81,20 +82,20 @@ class Layer extends Component
 {
     static Connected = connect((state, props) =>
     {
-        const application = state.get('application')
+        const application = state.application
         const fragment = application.getActiveFragment()
         const tab = application.getActiveTab()
-        const frame = fragment.frames.find(def(props.frame, tab.frame))
-        const layer = fragment.layers.find(props.layer)
+        const frame = state.frames.find(def(props.frame, tab.frame))
+        const layer = state.layers.find(props.layer)
         const cel = fragment.getCel(layer, frame)
-        
+
         return {
             fragment,
             frame,
             layer,
             cel,
             tab,
-            active: layer.pk === fragment.layers.find(tab.layer).pk
+            active: layer.pk === state.layers.find(tab.layer).pk
         }
     }, this)
 
@@ -122,20 +123,17 @@ class Layer extends Component
 
     saveLayer (layer, history = 'Save Layer')
     {
-        const fragment = this.props.fragment
-        fragmentActions.save(
-            fragment.delegateSet('layers', 'add', layer),
-            { history }
+        layerActions.save(
+            layer,
+            { history}
         )
     }
 
     handleDelete = () =>
     {
-        const fragment = this.props.fragment
-        fragmentActions.save(
-            fragment.delegateSet('layers', 'remove', this.props.layer),
-            { history: 'Remove Layer' }
-        )
+        layerActions.delete(this.props.layer)
+        fragmentActions.save(fragment.delegateSet('layers', 'remove'))
+        // { history: 'Remove Layer' }
     }
 
     render ()

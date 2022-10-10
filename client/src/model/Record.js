@@ -437,6 +437,19 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
             return this.items.get(this.getID(k), nullItem)
         }
 
+        findAll (keys)
+        {
+            if (keys.toArray) keys = keys.toArray()
+
+            let op = this.constructor.create()
+            for (const id of keys) {
+                const found = this.find(id)
+                if (found.null) continue
+                op = op.add(found)
+            }
+            return op
+        }
+
         where (criteria)
         {
             return this.filter((record) => record.matches(criteria))

@@ -3,9 +3,10 @@ import './Timeline.styl'
 import { Component } from 'react'
 import classNames from 'classnames'
 import { connect } from 'client/util/connect'
-import { tabActions, fragmentActions } from 'client/store/actions/applicationActions'
+import { tabActions, fragmentActions, frameActions } from 'client/store/actions/applicationActions'
 import { Icon } from 'client/components/icon/icon'
 import { NumberField } from 'client/components/field/Number'
+import { Operation } from 'client/store/operations'
 
 /**
  * @typedef {import('client/model/PixieFragment').PixieFragment} PixieFragment
@@ -63,14 +64,13 @@ class TimelineControls extends Component
 {
     static Connected = connect((state, props) =>
     {
-        /** @type {Application} */
-        const application = state.get('application')
+        const application = state.application
         const fragment = props.fragment || application.getActiveFragment()
-        const frame = fragment.frames.find(props.frame)
+        const frame = state.frames.find(props.frame)
 
         return {
-            position: fragment.frames.positionOf(frame) + 1,
-            numFrames: fragment.frames.length,
+            position: fragment.frames.indexOf(frame.pk) + 1,
+            numFrames: fragment.frames.count(),
             frame
         }
     }, this)
@@ -106,16 +106,16 @@ class TimelineControls extends Component
 
     handleDurationChanged = ({value}) =>
     {
-        fragmentActions.save(
-            this.props.fragment.setFrame(this.props.frame.set('duration', value)),
+        frameActions.save(
+            this.props.frame.set('duration', value),
             { history: 'Set Duration' }
         )
     }
 
     handleFPSChanged = ({value}) =>
     {
-        fragmentActions.save(
-            this.props.fragment.setFrame(this.props.frame.setFps(value)),
+        frameActions.save(
+            this.props.frame.setFps(value),
             { history: 'Set FPS' }
         )
     }
@@ -189,10 +189,10 @@ class TimelineLayer extends Component
              */
             const application = state.get('application')
             const fragment = props.fragment
-                ? application.fragments.find(props.fragment)
+                ? state.fragments.find(props.fragment)
                 : application.getActiveFragment()
-            const layer = fragment.getLayer(props.layer)
-            const frames = fragment.frames.toArray()
+            const layer = state.layers.find(props.layer)
+            const frames = state.frames.findAll(fragment.frames).toArray()
             return {
                 layer,
                 frames
@@ -203,10 +203,10 @@ class TimelineLayer extends Component
 
     handleAddFrame = () =>
     {
-        const framePos = this.props.fragment.frames.positionOf(this.props.frame)
+        const framePos = this.props.fragment.frames.indexOf(this.props.frame.pk)
         const newFramePos = framePos + 1
-        const fragment = this.props.fragment.addFrame(newFramePos)
-        fragmentActions.save(fragment, { history: 'Frame Added' })
+        Operation.addFrameToFragment(this.props.fragment.pk, newFramePos)
+        // fragmentActions.save(fragment, { history: 'Frame Added' })
         tabActions.save(this.props.tab.merge({ frame: newFramePos }))
     }
 
@@ -241,12 +241,12 @@ class TimelineFrame extends Component
              */
             const application = state.get('application')
             const fragment = props.fragment
-                ? application.fragments.find(props.fragment)
+                ? state.fragments.find(props.fragment)
                 : application.getActiveFragment()
             const cel = fragment.getCel(props.layer, props.frame)
             return {
                 cel,
-                activeFrame: fragment.frames.find(props.active)
+                activeFrame: state.frames.find(props.active)
             }
         },
         this
@@ -255,7 +255,7 @@ class TimelineFrame extends Component
     handleClick = () =>
     {
         tabActions.save(this.props.tab.merge({
-            frame: this.props.fragment.frames.positionOf(this.props.frame)
+            frame: this.props.fragment.frames.indexOf(this.props.frame.pk)
         }))
     }
 

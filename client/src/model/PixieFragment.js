@@ -5,10 +5,8 @@ import {
     DEFAULT_FRAGMENT_WIDTH
 } from 'client/constants'
 
-import { Map } from 'immutable'
+import { Map, List } from 'immutable'
 import { PixieCel } from './PixieCel'
-import { PixieFrame } from './PixieFrame'
-import { PixieLayer } from './PixieLayer'
 import { Record } from './Record'
 
 const FIT_PADDING = 20
@@ -18,22 +16,18 @@ export class PixieFragment extends Record({
     width: DEFAULT_FRAGMENT_WIDTH,
     /** @type {number} */
     height: DEFAULT_FRAGMENT_HEIGHT,
-    /** @type {PixieLayer.Collection} */
-    layers: PixieLayer.Collection.create(),
-    /** @type {PixieFrame.Collection} */
-    frames: PixieFrame.Collection.create(),
+    /** @type {List<string>} */
+    layers: List(),
+    /** @type {List<string>} */
+    frames: List(),
     /** @type {Map<any, Map<any, PixieCel>>} */
     cels: Map()
 }) {
     static create ({
         width = DEFAULT_FRAGMENT_WIDTH,
-        height = DEFAULT_FRAGMENT_HEIGHT,
-        numLayers = DEFAULT_FRAGMENT_NUM_LAYERS,
-        numFrames = DEFAULT_FRAGMENT_NUM_FRAMES
+        height = DEFAULT_FRAGMENT_HEIGHT
     } = {}) {
         return new PixieFragment({ width, height })
-            .addLayers(numLayers)
-            .addFrames(numFrames)
     }
 
     get aspectRatio ()
@@ -48,53 +42,34 @@ export class PixieFragment extends Record({
         return Math.min(fitWidth, fitHeight)
     }
 
-    addLayers (count)
-    {
-        let op = this
-        for (let i = 1; i <= count; i++) op = op.addLayer()
-        return op
-    }
-
-    addLayer (at = -1)
-    {
-        return this.delegateSet('layers', 'insert', PixieLayer.create(), at)
-    }
-
-    addFrames (count)
-    {
-        let op = this
-        for (let i = 1; i <= count; i++) op = op.addFrame()
-        return op
-    }
-
-    addFrame (at = -1)
-    {
-        return this.delegateSet('frames', 'insert', PixieFrame.create(), at)
-    }
-
     setFrame (frame)
     {
+        // Replace me with operation
         return this.delegateSet('frames', 'add', frame)
     }
 
     newCel ()
     {
+        // Replace me with operation
         return PixieCel.create({ width: this.width, height: this.height })
     }
 
     nullCel ()
     {
+        // Replace me with operation
         return PixieCel.Null.merge({width: this.width, height: this.height})
     }
 
     getCel(layer, frame) {
-        layer = this.layers.getID(layer)
-        frame = this.frames.getID(frame)
+        // Replace me with operation
+        layer = this.state.layers.getID(layer)
+        frame = this.state.frames.getID(frame)
         return this.cels.getIn([frame, layer], this.nullCel())
     }
     
     fillCels ()
     {
+        // Replace me with operation
         let op = this
         this.frames.forEach((_, frame) => {
             this.layers.forEach((_, layer) => {
@@ -106,25 +81,24 @@ export class PixieFragment extends Record({
 
     createCel(layer, frame)
     {
+        // Replace me with operation
         this.saveCel(layer, frame, this.newCel())
     }
 
     getLayer(layer) {
-        return this.layers.find(layer)
+        return this.state.layers.find(layer)
     }
 
     getLayerCels(layer) {
-        layer = this.layers.getID(layer)
-        return this.frames.map(v => {
-            const frame = this.frames.getID(v)
+        layer = this.state.layers.getID(layer)
+        return this.frames.map(frame => {
             return this.getCel(layer, frame)
         })
     }
 
     getFrameCels(frame) {
-        frame = this.frames.getID(frame)
-        return this.layers.map(v => {
-            const layer = this.layers.getID(v)
+        frame = this.state.frames.getID(frame)
+        return this.layers.map(layer => {
             return {
                 layer,
                 cel: this.getCel(layer, frame)
@@ -142,12 +116,14 @@ export class PixieFragment extends Record({
 
     saveCel (layer, frame, cel)
     {
-        layer = this.layers.getID(layer)
-        frame = this.frames.getID(frame)
+        // Replace me with operation
+        layer = this.state.layers.getID(layer)
+        frame = this.state.frames.getID(frame)
         return this.setIn(['cels', frame, layer], cel)
     }
 
     deleteFrame (frame) {
+        // Replace me with operation
         frame = this.frames.getID(frame)
         return this
             .delegateSet('frames', 'remove', frame)
@@ -155,6 +131,7 @@ export class PixieFragment extends Record({
     }
 
     deleteLayer (layer) {
+        // Replace me with operation
         layer = this.layers.getID(layer)
 
         let op = this.delegateSet('layers', 'remove', layer)

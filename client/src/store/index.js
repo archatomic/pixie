@@ -9,6 +9,9 @@ import { promising } from 'client/store/middleware/promising'
 import { register } from 'client/util/registry'
 import { toolboxReducer } from 'client/store/reducers/toolboxReducer'
 import { undoReducer } from 'client/store/reducers/undoReducer'
+import { PixieLayer } from 'client/model/PixieLayer'
+import { PixieFrame } from 'client/model/PixieFrame'
+import { PixieCel } from 'client/model/PixieCel'
 
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _c
 
@@ -22,8 +25,11 @@ const reducers = {
       toolbox: toolboxReducer
     }
   ],
-  fragments: PixieFragment.Collection.createReducer('fragment'),
   tabs: Tab.Collection.createReducer('tab'),
+  fragments: PixieFragment.Collection.createReducer('fragment'),
+  layers: PixieLayer.Collection.createReducer('layer'),
+  frames: PixieFrame.Collection.createReducer('frame'),
+  cels: PixieCel.Collection.createReducer('cel'),
 }
 
 /**

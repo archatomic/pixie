@@ -1,9 +1,11 @@
 import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH } from 'client/constants'
-import { applicationTabFocus, fragmentActions, tabActions } from 'client/store/actions/applicationActions'
+import { applicationTabFocus, fragmentActions, frameActions, layerActions, tabActions } from 'client/store/actions/applicationActions'
 
 import { PixieFragment } from 'client/model/PixieFragment'
 import { Tab } from 'client/model/Tab'
 import { locate } from 'client/util/registry'
+import { PixieLayer } from 'client/model/PixieLayer'
+import { PixieFrame } from 'client/model/PixieFrame'
 
 /**
  * @typedef {import('redux').Store<import('client/model/State').State>} Store
@@ -72,12 +74,47 @@ export class Operation
     } = {})
     {
         const fragment = PixieFragment.create({ width, height, numLayers, numFrames })
-
-        // Todo, move frames and layers outside of the fragment constructor
-
         fragmentActions.save(fragment)
+
+        this.addLayersToFragment(fragment.pk, numLayers)
+        this.addFramesToFragment(fragment.pk, numFrames)
+
         this.openTab(fragment.pk)
         return fragment
+    }
+
+    static addLayerToFragment (fragmentID, at = -1)
+    {
+        const state = this.store.getState()
+        let fragment = state.fragments.find(fragmentID)
+        const layer = PixieLayer.create()
+        layerActions.save(layer)
+        fragment = fragment.delegateSet('layers', 'insert', layer.pk, at)
+        fragmentActions.save(fragment)
+    }
+
+    static addLayersToFragment (fragmentID, num = 1, at = -1)
+    {
+        for (let i = 0; i < num; i++) {
+            this.addLayerToFragment(fragmentID, at)
+        }
+    }
+
+    static addFrameToFragment (fragmentID,at = -1)
+    {
+        const state = this.store.getState()
+        let fragment = state.fragments.find(fragmentID)
+        const frame = PixieFrame.create()
+        frameActions.save(frame)
+        fragment = fragment.delegateSet('frames', 'insert', frame.pk, at)
+        fragmentActions.save(fragment)
+    }
+
+    static addFramesToFragment (fragmentID, num = 1, at = -1)
+    {
+        for (let i = 0; i < num; i++) {
+            this.addFrameToFragment(fragmentID, at)
+        }
     }
 
     static closeTab (tabID)

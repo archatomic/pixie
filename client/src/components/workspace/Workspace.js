@@ -11,12 +11,23 @@ import { Cursor } from 'client/components/cursor'
 import { Operation } from 'client/store/operations'
 import { ToolManager } from 'client/tools/ToolManager'
 import { connect } from 'client/util/connect'
+import { def } from 'client/util/default'
 
 const OVERFLOW_MARGIN = 20
 
 /**
  * @typedef {object} WorkspaceProps
- * @prop {import('client/model/Application').Application} application
+ * @prop {import('client/model/ToolBox').Tool} tool
+ * @prop {boolean} cursorDown
+ * @prop {number} cursorX
+ * @prop {number} cursorY
+ * @prop {import('client/model/PixieFragment').PixieFragment} fragment
+ * @prop {import('client/model/Tab').Tab} tab
+ */
+
+/**
+ * @typedef {object} WorkspaceContainerProps
+ * @prop {string|number} [tab]
  */
 
 /**
@@ -25,13 +36,20 @@ const OVERFLOW_MARGIN = 20
 export class Workspace extends Component
 {
     static Connected = connect(
+        /** @type {import('client/util/connect').StateToProps<WorkspaceContainerProps, WorkspaceProps>} */
+        (state, props) =>
         {
-            'tool': ['application', 'toolbox', 'active'],
-            'cursorDown': ['application', 'cursorDown'],
-            'cursorX': ['application', 'cursorX'],
-            'cursorY': ['application', 'cursorY'],
-            'tab': (state) => state.get('application').getActiveTab(),
-            'fragment': (state) => state.get('application').getActiveFragment(),
+            const tab = state.tabs.find(def(props.tab, state.application.activeTab))
+            const fragment = state.fragments.find(tab.fragment)
+            return {
+                tool: state.application.toolbox.active,
+                cursorDown: state.application.cursorDown,
+                cursorX: state.application.cursorX,
+                cursorY: state.application.cursorY,
+                tab,
+                fragment,
+                layers: state.layers.findAll(fragment.layers)
+            }
         },
         this
     )
@@ -63,7 +81,7 @@ export class Workspace extends Component
         for (const { layer, cel } of frameCels) {
             const renderToolCel = layer === activeLayer && this.tab.toolCel
             const skipCel = cel.null || (this.tab.hideActive && layer === activeLayer)
-            const renderCel = !skipCel && this.fragment.layers.find(layer).isVisible(isSoloing)
+            const renderCel = !skipCel && this.props.layers.find(layer).isVisible(isSoloing)
         
             if (renderCel) cels.push(cel)
             if (renderToolCel) cels.push(this.tab.toolCel)
