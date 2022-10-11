@@ -1,5 +1,5 @@
 import { BaseTool } from './BaseTool'
-import { celActions, fragmentActions } from 'client/store/actions/applicationActions'
+import { celActions } from 'client/store/actions/applicationActions'
 import { locate } from 'client/util/registry'
 import { TOOLOPT } from 'client/constants'
 

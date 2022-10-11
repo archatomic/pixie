@@ -93,7 +93,9 @@ export class Toolbar extends Component
                     <Tool.Connected tool={TOOL.PENCIL}/>
                     <Tool.Connected tool={TOOL.ERASER}/>
                     <Tool.Connected tool={TOOL.FILL}/>
-                    {/*<Tool.Connected tool={TOOL.MOVE} icon='arrows-up-down-left-right'/>
+                    <Tool.Connected tool={TOOL.PAN}/>
+                    <Tool.Connected tool={TOOL.ZOOM}/>
+                    {/*<Tool.Connected tool={TOOL.cMOVE} icon='arrows-up-down-left-right'/>
                     <Tool.Connected tool={TOOL.SELECT} icon='square' />*/}
                 </Panel>
                 <Panel tight className='Toolbar-panel'>

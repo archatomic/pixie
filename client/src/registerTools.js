@@ -28,4 +28,14 @@ export function registerTools () {
         icon: 'fill-drip',
         options: [TOOLOPT.COLOR]
     })
+
+    registerTool(TOOL.PAN, {
+        name: 'Pan',
+        icon: 'arrows-up-down-left-right'
+    })
+
+    registerTool(TOOL.ZOOM, {
+        name: 'Pan',
+        icon: 'magnifying-glass'
+    })
 }
