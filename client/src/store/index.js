@@ -13,7 +13,24 @@ import { PixieLayer } from 'client/model/PixieLayer'
 import { PixieFrame } from 'client/model/PixieFrame'
 import { PixieCel } from 'client/model/PixieCel'
 
-const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _c
+const compose = getCompose()
+
+function getCompose ()
+{
+  if (!window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) return _c
+
+  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+    actionSanitizer: (action) =>
+    {
+      if (action.payload instanceof PixieCel && action.payload.data) return {
+        ...action,
+        payload: action.payload.set('data', '<IMAGE DATA>')
+      }
+      return action
+    },
+    stateSanitizer: (state) => state.sanitize()
+  })
+}
 
 setInitialState(State.create())
 

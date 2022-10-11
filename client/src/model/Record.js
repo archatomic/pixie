@@ -322,7 +322,7 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
                     case 'save':
                         return collection.add(action.payload)
                     case 'delete':
-                        if (action.payload instanceof Array) collection.removeAll(action.payload)
+                        if (action.payload instanceof Array) return collection.removeAll(action.payload)
                         return collection.remove(action.payload)
                     case 'sort':
                         return collection.sort(action.payload)
@@ -435,11 +435,7 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
 
         removeAll (a)
         {
-            let op = this
-            for (const v of a) {
-                op = op.remove(v)
-            }
-            return op
+            return this.delegateSet('items', 'deleteAll', a.map(v => this.getID(v)))
         }
 
         find (k)

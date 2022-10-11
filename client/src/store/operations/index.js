@@ -86,8 +86,16 @@ export class Operation
 
     static getNextLayer (fragment)
     {
+        const state = this.store.getState()
         const tab = state.tabs.where({ fragment }).first()
         return tab ? tab.layer + 1 : -1
+    }
+
+    static getNextFrame (fragment)
+    {
+        const state = this.store.getState()
+        const tab = state.tabs.where({ fragment }).first()
+        return tab ? tab.frame + 1 : -1
     }
 
     static addLayerToFragment (fragmentID, at = null)
@@ -105,6 +113,9 @@ export class Operation
         for (const frame of fragment.frames) {
             this.createCel(fragmentID, frame, layer.pk)
         }
+
+        const tab = state.tabs.where({ fragment: fragment.pk }).first()
+        if (tab) tabActions.save(tab.merge({ layer: at}))
     }
 
     static addLayersToFragment (fragmentID, num = 1, at = -1)
@@ -114,9 +125,12 @@ export class Operation
         }
     }
 
-    static addFrameToFragment (fragmentID, at = -1)
+    static addFrameToFragment (fragmentID, at = null)
     {
         const state = this.store.getState()
+
+        if (at === null) at = this.getNextFrame(fragmentID)
+
         let fragment = state.fragments.find(fragmentID)
         const frame = PixieFrame.create({ fragment: fragmentID })
         frameActions.save(frame)
@@ -126,6 +140,9 @@ export class Operation
         for (const layer of fragment.layers) {
             this.createCel(fragmentID, frame.pk, layer)
         }
+
+        const tab = state.tabs.where({ fragment: fragment.pk }).first()
+        if (tab) tabActions.save(tab.merge({ frame: at}))
     }
 
     static addFramesToFragment (fragmentID, num = 1, at = -1)
@@ -180,6 +197,15 @@ export class Operation
         tabActions.save(tab.set('layer', layer.position()))
     }
 
+    static activateFrame (frameID)
+    {
+        const state = this.store.getState()
+        const frame = state.frames.find(frameID)
+        const tab = state.tabs.where({ fragment: frame.fragment }).first()
+        if (!tab) return
+        tabActions.save(tab.set('frame', frame.position()))
+    }
+
     static deleteLayer (layerID)
     {
         const state = this.store.getState()
@@ -188,6 +214,8 @@ export class Operation
         let fragment = state.fragments.find(layer.fragment)
         let tab = state.tabs.where({ fragment: layer.fragment }).first()
         const maxIndex = fragment.layers.count() - 2
+
+        if (maxIndex < 0) return // refuse to delete the last layer
 
         // Reselect active layer
         if (tab?.layer >= maxIndex) tab = tab.set('layer', maxIndex)
@@ -207,5 +235,36 @@ export class Operation
         fragmentActions.save(fragment)
         celActions.delete(cels)
         layerActions.delete(layer)
+    }
+    
+    static deleteFrame (frameID)
+    {
+        const state = this.store.getState()
+        const frame = state.frames.find(frameID)
+    
+        let fragment = state.fragments.find(frame.fragment)
+        let tab = state.tabs.where({ fragment: frame.fragment }).first()
+        const maxIndex = fragment.frames.count() - 2
+
+        if (maxIndex < 0) return // refuse to delete the last frame
+
+        // Reselect active layer
+        if (tab?.frame >= maxIndex) tab = tab.set('frame', maxIndex)
+
+        // Remove from fragment
+        fragment = fragment.set('frames', fragment.frames.filter(v => v !== frameID))
+
+        // Remove orphaned cels
+        const cels = []
+        for (const cel of fragment.getCels({ frame: frameID })) {
+            fragment = fragment.deleteIn(['cels', cel.frame, cel.layer])
+            cels.push(cel.cel)
+        }
+
+        // persist all
+        if (tab) tabActions.save(tab)
+        fragmentActions.save(fragment)
+        celActions.delete(cels)
+        frameActions.delete(frame)
     }
 }

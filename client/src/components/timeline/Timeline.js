@@ -35,7 +35,6 @@ export class Timeline extends Component
 
     render ()
     {
-        // TODO: Move timeline controls into their own thing
         return (
             <div className={classNames('Timeline', this.props.className, { 'Timeline--open': this.props.open })}>
                 <TimelineControls.Connected tab={this.props.tab} />
@@ -67,12 +66,12 @@ class TimelineControls extends Component
 
     handleBack = () =>
     {
-        this.setFrame(this.props.position - 2)
+        this.setFrame(this.props.position - 1)
     }
 
     handleForward = () =>
     {
-        this.setFrame(this.props.position)
+        this.setFrame(this.props.position + 1)
     }
 
     handleReset = () =>
@@ -83,10 +82,7 @@ class TimelineControls extends Component
     handleDeleteFrame = () =>
     {
         if (!this.canDeleteFrame) return
-        fragmentActions.save(
-            this.props.fragment.deleteFrame(this.props.frame),
-            { history: 'Delete Frame' }
-        )
+        Operation.deleteFrame(this.props.frame.pk)
     }
 
     handleDurationChanged = ({value}) =>
@@ -130,7 +126,7 @@ class TimelineControls extends Component
         if (this.props.frame.null) return null
         return (
             <div className='Timeline-info' key={this.props.frame.pk}>
-                <div className='Timeline-frame-number'>Frame {this.props.position}</div>
+                <div className='Timeline-frame-number'>Frame {this.props.position + 1}</div>
                 <NumberField
                     className='Timeline-duration'
                     inline
@@ -172,6 +168,7 @@ class TimelineLayer extends Component
             const tab = state.getTab(props.tab)
             const fragment = state.fragments.find(tab.fragment)
             return {
+                tab,
                 cels: fragment.getCels({ layer: tab.layer })
             }
         },
@@ -180,11 +177,7 @@ class TimelineLayer extends Component
 
     handleAddFrame = () =>
     {
-        const framePos = this.props.fragment.frames.indexOf(this.props.frame.pk)
-        const newFramePos = framePos + 1
-        Operation.addFrameToFragment(this.props.fragment.pk, newFramePos)
-        // fragmentActions.save(fragment, { history: 'Frame Added' })
-        tabActions.save(this.props.tab.merge({ frame: newFramePos }))
+        Operation.addFrameToFragment(this.props.tab.fragment)
     }
 
     render ()
@@ -218,10 +211,7 @@ class TimelineFrame extends Component
 
     handleClick = () =>
     {
-        // operations.activateFrame(this.props.frame.pk)
-        tabActions.save(this.props.tab.merge({
-            frame: this.props.fragment.frames.indexOf(this.props.frame.pk)
-        }))
+        Operation.activateFrame(this.props.frame.pk)
     }
 
     render ()

@@ -103,8 +103,8 @@ export class PixieFragment extends Record({
      */
     getCels (celopts = {})
     {
-        const frames = celopts.frame ? [celopts.frame] : this.frames
-        const layers = celopts.layer ? [celopts.layer] : this.layers
+        const frames = celopts.frame !== undefined ? [celopts.frame] : this.frames
+        const layers = celopts.layer !== undefined ? [celopts.layer] : this.layers
 
         if (celopts.visible === true) {
             const visible = []

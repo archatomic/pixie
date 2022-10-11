@@ -57,4 +57,15 @@ export class State extends Record({
         if (!fragmentId) fragmentId = this.getTab().fragment
         return this.fragments.find(fragmentId)
     }
+
+    sanitize ()
+    {
+        let op = this
+        this.cels.forEach(cel =>
+        {
+            if (!cel.data) return
+            op = op.delegateSet('cels', 'add', cel.set('data', '<IMAGE DATA>'))
+        })
+        return op
+    }
 }
