@@ -24,16 +24,10 @@ import { Operation } from 'client/store/operations'
 export class Timeline extends Component
 {
     static Connected = connect(
-        state =>
+        (state, props) =>
         {
-            /** @type {Application} */
-            const application = state.get('application')
-            const tab = application.getActiveTab()
-            const fragment = application.getActiveFragment()
-
             return {
-                tab,
-                fragment
+                tab: state.getTab(props.tab)
             }
         },
         this
@@ -44,17 +38,8 @@ export class Timeline extends Component
         // TODO: Move timeline controls into their own thing
         return (
             <div className={classNames('Timeline', this.props.className, { 'Timeline--open': this.props.open })}>
-                <TimelineControls.Connected
-                    fragment={this.props.fragment}
-                    tab={this.props.tab}
-                    frame={this.props.tab.frame}
-                />
-                <TimelineLayer.Connected
-                    tab={this.props.tab}
-                    layer={this.props.tab.layer}
-                    frame={this.props.tab.frame}
-                    fragment={this.props.fragment}
-                />
+                <TimelineControls.Connected tab={this.props.tab} />
+                <TimelineLayer.Connected tab={this.props.tab} />
             </div>
         )
     }
@@ -64,12 +49,12 @@ class TimelineControls extends Component
 {
     static Connected = connect((state, props) =>
     {
-        const application = state.application
-        const fragment = props.fragment || application.getActiveFragment()
-        const frame = state.frames.find(props.frame)
+        const tab = state.getTab(props.tab)
+        const fragment = state.fragments.find(tab.fragment)
+        const frame = state.frames.find(tab.frame)
 
         return {
-            position: fragment.frames.indexOf(frame.pk) + 1,
+            position: frame.position(),
             numFrames: fragment.frames.count(),
             frame
         }
@@ -184,18 +169,10 @@ class TimelineLayer extends Component
     static Connected = connect(
         (state, props) =>
         {
-            /**
-             * @type {Application}
-             */
-            const application = state.get('application')
-            const fragment = props.fragment
-                ? state.fragments.find(props.fragment)
-                : application.getActiveFragment()
-            const layer = state.layers.find(props.layer)
-            const frames = state.frames.findAll(fragment.frames).toArray()
+            const tab = state.getTab(props.tab)
+            const fragment = state.fragments.find(tab.fragment)
             return {
-                layer,
-                frames
+                cels: fragment.getCels({ layer: tab.layer })
             }
         },
         this
@@ -214,14 +191,8 @@ class TimelineLayer extends Component
     {
         return (
             <div className='Timeline-layer'>
-                {this.props.frames.map((frame, i) => (
-                    <TimelineFrame.Connected
-                        key={frame.pk}
-                        fragment={this.props.fragment}
-                        frame={frame}
-                        layer={this.props.layer}
-                        tab={this.props.tab}
-                        active={this.props.frame} />
+                {this.props.cels.map(({ frame }) => (
+                    <TimelineFrame.Connected key={frame} frame={frame} />
                 ))}
                 <div className='Timeline-layer-frame Timeline-layer-frame--button'>
                     <Icon name='plus' onClick={this.handleAddFrame}/>
@@ -236,17 +207,10 @@ class TimelineFrame extends Component
     static Connected = connect(
         (state, props) =>
         {
-            /**
-             * @type {Application}
-             */
-            const application = state.get('application')
-            const fragment = props.fragment
-                ? state.fragments.find(props.fragment)
-                : application.getActiveFragment()
-            const cel = fragment.getCel(props.layer, props.frame)
+            const frame = state.frames.find(props.frame)
             return {
-                cel,
-                activeFrame: state.frames.find(props.active)
+                frame,
+                active: frame.active()
             }
         },
         this
@@ -254,6 +218,7 @@ class TimelineFrame extends Component
 
     handleClick = () =>
     {
+        // operations.activateFrame(this.props.frame.pk)
         tabActions.save(this.props.tab.merge({
             frame: this.props.fragment.frames.indexOf(this.props.frame.pk)
         }))
@@ -261,14 +226,13 @@ class TimelineFrame extends Component
 
     render ()
     {
-        const empty = this.props.cel.inherited
-        const active = this.props.activeFrame.pk === this.props.frame.pk
+        const empty = false
         return (
             <div
                 className={classNames(
                     'Timeline-layer-frame',
                     {
-                        'Timeline-layer-frame--active': active,
+                        'Timeline-layer-frame--active': this.props.active,
                         'Timeline-layer-frame--empty': empty,
                     }
                 )}
