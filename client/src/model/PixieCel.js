@@ -3,6 +3,7 @@ import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_WIDTH } from 'client/constant
 import { Record } from './Record'
 
 export class PixieCel extends Record({
+    fragment: null,
     width: DEFAULT_FRAGMENT_WIDTH,
     height: DEFAULT_FRAGMENT_HEIGHT,
     data: (props) =>

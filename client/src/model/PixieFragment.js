@@ -1,7 +1,5 @@
 import {
     DEFAULT_FRAGMENT_HEIGHT,
-    DEFAULT_FRAGMENT_NUM_FRAMES,
-    DEFAULT_FRAGMENT_NUM_LAYERS,
     DEFAULT_FRAGMENT_WIDTH
 } from 'client/constants'
 
@@ -11,16 +9,21 @@ import { Record } from './Record'
 
 const FIT_PADDING = 20
 
+/**
+ * @typedef {string} FrameID
+ * @typedef {string} LayerID
+ */
+
 export class PixieFragment extends Record({
     /** @type {number} */
     width: DEFAULT_FRAGMENT_WIDTH,
     /** @type {number} */
     height: DEFAULT_FRAGMENT_HEIGHT,
-    /** @type {List<string>} */
+    /** @type {List<LayerID>} */
     layers: List(),
-    /** @type {List<string>} */
+    /** @type {List<FrameID>} */
     frames: List(),
-    /** @type {Map<any, Map<any, PixieCel>>} */
+    /** @type {Map<FrameID, Map<LayerID, string>>} */
     cels: Map()
 }) {
     static create ({
@@ -60,58 +63,70 @@ export class PixieFragment extends Record({
         return PixieCel.Null.merge({width: this.width, height: this.height})
     }
 
-    getCel(layer, frame) {
+    getCelKey(layer, frame) {
         // Replace me with operation
         layer = this.state.layers.getID(layer)
         frame = this.state.frames.getID(frame)
-        return this.cels.getIn([frame, layer], this.nullCel())
-    }
-    
-    fillCels ()
-    {
-        // Replace me with operation
-        let op = this
-        this.frames.forEach((_, frame) => {
-            this.layers.forEach((_, layer) => {
-                op = op.createCel(layer, frame)
-            })
-        })
-        return op
-    }
-
-    createCel(layer, frame)
-    {
-        // Replace me with operation
-        this.saveCel(layer, frame, this.newCel())
+        const cel = this.cels.getIn([frame, layer])
+        return {
+            layer,
+            frame,
+            cel
+        }
     }
 
     getLayer(layer) {
         return this.state.layers.find(layer)
     }
 
-    getLayerCels(layer) {
-        layer = this.state.layers.getID(layer)
-        return this.frames.map(frame => {
-            return this.getCel(layer, frame)
-        })
-    }
+    /**
+     * @typedef {object} CelOptions
+     * @property {string} [frame]
+     * @property {string} [layer]
+     * @property {boolean} [visible]
+     */
 
-    getFrameCels(frame) {
-        frame = this.state.frames.getID(frame)
-        return this.layers.map(layer => {
-            return {
-                layer,
-                cel: this.getCel(layer, frame)
-            }
-        })
-    }
+    /**
+     * @typedef {object} CelDef
+     * @property {string} frame
+     * @property {string} layer
+     * @property {string} cel
+     */
 
-    isSoloing ()
+    /**
+     * Fetch cel keys. Can drill down to a frame and / or layer, or choose
+     * to only fetch visible cels.
+     *
+     * @param {CelOptions} celopts
+     *
+     * @returns {CelDef[]}
+     */
+    getCels (celopts = {})
     {
-        for (const layer of this.layers.toArray()) {
-            if (layer.soloed) return true
+        const frames = celopts.frame ? [celopts.frame] : this.frames
+        const layers = celopts.layer ? [celopts.layer] : this.layers
+
+        if (celopts.visible === true) {
+            const visible = []
+            const soloed = []
+            for (const frame of frames) {
+                for (const layer of layers) {
+                    const cel = this.getCelKey(layer, frame)
+                    const l = this.state.layers.get(layer)
+                    if (l.soloed) soloed.push(cel)
+                    if (l.visible) visible.push(cel)
+                }
+            }
+            return soloed.length > 0 ? soloed : visible
         }
-        return false
+
+        const op = []
+        for (const frame of frames) {
+            for (const layer of layers) {
+                op.push(this.getCelKey(layer, frame))
+            }
+        }
+        return op
     }
 
     saveCel (layer, frame, cel)

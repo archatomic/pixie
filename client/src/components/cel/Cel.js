@@ -4,6 +4,7 @@ import { Component } from 'react'
 import classNames from 'classnames'
 import { createNode } from 'client/util/createNode'
 import { def } from 'client/util/default'
+import { connect } from 'client/util/connect'
 
 /**
  * @typedef {object} CelProps
@@ -14,7 +15,18 @@ import { def } from 'client/util/default'
 /**
  * @extends {Component<CelProps>}
  */
-export class Cel extends Component {
+export class Cel extends Component
+{
+    static Connected = connect(
+        (state, props) =>
+        {
+            return {
+                cel: state.cels.find(props.cel)
+            }
+        },
+        this
+    )
+
     handleRef = e =>
     {
         if (e) this.mountCanvas(e)

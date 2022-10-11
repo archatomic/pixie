@@ -4,11 +4,11 @@ import classNames from 'classnames'
 import { connect } from 'client/util/connect'
 import { Image } from 'client/components/image'
 import { Icon } from 'client/components/icon/icon'
-import { def } from 'client/util/default'
 import { VISIBILITY } from 'client/constants'
 import { fragmentActions, layerActions, tabActions } from 'client/store/actions/applicationActions'
 import { Text } from 'client/components/field/Text'
 import { Operation } from 'client/store/operations'
+import { safeCall } from 'client/util/safeCall'
 
 export class Layers extends Component
 {
@@ -21,13 +21,13 @@ export class Layers extends Component
             const application = state.get('application')
             const fragment = application.getActiveFragment()
             const tab = application.getActiveTab()
+            const cels = fragment.getCels({ frame: tab.frame })
 
             return {
+                fragment: fragment.pk,
                 open: application.layers,
-                tab,
-                fragment,
-                layerPos: fragment.layers.indexOf(tab.layer),
-                layers: state.layers.findAll(fragment.layers)
+                cels,
+                layerPos: tab.layer
             }
         },
         this
@@ -36,8 +36,7 @@ export class Layers extends Component
     handleLayerAdd = () =>
     {
         const newPos = this.props.layerPos + 1
-        Operation.addLayerToFragment(this.props.fragment.pk, newPos)
-        tabActions.save(this.props.tab.set('layer', newPos))
+        Operation.addLayerToFragment(this.props.fragment, newPos)
     }
 
     render ()
@@ -53,10 +52,15 @@ export class Layers extends Component
 
     renderLayerList ()
     {
-        if (!this.props.layers) return null
         return (
             <div className='Layers-list'>
-                {this.props.layers.toArray().reverse().map(layer => <Layer.Connected key={layer.pk} layer={layer}/>)}
+                {this.props.cels.reverse().map(
+                    ({layer, cel}) => <Layer.Connected
+                        key={cel}
+                        layer={layer}
+                        cel={cel}
+                    />
+                )}
                 {this.renderAddLayerButton()}
             </div>
         )
@@ -82,20 +86,13 @@ class Layer extends Component
 {
     static Connected = connect((state, props) =>
     {
-        const application = state.application
-        const fragment = application.getActiveFragment()
-        const tab = application.getActiveTab()
-        const frame = state.frames.find(def(props.frame, tab.frame))
         const layer = state.layers.find(props.layer)
-        const cel = fragment.getCel(layer, frame)
+        const cel = state.cels.find(props.cel)
 
         return {
-            fragment,
-            frame,
             layer,
             cel,
-            tab,
-            active: layer.pk === state.layers.find(tab.layer).pk
+            active: layer.active()
         }
     }, this)
 
@@ -113,7 +110,7 @@ class Layer extends Component
     handleLayerActiveSet = (e) =>
     {
         if (this.props.active) return
-        tabActions.save(this.props.tab.set('layer', this.props.layer.pk))
+        Operation.activateLayer(this.props.layer.pk)
     }
 
     handleNameChanged = ({ value }) =>
@@ -129,11 +126,11 @@ class Layer extends Component
         )
     }
 
-    handleDelete = () =>
+    handleDelete = (e) =>
     {
-        layerActions.delete(this.props.layer)
-        fragmentActions.save(fragment.delegateSet('layers', 'remove'))
-        // { history: 'Remove Layer' }
+        e.preventDefault()
+        e.stopPropagation()
+        Operation.deleteLayer(this.props.layer.pk)
     }
 
     render ()

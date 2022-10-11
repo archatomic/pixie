@@ -17,7 +17,7 @@ export function toData(value) {
     if (isPlainObject(value)) {
         const data = {}
         for (const key of Object.keys(value)) {
-            if (key[0] === '_') continue
+            if (key[0] === '_' && key !== '_id') continue
             data[key] = toData(value[key])
         }
         return data

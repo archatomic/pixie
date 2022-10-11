@@ -41,6 +41,11 @@ export class Workspace extends Component
         {
             const tab = state.tabs.find(def(props.tab, state.application.activeTab))
             const fragment = state.fragments.find(tab.fragment)
+
+            const frame = tab.frame
+            const cels = fragment.getCels({ frame })
+            const layers = state.layers.findAll(fragment.layers)
+
             return {
                 tool: state.application.toolbox.active,
                 cursorDown: state.application.cursorDown,
@@ -48,7 +53,12 @@ export class Workspace extends Component
                 cursorY: state.application.cursorY,
                 tab,
                 fragment,
-                layers: state.layers.findAll(fragment.layers)
+                layers,
+                cels
+
+                // tab,
+                // fragment,
+                // layers: state.layers.findAll(fragment.layers)
             }
         },
         this
@@ -71,9 +81,7 @@ export class Workspace extends Component
     get frameCels ()
     {
         const cels = []
-        const frameCels = this.fragment
-            .getFrameCels(this.tab.frame)
-            .toArray()
+        const frameCels = this.fragment.getCels({ frame: this.tab.frame })
         
         const activeLayer = this.fragment.getLayer(this.tab.layer).pk
         const isSoloing = this.fragment.isSoloing()
@@ -355,22 +363,21 @@ export class Workspace extends Component
 
     render ()
     {
-        if (this.fragment.null) return null
         return (
             <div className='Workspace' ref={this.handleRef}>
                 <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
                     <div className='Workspace-backdrop' style={{transform: `scale(${this.tab.zoom})`}} />
-                    {this.frameCels.map(cel => this.renderCel(cel))}
+                    {this.props.cels.map(cel => this.renderCel(cel))}
                     <Cursor.Connected className='Workspace-cursor' data={this.pen.cursor()} scale={this.tab.zoom} />
                 </div>
             </div>
         )
     }
 
-    renderCel (cel)
+    renderCel ({ cel, layer, frame })
     {
         return (
-            <div key={cel.pk} className='Workspace-cel' style={{transform: `scale(${this.tab.zoom})`}}>
+            <div key={cel} className='Workspace-cel' style={{transform: `scale(${this.tab.zoom})`}}>
                 <Cel key={cel.pk} cel={cel}/>
             </div>
         )
