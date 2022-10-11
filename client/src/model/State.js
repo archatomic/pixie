@@ -9,8 +9,19 @@ import { ToolBox } from 'client/model/ToolBox'
 import { UndoManager } from 'client/model/UndoStack'
 
 export class State extends Record({
+    /**
+     * @type {Application}
+     */
     application: Application.create(),
+
+    /**
+     * @type {UndoManager}
+     */
     history: UndoManager.create(),
+
+    /**
+     * @type {ToolBox}
+     */
     toolbox: ToolBox.create(),
 
     /** @type {import('./Record').RecordCollectionInstance<PixieFragment>} */

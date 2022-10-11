@@ -75,6 +75,12 @@ export class PixieFragment extends Record({
         }
     }
 
+    getCel (layer, frame)
+    {
+        const { cel } = this.getCelKey(layer, frame)
+        return this.state.cels.find(cel)
+    }
+
     getLayer(layer) {
         return this.state.layers.find(layer)
     }
@@ -126,34 +132,6 @@ export class PixieFragment extends Record({
                 op.push(this.getCelKey(layer, frame))
             }
         }
-        return op
-    }
-
-    saveCel (layer, frame, cel)
-    {
-        // Replace me with operation
-        layer = this.state.layers.getID(layer)
-        frame = this.state.frames.getID(frame)
-        return this.setIn(['cels', frame, layer], cel)
-    }
-
-    deleteFrame (frame) {
-        // Replace me with operation
-        frame = this.frames.getID(frame)
-        return this
-            .delegateSet('frames', 'remove', frame)
-            .delegateSet('cels', 'delete', frame)
-    }
-
-    deleteLayer (layer) {
-        // Replace me with operation
-        layer = this.layers.getID(layer)
-
-        let op = this.delegateSet('layers', 'remove', layer)
-
-        // Delete layer cels
-        op.cels.forEach((_, i) => { op = op.deleteIn(['cels', i, layer]) })
-
         return op
     }
 }

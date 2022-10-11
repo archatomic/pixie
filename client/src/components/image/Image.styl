@@ -2,16 +2,19 @@
     --width auto
     --height auto
     --ar 0
+    --checker 1rem
 
     position relative
     display block    
     height auto
     padding-bottom var(--ar) // Ensure we can set width and height adjusts
-    background white
     overflow hidden
     image-rendering pixelated
 
-    &:before, &-canvas
+    &--checker
+        background white
+
+    &--checker:before, &-canvas
         content ''
         display block
         position absolute
@@ -23,7 +26,7 @@
         height 100%
         transform translate(-50%, -50%)
     
-    &:before
+    &--checker:before
         background url(checker)
-        background-size 10
+        background-size var(--checker)
         opacity 0.2

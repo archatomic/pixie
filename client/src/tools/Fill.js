@@ -1,5 +1,5 @@
 import { BaseTool } from './BaseTool'
-import { fragmentActions } from 'client/store/actions/applicationActions'
+import { celActions, fragmentActions } from 'client/store/actions/applicationActions'
 import { locate } from 'client/util/registry'
 import { TOOLOPT } from 'client/constants'
 
@@ -27,21 +27,6 @@ export class Fill extends BaseTool
 
         this.cel = this.fragment.getCel(this.tab.layer, this.tab.frame)
         if (data.x >= this.cel.width || data.y >= this.cel.height) return
-
-        if (this.cel.null) {
-            this.cel = this.fragment.newCel()
-            this._img = this.cel.data
-            this.imageData = this._img.data
-
-            for (let i = 0; i < this.imageData.length; i += 4) {
-                this.imageData[i    ] = this.color[0] 
-                this.imageData[i + 1] = this.color[1] 
-                this.imageData[i + 2] = this.color[2] 
-                this.imageData[i + 3] = this.color[3] 
-            }
-
-            return this.persist()
-        }
 
         const { x, y } = data
         this._img = this.cel.copyImageData()
@@ -123,13 +108,6 @@ export class Fill extends BaseTool
 
     persist ()
     {
-        fragmentActions.save(
-            this.fragment.saveCel(
-                this.tab.layer,
-                this.tab.frame,
-                this.cel.set('data', this._img)
-            ),
-            { history: this.constructor.name }
-        )
+        celActions.save(this.cel.set('data', this._img))
     }
 }

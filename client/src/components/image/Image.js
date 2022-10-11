@@ -3,7 +3,7 @@ import { Component } from 'react'
 
 /**
  * @typedef {object} ImageProps
- * @property {import('client/model/PixieCel')} cel
+ * @property {ImageData} data
  * @property {string} [className]
  */
 
@@ -24,17 +24,17 @@ export class Image extends Component
 
     get imageData ()
     {
-        return this.props.cel.data
+        return this.props.data
     }
 
     get width ()
     {
-        return this.props.cel.width
+        return this.imageData.width
     }
 
     get height ()
     {
-        return this.props.cel.height
+        return this.imageData.height
     }
 
     /**
@@ -70,24 +70,34 @@ export class Image extends Component
     get style ()
     {
         const aspect = this.height / this.width
+        const checker = typeof this.props.checker === 'number' ? this.props.checker : 10
         return {
             '--ar': `${aspect * 100}%`,
-            '--width': `${this.width}px`,
-            '--height': `${this.height}px`
+            '--width': `${this.width / 10}rem`,
+            '--height': `${this.height / 10}rem`,
+            '--checker': `${checker / 10}rem`,
         }
     }
 
     render ()
     {
+        if (!this.imageData) return null
+
         return (
             <div
-                className={classNames('Image', this.props.className)}
+                className={classNames(
+                    'Image',
+                    this.props.className,
+                    {
+                        'Image--checker': this.props.checker
+                    }
+                )}
                 style={this.style}
             >
                 <canvas
                     className='Image-canvas'
-                    width={this.props.cel.width}
-                    height={this.props.cel.height}
+                    width={this.width}
+                    height={this.height}
                     ref={this.handleRef}
                 />
             </div>

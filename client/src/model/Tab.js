@@ -8,24 +8,5 @@ export class Tab extends Record({
     zoom: 1,
     rotate: 0,
     x: 0,
-    y: 0,
-    toolCel: null,
-    hideActive: false,
-}) {
-    updateToolCel (imageData, hideActive = false)
-    {
-        // Ensure we're creating a new instance here
-        imageData = new ImageData(imageData.data, imageData.width, imageData.height)
-
-        if (this.toolCel) return this.setIn(['toolCel', 'data'], imageData)
-        return this.merge({
-            toolCel: PixieCel.fromImageData(imageData),
-            hideActive
-        })
-    }
-
-    clearToolCel ()
-    {
-        return this.merge({toolCel: null, hideActive: false})
-    }
-}
+    y: 0
+}) {}

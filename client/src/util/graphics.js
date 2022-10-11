@@ -4,7 +4,7 @@ import { createNode } from 'client/util/createNode'
 const canvas = createNode({ tag: 'canvas' })
     
 /** @type {CanvasRenderingContext2D} */
-const context = canvas.getContext('2d')
+const context = canvas.getContext('2d', { willReadFrequently: true })
 
 const DEBUG_PATTERN = false
 
@@ -38,7 +38,7 @@ export const loadImageContext = async (url) =>
     const image = await createImageBitmap(blob, {})
 
     const canvas = createNode({ tag: 'canvas' })
-    const context = canvas.getContext('2d')
+    const context = canvas.getContext('2d', { willReadFrequently: true })
 
     canvas.width = image.width
     canvas.height = image.height

@@ -1,4 +1,4 @@
-import { fragmentActions, tabActions } from 'client/store/actions/applicationActions'
+import { celActions, fragmentActions, tabActions } from 'client/store/actions/applicationActions'
 
 import { BaseTool } from './BaseTool'
 import { locate } from 'client/util/registry'
@@ -9,16 +9,22 @@ import { DrawJob } from 'client/util/DrawJob'
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
  * @typedef {import('client/model/Application').Application} Application
+ * @typedef {import('client/model/State').State} State
  */
 
 export class Pencil extends BaseTool
 {
     /**
-     * @type {Application}
+     * @type {State}
      */
+    get state ()
+    {
+        return locate('store').getState()
+    }
+
     get application ()
     {
-        return locate('store').getState().get('application')
+        return this.state.application
     }
 
     get tab ()
@@ -52,8 +58,6 @@ export class Pencil extends BaseTool
     start (data)
     {
         this.cel = this.fragment.getCel(this.tab.layer, this.tab.frame)
-
-        if (this.cel.null) this.cel = this.fragment.newCel()
 
         this.job = this.createJob()
         this.job.bind(this.cel.data)
@@ -94,31 +98,28 @@ export class Pencil extends BaseTool
 
     cancel ()
     {
-        tabActions.save(this.tab.clearToolCel())
+        celActions.save(this.cel.clearPreview())
         this.job.reset()
     }
 
     persist ()
     {
-        tabActions.save(this.tab.clearToolCel())
-        
-        const fragment = this.fragment.saveCel(
-            this.tab.layer,
-            this.tab.frame,
+        celActions.save(
             this.cel.set(
                 'data',
                 this.job.result
-            )
+            ).clearPreview()
         )
-        
-        fragmentActions.save(fragment, { history: this.constructor.name })
     }
 
     updateToolCel ()
     {
-        const imageData = this.job.preview
-        const tab = this.tab.updateToolCel(imageData, this.drawOpts?.previewIncludesTarget)
-        tabActions.save(tab)
+        celActions.save(
+            this.cel.showPreview(
+                this.job.preview,
+                !this.drawOpts?.previewIncludesTarget
+            )
+        )
     }
 
     cursor ()

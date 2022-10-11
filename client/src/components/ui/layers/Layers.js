@@ -155,7 +155,7 @@ class Layer extends Component
                     onClick={this.handleVisibilityToggled}
                 />
                 <div className='Layers-preview'>
-                    <Image className='Layers-image' cel={this.props.cel} />
+                    <Image checker className='Layers-image' data={this.props.cel.data} />
                 </div>
                 <div className='Layers-name'>
                     <Text

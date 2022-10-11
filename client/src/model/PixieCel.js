@@ -10,7 +10,9 @@ export class PixieCel extends Record({
     {
         if (props._isNull) return null // Don't create image data
         return new ImageData(props.width, props.height)
-    }
+    },
+    preview: null,
+    overlayPreview: false
 }) {
     /**
      * @param {ImageData} imageData 
@@ -47,5 +49,21 @@ export class PixieCel extends Record({
     {
         i = Math.floor(i / 4)
         return { x: i % this.width, y: Math.floor(i / this.width) }
+    }
+
+    showPreview (preview, overlayPreview = false)
+    {
+        return this.merge({
+            preview,
+            overlayPreview: !!overlayPreview
+        })
+    }
+
+    clearPreview ()
+    {
+        return this.merge({
+            preview: null,
+            overlayPreview: false
+        })
     }
 }

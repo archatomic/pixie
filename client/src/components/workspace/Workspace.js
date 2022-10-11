@@ -77,27 +77,6 @@ export class Workspace extends Component
         return this.props.fragment
     }
 
-    /** @type {import('client/model/PixieCel').PixieCel[]} */
-    get frameCels ()
-    {
-        const cels = []
-        const frameCels = this.fragment.getCels({ frame: this.tab.frame })
-        
-        const activeLayer = this.fragment.getLayer(this.tab.layer).pk
-        const isSoloing = this.fragment.isSoloing()
-
-        for (const { layer, cel } of frameCels) {
-            const renderToolCel = layer === activeLayer && this.tab.toolCel
-            const skipCel = cel.null || (this.tab.hideActive && layer === activeLayer)
-            const renderCel = !skipCel && this.props.layers.find(layer).isVisible(isSoloing)
-        
-            if (renderCel) cels.push(cel)
-            if (renderToolCel) cels.push(this.tab.toolCel)
-        }
-
-        return cels
-    }
-
     get stageStyle ()
     {
         // apply scale
@@ -378,7 +357,7 @@ export class Workspace extends Component
     {
         return (
             <div key={cel} className='Workspace-cel' style={{transform: `scale(${this.tab.zoom})`}}>
-                <Cel key={cel.pk} cel={cel}/>
+                <Cel.Connected key={cel.pk} cel={cel}/>
             </div>
         )
     }
