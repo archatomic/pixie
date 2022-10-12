@@ -5,6 +5,7 @@ import { locate } from 'client/util/registry'
 import { getCircleBrush } from 'client/model/brushes/circle'
 import { TOOLOPT } from 'client/constants'
 import { DrawJob } from 'client/util/DrawJob'
+import { Operation } from 'client/store/operations'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
@@ -109,6 +110,11 @@ export class Pencil extends BaseTool
                 'data',
                 this.job.result
             ).clearPreview()
+        )
+
+        Operation.pushHistory(
+            this.cel.fragment,
+            this.constructor.name
         )
     }
 

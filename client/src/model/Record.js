@@ -308,13 +308,6 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
 
             return (collection = INITIAL_STATE, action, globalState) =>
             {
-                if (action.type === 'undo.restore' && action.payload instanceof OfType) {
-                    const stack = globalState.getIn(['application', 'undoManager']).getStack(action.payload)
-                    const restored = stack.current
-                    if (!restored) return collection.remove(action.payload)
-                    return collection.add(restored)
-                }
-
                 if (!action.type.startsWith(prefix)) return collection
 
                 const actionType = action.type.substring(prefix.length)
@@ -377,6 +370,15 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
         {
             this.validate(v)
             return this.delegateSet('items', 'set', pk(v), v)
+        }
+
+        addAll (a)
+        {
+            let op = this
+            for (const v of a) {
+                op = op.add(v)
+            }
+            return op
         }
 
         insert (v, at = -1)

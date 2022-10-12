@@ -59,6 +59,14 @@ export class PixieCel extends Record({
         })
     }
 
+    sanitize ()
+    {
+        return this.merge({
+            data: this.data && '<IMAGE DATA>',
+            preview: this.preview && '<IMAGE DATA>'
+        })
+    }
+
     clearPreview ()
     {
         return this.merge({

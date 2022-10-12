@@ -8,6 +8,7 @@ import { applicationReducer } from 'client/store/reducers/applicationReducer'
 import { promising } from 'client/store/middleware/promising'
 import { register } from 'client/util/registry'
 import { toolboxReducer } from 'client/store/reducers/toolboxReducer'
+import { rootReducer } from 'client/store/reducers/rootReducer'
 import { undoReducer } from 'client/store/reducers/undoReducer'
 import { PixieLayer } from 'client/model/PixieLayer'
 import { PixieFrame } from 'client/model/PixieFrame'
@@ -24,7 +25,26 @@ function getCompose ()
     {
       if (action.payload instanceof PixieCel && action.payload.data) return {
         ...action,
-        payload: action.payload.set('data', '<IMAGE DATA>')
+        payload: action.payload.sanitize()
+      }
+
+      if (action.payload instanceof State) {
+        return {
+          ...action,
+          payload: action.payload.sanitize()
+        }
+      }
+      if (action.type === 'undo.push') {
+        return {
+          ...action,
+          payload: {
+            ...action.payload,
+            record: {
+              ...action.payload.record,
+              cels: '<CEL ARRAY>'
+            }
+          }
+        }
       }
       return action
     },
@@ -38,10 +58,10 @@ const reducers = {
   application:[
     applicationReducer,
     {
-      undoManager: undoReducer,
       toolbox: toolboxReducer
     }
   ],
+  history: undoReducer,
   tabs: Tab.Collection.createReducer('tab'),
   fragments: PixieFragment.Collection.createReducer('fragment'),
   layers: PixieLayer.Collection.createReducer('layer'),
@@ -53,7 +73,7 @@ const reducers = {
  * @type {import('redux').Store<State>}
  */
 export const store = createStore(
-  combineReducers(reducers),
+  combineReducers([rootReducer, reducers]),
   compose(applyMiddleware(promising))
 )
 

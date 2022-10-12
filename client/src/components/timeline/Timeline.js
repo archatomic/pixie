@@ -83,22 +83,19 @@ class TimelineControls extends Component
     {
         if (!this.canDeleteFrame) return
         Operation.deleteFrame(this.props.frame.pk)
+        Operation.pushHistory(this.props.frame.fragment, 'Delete Frame')
     }
 
     handleDurationChanged = ({value}) =>
     {
-        frameActions.save(
-            this.props.frame.set('duration', value),
-            { history: 'Set Duration' }
-        )
+        frameActions.save(this.props.frame.set('duration', value))
+        Operation.pushHistory(this.props.frame.fragment, 'Set Frame Duration')
     }
 
     handleFPSChanged = ({value}) =>
     {
-        frameActions.save(
-            this.props.frame.setFps(value),
-            { history: 'Set FPS' }
-        )
+        frameActions.save(this.props.frame.setFps(value))
+        Operation.pushHistory(this.props.frame.fragment, 'Set Frame FPS')
     }
 
     setFrame (frame)
@@ -178,6 +175,7 @@ class TimelineLayer extends Component
     handleAddFrame = () =>
     {
         Operation.addFrameToFragment(this.props.tab.fragment)
+        Operation.pushHistory(this.props.tab.fragment, 'Add Frame')
     }
 
     render ()

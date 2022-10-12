@@ -3,7 +3,6 @@ import './Workspace.styl'
 import { MAX_ZOOM, MIN_ZOOM, TOOL, ZOOM_SPEED } from 'client/constants'
 import { applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
 import { clamp, int } from 'client/util/math'
-import { redo, undo } from 'client/store/actions/undoActions'
 
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
@@ -123,6 +122,7 @@ export class Workspace extends Component
     {
         // TODO: Remove this. This is just a test / dev stub
         Operation.createFragment({ width: 128, height: 128 })
+        Operation.pushHistory(this.tab.fragment, 'Open Document')
     }
 
     componentWillUnmount ()
@@ -174,11 +174,11 @@ export class Workspace extends Component
         if (e.key === 'Escape') return this.handlePointerCancel(e)
         else if (e.key === 'z' && e.shiftKey && (e.ctrlKey || e.metaKey)) {
             e.preventDefault()
-            return redo(this.fragment)
+            return Operation.redoFragment(this.fragment.pk)
         }
         else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {
             e.preventDefault()
-            return undo(this.fragment)
+            return Operation.undoFragment(this.fragment.pk)
         }
     }
 

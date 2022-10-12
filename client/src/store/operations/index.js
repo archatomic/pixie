@@ -7,6 +7,8 @@ import { locate } from 'client/util/registry'
 import { PixieLayer } from 'client/model/PixieLayer'
 import { PixieFrame } from 'client/model/PixieFrame'
 import { PixieCel } from 'client/model/PixieCel'
+import { redo, undo, undoPush } from 'client/store/actions/undoActions'
+import { replaceState } from 'client/store/actions/rootActions'
 
 /**
  * @typedef {import('redux').Store<import('client/model/State').State>} Store
@@ -81,6 +83,7 @@ export class Operation
         this.addFramesToFragment(fragment.pk, numFrames)
 
         this.openTab(fragment.pk)
+        this.pushHistory(fragment.pk)
         return fragment
     }
 
@@ -266,5 +269,62 @@ export class Operation
         fragmentActions.save(fragment)
         celActions.delete(cels)
         frameActions.delete(frame)
+    }
+
+    static pushHistory (fragmentID, description)
+    {
+        
+        undoPush(this.getHistoryNode(fragmentID), description)
+    }
+
+    static getHistoryNode (fragmentID)
+    {
+        const state = this.store.getState()
+        const fragment = state.fragments.find(fragmentID)
+        if (fragment.null) return
+
+        return {
+            undoKey: fragment.pk,
+            fragment,
+            frames: state.frames.where({ fragment: fragment.pk }).toArray(),
+            layers: state.layers.where({ fragment: fragment.pk }).toArray(),
+            cels: state.cels.where({ fragment: fragment.pk }).toArray(),
+        }
+    }
+
+    static undoFragment (fragmentID, steps = 1)
+    {
+        undo({ undoKey: fragmentID }, steps)
+        this.restoreHistory(fragmentID)
+    }
+
+    static redoFragment (fragmentID, steps = 1)
+    {
+        redo({ undoKey: fragmentID }, steps)
+        this.restoreHistory(fragmentID)
+    }
+
+    static restoreHistory (fragmentID)
+    {
+        const state = this.store.getState()
+
+        const remove = this.getHistoryNode(fragmentID)
+
+        const without = state
+            .delegateSet('fragments', 'remove', remove.fragment)
+            .delegateSet('frames', 'removeAll', remove.frames)
+            .delegateSet('layers', 'removeAll', remove.layers)
+            .delegateSet('cels', 'removeAll', remove.cels)
+        
+        const add = state.history.getStack(fragmentID).current
+        if (!add) return console.warn('cannot undo');
+
+        const restored = without
+            .delegateSet('fragments', 'add', add.fragment)
+            .delegateSet('frames', 'addAll', add.frames)
+            .delegateSet('layers', 'addAll', add.layers)
+            .delegateSet('cels', 'addAll', add.cels)
+        
+        replaceState(restored)
     }
 }

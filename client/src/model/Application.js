@@ -3,7 +3,6 @@ import { PixieFragment } from './PixieFragment'
 import { Record } from './Record'
 import { Tab } from './Tab'
 import { ToolBox } from 'client/model/ToolBox'
-import { UndoManager } from './UndoStack'
 import { getDefaultTheme } from 'client/util/theme'
 import { locate } from 'client/util/registry'
 
@@ -18,7 +17,6 @@ export class Application extends Record({
     activeTab: null,
     layers: false,
     timeline: false,
-    undoManager: new UndoManager(),
     toolbox: ToolBox.create()
 }) {
     /**

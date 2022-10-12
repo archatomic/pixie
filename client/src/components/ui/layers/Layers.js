@@ -37,6 +37,7 @@ export class Layers extends Component
     {
         const newPos = this.props.layerPos + 1
         Operation.addLayerToFragment(this.props.fragment, newPos)
+        Operation.pushHistory(this.props.fragment, 'Add Layer')
     }
 
     render ()
@@ -118,12 +119,10 @@ class Layer extends Component
         this.saveLayer(this.props.layer.set('name', value), 'Set Layer Name')
     }
 
-    saveLayer (layer, history = 'Save Layer')
+    saveLayer (layer, description = 'Save Layer')
     {
-        layerActions.save(
-            layer,
-            { history}
-        )
+        layerActions.save(layer)
+        Operation.pushHistory(layer.fragment, description)
     }
 
     handleDelete = (e) =>
@@ -131,6 +130,7 @@ class Layer extends Component
         e.preventDefault()
         e.stopPropagation()
         Operation.deleteLayer(this.props.layer.pk)
+        Operation.pushHistory(this.props.layer.fragment, 'Delete Layer')
     }
 
     render ()

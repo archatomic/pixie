@@ -70,6 +70,11 @@ export class UndoStack extends Record({
         return this.set('head', head)
     }
 
+    sanitize ()
+    {
+        return this.nodes.map(n => n.description)
+    }
+
     get firstItemIndex ()
     {
         return this.nodes.count() - 1
@@ -112,11 +117,23 @@ export class UndoManager extends Record({
 }) {
     getStackKey (record)
     {
+        if (typeof record === 'string') return record
+
         if (!isDefined(record) || !record) return UndoStack.Null
 
         if (record.undoKey instanceof Function) return record.undoKey()
         if (typeof record.undoKey === 'string') return record.undoKey
         return `${record.constructor.name}:${record.pk}`
+    }
+
+    sanitize ()
+    {
+        let op = {}
+        for (const key of this.stacks.keySeq()) {
+            op[key] = this.stacks.get(key).sanitize()
+        }
+        return op
+            
     }
 
     getStackKeyStrict (record)

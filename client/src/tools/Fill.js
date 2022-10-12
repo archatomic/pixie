@@ -2,6 +2,7 @@ import { BaseTool } from './BaseTool'
 import { celActions } from 'client/store/actions/applicationActions'
 import { locate } from 'client/util/registry'
 import { TOOLOPT } from 'client/constants'
+import { Operation } from 'client/store/operations'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
@@ -109,5 +110,10 @@ export class Fill extends BaseTool
     persist ()
     {
         celActions.save(this.cel.set('data', this._img))
+
+        Operation.pushHistory(
+            this.cel.fragment,
+            this.constructor.name
+        )
     }
 }

@@ -74,9 +74,10 @@ export class State extends Record({
         let op = this
         this.cels.forEach(cel =>
         {
-            if (!cel.data) return
-            op = op.delegateSet('cels', 'add', cel.set('data', '<IMAGE DATA>'))
+            op = op.delegateSet('cels', 'add', cel.sanitize())
         })
+
+        op = op.set('history', op.history.sanitize())
         return op
     }
 }
