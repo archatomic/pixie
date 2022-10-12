@@ -319,12 +319,14 @@ export class Operation
         const add = state.history.getStack(fragmentID).current
         if (!add) return console.warn('cannot undo');
 
-        const restored = without
+        let restored = without
             .delegateSet('fragments', 'add', add.fragment)
             .delegateSet('frames', 'addAll', add.frames)
             .delegateSet('layers', 'addAll', add.layers)
             .delegateSet('cels', 'addAll', add.cels)
-        
+                
         replaceState(restored)
+        const tab = restored.tabs.where({ fragment: fragmentID }).first()
+        tabActions.save(tab.clampFrameAndLayer())
     }
 }
