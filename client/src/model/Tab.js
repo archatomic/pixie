@@ -8,7 +8,8 @@ export class Tab extends Record({
     zoom: 1,
     rotate: 0,
     x: 0,
-    y: 0
+    y: 0,
+    play: false
 }) {
     clampFrameAndLayer ()
     {

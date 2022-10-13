@@ -1,6 +1,8 @@
 import { Map, isImmutable } from 'immutable'
+import { register } from 'client/util/registry'
 
 let INITIAL_STATE = Map({})
+register('state', INITIAL_STATE)
 
 const get = (object, prop) => {
   if (!object) return undefined
@@ -37,6 +39,7 @@ const execReducer = (reducer, state, action, global = state) => {
 export const setInitialState = (state) =>
 {
   INITIAL_STATE = state
+  register('state', INITIAL_STATE)
 }
 
 export const combineReducers = (...args) => {
@@ -46,6 +49,10 @@ export const combineReducers = (...args) => {
     for (const reducer of args) {
       state = execReducer(reducer, state, action, global)
     }
+
+    // Store state where I can access it without "store.getState()" because
+    // redux is opinionated about when you can and can't retrieve your data.
+    register('state', state)
 
     return state
   }

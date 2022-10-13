@@ -15,7 +15,7 @@ export class Zoom extends BaseTool
     start (_, event, old)
     {
         /** @type {import('client/model/Application').Application} */
-        const application = locate('store').getState().get('application')
+        const application = locate('state').application
         this.initialTab = application.getActiveTab()
         this.tab = this.initialTab
 

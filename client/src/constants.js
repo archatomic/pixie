@@ -74,6 +74,11 @@ export const MIN_ZOOM = 1
 export const MAX_ZOOM = 64
 export const ZOOM_SPEED = 10
 
+export const MAX_FPS = 60
+export const MIN_FPS = 0.1
+export const MAX_FRAME_DURATION = 1 / MIN_FPS
+export const MIN_FRAME_DURATION = 1 / MAX_FPS
+
 export const BLENDMODE = createEnum([
     'REPLACE',
     'ALPHA',
@@ -89,4 +94,9 @@ export const VISIBILITY = createEnum([
     'VISIBLE',
     'HIDDEN',
     'SOLO'
+])
+
+export const PLAYBACK = createEnum([
+    'PLAYING',
+    'PAUSED'
 ])

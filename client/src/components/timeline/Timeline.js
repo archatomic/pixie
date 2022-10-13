@@ -7,6 +7,7 @@ import { tabActions, fragmentActions, frameActions } from 'client/store/actions/
 import { Icon } from 'client/components/icon/icon'
 import { NumberField } from 'client/components/field/Number'
 import { Operation } from 'client/store/operations'
+import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'client/constants'
 
 /**
  * @typedef {import('client/model/PixieFragment').PixieFragment} PixieFragment
@@ -98,6 +99,11 @@ class TimelineControls extends Component
         Operation.pushHistory(this.props.frame.fragment, 'Set Frame FPS')
     }
 
+    handlePlayPause = () =>
+    {
+        tabActions.save(this.props.tab.set('play', !this.props.tab.play))
+    }
+
     setFrame (frame)
     {
         if (frame < 0) frame = this.props.numFrames - 1
@@ -111,7 +117,7 @@ class TimelineControls extends Component
             <div className='Timeline-controls'>
                 <Icon className='Timeline-control' tight name='backward-fast' onClick={ this.handleReset }/>
                 <Icon className='Timeline-control' tight name='backward-step' onClick={ this.handleBack }/>
-                <Icon className='Timeline-control' tight name='play'/>
+                <Icon className='Timeline-control' tight name={this.props.tab.play ? 'pause' : 'play'} onClick={ this.handlePlayPause }/>
                 <Icon className='Timeline-control' tight name='forward-step' onClick={ this.handleForward }/>
                 {this.renderTimelineInfo()}
             </div>
@@ -130,8 +136,8 @@ class TimelineControls extends Component
                     tight
                     autoSelectOnFocus
                     precision={4}
-                    min={0.0001}
-                    max={10}
+                    min={MIN_FRAME_DURATION}
+                    max={MAX_FRAME_DURATION}
                     label='Duration'
                     value={this.props.frame.duration}
                     onChange={this.handleDurationChanged}
@@ -142,8 +148,8 @@ class TimelineControls extends Component
                     tight
                     autoSelectOnFocus
                     precision={4}
-                    min={0.1}
-                    max={10000}
+                    min={MIN_FPS}
+                    max={MAX_FPS}
                     label='FPS'
                     value={this.props.frame.fps}
                     onChange={this.handleFPSChanged}

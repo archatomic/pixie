@@ -13,7 +13,7 @@ export class Pan extends BaseTool
     {
         this.pId = pointerId
         /** @type {import('client/model/Application').Application} */
-        const application = locate('store').getState().get('application')
+        const application = locate('state').get('application')
         this.initialTab = application.getActiveTab()
         this.tab = this.initialTab
         this.startX = clientX

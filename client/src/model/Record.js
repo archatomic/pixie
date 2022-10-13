@@ -175,7 +175,7 @@ export function Record (defaults, key = '_id')
          */
         get state ()
         {
-            return locate('store').getState()
+            return locate('state')
         }
 
         /**

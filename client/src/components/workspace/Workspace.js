@@ -11,6 +11,7 @@ import { Operation } from 'client/store/operations'
 import { ToolManager } from 'client/tools/ToolManager'
 import { connect } from 'client/util/connect'
 import { def } from 'client/util/default'
+import { Animation } from 'client/components/animation'
 
 const OVERFLOW_MARGIN = 20
 
@@ -42,7 +43,7 @@ export class Workspace extends Component
             const fragment = state.fragments.find(tab.fragment)
 
             const frame = tab.frame
-            const cels = fragment.getCels({ frame })
+            const cels = fragment.getCels({ frame, visible: true })
             const layers = state.layers.findAll(fragment.layers)
 
             return {
@@ -344,11 +345,32 @@ export class Workspace extends Component
     {
         return (
             <div className='Workspace' ref={this.handleRef}>
-                <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
-                    <div className='Workspace-backdrop' style={{transform: `scale(${this.tab.zoom})`}} />
-                    {this.props.cels.map(cel => this.renderCel(cel))}
-                    <Cursor.Connected className='Workspace-cursor' data={this.pen.cursor()} scale={this.tab.zoom} />
-                </div>
+                {this.tab.play ? this.renderAnimation() : this.renderEditor()}
+            </div>
+        )
+    }
+
+    renderAnimation ()
+    {
+        return (
+            <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
+                <div className='Workspace-backdrop' style={{transform: `scale(${this.tab.zoom})`}} />
+                <Animation.FromFragment
+                    fragment={this.tab.fragment}
+                    frame={this.tab.frame}
+                    autoplay
+                />
+            </div>
+        )
+    }
+
+    renderEditor ()
+    {
+        return (
+            <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
+                <div className='Workspace-backdrop' style={{transform: `scale(${this.tab.zoom})`}} />
+                {this.props.cels.map(cel => this.renderCel(cel))}
+                <Cursor.Connected className='Workspace-cursor' data={this.pen.cursor()} scale={this.tab.zoom} />
             </div>
         )
     }

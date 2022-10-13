@@ -19,7 +19,7 @@ export class Fill extends BaseTool
         if (data.x < 0 || data.y < 0) return
 
         /** @type {import('client/model/Application').Application} */
-        const application = locate('store').getState().get('application')
+        const application = locate('state').get('application')
         this.tab = application.getActiveTab()
         this.fragment = application.getActiveFragment()
         this.color = application.toolbox.getOption(TOOLOPT.COLOR).getChannels()

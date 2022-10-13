@@ -118,7 +118,7 @@ export class PixieFragment extends Record({
             for (const frame of frames) {
                 for (const layer of layers) {
                     const cel = this.getCelKey(layer, frame)
-                    const l = this.state.layers.get(layer)
+                    const l = this.state.layers.find(layer)
                     if (l.soloed) soloed.push(cel)
                     if (l.visible) visible.push(cel)
                 }

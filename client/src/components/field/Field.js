@@ -67,12 +67,13 @@ export class Field extends Component {
     )
   }
 
-  setValue (rawValue)
+  setValue (rawValue, passive = false)
   {
     const value = this.transformValue(rawValue)
     if (!this.state.focused) rawValue = value
+    else if (passive) rawValue = this.state.rawValue
     this.setState({
-      rawValue,
+      rawValue: `${rawValue}`,
       value,
       errors: this.state.value === value ? this.state.errors : []
     })
@@ -103,7 +104,8 @@ export class Field extends Component {
    */
   componentDidUpdate (props, state) {
     if (props.value !== this.props.value) {
-      this.setValue(this.props.value)
+      // passive updates won't rewrite rawValue while focused
+      this.setValue(this.props.value, true)
     }
 
     if (state.rawValue !== this.state.rawValue) {

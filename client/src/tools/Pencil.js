@@ -20,7 +20,7 @@ export class Pencil extends BaseTool
      */
     get state ()
     {
-        return locate('store').getState()
+        return locate('state')
     }
 
     get application ()

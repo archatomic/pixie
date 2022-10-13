@@ -9,6 +9,7 @@ import './Cel.styl'
  * @typedef {object} CelProps
  * @prop {import('client/model/PixieCel').PixieCel} cel 
  * @prop {string} [className] 
+ * @prop {boolean} [omitPreview] 
  */
 
 /**
@@ -38,10 +39,8 @@ export class Cel extends Component
     {
         if (this.props.cel.null) return null
 
-        const showPreview = !!this.props.cel.preview
+        const showPreview = !!this.props.cel.preview && !this.props.omitPreview
         const showData = !showPreview || this.props.cel.overlayPreview
-
-        if (!showData && !showPreview) return null
 
         return (
             <div className={classNames('Cel', this.props.className)} style={this.style}>

@@ -13,43 +13,15 @@ import { undoReducer } from 'client/store/reducers/undoReducer'
 import { PixieLayer } from 'client/model/PixieLayer'
 import { PixieFrame } from 'client/model/PixieFrame'
 import { PixieCel } from 'client/model/PixieCel'
+import { actionSanitizer, stateSanitizer } from 'client/store/sanitizer'
+import { playerReducer } from 'client/store/reducers/playerReducer'
 
 const compose = getCompose()
 
 function getCompose ()
 {
   if (!window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) return _c
-
-  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-    actionSanitizer: (action) =>
-    {
-      if (action.payload instanceof PixieCel && action.payload.data) return {
-        ...action,
-        payload: action.payload.sanitize()
-      }
-
-      if (action.payload instanceof State) {
-        return {
-          ...action,
-          payload: action.payload.sanitize()
-        }
-      }
-      if (action.type === 'undo.push') {
-        return {
-          ...action,
-          payload: {
-            ...action.payload,
-            record: {
-              ...action.payload.record,
-              cels: '<CEL ARRAY>'
-            }
-          }
-        }
-      }
-      return action
-    },
-    stateSanitizer: (state) => state.sanitize()
-  })
+  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ actionSanitizer, stateSanitizer })
 }
 
 setInitialState(State.create())
@@ -62,6 +34,7 @@ const reducers = {
     }
   ],
   history: undoReducer,
+  players: playerReducer,
   tabs: Tab.Collection.createReducer('tab'),
   fragments: PixieFragment.Collection.createReducer('fragment'),
   layers: PixieLayer.Collection.createReducer('layer'),

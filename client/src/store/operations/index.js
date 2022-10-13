@@ -11,15 +11,15 @@ import { redo, undo, undoPush } from 'client/store/actions/undoActions'
 import { replaceState } from 'client/store/actions/rootActions'
 
 /**
- * @typedef {import('redux').Store<import('client/model/State').State>} Store
+ * @typedef {import('client/model/State').State} State
  */
 
 export class Operation
 {
-    /** @type {Store} */
-    static get store ()
+    /** @type {State} */
+    static get state ()
     {
-        return locate('store')
+        return locate('state')
     }
 
     /**
@@ -33,7 +33,7 @@ export class Operation
      */
     static openTab (fragmentID = null)
     {
-        const state = this.store.getState()
+        const state = this.state
 
         const fragment = state.fragments.find(fragmentID)
         const tab = fragment.null
@@ -89,21 +89,21 @@ export class Operation
 
     static getNextLayer (fragment)
     {
-        const state = this.store.getState()
+        const state = this.state
         const tab = state.tabs.where({ fragment }).first()
         return tab ? tab.layer + 1 : -1
     }
 
     static getNextFrame (fragment)
     {
-        const state = this.store.getState()
+        const state = this.state
         const tab = state.tabs.where({ fragment }).first()
         return tab ? tab.frame + 1 : -1
     }
 
     static addLayerToFragment (fragmentID, at = null)
     {
-        const state = this.store.getState()
+        const state = this.state
 
         if (at === null) at = this.getNextLayer(fragmentID)
 
@@ -130,7 +130,7 @@ export class Operation
 
     static addFrameToFragment (fragmentID, at = null)
     {
-        const state = this.store.getState()
+        const state = this.state
 
         if (at === null) at = this.getNextFrame(fragmentID)
 
@@ -157,14 +157,14 @@ export class Operation
 
     static closeTab (tabID)
     {
-        const state = this.store.getState()
+        const state = this.state
         const tab = state.tabs.find(tabID)
         if (tab.null) return // Tab not open
 
         // delete the tab
         tabActions.delete(tab)
 
-        // Should I clean up the fragment?
+        // Should I clean up the fragment and player?
 
         // Check if the application was focused on this tab, and if so, switch focus
         if (state.tabs.find(state.application.activeTab) === tab.pk) {
@@ -178,7 +178,7 @@ export class Operation
 
     static createCel (fragmentID, frameID, layerID)
     {
-        const state = this.store.getState()
+        const state = this.state
         const fragment = state.fragments.find(fragmentID)
         const cel = PixieCel.create({
             fragment: fragmentID,
@@ -193,7 +193,7 @@ export class Operation
 
     static activateLayer (layerID)
     {
-        const state = this.store.getState()
+        const state = this.state
         const layer = state.layers.find(layerID)
         const tab = state.tabs.where({ fragment: layer.fragment }).first()
         if (!tab) return
@@ -202,7 +202,7 @@ export class Operation
 
     static activateFrame (frameID)
     {
-        const state = this.store.getState()
+        const state = this.state
         const frame = state.frames.find(frameID)
         const tab = state.tabs.where({ fragment: frame.fragment }).first()
         if (!tab) return
@@ -211,7 +211,7 @@ export class Operation
 
     static deleteLayer (layerID)
     {
-        const state = this.store.getState()
+        const state = this.state
         const layer = state.layers.find(layerID)
     
         let fragment = state.fragments.find(layer.fragment)
@@ -242,7 +242,7 @@ export class Operation
     
     static deleteFrame (frameID)
     {
-        const state = this.store.getState()
+        const state = this.state
         const frame = state.frames.find(frameID)
     
         let fragment = state.fragments.find(frame.fragment)
@@ -279,7 +279,7 @@ export class Operation
 
     static getHistoryNode (fragmentID)
     {
-        const state = this.store.getState()
+        const state = this.state
         const fragment = state.fragments.find(fragmentID)
         if (fragment.null) return
 
@@ -306,7 +306,7 @@ export class Operation
 
     static restoreHistory (fragmentID)
     {
-        const state = this.store.getState()
+        const state = this.state
 
         const remove = this.getHistoryNode(fragmentID)
 
