@@ -354,7 +354,7 @@ export class Workspace extends Component
     {
         return (
             <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
-                <div className='Workspace-backdrop' style={{transform: `scale(${this.tab.zoom})`}} />
+                <div className='Workspace-backdrop' style={{backgroundSize: `${this.tab.zoom * 3.2}rem`}} />
                 <Animation.FromFragment
                     fragment={this.tab.fragment}
                     frame={this.tab.frame}
@@ -368,7 +368,7 @@ export class Workspace extends Component
     {
         return (
             <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
-                <div className='Workspace-backdrop' style={{transform: `scale(${this.tab.zoom})`}} />
+                <div className='Workspace-backdrop' style={{backgroundSize: `${this.tab.zoom * 3.2}rem`}} />
                 {this.props.cels.map(cel => this.renderCel(cel))}
                 <Cursor.Connected className='Workspace-cursor' data={this.pen.cursor()} scale={this.tab.zoom} />
             </div>
