@@ -115,10 +115,12 @@ class TimelineControls extends Component
     {
         return (
             <div className='Timeline-controls'>
-                <Icon className='Timeline-control' tight name='backward-fast' onClick={ this.handleReset }/>
-                <Icon className='Timeline-control' tight name='backward-step' onClick={ this.handleBack }/>
-                <Icon className='Timeline-control' tight name={this.props.tab.play ? 'pause' : 'play'} onClick={ this.handlePlayPause }/>
-                <Icon className='Timeline-control' tight name='forward-step' onClick={ this.handleForward }/>
+                <div className='Timeline-playback'>
+                    <Icon className='Timeline-control' tight name='backward-fast' onClick={ this.handleReset }/>
+                    <Icon className='Timeline-control' tight name='backward-step' onClick={ this.handleBack }/>
+                    <Icon className='Timeline-control' tight name={this.props.tab.play ? 'pause' : 'play'} onClick={ this.handlePlayPause }/>
+                    <Icon className='Timeline-control' tight name='forward-step' onClick={ this.handleForward }/>
+                </div>
                 {this.renderTimelineInfo()}
             </div>
         )
@@ -143,7 +145,7 @@ class TimelineControls extends Component
                     onChange={this.handleDurationChanged}
                 />
                 <NumberField
-                    className='Timeline-duration'
+                    className='Timeline-fps'
                     inline
                     tight
                     autoSelectOnFocus
@@ -154,6 +156,7 @@ class TimelineControls extends Component
                     value={this.props.frame.fps}
                     onChange={this.handleFPSChanged}
                 />
+                <div className='Timeline-spacer'></div>
                 <Icon name='trash' disabled={!this.canDeleteFrame} onClick={this.handleDeleteFrame}/>
             </div>
         )

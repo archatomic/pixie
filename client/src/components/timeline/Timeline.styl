@@ -3,6 +3,8 @@
     inactive-color = grey(80)
 
     padding 0 rhythm--half rhythm--half
+    background theme.panel;
+    border-top 0.1rem solid subtle-border;
 
     &-layer
         display block
@@ -32,12 +34,26 @@
         margin-bottom rhythm--half
         align-items center
         height 4rem
+
+        +smaller-than(small)
+            display block
+            height auto
+
+    &-playback
+        display flex
+
+        +smaller-than(small)
+            padding rhythm--quarter 0
+            justify-content center
     
     &-control
         color inactive-color
         font-size 1.2rem
         width 3rem
         height 2rem
+
+        +smaller-than(small)
+            font-size 1.4rem
 
     &-info
         font-size fs--small
@@ -46,11 +62,22 @@
         background grey(95)
         margin-left rhythm--half
         border-radius 0.3rem
-    
+        white-space nowrap
+
+        +smaller-than(small)
+            margin-left 0
+            justify-content center
+
     &-frame-number
         margin-left rhythm--half
         margin-right rhythm--half
-        color grey(50)
-    
+        color grey(70)
+
     &-duration
         width 12rem
+
+    &-fps
+        width 6rem
+
+    &-spacer
+        flex-grow 1

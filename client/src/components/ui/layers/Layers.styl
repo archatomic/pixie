@@ -44,9 +44,6 @@
         > *
             flex-shrink 0
             flex-grow 0
-
-    &-add
-        border-top 0.1rem solid subtle-border
     
     &-preview
         position relative
@@ -85,3 +82,18 @@
 
         + *
             border-top-color transparent
+    
+    &-controls
+        font-size fs--small
+        display flex
+        align-items center
+        background grey(95)
+        margin rhythm--quarter
+        margin-top 0
+        border-radius 0.3rem
+        white-space nowrap
+        padding rhythm--quarter
+        color grey(70)
+    
+    &-spacer
+        flex-grow 1

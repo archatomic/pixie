@@ -55,6 +55,7 @@ export class Layers extends Component
     {
         return (
             <div className='Layers-list'>
+                {this.renderControls()}
                 {this.props.cels.reverse().map(
                     ({layer, cel}) => <Layer.Connected
                         key={cel}
@@ -62,21 +63,21 @@ export class Layers extends Component
                         cel={cel}
                     />
                 )}
-                {this.renderAddLayerButton()}
             </div>
         )
     }
 
-    renderAddLayerButton ()
+    renderControls ()
     {
         return (
-            <div
-                className='Layers-add'
-                onClick={this.handleLayerAdd}
-            >
+            <div className='Layers-controls'>
+                <div className='Layers-title'>Layers</div>
+                <div className='Layers-spacer'></div>
                 <Icon
+                    tight
+                    className='Layers-control Layers-control--add'
                     name='plus-square'
-                    lined
+                    onClick={this.handleLayerAdd}
                 />
             </div>
         )
