@@ -1,13 +1,13 @@
-import './Timeline.styl'
-
 import { Component } from 'react'
 import classNames from 'classnames'
 import { connect } from 'client/util/connect'
 import { tabActions, fragmentActions, frameActions } from 'client/store/actions/applicationActions'
-import { Icon } from 'client/components/icon/icon'
+import { Icon } from 'client/components/icon'
 import { NumberField } from 'client/components/field/Number'
 import { Operation } from 'client/store/operations'
 import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'client/constants'
+
+import './Timeline.styl'
 
 /**
  * @typedef {import('client/model/PixieFragment').PixieFragment} PixieFragment
@@ -104,6 +104,11 @@ class TimelineControls extends Component
         tabActions.save(this.props.tab.set('play', !this.props.tab.play))
     }
 
+    handleOnionSkin = () =>
+    {
+        tabActions.save(this.props.tab.setOnionSkin(this.props.tab.onionSkin ? 0 : 1))
+    }
+
     setFrame (frame)
     {
         if (frame < 0) frame = this.props.numFrames - 1
@@ -120,6 +125,7 @@ class TimelineControls extends Component
                     <Icon className='Timeline-control' tight name='backward-step' onClick={ this.handleBack }/>
                     <Icon className='Timeline-control' tight name={this.props.tab.play ? 'pause' : 'play'} onClick={ this.handlePlayPause }/>
                     <Icon className='Timeline-control' tight name='forward-step' onClick={ this.handleForward }/>
+                    <Icon className='Timeline-control' tight name='onion' onClick={this.handleOnionSkin} active={this.props.tab.onionSkin > 0}/>
                 </div>
                 {this.renderTimelineInfo()}
             </div>

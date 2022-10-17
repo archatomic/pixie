@@ -1,6 +1,6 @@
 import { Color } from 'client/model/Color'
 import { Component } from 'react'
-import { Icon } from 'client/components/icon/icon'
+import { Icon } from 'client/components/icon'
 import { Transition } from 'client/components/Transition'
 import classNames from 'classnames'
 import { def } from 'client/util/default'

@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { ColorInput } from 'client/components/color-input'
-import { Icon } from 'client/components/icon/icon'
+import { Icon } from 'client/components/icon'
 import { Panel } from 'client/components/panel'
 import { Mobile } from 'client/components/platform'
 import { Slider } from 'client/components/slider'

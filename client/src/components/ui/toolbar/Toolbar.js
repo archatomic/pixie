@@ -1,7 +1,7 @@
 import { TOOL } from 'client/constants'
 
 import { Component } from 'react'
-import { Icon } from 'client/components/icon/icon'
+import { Icon } from 'client/components/icon'
 import { Panel } from 'client/components/panel'
 import { applicationTimelineToggle } from 'client/store/actions/applicationActions'
 import { activateTool } from 'client/store/actions/toolboxActions'

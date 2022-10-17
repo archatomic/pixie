@@ -4,6 +4,8 @@
     height 2.4em
     max-width 100%
     max-height 100%
+    fill currentColor
+    user-select none
 
     &--tight
         width 1em
@@ -34,6 +36,8 @@
         top 50%
         transform translate(-50%, -50%)
         transition transform 0.3s ease-in-out, opacity 0.3s ease-in-out, color 0.1s ease-in-out
+        max-width 100%
+        max-height 100%
 
         &.enter
             transform translate(-50%, -50%) rotate(-360deg)

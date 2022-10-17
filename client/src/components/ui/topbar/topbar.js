@@ -1,4 +1,4 @@
-import { Icon } from 'client/components/icon/icon'
+import { Icon } from 'client/components/icon'
 import { applicationLayersToggle, applicationThemeToggle } from 'client/store/actions/applicationActions'
 import { connect } from 'client/util/connect'
 import { go } from 'client/util/navigate'

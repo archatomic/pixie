@@ -1,9 +1,9 @@
 import '@fortawesome/fontawesome-free/css/all.css'
-import './icon.styl'
 
 import { Component } from 'react'
 import { Transition } from '../Transition'
 import classNames from 'classnames'
+import { icons } from 'client/components/icon/svg'
 
 /**
  * @typedef {object} IconProps
@@ -64,8 +64,30 @@ export class Icon extends Component
                 }
                 {...props}
             >
-                <i key={name} className={classNames('Icon-glyph', this.faClassName)} />
+                {this.renderGlyph(name)}
             </Transition>
         )
+    }
+
+    renderGlyph (name)
+    {
+        if (icons[name]) return this.renderSVGglyph(name)
+        return this.renderFontAwesomeGlyph(name)
+    }
+
+    renderSVGglyph (name)
+    {
+        const Glyph = icons[name]
+        return <Glyph
+            {...this.props.iconProps}
+            key={name}
+            className='Icon-glyph'
+            tight={this.props.tight}
+        />
+    }
+
+    renderFontAwesomeGlyph (name)
+    {
+        return <i {...this.props.iconProps} key={name} className={classNames('Icon-glyph', this.faClassName)} />
     }
 }
