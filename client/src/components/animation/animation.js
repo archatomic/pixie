@@ -1,4 +1,6 @@
+import { Frame } from 'client/components/frame'
 import { Image } from 'client/components/image'
+import { CEL_DISPLAY_MODE } from 'client/constants'
 import { Player } from 'client/model/Player'
 import { playerActions, setPlayerFrames, tickPlayer } from 'client/store/actions/playerActions'
 import { connect } from 'client/util/connect'
@@ -60,41 +62,11 @@ export class Animation extends Component
     render ()
     {
         if (!this.state.player) return
-        return <AnimationFrame.FromPlayerId player={this.state.player} />
+        return <PlayerFrame player={this.state.player} celDisplayMode={CEL_DISPLAY_MODE.COMMITTED}/>
     }
 }
 
-class AnimationFrame extends Component
-{
-    static FromFrame = connect(
-        (state, props) =>
-        {
-            const frame = state.frames.find(props.frame)
-            const fragment = state.fragments.find(frame.fragment)
-            const cels = fragment.getCels({ frame: frame.pk, visible: true }).map(c => c.cel)
-            return {
-                cels: state.cels.findAll(cels).toArray()
-            }
-        },
-        this
-    )
-    
-    static FromPlayerId = connect(
-        (state, props) =>
-        {
-            return {
-                frame: state.players.find(props.player).getFrame()
-            }
-        },
-        this.FromFrame
-    )
-
-    render ()
-    {
-        return (
-            <div className='Animation'>
-                {this.props.cels.map((cel, i) => <Image key={i} className='Animation-cel' data={cel.data} />)}
-            </div>
-        )
-    }
-}
+const PlayerFrame = connect(
+    (state, props) => ({ frame: state.players.find(props.player).getFrame() }),
+    Frame.Connected
+)

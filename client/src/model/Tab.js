@@ -9,7 +9,8 @@ export class Tab extends Record({
     rotate: 0,
     x: 0,
     y: 0,
-    play: false
+    play: false,
+    onionSkin: 0 
 }) {
     clampFrameAndLayer ()
     {
@@ -45,5 +46,10 @@ export class Tab extends Record({
     {
         const fragment = this.state.fragments.find(this.fragment)
         return this.set('layer', mod(i, fragment.layers.count()))
+    }
+
+    setOnionSkin (size)
+    {
+        return this.set('onionSkin', Math.max(size || 0, 0))
     }
 }

@@ -1,6 +1,7 @@
 import {
     DEFAULT_FRAGMENT_HEIGHT,
-    DEFAULT_FRAGMENT_WIDTH
+    DEFAULT_FRAGMENT_WIDTH,
+    VISIBILITY
 } from 'client/constants'
 
 import { Map, List } from 'immutable'
@@ -112,17 +113,33 @@ export class PixieFragment extends Record({
         const frames = celopts.frame !== undefined ? [celopts.frame] : this.frames
         const layers = celopts.layer !== undefined ? [celopts.layer] : this.layers
 
-        if (celopts.visible === true) {
+        if (celopts.visible !== undefined) {
             const visible = []
             const soloed = []
+            const hidden = []
             for (const frame of frames) {
                 for (const layer of layers) {
                     const cel = this.getCelKey(layer, frame)
                     const l = this.state.layers.find(layer)
                     if (l.soloed) soloed.push(cel)
                     if (l.visible) visible.push(cel)
+                    if (l.hidden) hidden.push(cel)
                 }
             }
+
+            // Explicitly return visible cels
+            if (celopts.visible === VISIBILITY.VISIBLE)
+                return visible
+            
+            // Explicity return hidden cels
+            if (celopts.visible === VISIBILITY.HIDDEN)
+                return hidden
+            
+            // Explicitly return soloed cels
+            if (celopts.visible === VISIBILITY.SOLO)
+                return soloed
+            
+            // "auto" mode. Return either the soloed or the visible
             return soloed.length > 0 ? soloed : visible
         }
 

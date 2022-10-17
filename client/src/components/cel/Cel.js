@@ -4,12 +4,14 @@ import { connect } from 'client/util/connect'
 import { Image } from 'client/components/image'
 
 import './Cel.styl'
+import { CEL_DISPLAY_MODE } from 'client/constants'
+import { def } from 'client/util/default'
 
 /**
  * @typedef {object} CelProps
  * @prop {import('client/model/PixieCel').PixieCel} cel 
  * @prop {string} [className] 
- * @prop {boolean} [omitPreview] 
+ * @prop {CEL_DISPLAY_MODE} [displayMode] 
  */
 
 /**
@@ -35,18 +37,38 @@ export class Cel extends Component
         }
     }
 
+    get displayMode ()
+    {
+        return def(this.props.displayMode, CEL_DISPLAY_MODE.AUTO)
+    }
+
     render ()
     {
         if (this.props.cel.null) return null
 
-        const showPreview = !!this.props.cel.preview && !this.props.omitPreview
-        const showData = !showPreview || this.props.cel.overlayPreview
-
         return (
-            <div className={classNames('Cel', this.props.className)} style={this.style}>
-                { showPreview && <Image className='Cel-canvas' data={this.props.cel.preview}/> }
-                { showData && <Image className='Cel-canvas' data={this.props.cel.data}/> }
+            <div className={classNames('Cel', this.props.className)}>
+                { this.renderCommitted() }
+                { this.renderPreview() }
             </div>
         )
+    }
+
+    renderPreview ()
+    {
+        if (this.displayMode === CEL_DISPLAY_MODE.COMMITTED) return null
+        if (!this.props.cel.preview) return null
+        return <Image className='Cel-canvas' data={this.props.cel.preview}/>
+    }
+
+    renderCommitted ()
+    {
+        if (this.displayMode === CEL_DISPLAY_MODE.PREVIEW) return null
+        if (
+            this.displayMode === CEL_DISPLAY_MODE.AUTO
+            && this.props.cel.preview
+            && !this.props.cel.overlayPreview
+        ) return null
+        return <Image className='Cel-canvas' data={this.props.cel.data}/>
     }
 }

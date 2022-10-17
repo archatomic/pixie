@@ -96,6 +96,12 @@ export const VISIBILITY = createEnum([
     'SOLO'
 ])
 
+export const CEL_DISPLAY_MODE = createEnum([
+    'AUTO',
+    'PREVIEW',
+    'COMMITTED'
+])
+
 export const PLAYBACK = createEnum([
     'PLAYING',
     'PAUSED'

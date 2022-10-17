@@ -5,10 +5,9 @@ import { connect } from 'client/util/connect'
 import { Image } from 'client/components/image'
 import { Icon } from 'client/components/icon/icon'
 import { VISIBILITY } from 'client/constants'
-import { fragmentActions, layerActions, tabActions } from 'client/store/actions/applicationActions'
+import { layerActions } from 'client/store/actions/applicationActions'
 import { Text } from 'client/components/field/Text'
 import { Operation } from 'client/store/operations'
-import { safeCall } from 'client/util/safeCall'
 
 export class Layers extends Component
 {

@@ -12,6 +12,8 @@ import { ToolManager } from 'client/tools/ToolManager'
 import { connect } from 'client/util/connect'
 import { def } from 'client/util/default'
 import { Animation } from 'client/components/animation'
+import { Frame } from 'client/components/frame'
+import { Onion } from 'client/components/onion'
 
 const OVERFLOW_MARGIN = 20
 
@@ -368,8 +370,8 @@ export class Workspace extends Component
     {
         return (
             <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
-                <div className='Workspace-backdrop' style={{backgroundSize: `${this.tab.zoom * 3.2}rem`}} />
-                {this.props.cels.map(cel => this.renderCel(cel))}
+                <div className='Workspace-backdrop' style={{ backgroundSize: `${this.tab.zoom * 3.2}rem` }} />
+                <Onion.FromFragment className='Workspace-frame' fragment={this.tab.fragment} count={this.tab.onionSkin} position={this.tab.frame}/>
                 <Cursor.Connected className='Workspace-cursor' data={this.pen.cursor()} scale={this.tab.zoom} />
             </div>
         )
