@@ -1,4 +1,4 @@
-import { OnionSkin } from 'Pixie/Component/icon/svg/onion'
+import { OnionSkin } from 'Pixie/Component/Icon/SVG/OnionSkin'
 
 export const icons = {
     onion: OnionSkin

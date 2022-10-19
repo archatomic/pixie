@@ -1,2 +1,2 @@
-import './Popover.styl'
 export * from './Popover'
+import './Popover.styl'

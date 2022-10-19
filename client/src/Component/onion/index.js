@@ -1,2 +1,2 @@
-export * from './onion'
-import './onion.styl'
+export * from './Onion'
+import './Onion.styl'

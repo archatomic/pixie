@@ -37,7 +37,7 @@ export class Slider extends Component
             })
         }
     }
-    
+
     normalize (value)
     {
         return clamp((value - this.min) / this.range)
@@ -89,7 +89,7 @@ export class Slider extends Component
     {
         return this.getKnobStyles(this.normalize(this.props.value))
     }
-    
+
     render ()
     {
         return (
@@ -109,21 +109,32 @@ export class Slider extends Component
                 selector='.Slider-track'
             >
                 <div className='Slider-tooltip'>
-                    <div className='Slider-tooltip-label' style={this.getKnobStyles()}>{this.state.denormalized}</div>
+                    <div
+                        className='Slider-tooltip-label'
+                        style={this.getKnobStyles()}
+                    >
+                        {this.state.denormalized}
+                    </div>
                 </div>
                 <div className='Slider-wrapper'>
                     <div className='Slider-label'>
                         {this.renderLabel()}
                     </div>
                     <div className='Slider-track'>
-                        <div className='Slider-indicator' style={this.getIndicatorStyles()} />
-                        <div className='Slider-knob' style={this.getKnobStyles()} />
+                        <div
+                            className='Slider-indicator'
+                            style={this.getIndicatorStyles()}
+                        />
+                        <div
+                            className='Slider-knob'
+                            style={this.getKnobStyles()}
+                        />
                     </div>
                 </div>
             </XYInput>
         )
     }
-    
+
     renderLabel ()
     {
         if (this.props.renderLabel) return this.props.renderLabel(this.state)

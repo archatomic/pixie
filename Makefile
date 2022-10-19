@@ -46,3 +46,8 @@ clean:
 	rm -rf dist
 	rm -rf client/dist
 	rm -rf client/.parcel-cache
+
+.PHONY: git.stage-case-changes
+git.stage-case-changes:
+	git rm -r --cached .; \
+    git add --all .;

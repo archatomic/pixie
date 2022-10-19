@@ -1,7 +1,7 @@
-import { def, isDefined } from 'Pixie/util/default'
+import { def } from 'Pixie/util/default'
 
 import { Component } from 'react'
-import { Panel } from 'Pixie/Component/panel'
+import { Panel } from 'Pixie/Component/Panel'
 import ReactDOM from 'react-dom'
 import { allowOne } from 'Pixie/Component/HOC/allowOne'
 import classNames from 'classnames'
@@ -26,8 +26,8 @@ const DEFAULT_ROOT_KEY = '___default'
 /**
  * @extends {Component<PopoverProps>}
  */
-export class Popover extends Component {
-
+export class Popover extends Component
+{
     static Singular = allowOne(this)
 
     /**
@@ -40,7 +40,8 @@ export class Popover extends Component {
      *
      * @param {HTMLElement} root
      */
-    static setDefaultRoot(root) {
+    static setDefaultRoot (root)
+    {
         this.setRoot(DEFAULT_ROOT_KEY, root)
     }
 
@@ -51,7 +52,8 @@ export class Popover extends Component {
      * @param {HTMLElement} [root]
      * @param {HTMLElement} [parent=document.body]
      */
-    static setRoot(name, root, parent = document.body) {
+    static setRoot (name, root, parent = document.body)
+    {
         if (!root) root = this.createNode('PopoverRoot', parent)
         this.roots[name] = root
     }
@@ -63,7 +65,8 @@ export class Popover extends Component {
      *
      * @returns {HTMLElement}
      */
-    static getRoot(name) {
+    static getRoot (name)
+    {
         if (!this.roots[name]) this.setRoot(name)
         return this.roots[name]
     }
@@ -73,7 +76,8 @@ export class Popover extends Component {
      *
      * @returns {HTMLElement}
      */
-    static getDefaultRoot() {
+    static getDefaultRoot ()
+    {
         return this.getRoot(DEFAULT_ROOT_KEY)
     }
 
@@ -85,7 +89,8 @@ export class Popover extends Component {
      *
      * @returns {HTMLElement}
      */
-    static createNode(className, parent = null) {
+    static createNode (className, parent = null)
+    {
         const el = document.createElement('div')
         el.className = className
         if (parent) parent.append(el)
@@ -103,21 +108,24 @@ export class Popover extends Component {
      *
      * @returns {HTMLElement}
      */
-    createContainer() {
+    createContainer ()
+    {
         return Popover.createNode('Popover')
     }
 
     /**
      * @type {Number}
      */
-    get targetLeft () {
+    get targetLeft ()
+    {
         return def(this.props.left, this.props.x, Math.floor(window.innerWidth / 2))
     }
 
     /**
      * @type {Number}
      */
-    get targetRight () {
+    get targetRight ()
+    {
         return def(
             this.props.right,
             this.targetLeft + def(this.props.width, 0)
@@ -127,14 +135,16 @@ export class Popover extends Component {
     /**
      * @type {Number}
      */
-    get targetTop () {
+    get targetTop ()
+    {
         return def(this.props.top, this.props.y, Math.floor(window.innerHeight / 2))
     }
 
     /**
      * @type {Number}
      */
-    get targetBottom () {
+    get targetBottom ()
+    {
         return def(
             this.props.bottom,
             this.targetTop + def(this.props.height, 0)
@@ -146,7 +156,8 @@ export class Popover extends Component {
      *
      * @returns {HTMLElement}
      */
-    getRoot() {
+    getRoot ()
+    {
         if (!this.root) this.root = Popover.getRoot(this.state.root)
         return this.root
     }
@@ -156,12 +167,14 @@ export class Popover extends Component {
      *
      * @returns {HTMLElement}
      */
-    getContainer() {
+    getContainer ()
+    {
         if (!this.container) this.container = this.createContainer()
         return this.container
     }
 
-    getX(width) {
+    getX (width)
+    {
         const align = def(this.props.align, 'right')
         let x
         switch (align) {
@@ -188,7 +201,8 @@ export class Popover extends Component {
         return Math.max(0, right - width)
     }
 
-    getY(height) {
+    getY (height)
+    {
         const align = def(this.props.vAlign, 'below')
         let y
         switch (align) {
@@ -215,7 +229,8 @@ export class Popover extends Component {
         return Math.max(0, bottom - height)
     }
 
-    getStyle () {
+    getStyle ()
+    {
         return {
             position: 'absolute',
             left: `${this.state.x / 10}rem`,
@@ -226,18 +241,21 @@ export class Popover extends Component {
     /**
      * Append the container to the root
      */
-    componentDidMount() {
+    componentDidMount ()
+    {
         this.attach()
     }
 
     /**
      * Remove the container from the root
      */
-    componentWillUnmount() {
+    componentWillUnmount ()
+    {
         this.detach()
     }
 
-    attach() {
+    attach ()
+    {
         this.getRoot().appendChild(this.getContainer())
         const ref = this.container.children[0]
         const { width, height } = ref.getBoundingClientRect()
@@ -250,20 +268,23 @@ export class Popover extends Component {
         safeCall(this.props.onOpen)
     }
 
-    detach() {
+    detach ()
+    {
         this.container.append(this.container.children[0].cloneNode(true)) // Append cloned node
         this.container.classList.remove('Popover--show')
         setTimeout(this._remove, 300)
         safeCall(this.props.onClose)
     }
 
-    _remove = () => {
+    _remove = () =>
+    {
         this.root.removeChild(this.container)
         this.container = null
         this.root = null
     }
 
-    render() {
+    render ()
+    {
         return ReactDOM.createPortal(
             <Panel
                 full

@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { ColorInput } from 'Pixie/Component/ColorInput'
-import { Icon } from 'Pixie/Component/icon'
-import { Panel } from 'Pixie/Component/panel'
-import { Mobile } from 'Pixie/Component/platform'
-import { Slider } from 'Pixie/Component/slider'
-import { Timeline } from 'Pixie/Component/timeline/Timeline'
+import { Icon } from 'Pixie/Component/Icon'
+import { Panel } from 'Pixie/Component/Panel'
+import { Mobile } from 'Pixie/Component/Platform'
+import { Slider } from 'Pixie/Component/Slider'
+import { Timeline } from 'Pixie/Component/Timeline'
 import { Transition } from 'Pixie/Component/Transition'
 import { Color } from 'Pixie/model/Color'
 import { setToolOption } from 'Pixie/store/actions/toolboxActions'
@@ -71,7 +71,7 @@ export class BottomBar extends Component
     renderToolOptions ()
     {
         if (!this.props.tool.options.length) return null
-        
+
         return (
             <Panel key={this.props.tool.name} className='BottomBar-options'>
                 {this.props.tool.options.map (option => this.renderToolOption(option))}
@@ -83,7 +83,7 @@ export class BottomBar extends Component
     {
         if (option.value instanceof Color)
             return this.renderColorPicker(option.id, option.value)
-        
+
         if (typeof option.value === 'number')
             return this.renderSlider(option.id, option.value)
     }

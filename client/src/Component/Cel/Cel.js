@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import classNames from 'classnames'
 import { connect } from 'Pixie/util/connect'
-import { Image } from 'Pixie/Component/image'
+import { Image } from 'Pixie/Component/Image'
 
 import { CEL_DISPLAY_MODE } from 'Pixie/constants'
 import { def } from 'Pixie/util/default'

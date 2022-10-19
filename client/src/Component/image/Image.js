@@ -38,7 +38,7 @@ export class Image extends Component
     }
 
     /**
-     * @param {HTMLCanvasElement} canvas 
+     * @param {HTMLCanvasElement} canvas
      */
     handleRef = canvas =>
     {

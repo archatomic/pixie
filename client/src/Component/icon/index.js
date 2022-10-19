@@ -1,2 +1,2 @@
-export * from './icon'
-import './icon.styl'
+export * from './Icon'
+import './Icon.styl'

@@ -11,7 +11,8 @@ import { ToolManager } from 'Pixie/tools/ToolManager'
 import { connect } from 'Pixie/util/connect'
 import { def } from 'Pixie/util/default'
 import { Animation } from 'Pixie/Component/Animation'
-import { Onion } from 'Pixie/Component/onion'
+import { Onion } from 'Pixie/Component/Onion'
+import { Component } from 'react'
 
 const OVERFLOW_MARGIN = 20
 

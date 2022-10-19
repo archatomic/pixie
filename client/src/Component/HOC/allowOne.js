@@ -7,7 +7,8 @@ const CLOSE_EVENT = 'close'
 const DEFAULT_CHANNEL = '__default_channel'
 const CHANNELS = {}
 
-export function close(channel = DEFAULT_CHANNEL) {
+export function close (channel = DEFAULT_CHANNEL)
+{
     if (!CHANNELS[channel]) return
     CHANNELS[channel].emit(CLOSE_EVENT)
 }
@@ -72,7 +73,7 @@ export function allowOne (WrappedComponent, openAutomatically = true, channel = 
         render ()
         {
             if (!this.state.open) return null
-            return <WrappedComponent {...this.props} onOpen={this.handleOpenFromChild} onClose={this.handleCloseFromChild}/>
+            return <WrappedComponent {...this.props} onOpen={this.handleOpenFromChild} onClose={this.handleCloseFromChild} />
         }
     }
 }

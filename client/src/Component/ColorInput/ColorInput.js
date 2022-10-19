@@ -1,6 +1,6 @@
 import { Color } from 'Pixie/model/Color'
 import { Component } from 'react'
-import { Icon } from 'Pixie/Component/icon'
+import { Icon } from 'Pixie/Component/Icon'
 import { Transition } from 'Pixie/Component/Transition'
 import classNames from 'classnames'
 import { def } from 'Pixie/util/default'

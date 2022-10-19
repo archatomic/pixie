@@ -1,13 +1,11 @@
 import { Component } from 'react'
 import classNames from 'classnames'
 import { connect } from 'Pixie/util/connect'
-import { tabActions, fragmentActions, frameActions } from 'Pixie/store/actions/applicationActions'
-import { Icon } from 'Pixie/Component/icon'
+import { tabActions, frameActions } from 'Pixie/store/actions/applicationActions'
+import { Icon } from 'Pixie/Component/Icon'
 import { NumberField } from 'Pixie/Component/Field'
 import { Operation } from 'Pixie/store/operations'
 import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'Pixie/constants'
-
-import './Timeline.styl'
 
 /**
  * @typedef {import('Pixie/model/PixieFragment').PixieFragment} PixieFragment
@@ -87,13 +85,13 @@ class TimelineControls extends Component
         Operation.pushHistory(this.props.frame.fragment, 'Delete Frame')
     }
 
-    handleDurationChanged = ({value}) =>
+    handleDurationChanged = ({ value }) =>
     {
         frameActions.save(this.props.frame.set('duration', value))
         Operation.pushHistory(this.props.frame.fragment, 'Set Frame Duration')
     }
 
-    handleFPSChanged = ({value}) =>
+    handleFPSChanged = ({ value }) =>
     {
         frameActions.save(this.props.frame.setFps(value))
         Operation.pushHistory(this.props.frame.fragment, 'Set Frame FPS')
@@ -121,11 +119,11 @@ class TimelineControls extends Component
         return (
             <div className='Timeline-controls'>
                 <div className='Timeline-playback'>
-                    <Icon className='Timeline-control' tight name='backward-fast' onClick={ this.handleReset }/>
-                    <Icon className='Timeline-control' tight name='backward-step' onClick={ this.handleBack }/>
-                    <Icon className='Timeline-control' tight name={this.props.tab.play ? 'pause' : 'play'} onClick={ this.handlePlayPause }/>
-                    <Icon className='Timeline-control' tight name='forward-step' onClick={ this.handleForward }/>
-                    <Icon className='Timeline-control' tight name='onion' onClick={this.handleOnionSkin} active={this.props.tab.onionSkin > 0}/>
+                    <Icon className='Timeline-control' tight name='backward-fast' onClick={this.handleReset} />
+                    <Icon className='Timeline-control' tight name='backward-step' onClick={this.handleBack} />
+                    <Icon className='Timeline-control' tight name={this.props.tab.play ? 'pause' : 'play'} onClick={this.handlePlayPause} />
+                    <Icon className='Timeline-control' tight name='forward-step' onClick={this.handleForward} />
+                    <Icon className='Timeline-control' tight name='onion' onClick={this.handleOnionSkin} active={this.props.tab.onionSkin > 0} />
                 </div>
                 {this.renderTimelineInfo()}
             </div>
@@ -163,7 +161,7 @@ class TimelineControls extends Component
                     onChange={this.handleFPSChanged}
                 />
                 <div className='Timeline-spacer'></div>
-                <Icon name='trash' disabled={!this.canDeleteFrame} onClick={this.handleDeleteFrame}/>
+                <Icon name='trash' disabled={!this.canDeleteFrame} onClick={this.handleDeleteFrame} />
             </div>
         )
     }
@@ -201,7 +199,7 @@ class TimelineLayer extends Component
                     <TimelineFrame.Connected key={frame} frame={frame} />
                 ))}
                 <div className='Timeline-layer-frame Timeline-layer-frame--button'>
-                    <Icon name='plus' onClick={this.handleAddFrame}/>
+                    <Icon name='plus' onClick={this.handleAddFrame} />
                 </div>
             </div>
         )
@@ -241,7 +239,7 @@ class TimelineFrame extends Component
                 )}
                 onClick={this.handleClick}
             >
-                <Icon name='circle' lined={empty}/>
+                <Icon name='circle' lined={empty} />
             </div>
         )
     }

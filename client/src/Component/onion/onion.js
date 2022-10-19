@@ -72,8 +72,7 @@ export class Onion extends Component
         }
 
         const op = []
-        for (let i = from; i <= to; i++)
-        {
+        for (let i = from; i <= to; i++) {
             op.push(this.getFrame(i))
         }
         return op
@@ -111,10 +110,10 @@ export class Onion extends Component
         return (
             <div className={className}>
                 {frames.map((frame, i) =>
-                    {
-                        const distance = (i + 1) / frames.length
-                        return this.renderOnionSkin(frame, distance, skinClass)
-                    }
+                {
+                    const distance = (i + 1) / frames.length
+                    return this.renderOnionSkin(frame, distance, skinClass)
+                }
                 )}
             </div>
         )
@@ -126,7 +125,7 @@ export class Onion extends Component
             key={frame}
             frame={frame}
             className={classNames('Onion-frame', className)}
-            style={{opacity: distance }}
+            style={{ opacity: distance }}
         />
     }
 }

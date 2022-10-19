@@ -1,8 +1,8 @@
 import { TOOL } from 'Pixie/constants'
 
 import { Component } from 'react'
-import { Icon } from 'Pixie/Component/icon'
-import { Panel } from 'Pixie/Component/panel'
+import { Icon } from 'Pixie/Component/Icon'
+import { Panel } from 'Pixie/Component/Panel'
 import { applicationTimelineToggle } from 'Pixie/store/actions/applicationActions'
 import { activateTool } from 'Pixie/store/actions/toolboxActions'
 import classNames from 'classnames'

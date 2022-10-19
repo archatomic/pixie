@@ -1,4 +1,4 @@
-import { Icon } from 'Pixie/Component/icon'
+import { Icon } from 'Pixie/Component/Icon'
 import { applicationLayersToggle, applicationThemeToggle } from 'Pixie/store/actions/applicationActions'
 import { connect } from 'Pixie/util/connect'
 import { go } from 'Pixie/util/navigate'

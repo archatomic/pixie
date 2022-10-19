@@ -1,7 +1,7 @@
 import { Button } from 'Pixie/Component/Button'
 import { Component } from 'react'
 import { Form } from 'Pixie/Component/Field'
-import { Page } from 'Pixie/Component/page/Page'
+import { Page } from 'Pixie/Component/Page'
 
 export class Main extends Component
 {
