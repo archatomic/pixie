@@ -12,7 +12,7 @@
 
     &--open
         transform translateX(-100%)
-    
+
     &-drawer
         position relative
         overflow-x hidden
@@ -24,13 +24,13 @@
         border-bottom 0.1rem solid subtle-border
         transition transform 0.3s ease-in-out
         transform translateX(0)
-    
+
     &-list.exit
         transform translateX(0)
 
     &-list.exit-active, &-list.enter
         transform translateX(rhythm)
-    
+
     &-list.enter-active
         transform translateX(0)
 
@@ -45,7 +45,7 @@
         > *
             flex-shrink 0
             flex-grow 0
-    
+
     &-preview
         position relative
         width 2rem
@@ -61,12 +61,12 @@
         white-space nowrap
         flex-shrink 1
         flex-grow 1
-    
+
     &-visibility
         color inactive-color
         margin-right rhythm--half
         font-size fs--small
-    
+
     &-delete
         margin-left rhythm--quarter
         font-size fs--small
@@ -83,7 +83,7 @@
 
         + *
             border-top-color transparent
-    
+
     &-controls
         font-size fs--small
         display flex
@@ -95,6 +95,6 @@
         white-space nowrap
         padding rhythm--quarter
         color grey(70)
-    
+
     &-spacer
         flex-grow 1

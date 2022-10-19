@@ -32,7 +32,7 @@ export class BottomBar extends Component
         this
     )
 
-    handleUndo = (e) => undo (this.props.fragment)
+    handleUndo = (e) => undo(this.props.fragment)
     handleRedo = () => redo(this.props.fragment)
     handleOptionChanged = ({ name, value }) => setToolOption(name, value)
 
@@ -74,7 +74,7 @@ export class BottomBar extends Component
 
         return (
             <Panel key={this.props.tool.name} className='BottomBar-options'>
-                {this.props.tool.options.map (option => this.renderToolOption(option))}
+                {this.props.tool.options.map(option => this.renderToolOption(option))}
             </Panel>
         )
     }
@@ -93,7 +93,7 @@ export class BottomBar extends Component
         if (!this.props.timeline) return null
         return (
             <div className='BottomBar-timeline'>
-                <Timeline.Connected/>
+                <Timeline.Connected />
             </div>
         )
     }

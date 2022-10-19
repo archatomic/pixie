@@ -3,7 +3,7 @@ import { applicationBlur, applicationFocus } from 'Pixie/store/actions/applicati
 
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
-import { TitleBar } from './title-bar/TitleBar'
+import { TitleBar } from 'Pixie/Component/TitleBar/TitleBar'
 import classNames from 'classnames'
 import { connect } from 'Pixie/util/connect'
 

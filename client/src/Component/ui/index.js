@@ -1,2 +1,3 @@
-export * from './ui'
-import './ui.styl'
+export * from './UI'
+export * from './WorkspaceUI'
+import './UI.styl'

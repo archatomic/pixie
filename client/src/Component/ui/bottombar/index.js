@@ -1,2 +1,2 @@
-export * from './bottombar'
-import './bottombar.styl'
+export * from './BottomBar'
+import './BottomBar.styl'

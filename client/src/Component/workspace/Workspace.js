@@ -1,5 +1,3 @@
-import './Workspace.styl'
-
 import { MAX_ZOOM, MIN_ZOOM, TOOL, ZOOM_SPEED } from 'Pixie/constants'
 import { applicationCursorUpdate, tabActions } from 'Pixie/store/actions/applicationActions'
 import { clamp, int } from 'Pixie/util/math'
@@ -214,8 +212,8 @@ export class Workspace extends Component
             const tool = e.button === 2
                 ? TOOL.EYEDROPPER
                 : e.button === 5
-                ? TOOL.ERASER
-                : this.props.tool
+                    ? TOOL.ERASER
+                    : this.props.tool
             return this.pen.start(tool, x, y, e)
         }
 
@@ -355,7 +353,7 @@ export class Workspace extends Component
     {
         return (
             <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
-                <div className='Workspace-backdrop' style={{backgroundSize: `${this.tab.zoom * 3.2}rem`}} />
+                <div className='Workspace-backdrop' style={{ backgroundSize: `${this.tab.zoom * 3.2}rem` }} />
                 <Animation.FromFragment
                     fragment={this.tab.fragment}
                     frame={this.tab.frame}
@@ -370,7 +368,7 @@ export class Workspace extends Component
         return (
             <div className='Workspace-stage' style={this.stageStyle} ref={this.handleWrapperRef}>
                 <div className='Workspace-backdrop' style={{ backgroundSize: `${this.tab.zoom * 3.2}rem` }} />
-                <Onion.FromFragment className='Workspace-frame' fragment={this.tab.fragment} count={this.tab.onionSkin} position={this.tab.frame}/>
+                <Onion.FromFragment className='Workspace-frame' fragment={this.tab.fragment} count={this.tab.onionSkin} position={this.tab.frame} />
                 <Cursor.Connected className='Workspace-cursor' data={this.pen.cursor()} scale={this.tab.zoom} />
             </div>
         )
@@ -379,8 +377,8 @@ export class Workspace extends Component
     renderCel ({ cel, layer, frame })
     {
         return (
-            <div key={cel} className='Workspace-cel' style={{transform: `scale(${this.tab.zoom})`}}>
-                <Cel.Connected key={cel.pk} cel={cel}/>
+            <div key={cel} className='Workspace-cel' style={{ transform: `scale(${this.tab.zoom})` }}>
+                <Cel.Connected key={cel.pk} cel={cel} />
             </div>
         )
     }

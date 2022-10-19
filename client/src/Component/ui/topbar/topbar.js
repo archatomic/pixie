@@ -18,9 +18,9 @@ export class TopBar extends Component
         return (
             <div className='TopBar'>
                 <div className='TopBar-left'>
-                    <Icon subtle tight name='bolt' onClick={goHome}/>
+                    <Icon subtle tight name='bolt' onClick={goHome} />
                 </div>
-                <div className='TopBar-spacer'/>
+                <div className='TopBar-spacer' />
                 <div className='TopBar-right'>
                     <Icon
                         tight

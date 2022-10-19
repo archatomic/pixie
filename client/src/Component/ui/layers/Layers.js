@@ -56,7 +56,7 @@ export class Layers extends Component
             <div className='Layers-list'>
                 {this.renderControls()}
                 {this.props.cels.reverse().map(
-                    ({layer, cel}) => <Layer.Connected
+                    ({ layer, cel }) => <Layer.Connected
                         key={cel}
                         layer={layer}
                         cel={cel}
