@@ -1,8 +1,8 @@
 import classNames from 'classnames'
-import { XYInput } from 'client/components/XYInput'
-import { def } from 'client/util/default'
-import { clamp } from 'client/util/math'
-import { safeCall } from 'client/util/safeCall'
+import { XYInput } from 'Pixie/components/XYInput'
+import { def } from 'Pixie/util/default'
+import { clamp } from 'Pixie/util/math'
+import { safeCall } from 'Pixie/util/safeCall'
 import { Component } from 'react'
 
 export class Slider extends Component

@@ -1,16 +1,16 @@
-import { TOOL } from 'client/constants'
+import { TOOL } from 'Pixie/constants'
 
 import { Component } from 'react'
-import { Icon } from 'client/components/icon'
-import { Panel } from 'client/components/panel'
-import { applicationTimelineToggle } from 'client/store/actions/applicationActions'
-import { activateTool } from 'client/store/actions/toolboxActions'
+import { Icon } from 'Pixie/components/icon'
+import { Panel } from 'Pixie/components/panel'
+import { applicationTimelineToggle } from 'Pixie/store/actions/applicationActions'
+import { activateTool } from 'Pixie/store/actions/toolboxActions'
 import classNames from 'classnames'
-import { connect } from 'client/util/connect'
-import { def, isDefined } from 'client/util/default'
-import { go } from 'client/util/navigate'
-import { warn } from 'client/util/log'
-import { safeCall } from 'client/util/safeCall'
+import { connect } from 'Pixie/util/connect'
+import { def, isDefined } from 'Pixie/util/default'
+import { go } from 'Pixie/util/navigate'
+import { warn } from 'Pixie/util/log'
+import { safeCall } from 'Pixie/util/safeCall'
 
 export class Tool extends Component
 {

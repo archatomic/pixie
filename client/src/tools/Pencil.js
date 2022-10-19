@@ -1,16 +1,16 @@
-import { celActions } from 'client/store/actions/applicationActions'
+import { celActions } from 'Pixie/store/actions/applicationActions'
 
 import { BaseTool } from './BaseTool'
-import { locate } from 'client/util/registry'
-import { getCircleBrush } from 'client/model/brushes/circle'
-import { TOOLOPT } from 'client/constants'
-import { DrawJob } from 'client/util/DrawJob'
-import { Operation } from 'client/store/operations'
+import { locate } from 'Pixie/util/registry'
+import { getCircleBrush } from 'Pixie/model/brushes/circle'
+import { TOOLOPT } from 'Pixie/constants'
+import { DrawJob } from 'Pixie/util/DrawJob'
+import { Operation } from 'Pixie/store/operations'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
- * @typedef {import('client/model/Application').Application} Application
- * @typedef {import('client/model/State').State} State
+ * @typedef {import('Pixie/model/Application').Application} Application
+ * @typedef {import('Pixie/model/State').State} State
  */
 
 export class Pencil extends BaseTool

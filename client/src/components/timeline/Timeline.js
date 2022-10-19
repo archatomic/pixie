@@ -1,20 +1,20 @@
 import { Component } from 'react'
 import classNames from 'classnames'
-import { connect } from 'client/util/connect'
-import { tabActions, fragmentActions, frameActions } from 'client/store/actions/applicationActions'
-import { Icon } from 'client/components/icon'
-import { NumberField } from 'client/components/field/Number'
-import { Operation } from 'client/store/operations'
-import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'client/constants'
+import { connect } from 'Pixie/util/connect'
+import { tabActions, fragmentActions, frameActions } from 'Pixie/store/actions/applicationActions'
+import { Icon } from 'Pixie/components/icon'
+import { NumberField } from 'Pixie/components/field/Number'
+import { Operation } from 'Pixie/store/operations'
+import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'Pixie/constants'
 
 import './Timeline.styl'
 
 /**
- * @typedef {import('client/model/PixieFragment').PixieFragment} PixieFragment
- * @typedef {import('client/model/PixieFrame').PixieFrame} PixieFrame
- * @typedef {import('client/model/PixieCel').PixieCel} PixieCel
- * @typedef {import('client/model/Application').Application} Application
- * @typedef {import('client/model/Tab').Tab} Tab
+ * @typedef {import('Pixie/model/PixieFragment').PixieFragment} PixieFragment
+ * @typedef {import('Pixie/model/PixieFrame').PixieFrame} PixieFrame
+ * @typedef {import('Pixie/model/PixieCel').PixieCel} PixieCel
+ * @typedef {import('Pixie/model/Application').Application} Application
+ * @typedef {import('Pixie/model/Tab').Tab} Tab
  */
 
 /**

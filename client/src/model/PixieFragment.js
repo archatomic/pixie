@@ -2,7 +2,7 @@ import {
     DEFAULT_FRAGMENT_HEIGHT,
     DEFAULT_FRAGMENT_WIDTH,
     VISIBILITY
-} from 'client/constants'
+} from 'Pixie/constants'
 
 import { Map, List } from 'immutable'
 import { PixieCel } from './PixieCel'

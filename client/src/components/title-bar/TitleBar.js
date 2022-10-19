@@ -1,8 +1,8 @@
 import './TitleBar.styl'
 
-import { HAS_TITLE_BAR, IS_LINUX, IS_WINDOWS } from 'client/constants'
+import { HAS_TITLE_BAR, IS_LINUX, IS_WINDOWS } from 'Pixie/constants'
 
-import { makeSafe } from 'client/util/safeCall'
+import { makeSafe } from 'Pixie/util/safeCall'
 
 const handleClose = makeSafe(() => window.close())
 const handleMinimize = makeSafe(() => window.electron.minimize())

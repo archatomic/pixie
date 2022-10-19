@@ -1,5 +1,5 @@
-import { Device } from 'client/util/bindings/device/Device'
-import { Emitter } from 'client/util/emitter'
+import { Device } from 'Pixie/util/bindings/device/Device'
+import { Emitter } from 'Pixie/util/emitter'
 
 export class DeviceManager extends Emitter
 {

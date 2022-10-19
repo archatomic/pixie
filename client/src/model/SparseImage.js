@@ -1,9 +1,9 @@
-import { BLENDMODE } from 'client/constants'
-import { Color } from 'client/model/Color'
-import { Record } from 'client/model/Record'
-import { isDefined } from 'client/util/default'
-import { imageDataToDataURI } from 'client/util/graphics'
-import { int } from 'client/util/math'
+import { BLENDMODE } from 'Pixie/constants'
+import { Color } from 'Pixie/model/Color'
+import { Record } from 'Pixie/model/Record'
+import { isDefined } from 'Pixie/util/default'
+import { imageDataToDataURI } from 'Pixie/util/graphics'
+import { int } from 'Pixie/util/math'
 import { Map } from 'immutable'
 
 export class SparseImage extends Record({

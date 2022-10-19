@@ -1,8 +1,8 @@
-import { Toolbar } from 'client/components/ui/toolbar'
-import { Layers } from 'client/components/ui/layers'
-import { Top, Left, Right, Bottom, UI } from 'client/components/ui'
-import { TopBar } from 'client/components/ui/topbar'
-import { BottomBar } from 'client/components/ui/bottombar'
+import { Toolbar } from 'Pixie/components/ui/toolbar'
+import { Layers } from 'Pixie/components/ui/layers'
+import { Top, Left, Right, Bottom, UI } from 'Pixie/components/ui'
+import { TopBar } from 'Pixie/components/ui/topbar'
+import { BottomBar } from 'Pixie/components/ui/bottombar'
 
 export const WorkspaceUI = ({ children }) => (
     <UI>

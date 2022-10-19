@@ -1,6 +1,6 @@
-import { UNDO_PUSH } from 'client/store/actions/undoActions'
+import { UNDO_PUSH } from 'Pixie/store/actions/undoActions'
 import { locate } from "./registry"
-import { warn } from 'client/util/log'
+import { warn } from 'Pixie/util/log'
 
 export const action = (type, payload) => {
     const store = locate('store')

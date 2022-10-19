@@ -1,4 +1,4 @@
-import { createNode } from 'client/util/createNode'
+import { createNode } from 'Pixie/util/createNode'
 
 /** @type {HTMLCanvasElement} */
 const canvas = createNode({ tag: 'canvas' })

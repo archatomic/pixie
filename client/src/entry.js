@@ -2,14 +2,14 @@ import './global.styl'
 
 import { StatusBar, Style } from '@capacitor/status-bar'
 
-import { App } from 'client/App'
+import { App } from 'Pixie/App'
 import ReactDOM from 'react-dom/client'
 import { SafeArea } from 'capacitor-plugin-safe-area'
-import { applicationSafeAreaUpdate } from 'client/store/actions/applicationActions'
-import { createNode } from 'client/util/createNode'
-import { error } from 'client/util/log'
+import { applicationSafeAreaUpdate } from 'Pixie/store/actions/applicationActions'
+import { createNode } from 'Pixie/util/createNode'
+import { error } from 'Pixie/util/log'
 import { IS_ANDROID } from './constants'
-import { registerTools } from 'client/registerTools'
+import { registerTools } from 'Pixie/registerTools'
 
 try {
   module.hot.accept()

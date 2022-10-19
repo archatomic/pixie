@@ -1,5 +1,5 @@
-import { def } from 'client/util/default'
-import { isNumber, precision } from 'client/util/math'
+import { def } from 'Pixie/util/default'
+import { isNumber, precision } from 'Pixie/util/math'
 import { Field } from './Field'
 
 /**

@@ -9,9 +9,9 @@ import {
     APPLICATION_THEME_UPDATE,
     APPLICATION_TIMELINE_TOGGLE,
     APPLICATION_TITLE_UPDATE,
-} from 'client/store/actions/applicationActions'
+} from 'Pixie/store/actions/applicationActions'
 
-import { Application } from 'client/model/Application'
+import { Application } from 'Pixie/model/Application'
 
 const INITIAL_STATE = Application.create()
 

@@ -1,10 +1,10 @@
-import { Frame } from 'client/components/frame'
-import { Image } from 'client/components/image'
-import { CEL_DISPLAY_MODE } from 'client/constants'
-import { Player } from 'client/model/Player'
-import { playerActions, setPlayerFrames, tickPlayer } from 'client/store/actions/playerActions'
-import { connect } from 'client/util/connect'
-import { safeCall } from 'client/util/safeCall'
+import { Frame } from 'Pixie/components/frame'
+import { Image } from 'Pixie/components/image'
+import { CEL_DISPLAY_MODE } from 'Pixie/constants'
+import { Player } from 'Pixie/model/Player'
+import { playerActions, setPlayerFrames, tickPlayer } from 'Pixie/store/actions/playerActions'
+import { connect } from 'Pixie/util/connect'
+import { safeCall } from 'Pixie/util/safeCall'
 import { Component } from 'react'
 
 export class Animation extends Component

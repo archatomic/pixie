@@ -1,12 +1,12 @@
-import { Color } from 'client/model/Color'
+import { Color } from 'Pixie/model/Color'
 import { Component } from 'react'
-import { Icon } from 'client/components/icon'
-import { Transition } from 'client/components/Transition'
+import { Icon } from 'Pixie/components/icon'
+import { Transition } from 'Pixie/components/Transition'
 import classNames from 'classnames'
-import { def } from 'client/util/default'
-import { safeCall } from 'client/util/safeCall'
-import { XYInput } from 'client/components/XYInput'
-import { ColorSwatch } from 'client/components/color-swatch'
+import { def } from 'Pixie/util/default'
+import { safeCall } from 'Pixie/util/safeCall'
+import { XYInput } from 'Pixie/components/XYInput'
+import { ColorSwatch } from 'Pixie/components/color-swatch'
 
 export class ColorInput extends Component
 {

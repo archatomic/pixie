@@ -1,6 +1,6 @@
 import './Page.styl'
 
-import { applicationTitleClear, applicationTitleUpdate } from 'client/store/actions/applicationActions'
+import { applicationTitleClear, applicationTitleUpdate } from 'Pixie/store/actions/applicationActions'
 
 import { Component } from 'react'
 import { Transition } from '../Transition'

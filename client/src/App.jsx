@@ -1,13 +1,13 @@
-import { Authenticated, Unauthenticated } from 'client/components/Authenticated'
+import { Authenticated, Unauthenticated } from 'Pixie/components/Authenticated'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { CaptureNavigate } from './CaptureNavigate'
 import { Main } from './pages/Main/Main'
 import { Navigate } from 'react-router'
 import { Provider } from 'react-redux'
-import { Root } from 'client/components/Root'
-import { Workspace } from 'client/pages/Workspace/Workspace'
-import { store } from 'client/store'
+import { Root } from 'Pixie/components/Root'
+import { Workspace } from 'Pixie/pages/Workspace/Workspace'
+import { store } from 'Pixie/store'
 
 const AuthenticatedRoutes = null
 const UnathenticatedRoutes = (

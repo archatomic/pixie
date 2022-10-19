@@ -34,7 +34,7 @@
     "process": "^0.11.10"
   },
   "alias": {
-    "client": "./src"
+    "Pixie": "./src"
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -50,7 +50,7 @@
       ]
     },
     "moduleNameMapper": {
-      "client/(.*)$": "<rootDir>/src/$1"
+      "Pixie/(.*)$": "<rootDir>/src/$1"
     }
   }
 }

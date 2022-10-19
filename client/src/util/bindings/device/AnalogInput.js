@@ -1,5 +1,5 @@
-import { DeviceInput } from 'client/util/bindings/device/DeviceInput'
-import { def } from 'client/util/default'
+import { DeviceInput } from 'Pixie/util/bindings/device/DeviceInput'
+import { def } from 'Pixie/util/default'
 
 export class AnalogInput extends DeviceInput
 {

@@ -1,4 +1,4 @@
-import { mod } from 'client/util/math'
+import { mod } from 'Pixie/util/math'
 import { Record } from './Record'
 
 export class Tab extends Record({

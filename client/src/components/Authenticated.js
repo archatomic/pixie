@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { identity } from 'client/api/identity'
+import { identity } from 'Pixie/api/identity'
 
 export class Authenticated extends Component {
   state = {

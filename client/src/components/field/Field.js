@@ -4,10 +4,10 @@ import { Component } from 'react'
 import { FormContext } from './Form'
 import { Transition } from '../Transition'
 import classNames from 'classnames'
-import { def, isEmpty } from 'client/util/default'
-import { randomString } from 'client/util/random'
-import { validate } from 'client/util/validation'
-import { safeCall } from 'client/util/safeCall'
+import { def, isEmpty } from 'Pixie/util/default'
+import { randomString } from 'Pixie/util/random'
+import { validate } from 'Pixie/util/validation'
+import { safeCall } from 'Pixie/util/safeCall'
 
 /**
  * @typedef {object} FieldProps

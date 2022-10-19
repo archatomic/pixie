@@ -1,6 +1,6 @@
-import { IS_ANDROID, IS_DESKTOP, IS_IOS, IS_LINUX, IS_MAC, IS_MOBILE, IS_WEB, IS_WINDOWS } from 'client/constants'
+import { IS_ANDROID, IS_DESKTOP, IS_IOS, IS_LINUX, IS_MAC, IS_MOBILE, IS_WEB, IS_WINDOWS } from 'Pixie/constants'
 
-import { createPassthroughComponent } from 'client/util/children'
+import { createPassthroughComponent } from 'Pixie/util/children'
 
 const NOOP_COMPONENT = () => null
 const staticConditionalRenderer = condition => (condition ? createPassthroughComponent() : NOOP_COMPONENT)

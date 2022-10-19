@@ -2,9 +2,9 @@ import {
     TOOLBOX_ACTIVATE,
     TOOLBOX_OPTION_SET,
     TOOLBOX_REGISTER_TOOL
-} from 'client/store/actions/toolboxActions'
+} from 'Pixie/store/actions/toolboxActions'
 
-import { ToolBox } from 'client/model/ToolBox'
+import { ToolBox } from 'Pixie/model/ToolBox'
 
 /** @type {ToolBox} */
 const INITIAL_STATE = ToolBox.create()

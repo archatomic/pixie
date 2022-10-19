@@ -1,6 +1,6 @@
-import { warn } from 'client/util/log'
-import { clamp } from 'client/util/math'
-import { safeCall } from 'client/util/safeCall'
+import { warn } from 'Pixie/util/log'
+import { clamp } from 'Pixie/util/math'
+import { safeCall } from 'Pixie/util/safeCall'
 import { Component } from 'react'
 
 export class XYInput extends Component

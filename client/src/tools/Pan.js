@@ -1,10 +1,10 @@
 import { BaseTool } from './BaseTool'
-import { locate } from 'client/util/registry'
-import { tabActions } from 'client/store/actions/applicationActions'
+import { locate } from 'Pixie/util/registry'
+import { tabActions } from 'Pixie/store/actions/applicationActions'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
- * @typedef {import('client/model/Application').Application} Application
+ * @typedef {import('Pixie/model/Application').Application} Application
  */
 
 export class Pan extends BaseTool
@@ -12,7 +12,7 @@ export class Pan extends BaseTool
     start (_, { clientX, clientY, pointerId })
     {
         this.pId = pointerId
-        /** @type {import('client/model/Application').Application} */
+        /** @type {import('Pixie/model/Application').Application} */
         const application = locate('state').get('application')
         this.initialTab = application.getActiveTab()
         this.tab = this.initialTab

@@ -1,4 +1,4 @@
-import { VISIBILITY } from 'client/constants'
+import { VISIBILITY } from 'Pixie/constants'
 import { Record } from './Record'
 
 export class PixieLayer extends Record({

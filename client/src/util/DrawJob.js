@@ -1,10 +1,10 @@
-import { OVERFLOW, BLENDMODE } from 'client/constants'
-import { getCircleBrush } from 'client/model/brushes/circle'
-import { lerp } from 'client/util/math'
+import { OVERFLOW, BLENDMODE } from 'Pixie/constants'
+import { getCircleBrush } from 'Pixie/model/brushes/circle'
+import { lerp } from 'Pixie/util/math'
 
 /**
- * @typedef {import('client/model/SparseImage').SparseImage} SparseImage
- * @typedef {import('client/model/Color').Color} Color
+ * @typedef {import('Pixie/model/SparseImage').SparseImage} SparseImage
+ * @typedef {import('Pixie/model/Color').Color} Color
  */
 
 /**

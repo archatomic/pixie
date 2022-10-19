@@ -1,12 +1,12 @@
 import { BaseTool } from './BaseTool'
-import { celActions } from 'client/store/actions/applicationActions'
-import { locate } from 'client/util/registry'
-import { TOOLOPT } from 'client/constants'
-import { Operation } from 'client/store/operations'
+import { celActions } from 'Pixie/store/actions/applicationActions'
+import { locate } from 'Pixie/util/registry'
+import { TOOLOPT } from 'Pixie/constants'
+import { Operation } from 'Pixie/store/operations'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
- * @typedef {import('client/model/Application').Application} Application
+ * @typedef {import('Pixie/model/Application').Application} Application
  */
 
 export class Fill extends BaseTool
@@ -18,7 +18,7 @@ export class Fill extends BaseTool
     {
         if (data.x < 0 || data.y < 0) return
 
-        /** @type {import('client/model/Application').Application} */
+        /** @type {import('Pixie/model/Application').Application} */
         const application = locate('state').get('application')
         this.tab = application.getActiveTab()
         this.fragment = application.getActiveFragment()

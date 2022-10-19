@@ -2,9 +2,9 @@ import {
     REDO,
     UNDO,
     UNDO_PUSH
-} from 'client/store/actions/undoActions'
+} from 'Pixie/store/actions/undoActions'
 
-import { UndoManager } from 'client/model/UndoStack'
+import { UndoManager } from 'Pixie/model/UndoStack'
 
 /** @type {UndoManager} */
 const INITIAL_STATE = UndoManager.create()

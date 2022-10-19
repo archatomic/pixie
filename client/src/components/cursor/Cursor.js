@@ -1,12 +1,12 @@
 import classNames from 'classnames'
-import { SparseImage } from 'client/model/SparseImage'
-import { connect } from 'client/util/connect'
-import { imageDataToDataURI } from 'client/util/graphics'
+import { SparseImage } from 'Pixie/model/SparseImage'
+import { connect } from 'Pixie/util/connect'
+import { imageDataToDataURI } from 'Pixie/util/graphics'
 import { Component } from 'react'
 
 /**
  * @typedef {object} CursorProps
- * @property {import('client/tools/BaseTool').CursorData} [data]
+ * @property {import('Pixie/tools/BaseTool').CursorData} [data]
  * @property {number} scale
  * @property {number} x
  * @property {number} y

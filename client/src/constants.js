@@ -1,6 +1,6 @@
 import { Capacitor } from '@capacitor/core'
-import { def } from 'client/util/default'
-import { createEnum } from 'client/util/enum'
+import { def } from 'Pixie/util/default'
+import { createEnum } from 'Pixie/util/enum'
 
 export const APP_NAME = def(process.env.APP_NAME, 'Pixie')
 

@@ -1,4 +1,4 @@
-import { register } from 'client/util/registry'
+import { register } from 'Pixie/util/registry'
 import { useNavigate } from 'react-router-dom'
 export const CaptureNavigate = () =>
 {

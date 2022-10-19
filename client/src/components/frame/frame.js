@@ -1,12 +1,12 @@
 import classNames from 'classnames'
-import { Cel } from 'client/components/cel/Cel'
-import { connect } from 'client/util/connect'
-import { def } from 'client/util/default'
+import { Cel } from 'Pixie/components/cel/Cel'
+import { connect } from 'Pixie/util/connect'
+import { def } from 'Pixie/util/default'
 import { Component } from 'react'
 
 /**
  * @typedef {object} FrameProps
- * @property {import('client/model/PixieCel').PixieCel[]} cels
+ * @property {import('Pixie/model/PixieCel').PixieCel[]} cels
  * @property {import('client.constants').VISIBILITY} [layerVisibility]
  * @property {import('client.constants').CEL_DISPLAY_MODE} [celDisplayMode]
  * @property {string} [className]

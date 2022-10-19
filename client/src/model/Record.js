@@ -1,9 +1,9 @@
 import { Record as ImmutableRecord, OrderedMap } from 'immutable'
 
-import { locate } from 'client/util/registry'
-import { mod } from 'client/util/math'
+import { locate } from 'Pixie/util/registry'
+import { mod } from 'Pixie/util/math'
 import { nanoid } from 'nanoid'
-import { toData } from 'client/util/toData'
+import { toData } from 'Pixie/util/toData'
 
 /**
  * There is a problem with this design. The child classes of my record

@@ -1,10 +1,10 @@
-import { APP_NAME } from 'client/constants'
+import { APP_NAME } from 'Pixie/constants'
 import { PixieFragment } from './PixieFragment'
 import { Record } from './Record'
 import { Tab } from './Tab'
-import { ToolBox } from 'client/model/ToolBox'
-import { getDefaultTheme } from 'client/util/theme'
-import { locate } from 'client/util/registry'
+import { ToolBox } from 'Pixie/model/ToolBox'
+import { getDefaultTheme } from 'Pixie/util/theme'
+import { locate } from 'Pixie/util/registry'
 
 export class Application extends Record({
     title: APP_NAME,

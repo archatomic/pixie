@@ -1,5 +1,5 @@
 import { Map, isImmutable } from 'immutable'
-import { register } from 'client/util/registry'
+import { register } from 'Pixie/util/registry'
 
 let INITIAL_STATE = Map({})
 register('state', INITIAL_STATE)

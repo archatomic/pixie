@@ -1,13 +1,13 @@
-import { Application } from 'client/model/Application'
-import { PixieCel } from 'client/model/PixieCel'
-import { PixieFragment } from 'client/model/PixieFragment'
-import { PixieFrame } from 'client/model/PixieFrame'
-import { PixieLayer } from 'client/model/PixieLayer'
+import { Application } from 'Pixie/model/Application'
+import { PixieCel } from 'Pixie/model/PixieCel'
+import { PixieFragment } from 'Pixie/model/PixieFragment'
+import { PixieFrame } from 'Pixie/model/PixieFrame'
+import { PixieLayer } from 'Pixie/model/PixieLayer'
 import { Record } from './Record'
-import { Tab } from 'client/model/Tab'
-import { ToolBox } from 'client/model/ToolBox'
-import { UndoManager } from 'client/model/UndoStack'
-import { Player } from 'client/model/Player'
+import { Tab } from 'Pixie/model/Tab'
+import { ToolBox } from 'Pixie/model/ToolBox'
+import { UndoManager } from 'Pixie/model/UndoStack'
+import { Player } from 'Pixie/model/Player'
 
 export class State extends Record({
     /**

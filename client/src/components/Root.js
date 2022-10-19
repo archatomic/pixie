@@ -1,11 +1,11 @@
-import { IS_DESKTOP, IS_MOBILE, IS_WEB, RUNTIME } from 'client/constants'
-import { applicationBlur, applicationFocus } from 'client/store/actions/applicationActions'
+import { IS_DESKTOP, IS_MOBILE, IS_WEB, RUNTIME } from 'Pixie/constants'
+import { applicationBlur, applicationFocus } from 'Pixie/store/actions/applicationActions'
 
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { TitleBar } from './title-bar/TitleBar'
 import classNames from 'classnames'
-import { connect } from 'client/util/connect'
+import { connect } from 'Pixie/util/connect'
 
 export class Root extends Component
 {

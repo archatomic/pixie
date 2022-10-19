@@ -1,7 +1,7 @@
 import { connect as reduxConnect } from 'react-redux'
 
 /**
- * @typedef {import('client/model/State').State} State
+ * @typedef {import('Pixie/model/State').State} State
  */
 
 /** 

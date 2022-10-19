@@ -1,20 +1,20 @@
-import { MAX_ZOOM, MIN_ZOOM } from 'client/constants'
+import { MAX_ZOOM, MIN_ZOOM } from 'Pixie/constants'
 
 import { BaseTool } from './BaseTool'
-import { clamp } from 'client/util/math'
-import { locate } from 'client/util/registry'
-import { tabActions } from 'client/store/actions/applicationActions'
+import { clamp } from 'Pixie/util/math'
+import { locate } from 'Pixie/util/registry'
+import { tabActions } from 'Pixie/store/actions/applicationActions'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
- * @typedef {import('client/model/Application').Application} Application
+ * @typedef {import('Pixie/model/Application').Application} Application
  */
 
 export class Zoom extends BaseTool
 {
     start (_, event, old)
     {
-        /** @type {import('client/model/Application').Application} */
+        /** @type {import('Pixie/model/Application').Application} */
         const application = locate('state').application
         this.initialTab = application.getActiveTab()
         this.tab = this.initialTab

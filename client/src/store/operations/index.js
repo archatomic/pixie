@@ -1,17 +1,17 @@
-import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH } from 'client/constants'
-import { applicationTabFocus, celActions, fragmentActions, frameActions, layerActions, tabActions } from 'client/store/actions/applicationActions'
+import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH } from 'Pixie/constants'
+import { applicationTabFocus, celActions, fragmentActions, frameActions, layerActions, tabActions } from 'Pixie/store/actions/applicationActions'
 
-import { PixieFragment } from 'client/model/PixieFragment'
-import { Tab } from 'client/model/Tab'
-import { locate } from 'client/util/registry'
-import { PixieLayer } from 'client/model/PixieLayer'
-import { PixieFrame } from 'client/model/PixieFrame'
-import { PixieCel } from 'client/model/PixieCel'
-import { redo, undo, undoPush } from 'client/store/actions/undoActions'
-import { replaceState } from 'client/store/actions/rootActions'
+import { PixieFragment } from 'Pixie/model/PixieFragment'
+import { Tab } from 'Pixie/model/Tab'
+import { locate } from 'Pixie/util/registry'
+import { PixieLayer } from 'Pixie/model/PixieLayer'
+import { PixieFrame } from 'Pixie/model/PixieFrame'
+import { PixieCel } from 'Pixie/model/PixieCel'
+import { redo, undo, undoPush } from 'Pixie/store/actions/undoActions'
+import { replaceState } from 'Pixie/store/actions/rootActions'
 
 /**
- * @typedef {import('client/model/State').State} State
+ * @typedef {import('Pixie/model/State').State} State
  */
 
 export class Operation

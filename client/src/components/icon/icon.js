@@ -3,7 +3,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import { Component } from 'react'
 import { Transition } from '../Transition'
 import classNames from 'classnames'
-import { icons } from 'client/components/icon/svg'
+import { icons } from 'Pixie/components/icon/svg'
 
 /**
  * @typedef {object} IconProps

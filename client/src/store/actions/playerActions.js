@@ -1,4 +1,4 @@
-import { action, collectionActions } from 'client/util/action'
+import { action, collectionActions } from 'Pixie/util/action'
 
 export const PLAYER_PLAY = 'player.play'
 export const playPlayer = (id) => action(PLAYER_PLAY, { id })

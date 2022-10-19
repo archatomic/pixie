@@ -1,4 +1,4 @@
-import { TOOL } from 'client/constants'
+import { TOOL } from 'Pixie/constants'
 
 import { Eraser } from './Eraser'
 import { Fill } from './Fill'

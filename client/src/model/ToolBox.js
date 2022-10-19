@@ -1,5 +1,5 @@
-import { TOOL } from 'client/constants'
-import { Record } from 'client/model/Record'
+import { TOOL } from 'Pixie/constants'
+import { Record } from 'Pixie/model/Record'
 import { Map, List } from 'immutable'
 
 /**

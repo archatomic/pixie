@@ -1,15 +1,15 @@
 import { Component } from 'react'
 import classNames from 'classnames'
-import { connect } from 'client/util/connect'
-import { Image } from 'client/components/image'
+import { connect } from 'Pixie/util/connect'
+import { Image } from 'Pixie/components/image'
 
 import './Cel.styl'
-import { CEL_DISPLAY_MODE } from 'client/constants'
-import { def } from 'client/util/default'
+import { CEL_DISPLAY_MODE } from 'Pixie/constants'
+import { def } from 'Pixie/util/default'
 
 /**
  * @typedef {object} CelProps
- * @prop {import('client/model/PixieCel').PixieCel} cel 
+ * @prop {import('Pixie/model/PixieCel').PixieCel} cel 
  * @prop {string} [className] 
  * @prop {CEL_DISPLAY_MODE} [displayMode] 
  */

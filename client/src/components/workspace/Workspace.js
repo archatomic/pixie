@@ -1,30 +1,30 @@
 import './Workspace.styl'
 
-import { MAX_ZOOM, MIN_ZOOM, TOOL, ZOOM_SPEED } from 'client/constants'
-import { applicationCursorUpdate, tabActions } from 'client/store/actions/applicationActions'
-import { clamp, int } from 'client/util/math'
+import { MAX_ZOOM, MIN_ZOOM, TOOL, ZOOM_SPEED } from 'Pixie/constants'
+import { applicationCursorUpdate, tabActions } from 'Pixie/store/actions/applicationActions'
+import { clamp, int } from 'Pixie/util/math'
 
 import { Cel } from '../cel/Cel'
 import { Component } from 'react'
-import { Cursor } from 'client/components/cursor'
-import { Operation } from 'client/store/operations'
-import { ToolManager } from 'client/tools/ToolManager'
-import { connect } from 'client/util/connect'
-import { def } from 'client/util/default'
-import { Animation } from 'client/components/animation'
-import { Frame } from 'client/components/frame'
-import { Onion } from 'client/components/onion'
+import { Cursor } from 'Pixie/components/cursor'
+import { Operation } from 'Pixie/store/operations'
+import { ToolManager } from 'Pixie/tools/ToolManager'
+import { connect } from 'Pixie/util/connect'
+import { def } from 'Pixie/util/default'
+import { Animation } from 'Pixie/components/animation'
+import { Frame } from 'Pixie/components/frame'
+import { Onion } from 'Pixie/components/onion'
 
 const OVERFLOW_MARGIN = 20
 
 /**
  * @typedef {object} WorkspaceProps
- * @prop {import('client/model/ToolBox').Tool} tool
+ * @prop {import('Pixie/model/ToolBox').Tool} tool
  * @prop {boolean} cursorDown
  * @prop {number} cursorX
  * @prop {number} cursorY
- * @prop {import('client/model/PixieFragment').PixieFragment} fragment
- * @prop {import('client/model/Tab').Tab} tab
+ * @prop {import('Pixie/model/PixieFragment').PixieFragment} fragment
+ * @prop {import('Pixie/model/Tab').Tab} tab
  */
 
 /**
@@ -38,7 +38,7 @@ const OVERFLOW_MARGIN = 20
 export class Workspace extends Component
 {
     static Connected = connect(
-        /** @type {import('client/util/connect').StateToProps<WorkspaceContainerProps, WorkspaceProps>} */
+        /** @type {import('Pixie/util/connect').StateToProps<WorkspaceContainerProps, WorkspaceProps>} */
         (state, props) =>
         {
             const tab = state.tabs.find(def(props.tab, state.application.activeTab))

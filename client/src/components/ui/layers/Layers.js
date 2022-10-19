@@ -1,13 +1,13 @@
 import { Component } from 'react'
-import { Transition } from 'client/components/Transition'
+import { Transition } from 'Pixie/components/Transition'
 import classNames from 'classnames'
-import { connect } from 'client/util/connect'
-import { Image } from 'client/components/image'
-import { Icon } from 'client/components/icon'
-import { VISIBILITY } from 'client/constants'
-import { layerActions } from 'client/store/actions/applicationActions'
-import { Text } from 'client/components/field/Text'
-import { Operation } from 'client/store/operations'
+import { connect } from 'Pixie/util/connect'
+import { Image } from 'Pixie/components/image'
+import { Icon } from 'Pixie/components/icon'
+import { VISIBILITY } from 'Pixie/constants'
+import { layerActions } from 'Pixie/store/actions/applicationActions'
+import { Text } from 'Pixie/components/field/Text'
+import { Operation } from 'Pixie/store/operations'
 
 export class Layers extends Component
 {
@@ -15,7 +15,7 @@ export class Layers extends Component
         (state, props) =>
         {
             /**
-             * @type {import('client/model/Application').Application}
+             * @type {import('Pixie/model/Application').Application}
              */
             const application = state.get('application')
             const fragment = application.getActiveFragment()

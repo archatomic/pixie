@@ -1,6 +1,6 @@
-import { action, collectionActions } from 'client/util/action'
+import { action, collectionActions } from 'Pixie/util/action'
 
-import { register } from 'client/util/registry'
+import { register } from 'Pixie/util/registry'
 
 export const APPLICATION_TITLE_UPDATE = 'application.title.update'
 export const applicationTitleUpdate = (title) => action(APPLICATION_TITLE_UPDATE, title)

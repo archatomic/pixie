@@ -1,7 +1,7 @@
-import { Icon } from 'client/components/icon'
-import { applicationLayersToggle, applicationThemeToggle } from 'client/store/actions/applicationActions'
-import { connect } from 'client/util/connect'
-import { go } from 'client/util/navigate'
+import { Icon } from 'Pixie/components/icon'
+import { applicationLayersToggle, applicationThemeToggle } from 'Pixie/store/actions/applicationActions'
+import { connect } from 'Pixie/util/connect'
+import { go } from 'Pixie/util/navigate'
 import { Component } from 'react'
 
 const goHome = () => go('/')

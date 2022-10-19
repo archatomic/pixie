@@ -1,5 +1,5 @@
-import { SimpleEmitter } from 'client/util/emitter/SimpleEmitter'
-import { warn } from 'client/util/log'
+import { SimpleEmitter } from 'Pixie/util/emitter/SimpleEmitter'
+import { warn } from 'Pixie/util/log'
 
 /**
  * @template T

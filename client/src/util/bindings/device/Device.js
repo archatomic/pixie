@@ -1,7 +1,7 @@
-import { AnalogInput } from 'client/util/bindings/device/AnalogInput'
-import { ButtonInput } from 'client/util/bindings/device/ButtonInput'
-import { DeviceInput } from 'client/util/bindings/device/DeviceInput'
-import { Emitter } from 'client/util/emitter'
+import { AnalogInput } from 'Pixie/util/bindings/device/AnalogInput'
+import { ButtonInput } from 'Pixie/util/bindings/device/ButtonInput'
+import { DeviceInput } from 'Pixie/util/bindings/device/DeviceInput'
+import { Emitter } from 'Pixie/util/emitter'
 
 export class Device extends Emitter
 {

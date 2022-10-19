@@ -1,4 +1,4 @@
-import { DEFAULT_FRAME_DURATION } from 'client/constants'
+import { DEFAULT_FRAME_DURATION } from 'Pixie/constants'
 import { Record } from './Record'
 
 export class PixieFrame extends Record({

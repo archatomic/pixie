@@ -8,7 +8,7 @@
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true, // force import
         "paths": {
-            "client/*": ["./client/src/*"],
+            "Pixie/*": ["./client/src/*"],
         }
     },
     "include": ["client/**/*"],
