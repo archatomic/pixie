@@ -1,2 +1,2 @@
 export * from './Button'
-import './Button.styl'
+export * from './Button.styl'

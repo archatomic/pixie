@@ -1,2 +1,2 @@
 export * from './Page'
-import './Page.styl'
+export * from './Page.styl'

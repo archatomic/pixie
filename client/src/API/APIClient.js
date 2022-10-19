@@ -1,5 +1,5 @@
-import { isDefined } from 'Pixie/util/default'
-import { join } from 'Pixie/util/url'
+import { isDefined } from 'Pixie/Util/default'
+import { join } from 'Pixie/Util/url'
 
 class HttpError extends Error
 {

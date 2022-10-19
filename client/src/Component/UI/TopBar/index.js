@@ -1,2 +1,2 @@
 export * from './TopBar'
-import './TopBar.styl'
+export * from './TopBar.styl'

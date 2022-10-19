@@ -1,2 +1,2 @@
 export * from './Image'
-import './Image.styl'
+export * from './Image.styl'

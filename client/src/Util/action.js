@@ -1,5 +1,5 @@
 import { UNDO_PUSH } from 'Pixie/Store/Action/undoActions'
-import { locate } from "./registry"
+import { locate } from 'Pixie/Util/registry'
 import { warn } from 'Pixie/Util/log'
 
 export const action = (type, payload) =>

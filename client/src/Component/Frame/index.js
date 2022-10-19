@@ -1,2 +1,2 @@
 export * from './Frame'
-import './Frame.styl'
+export * from  './Frame.styl'

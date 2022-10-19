@@ -1,2 +1,2 @@
 export * from './ColorSwatch'
-import './ColorSwatch.styl'
+export * from './ColorSwatch.styl'

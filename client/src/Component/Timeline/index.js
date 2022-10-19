@@ -1,2 +1,2 @@
 export * from './Timeline'
-import './Timeline.styl'
+export * from './Timeline.styl'

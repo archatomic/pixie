@@ -1,2 +1,2 @@
 export * from './Workspace'
-import './Workspace.styl'
+export * from './Workspace.styl'

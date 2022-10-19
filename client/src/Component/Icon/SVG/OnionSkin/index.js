@@ -1,2 +1,2 @@
 export * from './OnionSkin'
-import './OnionSkin.styl'
+export * from './OnionSkin.styl'

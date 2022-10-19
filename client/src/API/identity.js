@@ -1,6 +1,6 @@
 import { APIClient } from './APIClient'
-import { def } from 'Pixie/util/default'
-import { storage } from 'Pixie/util/storage'
+import { def } from 'Pixie/Util/default'
+import { storage } from 'Pixie/Util/storage'
 
 const TOKEN_STORAGE_KEY = 'ident_tkns'
 
