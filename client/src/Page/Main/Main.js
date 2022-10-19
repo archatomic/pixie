@@ -10,7 +10,7 @@ export class Main extends Component
         return (
             <Page top>
                 <Form>
-                    <Button ghost to="/workspace" label="Workspace"/>
+                    <Button ghost to='/workspace' label='Workspace' />
                 </Form>
             </Page>
         )
