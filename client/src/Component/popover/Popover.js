@@ -3,7 +3,7 @@ import { def, isDefined } from 'Pixie/util/default'
 import { Component } from 'react'
 import { Panel } from 'Pixie/Component/panel'
 import ReactDOM from 'react-dom'
-import { allowOne } from 'Pixie/Component/hoc/allowOne'
+import { allowOne } from 'Pixie/Component/HOC/allowOne'
 import classNames from 'classnames'
 import { safeCall } from 'Pixie/util/safeCall'
 
@@ -27,7 +27,7 @@ const DEFAULT_ROOT_KEY = '___default'
  * @extends {Component<PopoverProps>}
  */
 export class Popover extends Component {
-    
+
     static Singular = allowOne(this)
 
     /**
@@ -47,7 +47,7 @@ export class Popover extends Component {
     /**
      * Set a root by name. If no root element is provided create one.
      *
-     * @param {string} name 
+     * @param {string} name
      * @param {HTMLElement} [root]
      * @param {HTMLElement} [parent=document.body]
      */
@@ -79,7 +79,7 @@ export class Popover extends Component {
 
     /**
      * Create an html div with the provided class and parent
-     * 
+     *
      * @param {string} className
      * @param {HTMLElement|null} [parent=null] If provided, will mount the node into the parent.
      *
@@ -106,14 +106,14 @@ export class Popover extends Component {
     createContainer() {
         return Popover.createNode('Popover')
     }
-    
+
     /**
      * @type {Number}
      */
     get targetLeft () {
         return def(this.props.left, this.props.x, Math.floor(window.innerWidth / 2))
     }
-    
+
     /**
      * @type {Number}
      */
@@ -123,14 +123,14 @@ export class Popover extends Component {
             this.targetLeft + def(this.props.width, 0)
         )
     }
-    
+
     /**
      * @type {Number}
      */
     get targetTop () {
         return def(this.props.top, this.props.y, Math.floor(window.innerHeight / 2))
     }
-    
+
     /**
      * @type {Number}
      */
