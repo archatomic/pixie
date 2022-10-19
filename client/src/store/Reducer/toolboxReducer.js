@@ -1,8 +1,9 @@
-import {
+import
+{
     TOOLBOX_ACTIVATE,
     TOOLBOX_OPTION_SET,
     TOOLBOX_REGISTER_TOOL
-} from 'Pixie/store/actions/toolboxActions'
+} from 'Pixie/Store/Action/toolboxActions'
 
 import { ToolBox } from 'Pixie/Model/ToolBox'
 

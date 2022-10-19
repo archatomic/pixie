@@ -1,8 +1,9 @@
-import {
+import
+{
     REDO,
     UNDO,
     UNDO_PUSH
-} from 'Pixie/store/actions/undoActions'
+} from 'Pixie/Store/Action/undoActions'
 
 import { UndoManager } from 'Pixie/Model/UndoStack'
 

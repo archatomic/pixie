@@ -1,6 +1,6 @@
 import { BaseTool } from './BaseTool'
 import { locate } from 'Pixie/util/registry'
-import { tabActions } from 'Pixie/store/actions/applicationActions'
+import { tabActions } from 'Pixie/Store/Action/applicationActions'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData

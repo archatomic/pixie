@@ -1,4 +1,4 @@
-export const actionSanitizer = (action) =>
+const actionSanitizer = (action) =>
 {
     // Capture records with a sanitize method on them
     if (action.payload?.sanitize instanceof Function) {
@@ -11,8 +11,8 @@ export const actionSanitizer = (action) =>
     if (action.type === 'undo.push') {
         // swipe out cels on undo actions
         return {
-                ...action,
-                payload: {
+            ...action,
+            payload: {
                 ...action.payload,
                 record: {
                     ...action.payload.record,
@@ -25,4 +25,6 @@ export const actionSanitizer = (action) =>
     return action
 }
 
-export const stateSanitizer = state => state.sanitize()
+const stateSanitizer = state => state.sanitize()
+
+export const sanitizer = { actionSanitizer, stateSanitizer }

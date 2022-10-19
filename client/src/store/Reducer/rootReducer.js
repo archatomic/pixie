@@ -1,4 +1,4 @@
-import { REPLACE_STATE } from 'Pixie/store/actions/rootActions'
+import { REPLACE_STATE } from 'Pixie/Store/Action/rootActions'
 
 import { State } from 'Pixie/Model/State'
 

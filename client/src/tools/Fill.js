@@ -1,8 +1,8 @@
 import { BaseTool } from './BaseTool'
-import { celActions } from 'Pixie/store/actions/applicationActions'
+import { celActions } from 'Pixie/Store/Action/applicationActions'
 import { locate } from 'Pixie/util/registry'
 import { TOOLOPT } from 'Pixie/constants'
-import { Operation } from 'Pixie/store/operations'
+import { Operation } from 'Pixie/Store/Operation'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData

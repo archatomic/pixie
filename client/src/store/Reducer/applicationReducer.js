@@ -1,4 +1,5 @@
-import {
+import
+{
     APPLICATION_BLUR,
     APPLICATION_CURSOR_UPDATE,
     APPLICATION_FOCUS,
@@ -9,7 +10,7 @@ import {
     APPLICATION_THEME_UPDATE,
     APPLICATION_TIMELINE_TOGGLE,
     APPLICATION_TITLE_UPDATE,
-} from 'Pixie/store/actions/applicationActions'
+} from 'Pixie/Store/Action/applicationActions'
 
 import { Application } from 'Pixie/Model/Application'
 

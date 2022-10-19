@@ -1,4 +1,4 @@
-import { UNDO_PUSH } from 'Pixie/store/actions/undoActions'
+import { UNDO_PUSH } from 'Pixie/Store/Action/undoActions'
 import { locate } from "./registry"
 import { warn } from 'Pixie/util/log'
 

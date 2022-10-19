@@ -8,5 +8,3 @@ export const setToolOption = (key, value) => action(TOOLBOX_OPTION_SET, { key, v
 
 export const TOOLBOX_REGISTER_TOOL = 'toolbox.tool.register'
 export const registerTool = (id, options) => action(TOOLBOX_REGISTER_TOOL, { id, options })
-
-

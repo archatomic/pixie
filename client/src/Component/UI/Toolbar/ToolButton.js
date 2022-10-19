@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { Icon } from 'Pixie/Component/Icon'
-import { activateTool } from 'Pixie/store/actions/toolboxActions'
+import { activateTool } from 'Pixie/Store/Action/toolboxActions'
 import { connect } from 'Pixie/util/connect'
 import { def, isDefined } from 'Pixie/util/default'
 import { warn } from 'Pixie/util/log'

@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { Root } from 'Pixie/Component/Root'
 import { Main } from './Page/Main'
 import { Workspace } from 'Pixie/Page/Workspace'
-import { store } from 'Pixie/store'
+import { store } from 'Pixie/Store'
 
 const AuthenticatedRoutes = null
 const UnathenticatedRoutes = (

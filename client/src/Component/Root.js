@@ -1,5 +1,5 @@
 import { IS_DESKTOP, IS_MOBILE, IS_WEB, RUNTIME } from 'Pixie/constants'
-import { applicationBlur, applicationFocus } from 'Pixie/store/actions/applicationActions'
+import { applicationBlur, applicationFocus } from 'Pixie/Store/Action/applicationActions'
 
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'

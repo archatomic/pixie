@@ -1,11 +1,11 @@
-import { celActions } from 'Pixie/store/actions/applicationActions'
+import { celActions } from 'Pixie/Store/Action/applicationActions'
 
 import { BaseTool } from './BaseTool'
 import { locate } from 'Pixie/util/registry'
 import { getCircleBrush } from 'Pixie/Model/Brush/getCircleBrush'
 import { TOOLOPT } from 'Pixie/constants'
 import { DrawJob } from 'Pixie/util/DrawJob'
-import { Operation } from 'Pixie/store/operations'
+import { Operation } from 'Pixie/Store/Operation'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData

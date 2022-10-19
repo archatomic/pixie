@@ -5,9 +5,9 @@ import { connect } from 'Pixie/util/connect'
 import { Image } from 'Pixie/Component/Image'
 import { Icon } from 'Pixie/Component/Icon'
 import { VISIBILITY } from 'Pixie/constants'
-import { layerActions } from 'Pixie/store/actions/applicationActions'
+import { layerActions } from 'Pixie/Store/Action/applicationActions'
 import { TextField } from 'Pixie/Component/Field'
-import { Operation } from 'Pixie/store/operations'
+import { Operation } from 'Pixie/Store/Operation'
 
 export class Layers extends Component
 {

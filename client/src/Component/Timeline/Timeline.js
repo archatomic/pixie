@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import classNames from 'classnames'
 import { connect } from 'Pixie/util/connect'
-import { tabActions, frameActions } from 'Pixie/store/actions/applicationActions'
+import { tabActions, frameActions } from 'Pixie/Store/Action/applicationActions'
 import { Icon } from 'Pixie/Component/Icon'
 import { NumberField } from 'Pixie/Component/Field'
-import { Operation } from 'Pixie/store/operations'
+import { Operation } from 'Pixie/Store/Operation'
 import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'Pixie/constants'
 
 /**

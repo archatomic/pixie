@@ -1,5 +1,5 @@
 import { Player } from 'Pixie/Model/Player'
-import { PLAYER_PAUSE, PLAYER_PLAY, PLAYER_SET_FRAMES, PLAYER_STOP, PLAYER_TICK } from 'Pixie/store/actions/playerActions'
+import { PLAYER_PAUSE, PLAYER_PLAY, PLAYER_SET_FRAMES, PLAYER_STOP, PLAYER_TICK } from 'Pixie/Store/Action/playerActions'
 
 const INITIAL_STATE = Player.Collection.create()
 const COLLECTION_REDUCER = Player.Collection.createReducer('player')

@@ -1,5 +1,5 @@
 import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH } from 'Pixie/constants'
-import { applicationTabFocus, celActions, fragmentActions, frameActions, layerActions, tabActions } from 'Pixie/store/actions/applicationActions'
+import { applicationTabFocus, celActions, fragmentActions, frameActions, layerActions, tabActions } from 'Pixie/Store/Action/applicationActions'
 
 import { PixieFragment } from 'Pixie/Model/PixieFragment'
 import { Tab } from 'Pixie/Model/Tab'
@@ -7,8 +7,8 @@ import { locate } from 'Pixie/util/registry'
 import { PixieLayer } from 'Pixie/Model/PixieLayer'
 import { PixieFrame } from 'Pixie/Model/PixieFrame'
 import { PixieCel } from 'Pixie/Model/PixieCel'
-import { redo, undo, undoPush } from 'Pixie/store/actions/undoActions'
-import { replaceState } from 'Pixie/store/actions/rootActions'
+import { redo, undo, undoPush } from 'Pixie/Store/Action/undoActions'
+import { replaceState } from 'Pixie/Store/Action/rootActions'
 
 /**
  * @typedef {import('Pixie/Model/State').State} State
@@ -118,7 +118,7 @@ export class Operation
         }
 
         const tab = state.tabs.where({ fragment: fragment.pk }).first()
-        if (tab) tabActions.save(tab.merge({ layer: at}))
+        if (tab) tabActions.save(tab.merge({ layer: at }))
     }
 
     static addLayersToFragment (fragmentID, num = 1, at = -1)
@@ -145,7 +145,7 @@ export class Operation
         }
 
         const tab = state.tabs.where({ fragment: fragment.pk }).first()
-        if (tab) tabActions.save(tab.merge({ frame: at}))
+        if (tab) tabActions.save(tab.merge({ frame: at }))
     }
 
     static addFramesToFragment (fragmentID, num = 1, at = -1)
@@ -317,7 +317,7 @@ export class Operation
             .delegateSet('cels', 'removeAll', remove.cels)
 
         const add = state.history.getStack(fragmentID).current
-        if (!add) return console.warn('cannot undo');
+        if (!add) return console.warn('cannot undo')
 
         let restored = without
             .delegateSet('fragments', 'add', add.fragment)

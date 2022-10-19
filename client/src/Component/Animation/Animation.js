@@ -6,7 +6,7 @@ import
     playerActions,
     setPlayerFrames,
     tickPlayer
-} from 'Pixie/store/actions/playerActions'
+} from 'Pixie/Store/Action/playerActions'
 import { connect } from 'Pixie/util/connect'
 import { safeCall } from 'Pixie/util/safeCall'
 import { Component } from 'react'

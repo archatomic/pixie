@@ -1,10 +1,10 @@
 import { MAX_ZOOM, MIN_ZOOM, TOOL, ZOOM_SPEED } from 'Pixie/constants'
-import { applicationCursorUpdate, tabActions } from 'Pixie/store/actions/applicationActions'
+import { applicationCursorUpdate, tabActions } from 'Pixie/Store/Action/applicationActions'
 import { clamp, int } from 'Pixie/util/math'
 
 import { Cel } from '../Cel/Cel'
 import { Cursor } from 'Pixie/Component/Cursor'
-import { Operation } from 'Pixie/store/operations'
+import { Operation } from 'Pixie/Store/Operation'
 import { ToolManager } from 'Pixie/tools/ToolManager'
 import { connect } from 'Pixie/util/connect'
 import { def } from 'Pixie/util/default'
