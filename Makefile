@@ -37,3 +37,12 @@ web:
 web.build:
 	cd client; \
 	yarn build;
+
+.PHONY: web.clean.build
+web.clean.build: clean web.build
+
+.PHONY: clean
+clean:
+	rm -rf dist
+	rm -rf client/dist
+	rm -rf client/.parcel-cache

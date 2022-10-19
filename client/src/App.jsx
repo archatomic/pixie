@@ -1,11 +1,11 @@
-import { Authenticated, Unauthenticated } from 'Pixie/components/Authenticated'
+import { Authenticated, Unauthenticated } from 'Pixie/Component/Authenticated'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { CaptureNavigate } from './CaptureNavigate'
 import { Main } from './pages/Main/Main'
 import { Navigate } from 'react-router'
 import { Provider } from 'react-redux'
-import { Root } from 'Pixie/components/Root'
+import { Root } from 'Pixie/Component/Root'
 import { Workspace } from 'Pixie/pages/Workspace/Workspace'
 import { store } from 'Pixie/store'
 

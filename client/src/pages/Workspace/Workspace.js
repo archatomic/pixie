@@ -1,6 +1,6 @@
-import { Page } from 'Pixie/components/page/Page'
-import { WorkspaceUI } from 'Pixie/components/ui/workspace-ui'
-import { Workspace as WorkspaceComponent } from 'Pixie/components/workspace/Workspace'
+import { Page } from 'Pixie/Component/page/Page'
+import { WorkspaceUI } from 'Pixie/Component/ui/workspace-ui'
+import { Workspace as WorkspaceComponent } from 'Pixie/Component/workspace/Workspace'
 
 export const Workspace = () => (
     <Page tight title="Workspace">
