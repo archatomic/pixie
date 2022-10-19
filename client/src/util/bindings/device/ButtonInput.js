@@ -1,28 +1,28 @@
-import { DeviceInput } from 'Pixie/util/bindings/device/DeviceInput'
-import { def } from 'Pixie/util/default'
+import { DeviceInput } from 'Pixie/Util/bindings/device/DeviceInput'
+import { def } from 'Pixie/Util/default'
 
 const HOLD_TIMEOUT = 1000
 
 /**
  * TODO: Support variable hold timeouts for the same button.
- * 
+ *
  * These do not interact with the press event.
  *
  * e.g.
  * pen.nib.hold(300, handler)
  * pen.nib.hold(500, otherHandler)
- * 
+ *
  * A hold for 200 fires neither and the press event
  * a hold for 400 fires handler and the press event
  * a hold for 600 fires both and the press event
  * a hold for 1100 fires both and the hold event
- * 
+ *
  * Alternatively, you can cancel the press event with a hold
  * event. Maybe that's an option.
- * 
+ *
  * e.g.
  * pen.nib.hold(300, handler, {cancelPress: true})
- * 
+ *
  * A hold of 200 emits press
  * A hold of 400 calls handler
  * a hold of 1100 emits hold and calls handler
@@ -32,12 +32,12 @@ const HOLD_TIMEOUT = 1000
  * @extends DeviceInput<boolean>
  */
 export class ButtonInput extends DeviceInput
-{  
+{
     holdTimeout = HOLD_TIMEOUT
 
     /**
      * @param {string} id
-     * @param {boolean} [value] 
+     * @param {boolean} [value]
      */
     constructor(id, value = false)
     {
@@ -46,7 +46,7 @@ export class ButtonInput extends DeviceInput
     }
 
     /**
-     * @param {any} [value] 
+     * @param {any} [value]
      * @returns {boolean}
      */
     validate (value)
@@ -59,8 +59,8 @@ export class ButtonInput extends DeviceInput
      * gives us with support for the 'down' 'up' 'press' and 'hold'
      * events.
      *
-     * @param {boolean} value 
-     * @param {boolean} previous 
+     * @param {boolean} value
+     * @param {boolean} previous
      */
     handleValueChanged (value, previous, event = null)
     {
@@ -74,10 +74,10 @@ export class ButtonInput extends DeviceInput
 
     /**
      * Emit the change event.
-     * 
-     * @param {number} time 
-     * @param {boolean} value 
-     * @param {boolean} previous 
+     *
+     * @param {number} time
+     * @param {boolean} value
+     * @param {boolean} previous
      */
     triggerChange (time, value, previous, event = null)
     {
@@ -93,7 +93,7 @@ export class ButtonInput extends DeviceInput
 
     /**
      * Emit the down event. Also starts the hold timer.
-     * 
+     *
      * @param {number} time
      */
     triggerDown (time, event = null)
@@ -110,7 +110,7 @@ export class ButtonInput extends DeviceInput
 
     /**
      * Emit the hold event. Also clean up any straggling timeouts.
-     * 
+     *
      * @param {number} time
      */
     triggerHold(event = null) {
@@ -129,7 +129,7 @@ export class ButtonInput extends DeviceInput
      * we're still waiting on the hold timeout) also triggers the
      * press event.
      *
-     * @param {number} time 
+     * @param {number} time
      */
     triggerUp (time, event  = null)
     {
@@ -146,7 +146,7 @@ export class ButtonInput extends DeviceInput
     /**
      * Trigger the press event. Also clean up any straggling timeouts.
      *
-     * @param {number} time 
+     * @param {number} time
      */
     triggerPress (time, event  = null)
     {

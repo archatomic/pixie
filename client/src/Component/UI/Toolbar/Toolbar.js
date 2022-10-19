@@ -4,8 +4,8 @@ import { Component } from 'react'
 import { Panel } from 'Pixie/Component/Panel'
 import { applicationTimelineToggle } from 'Pixie/Store/Action/applicationActions'
 import { activateTool } from 'Pixie/Store/Action/toolboxActions'
-import { connect } from 'Pixie/util/connect'
-import { safeCall } from 'Pixie/util/safeCall'
+import { connect } from 'Pixie/Util/connect'
+import { safeCall } from 'Pixie/Util/safeCall'
 import { ToolButton } from './ToolButton'
 
 const KEY_BINDINGS = {

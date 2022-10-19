@@ -1,8 +1,8 @@
-import { createNode } from 'Pixie/util/createNode'
+import { createNode } from 'Pixie/Util/createNode'
 
 /** @type {HTMLCanvasElement} */
 const canvas = createNode({ tag: 'canvas' })
-    
+
 /** @type {CanvasRenderingContext2D} */
 const context = canvas.getContext('2d', { willReadFrequently: true })
 

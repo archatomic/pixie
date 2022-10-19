@@ -1,10 +1,10 @@
 import { celActions } from 'Pixie/Store/Action/applicationActions'
 
 import { BaseTool } from './BaseTool'
-import { locate } from 'Pixie/util/registry'
+import { locate } from 'Pixie/Util/registry'
 import { getCircleBrush } from 'Pixie/Model/Brush/getCircleBrush'
 import { TOOLOPT } from 'Pixie/constants'
-import { DrawJob } from 'Pixie/util/DrawJob'
+import { DrawJob } from 'Pixie/Util/DrawJob'
 import { Operation } from 'Pixie/Store/Operation'
 
 /**

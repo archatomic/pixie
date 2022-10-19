@@ -3,8 +3,8 @@ import { PixieFragment } from './PixieFragment'
 import { Record } from './Record'
 import { Tab } from './Tab'
 import { ToolBox } from 'Pixie/Model/ToolBox'
-import { getDefaultTheme } from 'Pixie/util/theme'
-import { locate } from 'Pixie/util/registry'
+import { getDefaultTheme } from 'Pixie/Util/theme'
+import { locate } from 'Pixie/Util/registry'
 
 export class Application extends Record({
     title: APP_NAME,

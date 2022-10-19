@@ -16,8 +16,9 @@ const validators = {}
  * @param {string} name
  * @param {Validator} validator
  */
-export function registerValidator (name, validator) {
-  validators[name] = validator
+export function registerValidator (name, validator)
+{
+    validators[name] = validator
 }
 
 /**
@@ -30,18 +31,19 @@ export function registerValidator (name, validator) {
  *
  * @returns {Error[]}
  */
-export function validate (value, validators) {
-  const op = []
-  for (const v of ensureArray(validators)) {
-    try {
-      const [valName, ...args] = ensureArray(v)
-      const validator = getValidator(valName)
-      validator(value, ...args)
-    } catch (e) {
-      op.push(e)
+export function validate (value, validators)
+{
+    const op = []
+    for (const v of ensureArray(validators)) {
+        try {
+            const [valName, ...args] = ensureArray(v)
+            const validator = getValidator(valName)
+            validator(value, ...args)
+        } catch (e) {
+            op.push(e)
+        }
     }
-  }
-  return op
+    return op
 }
 
 /**
@@ -51,13 +53,15 @@ export function validate (value, validators) {
  *
  * @returns {Validator}
  */
-function getValidator (validator) {
-  if (!validator) throw new Error('Empty validator found')
-  if (typeof validator === 'function') return validator
-  if (validators[validator]) return validators[validator]
-  throw new Error(`Unknown validator: ${validator}`)
+function getValidator (validator)
+{
+    if (!validator) throw new Error('Empty validator found')
+    if (typeof validator === 'function') return validator
+    if (validators[validator]) return validators[validator]
+    throw new Error(`Unknown validator: ${validator}`)
 }
 
-registerValidator('required', value => {
-  if (isEmpty(value)) throw new Error('This field is required')
+registerValidator('required', value =>
+{
+    if (isEmpty(value)) throw new Error('This field is required')
 })

@@ -1,4 +1,4 @@
-import { action } from 'Pixie/util/action'
+import { action } from 'Pixie/Util/action'
 
 export const TOOLBOX_ACTIVATE = 'toolbox.tool.activate'
 export const activateTool = (tool) => action(TOOLBOX_ACTIVATE, tool)

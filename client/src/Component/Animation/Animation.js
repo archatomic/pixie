@@ -7,8 +7,8 @@ import
     setPlayerFrames,
     tickPlayer
 } from 'Pixie/Store/Action/playerActions'
-import { connect } from 'Pixie/util/connect'
-import { safeCall } from 'Pixie/util/safeCall'
+import { connect } from 'Pixie/Util/connect'
+import { safeCall } from 'Pixie/Util/safeCall'
 import { Component } from 'react'
 
 export class Animation extends Component

@@ -1,9 +1,9 @@
 import { Component, createContext } from 'react'
 
 import classNames from 'classnames'
-import { ensureArray } from 'Pixie/util/array'
-import { isEmpty } from 'Pixie/util/default'
-import { randomString } from 'Pixie/util/random'
+import { ensureArray } from 'Pixie/Util/array'
+import { isEmpty } from 'Pixie/Util/default'
+import { randomString } from 'Pixie/Util/random'
 
 /**
  * @type {import('react').Context<Form>}

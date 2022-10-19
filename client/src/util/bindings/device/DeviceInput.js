@@ -1,5 +1,5 @@
-import { SimpleEmitter } from 'Pixie/util/emitter/SimpleEmitter'
-import { warn } from 'Pixie/util/log'
+import { SimpleEmitter } from 'Pixie/Util/Emitter/SimpleEmitter'
+import { warn } from 'Pixie/Util/log'
 
 /**
  * @template T
@@ -8,7 +8,7 @@ export class DeviceInput extends SimpleEmitter
 {
     /**
      * @param {string} id
-     * @param {T} [value] 
+     * @param {T} [value]
      */
     constructor(id, value = null)
     {
@@ -50,7 +50,7 @@ export class DeviceInput extends SimpleEmitter
     /**
      * Update the value of this input, trigger events.
      *
-     * @param {T} set 
+     * @param {T} set
      */
     set (value, event = null)
     {
@@ -64,8 +64,8 @@ export class DeviceInput extends SimpleEmitter
     /**
      * Trigger events.
      *
-     * @param {T} value 
-     * @param {T} previous 
+     * @param {T} value
+     * @param {T} previous
      */
     handleValueChanged (value, previous, event = null)
     {

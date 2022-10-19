@@ -9,8 +9,8 @@ import { Transition } from 'Pixie/Component/Transition'
 import { Color } from 'Pixie/Model/Color'
 import { setToolOption } from 'Pixie/Store/Action/toolboxActions'
 import { redo, undo } from 'Pixie/Store/Action/undoActions'
-import { connect } from 'Pixie/util/connect'
-import { int } from 'Pixie/util/math'
+import { connect } from 'Pixie/Util/connect'
+import { int } from 'Pixie/Util/math'
 import { Component } from 'react'
 
 export class BottomBar extends Component

@@ -1,4 +1,4 @@
-import { connect } from 'Pixie/util/connect'
+import { connect } from 'Pixie/Util/connect'
 import { Frame } from 'Pixie/Component/Frame'
 
 export const PlayerFrame = connect(

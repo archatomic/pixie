@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Frame } from 'Pixie/Component/Frame'
-import { connect } from 'Pixie/util/connect'
-import { clamp, mod } from 'Pixie/util/math'
+import { connect } from 'Pixie/Util/connect'
+import { clamp, mod } from 'Pixie/Util/math'
 import { Component } from 'react'
 
 /**

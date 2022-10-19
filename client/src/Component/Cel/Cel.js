@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import classNames from 'classnames'
-import { connect } from 'Pixie/util/connect'
+import { connect } from 'Pixie/Util/connect'
 import { Image } from 'Pixie/Component/Image'
 
 import { CEL_DISPLAY_MODE } from 'Pixie/constants'
-import { def } from 'Pixie/util/default'
+import { def } from 'Pixie/Util/default'
 
 /**
  * @typedef {object} CelProps

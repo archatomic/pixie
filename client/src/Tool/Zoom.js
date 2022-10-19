@@ -1,8 +1,8 @@
 import { MAX_ZOOM, MIN_ZOOM } from 'Pixie/constants'
 
 import { BaseTool } from './BaseTool'
-import { clamp } from 'Pixie/util/math'
-import { locate } from 'Pixie/util/registry'
+import { clamp } from 'Pixie/Util/math'
+import { locate } from 'Pixie/Util/registry'
 import { tabActions } from 'Pixie/Store/Action/applicationActions'
 
 /**

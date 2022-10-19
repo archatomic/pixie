@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import classNames from 'classnames'
-import { connect } from 'Pixie/util/connect'
+import { connect } from 'Pixie/Util/connect'
 import { tabActions, frameActions } from 'Pixie/Store/Action/applicationActions'
 import { Icon } from 'Pixie/Component/Icon'
 import { NumberField } from 'Pixie/Component/Field'

@@ -45,7 +45,7 @@ export class ToolManager
             tool: this.tool,
             event: this.event
         }
-    
+
         if (this.active) this.tool.end(this.data, this.event)
 
         this.tool = this.getTool(tool)
@@ -56,8 +56,8 @@ export class ToolManager
 
     /**
      * @param {BaseTool | string} tool
-     * @param {number} x 
-     * @param {number} y 
+     * @param {number} x
+     * @param {number} y
      */
     start (tool, x, y, event)
     {
@@ -100,8 +100,8 @@ export class ToolManager
     }
 
     /**
-     * @param {number} x 
-     * @param {number} y 
+     * @param {number} x
+     * @param {number} y
      */
     move (x, y, event)
     {
@@ -117,8 +117,8 @@ export class ToolManager
     }
 
     /**
-     * @param {number} x 
-     * @param {number} y 
+     * @param {number} x
+     * @param {number} y
      */
     end (x, y, event)
     {

@@ -2,13 +2,13 @@ let maxSymbol = 0
 
 /**
  * Create an enum of unique values.
- * 
+ *
  * @template {string} T
  *
- * @param { T[] } values 
+ * @param { T[] } values
  * @param { object } opts
  * @param { boolean } [opts.useNames]
- * 
+ *
  * @returns {Record<T, any>}
  */
 export const createEnum = (values, { useNames = false } = {}) =>

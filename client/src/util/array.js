@@ -8,8 +8,9 @@ import { isDefined } from './default'
  * @param {any} value
  * @returns {Array}
  */
-export function ensureArray (value) {
-  if (!isDefined(value)) return []
-  if (value instanceof Array) return value
-  return [value]
+export function ensureArray (value)
+{
+    if (!isDefined(value)) return []
+    if (value instanceof Array) return value
+    return [value]
 }

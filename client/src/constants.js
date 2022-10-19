@@ -1,6 +1,6 @@
 import { Capacitor } from '@capacitor/core'
-import { def } from 'Pixie/util/default'
-import { createEnum } from 'Pixie/util/enum'
+import { def } from 'Pixie/Util/default'
+import { createEnum } from 'Pixie/Util/enum'
 
 export const APP_NAME = def(process.env.APP_NAME, 'Pixie')
 
@@ -14,7 +14,8 @@ export const WEB = 'web'
 
 const MOCK_RUNTIME = null
 
-const getRuntime = () => {
+const getRuntime = () =>
+{
     if (MOCK_RUNTIME) return MOCK_RUNTIME
 
     const { isMac, isLinux, isWindows } = def(window.electron, {})

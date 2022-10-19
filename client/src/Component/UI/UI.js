@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { createPassthroughComponent, getChildrenNotOfType, getChildrenOfType } from 'Pixie/util/children'
+import { createPassthroughComponent, getChildrenNotOfType, getChildrenOfType } from 'Pixie/Util/children'
 
 export const Top = createPassthroughComponent()
 export const Bottom = createPassthroughComponent()

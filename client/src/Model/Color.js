@@ -1,5 +1,5 @@
 import { BLENDMODE } from 'Pixie/constants'
-import { clamp, mod } from 'Pixie/util/math'
+import { clamp, mod } from 'Pixie/Util/math'
 
 import { Record } from './Record'
 

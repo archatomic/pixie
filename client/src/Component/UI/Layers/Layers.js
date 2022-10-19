@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { Transition } from 'Pixie/Component/Transition'
 import classNames from 'classnames'
-import { connect } from 'Pixie/util/connect'
+import { connect } from 'Pixie/Util/connect'
 import { Image } from 'Pixie/Component/Image'
 import { Icon } from 'Pixie/Component/Icon'
 import { VISIBILITY } from 'Pixie/constants'

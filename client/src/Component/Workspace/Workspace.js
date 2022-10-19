@@ -1,13 +1,13 @@
 import { MAX_ZOOM, MIN_ZOOM, TOOL, ZOOM_SPEED } from 'Pixie/constants'
 import { applicationCursorUpdate, tabActions } from 'Pixie/Store/Action/applicationActions'
-import { clamp, int } from 'Pixie/util/math'
+import { clamp, int } from 'Pixie/Util/math'
 
 import { Cel } from '../Cel/Cel'
 import { Cursor } from 'Pixie/Component/Cursor'
 import { Operation } from 'Pixie/Store/Operation'
-import { ToolManager } from 'Pixie/tools/ToolManager'
-import { connect } from 'Pixie/util/connect'
-import { def } from 'Pixie/util/default'
+import { ToolManager } from 'Pixie/Tool/ToolManager'
+import { connect } from 'Pixie/Util/connect'
+import { def } from 'Pixie/Util/default'
 import { Animation } from 'Pixie/Component/Animation'
 import { Onion } from 'Pixie/Component/Onion'
 import { Component } from 'react'
@@ -35,7 +35,7 @@ const OVERFLOW_MARGIN = 20
 export class Workspace extends Component
 {
     static Connected = connect(
-        /** @type {import('Pixie/util/connect').StateToProps<WorkspaceContainerProps, WorkspaceProps>} */
+        /** @type {import('Pixie/Util/connect').StateToProps<WorkspaceContainerProps, WorkspaceProps>} */
         (state, props) =>
         {
             const tab = state.tabs.find(def(props.tab, state.application.activeTab))

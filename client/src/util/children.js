@@ -27,7 +27,7 @@ export const getChildrenOfType = (children, type, op = []) =>
     const filter = type instanceof Array
         ? (child => type.indexOf(child.type) > -1)
         : (child => type === child.type)
-    
+
     return filterChildren(children, filter, op)
 }
 
@@ -42,14 +42,14 @@ export const getChildrenOfType = (children, type, op = []) =>
  *
  * @returns {ReactNode[]}
  */
- export const getChildrenNotOfType = (children, type, op = []) =>
- {
-     const filter = type instanceof Array
-         ? (child => type.indexOf(child.type) === -1)
-         : (child => type !== child.type)
-     
-     return filterChildren(children, filter, op)
- }
+export const getChildrenNotOfType = (children, type, op = []) =>
+{
+    const filter = type instanceof Array
+        ? (child => type.indexOf(child.type) === -1)
+        : (child => type !== child.type)
+
+    return filterChildren(children, filter, op)
+}
 
 /**
  * Traverse children and return a flattened array of child nodes.
@@ -61,7 +61,8 @@ export const getChildrenOfType = (children, type, op = []) =>
  */
 export const getChildren = (children, op = []) =>
 {
-    Children.forEach(children, child => {
+    Children.forEach(children, child =>
+    {
         if (child.type === Fragment) getChildren(child?.props?.children, op)
         else return op.push(child)
     })
@@ -71,15 +72,16 @@ export const getChildren = (children, op = []) =>
 /**
  * Filter a list of children down and return as an array.
  *
- * @param {ReactNode} children 
- * @param {(ReactNode) => boolean} filter 
+ * @param {ReactNode} children
+ * @param {(ReactNode) => boolean} filter
  * @param {ReactNode[]} [op=[]]
  *
  * @returns {ReactNode[]}
  */
 export const filterChildren = (children, filter, op = []) =>
 {
-    Children.forEach(children, child => {
+    Children.forEach(children, child =>
+    {
         if (!child) return
         if (child.type === Fragment) filterChildren(child.props.children, filter, op)
         else if (filter(child)) return op.push(child)
@@ -92,9 +94,9 @@ export const filterChildren = (children, filter, op = []) =>
  *
  * Does deep traversal.
  *
- * @param {ReactNode} children 
+ * @param {ReactNode} children
  * @param {any} type Either a component type or an array of component types.
- * 
+ *
  * @todo This can be optimized to return as early as possible instead of creating
  *       an entire array in memory and returning the first member.
  *
@@ -107,12 +109,12 @@ export const getChildOfType = (children, type) => getChildrenOfType(children, ty
  *
  * Does deep traversal.
  *
- * @param {ReactNode} children 
+ * @param {ReactNode} children
  * @param {any} type Either a component type or an array of component types.
- * 
+ *
  * @todo This can be optimized to return as early as possible instead of creating
  *       an entire array in memory and returning the first member.
  *
  * @returns {ReactNode|undefined}
  */
- export const getChildNotOfType = (children, type) => getChildrenNotOfType(children, type)[0]
+export const getChildNotOfType = (children, type) => getChildrenNotOfType(children, type)[0]

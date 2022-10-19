@@ -5,11 +5,13 @@ const THEME_DARK = 'dark'
 
 let browserDefault = THEME_LIGHT
 
-const updateTheme = (theme) => {
+const updateTheme = (theme) =>
+{
     browserDefault = theme
 }
 
-const handleColorSchemePreference = match => {
+const handleColorSchemePreference = match =>
+{
     updateTheme(match.matches ? THEME_DARK : THEME_LIGHT)
 }
 

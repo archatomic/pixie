@@ -1,7 +1,7 @@
 import { List, Map } from 'immutable'
 
 import { Record } from './Record'
-import { isDefined } from 'Pixie/util/default'
+import { isDefined } from 'Pixie/Util/default'
 
 const MAX_UNDO_STACK_SIZE = 100
 

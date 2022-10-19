@@ -8,9 +8,10 @@ const { isPlainObject } = require("./isPlainObject")
  *
  * @returns
  */
-export function toData(value) {
+export function toData (value)
+{
     if (!value || typeof value !== 'object') return value
-  
+
     if (value.toData instanceof Function && !value.__callingToData) return value.toData()
     if (isImmutable(value)) value = value.toJSON()
     if (Array.isArray(value)) return value.map(toData)
@@ -22,6 +23,6 @@ export function toData(value) {
         }
         return data
     }
-  
+
     return value
-  }
+}

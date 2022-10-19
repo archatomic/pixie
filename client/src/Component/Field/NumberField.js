@@ -1,4 +1,4 @@
-import { isNumber, precision } from 'Pixie/util/math'
+import { isNumber, precision } from 'Pixie/Util/math'
 import { Field } from './Field'
 
 /**

@@ -10,17 +10,18 @@
  * @returns {HTMLElement}
  */
 export function createNode ({
-  parent,
-  tag = 'div',
-  attrs = {}
-} = {}) {
-  const el = document.createElement(tag)
+    parent,
+    tag = 'div',
+    attrs = {}
+} = {})
+{
+    const el = document.createElement(tag)
 
-  for (const key of Object.keys(attrs)) {
-    el.setAttribute(key, attrs[key])
-  }
+    for (const key of Object.keys(attrs)) {
+        el.setAttribute(key, attrs[key])
+    }
 
-  if (parent) parent.appendChild(el)
+    if (parent) parent.appendChild(el)
 
-  return el
+    return el
 }

@@ -5,4 +5,4 @@
  *
  * @return {void}
  */
-export function noop (...args) {}
+export function noop (...args) { }

@@ -1,6 +1,6 @@
 import { SparseImage } from 'Pixie/Model/SparseImage'
-import { loadImageContext } from 'Pixie/util/graphics'
-import { int } from 'Pixie/util/math'
+import { loadImageContext } from 'Pixie/Util/graphics'
+import { int } from 'Pixie/Util/math'
 import circles from './circles.png'
 
 const CACHE = {};

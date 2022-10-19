@@ -1,6 +1,6 @@
 import { BaseTool } from './BaseTool'
 import { celActions } from 'Pixie/Store/Action/applicationActions'
-import { locate } from 'Pixie/util/registry'
+import { locate } from 'Pixie/Util/registry'
 import { TOOLOPT } from 'Pixie/constants'
 import { Operation } from 'Pixie/Store/Operation'
 

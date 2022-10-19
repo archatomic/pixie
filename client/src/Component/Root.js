@@ -5,7 +5,7 @@ import { Component } from 'react'
 import { Helmet } from 'react-helmet'
 import { TitleBar } from 'Pixie/Component/TitleBar'
 import classNames from 'classnames'
-import { connect } from 'Pixie/util/connect'
+import { connect } from 'Pixie/Util/connect'
 
 export class Root extends Component
 {

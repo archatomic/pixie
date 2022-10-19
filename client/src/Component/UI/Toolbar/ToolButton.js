@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { Icon } from 'Pixie/Component/Icon'
 import { activateTool } from 'Pixie/Store/Action/toolboxActions'
-import { connect } from 'Pixie/util/connect'
-import { def, isDefined } from 'Pixie/util/default'
-import { warn } from 'Pixie/util/log'
-import { go } from 'Pixie/util/navigate'
+import { connect } from 'Pixie/Util/connect'
+import { def, isDefined } from 'Pixie/Util/default'
+import { warn } from 'Pixie/Util/log'
+import { go } from 'Pixie/Util/navigate'
 import { Component } from 'react'
 
 export class ToolButton extends Component

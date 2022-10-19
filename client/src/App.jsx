@@ -11,21 +11,21 @@ import { store } from 'Pixie/Store'
 
 const AuthenticatedRoutes = null
 const UnathenticatedRoutes = (
-  <Routes>
-    <Route path='/' element={<Main />} />
-    <Route path='/workspace' element={<Workspace />} />
-    <Route path='*' element={<Navigate to='/' />} />
-  </Routes>
+    <Routes>
+        <Route path='/' element={<Main />} />
+        <Route path='/workspace' element={<Workspace />} />
+        <Route path='*' element={<Navigate to='/' />} />
+    </Routes>
 )
 
 export const App = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-        <CaptureNavigate />
-        <Root.Connected>
-            <Authenticated>{AuthenticatedRoutes}</Authenticated>
-            <Unauthenticated>{UnathenticatedRoutes}</Unauthenticated>
-        </Root.Connected>
-      </BrowserRouter>
-  </Provider>
+    <Provider store={store}>
+        <BrowserRouter>
+            <CaptureNavigate />
+            <Root.Connected>
+                <Authenticated>{AuthenticatedRoutes}</Authenticated>
+                <Unauthenticated>{UnathenticatedRoutes}</Unauthenticated>
+            </Root.Connected>
+        </BrowserRouter>
+    </Provider>
 )

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Cel } from 'Pixie/Component/Cel'
-import { connect } from 'Pixie/util/connect'
-import { def } from 'Pixie/util/default'
+import { connect } from 'Pixie/Util/connect'
+import { def } from 'Pixie/Util/default'
 import { Component } from 'react'
 
 /**

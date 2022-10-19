@@ -1,6 +1,6 @@
 import { OVERFLOW, BLENDMODE } from 'Pixie/constants'
 import { getCircleBrush } from 'Pixie/Model/Brush/getCircleBrush'
-import { lerp } from 'Pixie/util/math'
+import { lerp } from 'Pixie/Util/math'
 
 /**
  * @typedef {import('Pixie/Model/SparseImage').SparseImage} SparseImage
@@ -173,16 +173,16 @@ export class DrawJob
         const flat = (p0.x === p1.x || p0.y === p1.y)
             ? p0
             : (p2.x === p1.x || p2.y === p1.y)
-            ? p2
-            : null
+                ? p2
+                : null
 
         if (!flat) return this.path.push(p2) // Both pixels are diagonals. No risk of chunking.
 
         const diag = (p0.x !== p1.x && p0.y !== p1.y)
             ? p0
             : (p2.x !== p1.x && p2.y !== p1.y)
-            ? p2
-            : null
+                ? p2
+                : null
 
         if (!diag) {
             // Both pixels are flats. Check if this is a hard right angle.
@@ -284,7 +284,7 @@ export class DrawJob
     {
         if (this.blendmode === BLENDMODE.REPLACE || a >= 255) {
             // Direct copy
-            imageData.data[i    ] = r
+            imageData.data[i] = r
             imageData.data[i + 1] = g
             imageData.data[i + 2] = b
             imageData.data[i + 3] = a
@@ -307,7 +307,7 @@ export class DrawJob
         const cg = (ag * aa + bg * ba * (1 - aa)) / ca
         const cb = (ab * aa + bb * ba * (1 - aa)) / ca
 
-        imageData.data[i    ] = cr
+        imageData.data[i] = cr
         imageData.data[i + 1] = cg
         imageData.data[i + 2] = cb
         imageData.data[i + 3] = ca * 255

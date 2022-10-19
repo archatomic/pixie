@@ -4,14 +4,14 @@ import { noop } from './noop'
 const LOG_LEVEL = def(process.env.LOG_LEVEL, 'debug')
 
 const levels = {
-  silent: 0,
-  fatal: 1,
-  error: 2,
-  warning: 3,
-  info: 4,
-  debug: 5,
-  trace: 6,
-  all: 7
+    silent: 0,
+    fatal: 1,
+    error: 2,
+    warning: 3,
+    info: 4,
+    debug: 5,
+    trace: 6,
+    all: 7
 }
 
 /**
@@ -22,13 +22,15 @@ const levels = {
  * @param {string} method
  * @returns {(...any)=>void}
  */
-function wrapConsole (level, method = level) {
-  if (!isLevel(level)) return noop
-  return (...args) => console[method](...args)
+function wrapConsole (level, method = level)
+{
+    if (!isLevel(level)) return noop
+    return (...args) => console[method](...args)
 }
 
-export function isLevel (level) {
-  return levels[level.toLowerCase()] <= levels[LOG_LEVEL.toLowerCase()]
+export function isLevel (level)
+{
+    return levels[level.toLowerCase()] <= levels[LOG_LEVEL.toLowerCase()]
 }
 
 export const log = wrapConsole('debug', 'log')

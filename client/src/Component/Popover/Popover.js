@@ -1,11 +1,11 @@
-import { def } from 'Pixie/util/default'
+import { def } from 'Pixie/Util/default'
 
 import { Component } from 'react'
 import { Panel } from 'Pixie/Component/Panel'
 import ReactDOM from 'react-dom'
 import { allowOne } from 'Pixie/Component/HOC/allowOne'
 import classNames from 'classnames'
-import { safeCall } from 'Pixie/util/safeCall'
+import { safeCall } from 'Pixie/Util/safeCall'
 
 const DEFAULT_ROOT_KEY = '___default'
 

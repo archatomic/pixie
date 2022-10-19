@@ -4,7 +4,8 @@ import { Color } from 'Pixie/Model/Color'
 
 import { TOOL, TOOLOPT } from './constants'
 
-export function registerTools () {
+export function registerTools ()
+{
     // Set default options
     setToolOption(TOOLOPT.PENCIL_SIZE, 1)
     setToolOption(TOOLOPT.ERASER_SIZE, 2)

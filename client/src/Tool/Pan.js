@@ -1,5 +1,5 @@
 import { BaseTool } from './BaseTool'
-import { locate } from 'Pixie/util/registry'
+import { locate } from 'Pixie/Util/registry'
 import { tabActions } from 'Pixie/Store/Action/applicationActions'
 
 /**

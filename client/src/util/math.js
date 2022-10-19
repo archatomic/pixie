@@ -26,5 +26,3 @@ export const precision = (num, precision, delim = '.') =>
     }
     return parseFloat(op)
 }
-
-window.p = precision

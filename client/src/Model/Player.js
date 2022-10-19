@@ -1,7 +1,7 @@
 import { PLAYBACK } from 'Pixie/constants'
 import { Record } from 'Pixie/Model/Record'
-import { createEnum } from 'Pixie/util/enum'
-import { clamp, mod } from 'Pixie/util/math'
+import { createEnum } from 'Pixie/Util/enum'
+import { clamp, mod } from 'Pixie/Util/math'
 import { List } from 'immutable'
 
 const OUT_OF_BOUNDS = createEnum([

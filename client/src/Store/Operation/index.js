@@ -3,7 +3,7 @@ import { applicationTabFocus, celActions, fragmentActions, frameActions, layerAc
 
 import { PixieFragment } from 'Pixie/Model/PixieFragment'
 import { Tab } from 'Pixie/Model/Tab'
-import { locate } from 'Pixie/util/registry'
+import { locate } from 'Pixie/Util/registry'
 import { PixieLayer } from 'Pixie/Model/PixieLayer'
 import { PixieFrame } from 'Pixie/Model/PixieFrame'
 import { PixieCel } from 'Pixie/Model/PixieCel'

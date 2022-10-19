@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import { Emitter } from 'Pixie/util/emitter'
-import { safeCall } from 'Pixie/util/safeCall'
+import { Emitter } from 'Pixie/Util/Emitter'
+import { safeCall } from 'Pixie/Util/safeCall'
 
 const OPEN_EVENT = 'open'
 const CLOSE_EVENT = 'close'

@@ -10,7 +10,8 @@ import { connect as reduxConnect } from 'react-redux'
  * @typedef {(state: State, props: InProps) => OutProps} StateToProps
  */
 
-const getFromState = (state, props, path) => {
+const getFromState = (state, props, path) =>
+{
     if (path instanceof Function) return path(state, props)
     if (!Array.isArray(path)) path = [path]
     return state.getIn(path)
@@ -23,10 +24,12 @@ const getFromState = (state, props, path) => {
  * @param {import('react').ComponentType<OutProps>} cls
  * @returns {import('react').ComponentType<InProps>}
  */
-export const connect = (schema, cls) => {
+export const connect = (schema, cls) =>
+{
     if (typeof schema === 'string') schema = [schema]
 
-    return reduxConnect((state, ownProps) => {
+    return reduxConnect((state, ownProps) =>
+    {
 
         if (schema instanceof Function) {
             return schema(state, ownProps)

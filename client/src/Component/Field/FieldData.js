@@ -1,4 +1,4 @@
-import { def, isDefined } from 'Pixie/util/default'
+import { def, isDefined } from 'Pixie/Util/default'
 
 export class FieldData
 {

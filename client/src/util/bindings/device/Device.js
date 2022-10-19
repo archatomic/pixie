@@ -1,7 +1,7 @@
-import { AnalogInput } from 'Pixie/util/bindings/device/AnalogInput'
-import { ButtonInput } from 'Pixie/util/bindings/device/ButtonInput'
-import { DeviceInput } from 'Pixie/util/bindings/device/DeviceInput'
-import { Emitter } from 'Pixie/util/emitter'
+import { AnalogInput } from 'Pixie/Util/bindings/device/AnalogInput'
+import { ButtonInput } from 'Pixie/Util/bindings/device/ButtonInput'
+import { DeviceInput } from 'Pixie/Util/bindings/device/DeviceInput'
+import { Emitter } from 'Pixie/Util/Emitter'
 
 export class Device extends Emitter
 {
@@ -25,7 +25,7 @@ export class Device extends Emitter
 
     /**
      * Retrieve a simple copy of the state of this device.
-     * 
+     *
      * It's a map of input name => input value.
      *
      * @returns {{[string]: any}}
@@ -84,8 +84,8 @@ export class Device extends Emitter
     /**
      * @template DeviceType
      * @param {DeviceInput} DeviceType
-     * @param {string} id 
-     * @param {function(new:DeviceType)} kls 
+     * @param {string} id
+     * @param {function(new:DeviceType)} kls
      * @returns {DeviceType}
      */
     getInput (id, kls)
@@ -100,7 +100,7 @@ export class Device extends Emitter
     }
 
     /**
-     * @param {string} id 
+     * @param {string} id
      * @returns {ButtonInput}
      */
     createButton (id)
@@ -109,7 +109,7 @@ export class Device extends Emitter
     }
 
     /**
-     * @param {string} id 
+     * @param {string} id
      * @returns {AnalogInput}
      */
     createAnalog (id)
@@ -120,8 +120,8 @@ export class Device extends Emitter
     /**
      * @template DeviceType
      * @param {DeviceInput} DeviceType
-     * @param {string} id 
-     * @param {function(new:DeviceType)} kls 
+     * @param {string} id
+     * @param {function(new:DeviceType)} kls
      * @returns {DeviceType}
      */
     createInput (id, kls = DeviceInput)
