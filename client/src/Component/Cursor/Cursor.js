@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { SparseImage } from 'Pixie/model/SparseImage'
+import { SparseImage } from 'Pixie/Model/SparseImage'
 import { connect } from 'Pixie/util/connect'
 import { imageDataToDataURI } from 'Pixie/util/graphics'
 import { Component } from 'react'

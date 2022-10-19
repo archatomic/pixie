@@ -6,19 +6,19 @@ import { Operation } from 'Pixie/store/operations'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
- * @typedef {import('Pixie/model/Application').Application} Application
+ * @typedef {import('Pixie/Model/Application').Application} Application
  */
 
 export class Fill extends BaseTool
 {
     /**
-     * @param {ToolData} data 
+     * @param {ToolData} data
      */
     end (data)
     {
         if (data.x < 0 || data.y < 0) return
 
-        /** @type {import('Pixie/model/Application').Application} */
+        /** @type {import('Pixie/Model/Application').Application} */
         const application = locate('state').get('application')
         this.tab = application.getActiveTab()
         this.fragment = application.getActiveFragment()

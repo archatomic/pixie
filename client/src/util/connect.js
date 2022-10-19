@@ -1,10 +1,10 @@
 import { connect as reduxConnect } from 'react-redux'
 
 /**
- * @typedef {import('Pixie/model/State').State} State
+ * @typedef {import('Pixie/Model/State').State} State
  */
 
-/** 
+/**
  * @template InProps
  * @template OutProps
  * @typedef {(state: State, props: InProps) => OutProps} StateToProps
@@ -20,7 +20,7 @@ const getFromState = (state, props, path) => {
  * @template InProps
  * @template OutProps
  * @param {StateToProps<InProps, OutProps>} schema
- * @param {import('react').ComponentType<OutProps>} cls 
+ * @param {import('react').ComponentType<OutProps>} cls
  * @returns {import('react').ComponentType<InProps>}
  */
 export const connect = (schema, cls) => {

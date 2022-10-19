@@ -4,7 +4,7 @@ import {
     UNDO_PUSH
 } from 'Pixie/store/actions/undoActions'
 
-import { UndoManager } from 'Pixie/model/UndoStack'
+import { UndoManager } from 'Pixie/Model/UndoStack'
 
 /** @type {UndoManager} */
 const INITIAL_STATE = UndoManager.create()

@@ -42,6 +42,6 @@ export class PixieLayer extends Record({
     position ()
     {
         const fragment = this.state.fragments.find(this.fragment)
-        return fragment.layers.indexOf(this.pk) 
+        return fragment.layers.indexOf(this.pk)
     }
 }

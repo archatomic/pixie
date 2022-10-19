@@ -1,10 +1,10 @@
 import { Pencil } from './Pencil'
 import { BLENDMODE, TOOLOPT } from 'Pixie/constants'
-import { Color } from 'Pixie/model/Color'
+import { Color } from 'Pixie/Model/Color'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
- * @typedef {import('Pixie/model/Application').Application} Application
+ * @typedef {import('Pixie/Model/Application').Application} Application
  */
 
 export class Eraser extends Pencil

@@ -1,17 +1,17 @@
 import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH } from 'Pixie/constants'
 import { applicationTabFocus, celActions, fragmentActions, frameActions, layerActions, tabActions } from 'Pixie/store/actions/applicationActions'
 
-import { PixieFragment } from 'Pixie/model/PixieFragment'
-import { Tab } from 'Pixie/model/Tab'
+import { PixieFragment } from 'Pixie/Model/PixieFragment'
+import { Tab } from 'Pixie/Model/Tab'
 import { locate } from 'Pixie/util/registry'
-import { PixieLayer } from 'Pixie/model/PixieLayer'
-import { PixieFrame } from 'Pixie/model/PixieFrame'
-import { PixieCel } from 'Pixie/model/PixieCel'
+import { PixieLayer } from 'Pixie/Model/PixieLayer'
+import { PixieFrame } from 'Pixie/Model/PixieFrame'
+import { PixieCel } from 'Pixie/Model/PixieCel'
 import { redo, undo, undoPush } from 'Pixie/store/actions/undoActions'
 import { replaceState } from 'Pixie/store/actions/rootActions'
 
 /**
- * @typedef {import('Pixie/model/State').State} State
+ * @typedef {import('Pixie/Model/State').State} State
  */
 
 export class Operation
@@ -45,7 +45,7 @@ export class Operation
                 // No existing tab, create one
                 || Tab.create({ fragment: fragment.pk, zoom: fragment.getDefaultZoom() })
             )
-        
+
         // Store tab
         tabActions.save(tab)
 
@@ -213,7 +213,7 @@ export class Operation
     {
         const state = this.state
         const layer = state.layers.find(layerID)
-    
+
         let fragment = state.fragments.find(layer.fragment)
         let tab = state.tabs.where({ fragment: layer.fragment }).first()
         const maxIndex = fragment.layers.count() - 2
@@ -239,12 +239,12 @@ export class Operation
         celActions.delete(cels)
         layerActions.delete(layer)
     }
-    
+
     static deleteFrame (frameID)
     {
         const state = this.state
         const frame = state.frames.find(frameID)
-    
+
         let fragment = state.fragments.find(frame.fragment)
         let tab = state.tabs.where({ fragment: frame.fragment }).first()
         const maxIndex = fragment.frames.count() - 2
@@ -273,7 +273,7 @@ export class Operation
 
     static pushHistory (fragmentID, description)
     {
-        
+
         undoPush(this.getHistoryNode(fragmentID), description)
     }
 
@@ -315,7 +315,7 @@ export class Operation
             .delegateSet('frames', 'removeAll', remove.frames)
             .delegateSet('layers', 'removeAll', remove.layers)
             .delegateSet('cels', 'removeAll', remove.cels)
-        
+
         const add = state.history.getStack(fragmentID).current
         if (!add) return console.warn('cannot undo');
 
@@ -324,7 +324,7 @@ export class Operation
             .delegateSet('frames', 'addAll', add.frames)
             .delegateSet('layers', 'addAll', add.layers)
             .delegateSet('cels', 'addAll', add.cels)
-                
+
         replaceState(restored)
         const tab = restored.tabs.where({ fragment: fragmentID }).first()
         tabActions.save(tab.clampFrameAndLayer())

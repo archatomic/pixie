@@ -6,7 +6,7 @@ import { Component } from 'react'
 
 /**
  * @typedef {object} FrameProps
- * @property {import('Pixie/model/PixieCel').PixieCel[]} cels
+ * @property {import('Pixie/Model/PixieCel').PixieCel[]} cels
  * @property {import('client.constants').VISIBILITY} [layerVisibility]
  * @property {import('client.constants').CEL_DISPLAY_MODE} [celDisplayMode]
  * @property {string} [className]

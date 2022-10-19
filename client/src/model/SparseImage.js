@@ -1,6 +1,6 @@
 import { BLENDMODE } from 'Pixie/constants'
-import { Color } from 'Pixie/model/Color'
-import { Record } from 'Pixie/model/Record'
+import { Color } from 'Pixie/Model/Color'
+import { Record } from 'Pixie/Model/Record'
 import { isDefined } from 'Pixie/util/default'
 import { imageDataToDataURI } from 'Pixie/util/graphics'
 import { int } from 'Pixie/util/math'
@@ -49,7 +49,7 @@ export class SparseImage extends Record({
     {
         width += dx
         height += dy
-    
+
         let op = SparseImage.create()
 
         for (let x = dx; x < width; x++) {
@@ -93,7 +93,7 @@ export class SparseImage extends Record({
     }
 
     /**
-     * @param {ImageData} imageData 
+     * @param {ImageData} imageData
      */
     copyImage (imageData, dx = 0, dy = 0)
     {
@@ -162,7 +162,7 @@ export class SparseImage extends Record({
     }
 
     /**
-     * @param {(x: number, y: number, color: Color)} fn 
+     * @param {(x: number, y: number, color: Color)} fn
      */
     forEach (fn)
     {
@@ -223,7 +223,7 @@ export class SparseImage extends Record({
     {
 
         const i = (x + imageData.width * y) * 4
-    
+
         if (mask) {
             if (mask[i]) return
             mask[i] = true
@@ -231,7 +231,7 @@ export class SparseImage extends Record({
 
         if (!blendAlpha || color.a >= 1) {
             // Direct copy
-            imageData.data[i    ] = color.R
+            imageData.data[i] = color.R
             imageData.data[i + 1] = color.G
             imageData.data[i + 2] = color.B
             imageData.data[i + 3] = color.A
@@ -243,7 +243,7 @@ export class SparseImage extends Record({
         const ag = color.G // 0 - 255 green
         const ab = color.B // 0 - 255 blue
         const aa = color.a // 0 - 1 alpha
-    
+
         const br = imageData.data[i]           // 0 - 255 red
         const bg = imageData.data[i + 1]       // 0 - 255 green
         const bb = imageData.data[i + 2]       // 0 - 255 blue
@@ -253,8 +253,8 @@ export class SparseImage extends Record({
         const r = (ar * aa + br * ba * (1 - aa)) / a
         const g = (ag * aa + bg * ba * (1 - aa)) / a
         const b = (ab * aa + bb * ba * (1 - aa)) / a
-        
-        imageData.data[i    ] = r
+
+        imageData.data[i] = r
         imageData.data[i + 1] = g
         imageData.data[i + 2] = b
         imageData.data[i + 3] = a * 255

@@ -1,6 +1,6 @@
 import { REPLACE_STATE } from 'Pixie/store/actions/rootActions'
 
-import { State } from 'Pixie/model/State'
+import { State } from 'Pixie/Model/State'
 
 /** @type {State} */
 const INITIAL_STATE = State.create()

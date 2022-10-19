@@ -1,4 +1,4 @@
-import { Color } from 'Pixie/model/Color'
+import { Color } from 'Pixie/Model/Color'
 import { Component } from 'react'
 import { Icon } from 'Pixie/Component/Icon'
 import { Transition } from 'Pixie/Component/Transition'

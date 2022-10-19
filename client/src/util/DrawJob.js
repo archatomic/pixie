@@ -1,10 +1,10 @@
 import { OVERFLOW, BLENDMODE } from 'Pixie/constants'
-import { getCircleBrush } from 'Pixie/model/brushes/circle'
+import { getCircleBrush } from 'Pixie/Model/Brush/getCircleBrush'
 import { lerp } from 'Pixie/util/math'
 
 /**
- * @typedef {import('Pixie/model/SparseImage').SparseImage} SparseImage
- * @typedef {import('Pixie/model/Color').Color} Color
+ * @typedef {import('Pixie/Model/SparseImage').SparseImage} SparseImage
+ * @typedef {import('Pixie/Model/Color').Color} Color
  */
 
 /**
@@ -29,7 +29,7 @@ const DEFAULT_BRUSH = getCircleBrush(1)
 export class DrawJob
 {
     /**
-     * @param {DrawJobOptions} options 
+     * @param {DrawJobOptions} options
      * @returns {DrawJob}
      */
     static create (options)
@@ -37,7 +37,7 @@ export class DrawJob
         return new this(options)
     }
     /**
-     * @param {DrawJobOptions} options 
+     * @param {DrawJobOptions} options
      */
     constructor({
         color = null,
@@ -155,8 +155,8 @@ export class DrawJob
     /**
      * Add a pixel to the path. Handles the pixel perfect algorithm.
      *
-     * @param {number} x 
-     * @param {number} y 
+     * @param {number} x
+     * @param {number} y
      */
     addToPath (x, y)
     {
@@ -175,7 +175,7 @@ export class DrawJob
             : (p2.x === p1.x || p2.y === p1.y)
             ? p2
             : null
-    
+
         if (!flat) return this.path.push(p2) // Both pixels are diagonals. No risk of chunking.
 
         const diag = (p0.x !== p1.x && p0.y !== p1.y)
@@ -183,7 +183,7 @@ export class DrawJob
             : (p2.x !== p1.x && p2.y !== p1.y)
             ? p2
             : null
-        
+
         if (!diag) {
             // Both pixels are flats. Check if this is a hard right angle.
             if (p0.x !== p2.x && p0.y !== p2.y) return this.dechunk(x, y)
@@ -220,7 +220,7 @@ export class DrawJob
         const y2 = y
 
         const numPixels = Math.max(Math.abs(y2 - y1), Math.abs(x2 - x1)) + 1
-        
+
         for (let i = 0; i <= numPixels; i++) {
             const t = i / numPixels
             const x = Math.round(lerp(x1, x2, t))
@@ -230,8 +230,8 @@ export class DrawJob
     }
 
     /**
-     * @param {number} x 
-     * @param {number} y 
+     * @param {number} x
+     * @param {number} y
      * @returns {number}
      */
     coordsToIndex (x, y)
@@ -250,7 +250,7 @@ export class DrawJob
 
         return (y * this.target.width + x) * 4
     }
-    
+
     /**
      * @param {number} i
      * @returns {boolean}
@@ -296,7 +296,7 @@ export class DrawJob
         const ag = g // 0 - 255 green
         const ab = b // 0 - 255 blue
         const aa = a / 255 // 0 - 1 alpha
-    
+
         const br = imageData.data[i]           // 0 - 255 red
         const bg = imageData.data[i + 1]       // 0 - 255 green
         const bb = imageData.data[i + 2]       // 0 - 255 blue
@@ -306,7 +306,7 @@ export class DrawJob
         const cr = (ar * aa + br * ba * (1 - aa)) / ca
         const cg = (ag * aa + bg * ba * (1 - aa)) / ca
         const cb = (ab * aa + bb * ba * (1 - aa)) / ca
-        
+
         imageData.data[i    ] = cr
         imageData.data[i + 1] = cg
         imageData.data[i + 2] = cb
@@ -336,7 +336,7 @@ export class DrawJob
 
         // reset the preview from the committed dataset
         this.preview.data.set(this.committed.data)
-        
+
         this._burnt = {}
         for (const p of this.path) {
             this.applyBrushToPoint(p, this.preview)

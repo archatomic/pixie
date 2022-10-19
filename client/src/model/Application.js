@@ -2,7 +2,7 @@ import { APP_NAME } from 'Pixie/constants'
 import { PixieFragment } from './PixieFragment'
 import { Record } from './Record'
 import { Tab } from './Tab'
-import { ToolBox } from 'Pixie/model/ToolBox'
+import { ToolBox } from 'Pixie/Model/ToolBox'
 import { getDefaultTheme } from 'Pixie/util/theme'
 import { locate } from 'Pixie/util/registry'
 
@@ -38,7 +38,7 @@ export class Application extends Record({
     }
 
     /**
-     * @param {string} title 
+     * @param {string} title
      * @returns {Application}
      */
     setTitle (title)

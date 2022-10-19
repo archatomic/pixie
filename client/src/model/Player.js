@@ -1,5 +1,5 @@
 import { PLAYBACK } from 'Pixie/constants'
-import { Record } from 'Pixie/model/Record'
+import { Record } from 'Pixie/Model/Record'
 import { createEnum } from 'Pixie/util/enum'
 import { clamp, mod } from 'Pixie/util/math'
 import { List } from 'immutable'
@@ -9,7 +9,7 @@ const OUT_OF_BOUNDS = createEnum([
     'IGNORE',
     'CLAMP',
     // 'PINGPONG', // @todo: this logic is written, but the datamodel
-                   // needs adjusted to account for it
+    // needs adjusted to account for it
     'LOOP'
 ])
 
@@ -94,11 +94,11 @@ export class Player extends Record({
     tick (now = Date.now())
     {
         if (this.playback !== PLAYBACK.PLAYING) return this
-    
+
         let current = this.frame
         let delta = (now - this.head) * this.speed
         let frameElapsed = this.frameElapsed + delta
-    
+
         let frame = this.getFrame(current)
         let duration = frame.duration * 1000
 

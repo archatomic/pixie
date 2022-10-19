@@ -13,7 +13,7 @@ export class Color extends Record({
 }) {
     static create (r, g, b, a = 1)
     {
-        return new this({r, g, b, a})
+        return new this({ r, g, b, a })
     }
 
     static fromImageData (x, y, imageData)
@@ -41,7 +41,7 @@ export class Color extends Record({
      */
     get R ()
     { return this.getChannel('r') }
-    
+
     /**
      * Return the 0 - 255 value of the green channel
      *
@@ -68,7 +68,7 @@ export class Color extends Record({
 
     getCSS ({ r = this.R, g = this.G, b = this.B, a = this.a } = {})
     { return `rgba(${r}, ${g}, ${b}, ${a})` }
-    
+
     getChannel (channel)
     { return Math.floor(clamp(this.get(channel, 0) * 256, 0, 255)) }
 
@@ -89,29 +89,29 @@ export class Color extends Record({
         const cMin = Math.min(r, g, b)
         const delta = cMax - cMin
         const l = (cMax + cMin) / 2
-        
+
         if (delta === 0) return { h: 0, s: 0, l }
-        
+
 
         const h = 60 * (
             cMax === r ?
                 mod((g - b) / delta, 6) :
-            cMax === g ?
-                ((b - r) / delta) + 2 :
-            // cMax === b
-                ((r - g) / delta) + 4
+                cMax === g ?
+                    ((b - r) / delta) + 2 :
+                    // cMax === b
+                    ((r - g) / delta) + 4
         )
- 
-        const s = delta / ( 1 - Math.abs(2 * l - 1))
 
-        return {h, s, l}
+        const s = delta / (1 - Math.abs(2 * l - 1))
+
+        return { h, s, l }
     }
 
     setHSL (h, s, l)
     {
         const c = (1 - Math.abs(2 * l - 1)) * s
         const x = c * (1 - Math.abs((h / 60) % 2 - 1))
-        const m = l - c/2
+        const m = l - c / 2
         const hPrime = Math.floor(h / 60)
         let rPrime = 0
         let gPrime = 0

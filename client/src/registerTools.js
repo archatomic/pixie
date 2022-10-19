@@ -1,6 +1,6 @@
 
 import { registerTool, setToolOption } from 'Pixie/store/actions/toolboxActions'
-import { Color } from 'Pixie/model/Color'
+import { Color } from 'Pixie/Model/Color'
 
 import { TOOL, TOOLOPT } from './constants'
 

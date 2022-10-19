@@ -1,4 +1,4 @@
-import { SparseImage } from 'Pixie/model/SparseImage'
+import { SparseImage } from 'Pixie/Model/SparseImage'
 import { loadImageContext } from 'Pixie/util/graphics'
 import { int } from 'Pixie/util/math'
 import circles from './circles.png'

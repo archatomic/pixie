@@ -15,7 +15,7 @@ export class Layers extends Component
         (state, props) =>
         {
             /**
-             * @type {import('Pixie/model/Application').Application}
+             * @type {import('Pixie/Model/Application').Application}
              */
             const application = state.get('application')
             const fragment = application.getActiveFragment()

@@ -8,11 +8,11 @@ import { Operation } from 'Pixie/store/operations'
 import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'Pixie/constants'
 
 /**
- * @typedef {import('Pixie/model/PixieFragment').PixieFragment} PixieFragment
- * @typedef {import('Pixie/model/PixieFrame').PixieFrame} PixieFrame
- * @typedef {import('Pixie/model/PixieCel').PixieCel} PixieCel
- * @typedef {import('Pixie/model/Application').Application} Application
- * @typedef {import('Pixie/model/Tab').Tab} Tab
+ * @typedef {import('Pixie/Model/PixieFragment').PixieFragment} PixieFragment
+ * @typedef {import('Pixie/Model/PixieFrame').PixieFrame} PixieFrame
+ * @typedef {import('Pixie/Model/PixieCel').PixieCel} PixieCel
+ * @typedef {import('Pixie/Model/Application').Application} Application
+ * @typedef {import('Pixie/Model/Tab').Tab} Tab
  */
 
 /**

@@ -1,5 +1,5 @@
 import { TOOL } from 'Pixie/constants'
-import { Record } from 'Pixie/model/Record'
+import { Record } from 'Pixie/Model/Record'
 import { Map, List } from 'immutable'
 
 /**
@@ -71,7 +71,7 @@ export class ToolBox extends Record({
 
     /**
      * @param {string|int} id Corresponds to the TOOL constants.js enum
-     * @param {ToolProps} [opts] 
+     * @param {ToolProps} [opts]
      * @returns {ToolBox}
      */
     registerTool (id, { name, icon, options = [] } = {})
@@ -93,7 +93,7 @@ export class ToolBox extends Record({
     {
         const id = toolOption.id || toolOption
         const name = toolOption.name || `${id}`
-        return {id, name}
+        return { id, name }
     }
 
     setOption (name, value)

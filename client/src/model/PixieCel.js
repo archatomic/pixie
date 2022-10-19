@@ -15,7 +15,7 @@ export class PixieCel extends Record({
     overlayPreview: false
 }) {
     /**
-     * @param {ImageData} imageData 
+     * @param {ImageData} imageData
      * @returns {PixieCel}
      */
     static fromImageData (imageData)

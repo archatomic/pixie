@@ -10,7 +10,7 @@ export class Tab extends Record({
     x: 0,
     y: 0,
     play: false,
-    onionSkin: 0 
+    onionSkin: 0
 }) {
     clampFrameAndLayer ()
     {

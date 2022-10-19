@@ -7,14 +7,14 @@ import { tabActions } from 'Pixie/store/actions/applicationActions'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
- * @typedef {import('Pixie/model/Application').Application} Application
+ * @typedef {import('Pixie/Model/Application').Application} Application
  */
 
 export class Zoom extends BaseTool
 {
     start (_, event, old)
     {
-        /** @type {import('Pixie/model/Application').Application} */
+        /** @type {import('Pixie/Model/Application').Application} */
         const application = locate('state').application
         this.initialTab = application.getActiveTab()
         this.tab = this.initialTab

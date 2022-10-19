@@ -1,6 +1,6 @@
 import { PlayerFrame } from './PlayerFrame'
 import { CEL_DISPLAY_MODE } from 'Pixie/constants'
-import { Player } from 'Pixie/model/Player'
+import { Player } from 'Pixie/Model/Player'
 import
 {
     playerActions,

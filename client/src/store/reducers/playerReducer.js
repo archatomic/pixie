@@ -1,4 +1,4 @@
-import { Player } from 'Pixie/model/Player'
+import { Player } from 'Pixie/Model/Player'
 import { PLAYER_PAUSE, PLAYER_PLAY, PLAYER_SET_FRAMES, PLAYER_STOP, PLAYER_TICK } from 'Pixie/store/actions/playerActions'
 
 const INITIAL_STATE = Player.Collection.create()

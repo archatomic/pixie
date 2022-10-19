@@ -1,4 +1,5 @@
-import {
+import
+{
     DEFAULT_FRAGMENT_HEIGHT,
     DEFAULT_FRAGMENT_WIDTH,
     VISIBILITY
@@ -30,7 +31,8 @@ export class PixieFragment extends Record({
     static create ({
         width = DEFAULT_FRAGMENT_WIDTH,
         height = DEFAULT_FRAGMENT_HEIGHT
-    } = {}) {
+    } = {})
+    {
         return new PixieFragment({ width, height })
     }
 
@@ -61,10 +63,11 @@ export class PixieFragment extends Record({
     nullCel ()
     {
         // Replace me with operation
-        return PixieCel.Null.merge({width: this.width, height: this.height})
+        return PixieCel.Null.merge({ width: this.width, height: this.height })
     }
 
-    getCelKey(layer, frame) {
+    getCelKey (layer, frame)
+    {
         // Replace me with operation
         layer = this.state.layers.getID(layer)
         frame = this.state.frames.getID(frame)
@@ -82,7 +85,8 @@ export class PixieFragment extends Record({
         return this.state.cels.find(cel)
     }
 
-    getLayer(layer) {
+    getLayer (layer)
+    {
         return this.state.layers.find(layer)
     }
 
@@ -130,15 +134,15 @@ export class PixieFragment extends Record({
             // Explicitly return visible cels
             if (celopts.visible === VISIBILITY.VISIBLE)
                 return visible
-            
+
             // Explicity return hidden cels
             if (celopts.visible === VISIBILITY.HIDDEN)
                 return hidden
-            
+
             // Explicitly return soloed cels
             if (celopts.visible === VISIBILITY.SOLO)
                 return soloed
-            
+
             // "auto" mode. Return either the soloed or the visible
             return soloed.length > 0 ? soloed : visible
         }

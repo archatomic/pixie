@@ -16,12 +16,12 @@ const OVERFLOW_MARGIN = 20
 
 /**
  * @typedef {object} WorkspaceProps
- * @prop {import('Pixie/model/ToolBox').Tool} tool
+ * @prop {import('Pixie/Model/ToolBox').Tool} tool
  * @prop {boolean} cursorDown
  * @prop {number} cursorX
  * @prop {number} cursorY
- * @prop {import('Pixie/model/PixieFragment').PixieFragment} fragment
- * @prop {import('Pixie/model/Tab').Tab} tab
+ * @prop {import('Pixie/Model/PixieFragment').PixieFragment} fragment
+ * @prop {import('Pixie/Model/Tab').Tab} tab
  */
 
 /**

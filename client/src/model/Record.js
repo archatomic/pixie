@@ -9,7 +9,7 @@ import { toData } from 'Pixie/util/toData'
  * There is a problem with this design. The child classes of my record
  * definitions cannot utilize parent record mutators without losing their
  * type and requiring recasting.
- * 
+ *
  * e.g.
  * ```js
  * class Foo extends Record({ foo: true }) {
@@ -17,7 +17,7 @@ import { toData } from 'Pixie/util/toData'
  *          return false
  *      }
  * }
- * 
+ *
  * Foo.create() // not typed as Foo, rather typed as RecordInstance<{foo: true}>
  * ```
  *
@@ -98,13 +98,13 @@ import { toData } from 'Pixie/util/toData'
  * @property {([props]: RecordDefinition<T>) => RecordInstance<T>} create
  * Construct an instance without the new keyword. Convenienc method.
  */
- 
+
 /**
  * @template T
  *
  * @typedef {(new([props]: RecordDefinition<T>) => RecordInstance<T>) & RecordClassMethods<T>} RecordClass
  */
- 
+
 /**
  * @template T
  * @param { T } defaults A record schema.
@@ -286,18 +286,19 @@ export function Record (defaults, key = '_id')
  *
  * @param {RecordClass<T>} OfType
  * The record class this collection manages
- * 
+ *
  * @param {string} [key = '_id']
  * The primary key. Used to identify when two permutations attach to the same
  * conceptual record.
  *
  * @param {null|RecordInstance<T>} [nullItem = null]
  * The item to use as a return when get operations don't match anything.
- * 
+ *
  * @returns {RecordCollection<T>}
  */
 
-export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
+export function RecordCollection (OfType = null, key = '_id', nullItem = null)
+{
     const pk = (v) => v[key]
 
     return class RecordCollection extends Record({ items: OrderedMap() }) {
@@ -319,7 +320,7 @@ export function RecordCollection(OfType = null, key = '_id', nullItem = null) {
                         return collection.remove(action.payload)
                     case 'sort':
                         return collection.sort(action.payload)
-                }                
+                }
 
                 return collection
             }

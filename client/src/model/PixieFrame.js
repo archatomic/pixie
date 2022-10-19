@@ -26,6 +26,6 @@ export class PixieFrame extends Record({
     position ()
     {
         const fragment = this.state.fragments.find(this.fragment)
-        return fragment.frames.indexOf(this.pk) 
+        return fragment.frames.indexOf(this.pk)
     }
 }

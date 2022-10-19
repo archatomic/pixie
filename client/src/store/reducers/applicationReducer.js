@@ -11,7 +11,7 @@ import {
     APPLICATION_TITLE_UPDATE,
 } from 'Pixie/store/actions/applicationActions'
 
-import { Application } from 'Pixie/model/Application'
+import { Application } from 'Pixie/Model/Application'
 
 const INITIAL_STATE = Application.create()
 

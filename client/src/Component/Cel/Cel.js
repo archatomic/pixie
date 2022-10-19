@@ -8,7 +8,7 @@ import { def } from 'Pixie/util/default'
 
 /**
  * @typedef {object} CelProps
- * @prop {import('Pixie/model/PixieCel').PixieCel} cel
+ * @prop {import('Pixie/Model/PixieCel').PixieCel} cel
  * @prop {string} [className]
  * @prop {CEL_DISPLAY_MODE} [displayMode]
  */

@@ -4,7 +4,7 @@ import {
     TOOLBOX_REGISTER_TOOL
 } from 'Pixie/store/actions/toolboxActions'
 
-import { ToolBox } from 'Pixie/model/ToolBox'
+import { ToolBox } from 'Pixie/Model/ToolBox'
 
 /** @type {ToolBox} */
 const INITIAL_STATE = ToolBox.create()

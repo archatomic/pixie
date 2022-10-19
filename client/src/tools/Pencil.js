@@ -2,15 +2,15 @@ import { celActions } from 'Pixie/store/actions/applicationActions'
 
 import { BaseTool } from './BaseTool'
 import { locate } from 'Pixie/util/registry'
-import { getCircleBrush } from 'Pixie/model/brushes/circle'
+import { getCircleBrush } from 'Pixie/Model/Brush/getCircleBrush'
 import { TOOLOPT } from 'Pixie/constants'
 import { DrawJob } from 'Pixie/util/DrawJob'
 import { Operation } from 'Pixie/store/operations'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
- * @typedef {import('Pixie/model/Application').Application} Application
- * @typedef {import('Pixie/model/State').State} State
+ * @typedef {import('Pixie/Model/Application').Application} Application
+ * @typedef {import('Pixie/Model/State').State} State
  */
 
 export class Pencil extends BaseTool
@@ -54,7 +54,7 @@ export class Pencil extends BaseTool
     }
 
     /**
-     * @param {ToolData} data 
+     * @param {ToolData} data
      */
     start (data)
     {
@@ -78,7 +78,7 @@ export class Pencil extends BaseTool
     }
 
     /**
-     * @param {ToolData} data 
+     * @param {ToolData} data
      */
     move (data)
     {
