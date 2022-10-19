@@ -47,8 +47,8 @@ export class Cel extends Component
 
         return (
             <div className={classNames('Cel', this.props.className)}>
-                { this.renderCommitted() }
-                { this.renderPreview() }
+                {this.renderCommitted()}
+                {this.renderPreview()}
             </div>
         )
     }
@@ -57,7 +57,7 @@ export class Cel extends Component
     {
         if (this.displayMode === CEL_DISPLAY_MODE.COMMITTED) return null
         if (!this.props.cel.preview) return null
-        return <Image className='Cel-canvas' data={this.props.cel.preview}/>
+        return <Image className='Cel-canvas' data={this.props.cel.preview} />
     }
 
     renderCommitted ()
@@ -68,6 +68,6 @@ export class Cel extends Component
             && this.props.cel.preview
             && !this.props.cel.overlayPreview
         ) return null
-        return <Image className='Cel-canvas' data={this.props.cel.data}/>
+        return <Image className='Cel-canvas' data={this.props.cel.data} />
     }
 }

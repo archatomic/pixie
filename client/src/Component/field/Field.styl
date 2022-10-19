@@ -17,7 +17,7 @@
         color unfocused
         overflow hidden
         transition transform speed ease-in-out, background-color speed ease-in-out, unquote('color') speed ease-in-out
-    
+
     &-content
         border 0.2rem solid theme.panel
         border-radius 0.4rem
@@ -56,11 +56,11 @@
     &--focus
         .Field-label
             color theme.active
-        
+
         .Field-content
             border-color theme.active
             background theme.white
-    
+
     &--unfocus:hover &-content
         border-color grey(50)
 
@@ -85,7 +85,7 @@
     // Tight variant. Removes padding from around and within the element
     &--tight
         margin 0
-    
+
         .Field-content
             padding 0.2em 0.4em
             border-width 0.1rem
@@ -115,7 +115,7 @@
 
         &.Field--pill .Field-label
             left 1em
-            
+
         &.Field--unfocus:hover .Field-label
             color theme.white
             background unfocused
@@ -147,12 +147,12 @@
 
         .Field-content
             border-bottom 0.1rem solid transparent
-        
+
         &.Field--focus .Field-content
             border-bottom 0.1rem solid subtle-border
 
     // Text fields specifically
-    &--text 
+    &--text
         .Field-content
             cursor text
 

@@ -1,5 +1,3 @@
-import './Field.styl'
-
 import { Component } from 'react'
 import { FormContext } from './Form'
 import { Transition } from '../Transition'
@@ -29,168 +27,180 @@ import { safeCall } from 'Pixie/util/safeCall'
  * @template AdditionalProps
  * @extends {Component<FieldProps & AdditionalProps>}
  */
-export class Field extends Component {
-  /**
-   * @type {FormContext}
-   **/
-  static contextType = FormContext
+export class Field extends Component
+{
+    /**
+     * @type {FormContext}
+     **/
+    static contextType = FormContext
 
-  /**
-   * @type {import('./Form').Form} Why do I need this?
-   */
-  context
+    /**
+     * @type {import('./Form').Form} Why do I need this?
+     */
+    context
 
-  state = {
-    rawValue: this.transformValue(def(this.props.value, this.defaultValue())),
-    value: this.transformValue(def(this.props.value, this.defaultValue())),
-    id: randomString(),
-    focused: false,
-    errors: []
-  }
-
-  defaultValue () {
-    return null
-  }
-
-  focus = () => this.setState({ focused: true })
-
-  blur = () =>
-  {
-    this.setState({ focused: false, rawValue: this.state.value })
-    safeCall(
-      this.props.onCommit,
-      {
-        field: this,
-        name: this.props.name,
-        value: this.state.rawValue
-      }
-    )
-  }
-
-  setValue (rawValue, passive = false)
-  {
-    const value = this.transformValue(rawValue)
-    if (!this.state.focused) rawValue = value
-    else if (passive) rawValue = this.state.rawValue
-    this.setState({
-      rawValue: `${rawValue}`,
-      value,
-      errors: this.state.value === value ? this.state.errors : []
-    })
-    if (this.props.validateOnChange) this.validate(value)
-  }
-
-  validate (value = this.state.value) {
-    this.setState({ errors: validate(value, this.props.validate) })
-  }
-
-  get invalid () {
-    return this.state.errors.length > 0
-  }
-
-  componentDidMount ()
-  {
-    if (!this.context) return
-    this.context.registerField(this)
-  }
-
-  componentWillUnmount () {
-    if (!this.context) return
-    this.context.deregisterField(this)
-  }
-
-  /**
-   * @param {FieldProps} props
-   */
-  componentDidUpdate (props, state) {
-    if (props.value !== this.props.value) {
-      // passive updates won't rewrite rawValue while focused
-      this.setValue(this.props.value, true)
+    state = {
+        rawValue: this.transformValue(def(this.props.value, this.defaultValue())),
+        value: this.transformValue(def(this.props.value, this.defaultValue())),
+        id: randomString(),
+        focused: false,
+        errors: []
     }
 
-    if (state.rawValue !== this.state.rawValue) {
-      safeCall(
-        this.props.onChange,
-        {
-          field: this,
-          name: this.props.name,
-          value: this.state.rawValue,
-          oldValue: state.rawValue
-        }
-      )
+    defaultValue ()
+    {
+        return null
     }
-  }
 
-  handleContentClicked = e => this.contentWasClicked(e)
+    focus = () => this.setState({ focused: true })
 
-  contentWasClicked (event) {
-    // To be implemented in subclasses
-  }
+    blur = () =>
+    {
+        this.setState({ focused: false, rawValue: this.state.value })
+        safeCall(
+            this.props.onCommit,
+            {
+                field: this,
+                name: this.props.name,
+                value: this.state.rawValue
+            }
+        )
+    }
 
-  transformValue (value)
-  {
-    // to be implemented in subclasses
-    return value
-  }
+    setValue (rawValue, passive = false)
+    {
+        const value = this.transformValue(rawValue)
+        if (!this.state.focused) rawValue = value
+        else if (passive) rawValue = this.state.rawValue
+        this.setState({
+            rawValue: `${rawValue}`,
+            value,
+            errors: this.state.value === value ? this.state.errors : []
+        })
+        if (this.props.validateOnChange) this.validate(value)
+    }
 
-  getVariant () {
-    return this.constructor.name[0].toLowerCase() + this.constructor.name.substring(1)
-  }
+    validate (value = this.state.value)
+    {
+        this.setState({ errors: validate(value, this.props.validate) })
+    }
 
-  render () {
-    return (
-      <div className={classNames(
-        'Field',
-        `Field--${this.getVariant()}`,
-        this.props.className,
-        {
-          'Field--unfocus': !this.state.focused,
-          'Field--focus': this.state.focused,
-          'Field--error': this.invalid,
-          'Field--inline': this.props.inline,
-          'Field--placeholderLabel': this.props.placeholderLabel,
-          'Field--pill': this.props.pill,
-          'Field--disabled': this.props.disabled,
-          'Field--invisible': this.props.invisible,
-          'Field--tight': this.props.tight,
-          'Field--empty': isEmpty(this.state.value),
-          'Field--filled': !isEmpty(this.state.value)
+    get invalid ()
+    {
+        return this.state.errors.length > 0
+    }
+
+    componentDidMount ()
+    {
+        if (!this.context) return
+        this.context.registerField(this)
+    }
+
+    componentWillUnmount ()
+    {
+        if (!this.context) return
+        this.context.deregisterField(this)
+    }
+
+    /**
+     * @param {FieldProps} props
+     */
+    componentDidUpdate (props, state)
+    {
+        if (props.value !== this.props.value) {
+            // passive updates won't rewrite rawValue while focused
+            this.setValue(this.props.value, true)
         }
-      )}
-      >
-        {this.renderLabel()}
-        <div className='Field-content' onClick={this.handleContentClicked}>{this.renderContent()}</div>
-        <Transition>
-          {this.renderErrors()}
-        </Transition>
-      </div>
-    )
-  }
 
-  renderLabel () {
-    if (!this.props.label) return null
-    return (
-      <label
-        className='Field-label'
-        htmlFor={this.state.id}
-      >
-        {this.props.label}
-      </label>
-    )
-  }
+        if (state.rawValue !== this.state.rawValue) {
+            safeCall(
+                this.props.onChange,
+                {
+                    field: this,
+                    name: this.props.name,
+                    value: this.state.rawValue,
+                    oldValue: state.rawValue
+                }
+            )
+        }
+    }
 
-  renderContent () {
-    // To implement
-    return null
-  }
+    handleContentClicked = e => this.contentWasClicked(e)
 
-  renderErrors () {
-    if (!this.invalid) return null
-    const [error, ...addtnl] = this.state.errors
-    return (
-      <div className='Field-errors'>
-        {error.message} {addtnl.length > 0 && `(+${addtnl.length})`}
-      </div>
-    )
-  }
+    contentWasClicked (event)
+    {
+        // To be implemented in subclasses
+    }
+
+    transformValue (value)
+    {
+        // to be implemented in subclasses
+        return value
+    }
+
+    getVariant ()
+    {
+        return this.constructor.name[0].toLowerCase() + this.constructor.name.substring(1)
+    }
+
+    render ()
+    {
+        return (
+            <div className={classNames(
+                'Field',
+                `Field--${this.getVariant()}`,
+                this.props.className,
+                {
+                    'Field--unfocus': !this.state.focused,
+                    'Field--focus': this.state.focused,
+                    'Field--error': this.invalid,
+                    'Field--inline': this.props.inline,
+                    'Field--placeholderLabel': this.props.placeholderLabel,
+                    'Field--pill': this.props.pill,
+                    'Field--disabled': this.props.disabled,
+                    'Field--invisible': this.props.invisible,
+                    'Field--tight': this.props.tight,
+                    'Field--empty': isEmpty(this.state.value),
+                    'Field--filled': !isEmpty(this.state.value)
+                }
+            )}
+            >
+                {this.renderLabel()}
+                <div className='Field-content' onClick={this.handleContentClicked}>{this.renderContent()}</div>
+                <Transition>
+                    {this.renderErrors()}
+                </Transition>
+            </div>
+        )
+    }
+
+    renderLabel ()
+    {
+        if (!this.props.label) return null
+        return (
+            <label
+                className='Field-label'
+                htmlFor={this.state.id}
+            >
+                {this.props.label}
+            </label>
+        )
+    }
+
+    renderContent ()
+    {
+        // To implement
+        return null
+    }
+
+    renderErrors ()
+    {
+        if (!this.invalid) return null
+        const [error, ...addtnl] = this.state.errors
+        return (
+            <div className='Field-errors'>
+                {error.message} {addtnl.length > 0 && `(+${addtnl.length})`}
+            </div>
+        )
+    }
 }

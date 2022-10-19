@@ -1,4 +1,3 @@
-import { def } from 'Pixie/util/default'
 import { isNumber, precision } from 'Pixie/util/math'
 import { Field } from './Field'
 
@@ -10,18 +9,21 @@ import { Field } from './Field'
  */
 
 /** @extends {Field<AdditionalNumberProps>} */
-export class NumberField extends Field {
-    handleFocus = (e) => {
+export class NumberField extends Field
+{
+    handleFocus = (e) =>
+    {
         this.focus()
         if (this.props.autoSelectOnFocus) {
             e.target.select()
         }
     }
 
-    defaultValue () {
+    defaultValue ()
+    {
         return 0
     }
-        
+
     transformValue (value)
     {
         value = parseFloat(value)
@@ -32,14 +34,16 @@ export class NumberField extends Field {
         return value
     }
 
-    componentDidMount () {
+    componentDidMount ()
+    {
         super.componentDidMount()
         if (this.props.autofocus) {
             this._ref.focus()
         }
     }
 
-    contentWasClicked () {
+    contentWasClicked ()
+    {
         this._ref?.focus()
     }
 
@@ -47,7 +51,8 @@ export class NumberField extends Field {
     handleChange = e => this.setValue(e.target.value)
     handleRef = ref => { this._ref = ref }
 
-    renderContent () {
+    renderContent ()
+    {
         const props = {
             id: this.state.id,
             className: 'Field-number',
@@ -62,6 +67,6 @@ export class NumberField extends Field {
             ref: this.handleRef
         }
 
-        return <input {...this.props.inputProps} {...props} type='text' inputMode='numeric'/>
+        return <input {...this.props.inputProps} {...props} type='text' inputMode='numeric' />
     }
 }

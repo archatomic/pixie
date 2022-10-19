@@ -6,7 +6,7 @@ import { Image } from 'Pixie/Component/image'
 import { Icon } from 'Pixie/Component/icon'
 import { VISIBILITY } from 'Pixie/constants'
 import { layerActions } from 'Pixie/store/actions/applicationActions'
-import { Text } from 'Pixie/Component/field/Text'
+import { TextField } from 'Pixie/Component/Field'
 import { Operation } from 'Pixie/store/operations'
 
 export class Layers extends Component
@@ -104,7 +104,7 @@ class Layer extends Component
         const visibility = e.shiftKey
             ? (layer.soloed ? VISIBILITY.VISIBLE : VISIBILITY.SOLO)
             : (layer.isVisible() ? VISIBILITY.HIDDEN : VISIBILITY.VISIBLE)
-        
+
         this.saveLayer(layer.set('visibility', visibility), 'Set Layer Visibility')
     }
 
@@ -158,7 +158,7 @@ class Layer extends Component
                     <Image checker className='Layers-image' data={this.props.cel.data} />
                 </div>
                 <div className='Layers-name'>
-                    <Text
+                    <TextField
                         invisible
                         autoSelectOnFocus
                         value={this.props.layer.name}

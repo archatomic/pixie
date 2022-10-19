@@ -5,7 +5,7 @@ import { applicationCursorUpdate, tabActions } from 'Pixie/store/actions/applica
 import { clamp, int } from 'Pixie/util/math'
 
 import { Cel } from '../Cel/Cel'
-import { Cursor } from 'Pixie/Component/cursor'
+import { Cursor } from 'Pixie/Component/Cursor'
 import { Operation } from 'Pixie/store/operations'
 import { ToolManager } from 'Pixie/tools/ToolManager'
 import { connect } from 'Pixie/util/connect'
@@ -200,7 +200,7 @@ export class Workspace extends Component
     }
 
     /**
-     * @param {PointerEvent} e 
+     * @param {PointerEvent} e
      */
     handlePointerDown = (e) =>
     {
@@ -325,7 +325,7 @@ export class Workspace extends Component
         const scaleOriginY = this.targetHeight / 2 + this.tab.y
         const offsetY = (originY - scaleOriginY)
         const oDeltaY = - offsetY * zAmt
-        
+
         this.setViewport({
             zoom,
             x: this.tab.x + oDeltaX,

@@ -23,9 +23,9 @@ export class UndoStack extends Record({
 }) {
     /**
      * Push a record into the undo stack.
-     * 
-     * @param {any} record 
-     * @param {string} description 
+     *
+     * @param {any} record
+     * @param {string} description
      * @returns {UndoStack}
      */
     push (record, description = 'Updated')
@@ -35,7 +35,7 @@ export class UndoStack extends Record({
         if (this.head > 0) nodes = nodes.slice(this.head)
         nodes = nodes.unshift({ record, description })
         while (nodes.count() > this.maxStackSize) nodes = nodes.pop()
-        
+
         return this.merge({
             nodes,
             head: 0
@@ -44,7 +44,7 @@ export class UndoStack extends Record({
 
     /**
      * Move head back by the number of steps
-     * 
+     *
      * @param {number} [steps=1]
      * @returns {UndoStack}
      */
@@ -133,7 +133,7 @@ export class UndoManager extends Record({
             op[key] = this.stacks.get(key).sanitize()
         }
         return op
-            
+
     }
 
     getStackKeyStrict (record)

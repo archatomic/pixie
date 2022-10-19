@@ -38,11 +38,19 @@ export class Frame extends Component
     render ()
     {
         return (
-            <div className={classNames('Frame', this.props.className)} style={this.props.style}>
+            <div
+                className={classNames('Frame', this.props.className)}
+                style={this.props.style}
+            >
                 {this.props.cels.map(this.renderCel)}
             </div>
         )
     }
 
-    renderCel = (cel, pos) => <Cel key={pos} className='Frame-cel' cel={cel} displayMode={this.props.celDisplayMode}/>
+    renderCel = (cel, pos) => <Cel
+        key={pos}
+        className='Frame-cel'
+        cel={cel}
+        displayMode={this.props.celDisplayMode}
+    />
 }

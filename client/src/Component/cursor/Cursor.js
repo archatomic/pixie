@@ -19,7 +19,7 @@ const imageDataMap = new Map()
  * @extends {Component<CursorProps>}
  */
 export class Cursor extends Component
-{   
+{
     static Connected = connect(
         {
             x: ['application', 'cursorX'],
@@ -45,6 +45,11 @@ export class Cursor extends Component
     get isImageCursor ()
     {
         return this.props.data instanceof ImageData
+    }
+
+    get hasImage ()
+    {
+        return this.isImageCursor || this.isSparseImageCursor
     }
 
     get isCssCursor ()
@@ -78,7 +83,7 @@ export class Cursor extends Component
                     'Cursor',
                     this.props.className,
                     {
-                        'Cursor--image': this.isImageCursor || this.isSparseImageCursor,
+                        'Cursor--image': this.hasImage,
                         'Cursor--css': this.isCssCursor,
                         'Cursor--function': this.isFunctionCursor
                     }
@@ -97,7 +102,7 @@ export class Cursor extends Component
         // supporting offset overloads on image data
         const x = (data.offsetX || 0) + this.props.x
         const y = (data.offsetY || 0) + this.props.y
-    
+
         return {
             transform: `scale(${this.props.scale}) translate(${x}px, ${y}px)`
         }
@@ -114,13 +119,13 @@ export class Cursor extends Component
     renderSparseImageCursor ()
     {
         const datauri = this.props.data.dataURI
-        return <img className='Cursor-cursor' src={datauri} style={this.style}/>
+        return <img className='Cursor-cursor' src={datauri} style={this.style} />
     }
 
     renderImageDataCursor ()
     {
-        const datauri = this.getDataUri (this.props.data)
-        return <img className='Cursor-cursor' src={datauri} style={this.style}/>
+        const datauri = this.getDataUri(this.props.data)
+        return <img className='Cursor-cursor' src={datauri} style={this.style} />
     }
 
     renderFunctionCursor ()

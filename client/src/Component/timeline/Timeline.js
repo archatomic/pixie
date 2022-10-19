@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { connect } from 'Pixie/util/connect'
 import { tabActions, fragmentActions, frameActions } from 'Pixie/store/actions/applicationActions'
 import { Icon } from 'Pixie/Component/icon'
-import { NumberField } from 'Pixie/Component/field/Number'
+import { NumberField } from 'Pixie/Component/Field'
 import { Operation } from 'Pixie/store/operations'
 import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'Pixie/constants'
 
@@ -131,7 +131,7 @@ class TimelineControls extends Component
             </div>
         )
     }
-    
+
     renderTimelineInfo ()
     {
         if (this.props.frame.null) return null

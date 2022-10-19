@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { Frame } from 'Pixie/Component/frame'
+import { Frame } from 'Pixie/Component/Frame'
 import { connect } from 'Pixie/util/connect'
 import { clamp, mod } from 'Pixie/util/math'
 import { Component } from 'react'
@@ -82,7 +82,7 @@ export class Onion extends Component
     render ()
     {
         const frame = this.getFrame(this.props.position)
-            
+
         return (
             <div className={classNames('Onion', this.props.className)}>
                 {this.renderBefore()}

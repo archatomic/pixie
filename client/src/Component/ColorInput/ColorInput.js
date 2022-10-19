@@ -83,7 +83,7 @@ export class ColorInput extends Component
         document.addEventListener('click', this.handleCommit)
     }
 
-    handleHue = ({x, y}) =>
+    handleHue = ({ x, y }) =>
     {
         const h = 180 - Math.atan2(x - 0.5, y - 0.5) * 180 / Math.PI
         this.setState({
