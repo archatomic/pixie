@@ -1,7 +1,12 @@
 import { PlayerFrame } from './PlayerFrame'
 import { CEL_DISPLAY_MODE } from 'Pixie/constants'
 import { Player } from 'Pixie/model/Player'
-import { playerActions, setPlayerFrames, tickPlayer } from 'Pixie/store/actions/playerActions'
+import
+{
+    playerActions,
+    setPlayerFrames,
+    tickPlayer
+} from 'Pixie/store/actions/playerActions'
 import { connect } from 'Pixie/util/connect'
 import { safeCall } from 'Pixie/util/safeCall'
 import { Component } from 'react'
@@ -61,6 +66,9 @@ export class Animation extends Component
     render ()
     {
         if (!this.state.player) return
-        return <PlayerFrame player={this.state.player} celDisplayMode={CEL_DISPLAY_MODE.COMMITTED}/>
+        return <PlayerFrame
+            player={this.state.player}
+            celDisplayMode={CEL_DISPLAY_MODE.COMMITTED}
+        />
     }
 }

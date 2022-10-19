@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { ColorInput } from 'Pixie/Component/color-input'
+import { ColorInput } from 'Pixie/Component/ColorInput'
 import { Icon } from 'Pixie/Component/icon'
 import { Panel } from 'Pixie/Component/panel'
 import { Mobile } from 'Pixie/Component/platform'

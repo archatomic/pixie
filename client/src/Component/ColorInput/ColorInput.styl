@@ -20,7 +20,7 @@
     border borderSize solid theme.panel
     z-index 0
     touch-action none
-    
+
     transition width 0.2s ease-in-out, height 0.2s ease-in-out, border-radius 0.2s ease-in-out, transform 0.2s ease-in-out
 
     &-toggle
@@ -49,7 +49,7 @@
 
         &.exit
             transform translateY(-.1%)
-    
+
     &--expanded
         width controlWidth + 2 * borderSize
         height controlHeight
@@ -94,7 +94,7 @@
         position relative
         width hslSize
         height hslSize
-    
+
     // Size of the hue ring
     hueRingSize = 2rem
 
@@ -136,7 +136,7 @@
             top 50%
             background theme.panel
             transform translate(-50%, -50%)
-    
+
     &-satval
         position absolute
         left 50%
@@ -154,11 +154,11 @@
             top 0
             right 0
             bottom 0
-        
+
         &::before
             mix-blend-mode saturation
             background linear-gradient(to right, black, red)
-        
+
         &::after
             background linear-gradient(to bottom, white, transparent, black)
 
@@ -215,7 +215,7 @@
             background-image linear-gradient(to right, transparent, black)
             border-radius 100vw
             z-index 0
-    
+
     &-knob
         position absolute
         left 0

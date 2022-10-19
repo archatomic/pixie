@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { def } from 'Pixie/util/default'
 import { safeCall } from 'Pixie/util/safeCall'
 import { XYInput } from 'Pixie/Component/XYInput'
-import { ColorSwatch } from 'Pixie/Component/color-swatch'
+import { ColorSwatch } from 'Pixie/Component/ColorSwatch'
 
 export class ColorInput extends Component
 {
@@ -132,7 +132,16 @@ export class ColorInput extends Component
     render ()
     {
         return (
-            <div onClick={this.stopPropagation} className={classNames('ColorInput', this.props.className, { 'ColorInput--expanded': this.isOpen() })}>
+            <div
+                onClick={this.stopPropagation}
+                className={classNames(
+                    'ColorInput',
+                    this.props.className,
+                    {
+                        'ColorInput--expanded': this.isOpen()
+                    }
+                )}
+            >
                 <Transition>
                     {this.isOpen() ? this.renderControl() : this.renderToggle()}
                 </Transition>
@@ -181,8 +190,14 @@ export class ColorInput extends Component
                     onClick={this.handleCommit}
                 />
                 <div className='ColorInput-heading'>
-                    <ColorSwatch className='ColorInput-initial' color={this.state.initial}/>
-                    <ColorSwatch className='ColorInput-current' color={this.state.current}/>
+                    <ColorSwatch
+                        className='ColorInput-initial'
+                        color={this.state.initial}
+                    />
+                    <ColorSwatch
+                        className='ColorInput-current'
+                        color={this.state.current}
+                    />
                 </div>
                 {this.renderHSL()}
                 <div className='ColorInput-rgb'>
@@ -197,8 +212,12 @@ export class ColorInput extends Component
 
     renderHSL ()
     {
-        const satValStyle = { backgroundColor: `hsl(${this.state.h}deg 100% 50%)` }
-        const hueKnobStyle = { transform: `rotate(${this.state.h}deg)` }
+        const satValStyle = {
+            backgroundColor: `hsl(${this.state.h}deg 100% 50%)`
+        }
+        const hueKnobStyle = {
+            transform: `rotate(${this.state.h}deg)`
+        }
         const satValKnobStyle = {
             left: `${this.state.s * 100}%`,
             bottom: `${this.state.l * 100}%`
@@ -207,10 +226,20 @@ export class ColorInput extends Component
         return (
             <div className='ColorInput-hsl'>
                 <XYInput className='ColorInput-hue' onInput={this.handleHue}>
-                    <div className='ColorInput-knob ColorInput-knob--hue' style={hueKnobStyle}/>
+                    <div
+                        className='ColorInput-knob ColorInput-knob--hue'
+                        style={hueKnobStyle}
+                    />
                 </XYInput>
-                <XYInput className='ColorInput-satval' onInput={this.handleSatVal} style={satValStyle}>
-                    <div className='ColorInput-knob ColorInput-knob--satval' style={satValKnobStyle}/>
+                <XYInput
+                    className='ColorInput-satval'
+                    onInput={this.handleSatVal}
+                    style={satValStyle}
+                >
+                    <div
+                        className='ColorInput-knob ColorInput-knob--satval'
+                        style={satValKnobStyle}
+                    />
                 </XYInput>
             </div>
         )
@@ -221,21 +250,31 @@ export class ColorInput extends Component
         const background = this.state.current.set(c, 0)
         const channel = this.state.current.getChannel(c)
         const knobPos = `${channel * 100 / 255}%`
+        const color = Color.Black.set(c, 1).getCSS()
 
         const trackStyle = c === 'a' ? {} : {
             backgroundColor: background.getCSS({ a: 1 }),
-            backgroundImage: `linear-gradient(to right, black, ${Color.Black.set(c, 1).getCSS()})`
+            backgroundImage: `linear-gradient(to right, black, ${color})`
         }
 
         const knobStyle = {
-            backgroundColor: c === 'a' ? `white` : this.state.current.getCSS({ a: 1 }),
+            backgroundColor: c === 'a'
+                ? `white`
+                : this.state.current.getCSS({ a: 1 }),
             left: knobPos,
         }
 
         return (
-            <div className={classNames('ColorInput-channel', `ColorInput-channel--${c}`)}>
+            <div className={classNames(
+                'ColorInput-channel',
+                `ColorInput-channel--${c}`
+            )}>
                 <div className='ColorInput-label'>{c.toUpperCase()}</div>
-                <XYInput className='ColorInput-track' style={trackStyle} onInput={this.getChannelHandler(c)}>
+                <XYInput
+                    className='ColorInput-track'
+                    style={trackStyle}
+                    onInput={this.getChannelHandler(c)}
+                >
                     <div className='ColorInput-knob' style={knobStyle}></div>
                 </XYInput>
                 <div className='ColorInput-input'>{channel}</div>

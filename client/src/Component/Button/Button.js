@@ -26,77 +26,79 @@ import classNames from 'classnames'
 export class Button extends Component
 {
 
-  state = {
-    focused: false
-  }
+    state = {
+        focused: false
+    }
 
-  handleFocus = () =>
-  {
-    this.setState({ focused: true })
-  }
+    handleFocus = () =>
+    {
+        this.setState({ focused: true })
+    }
 
-  handleBlur = () =>
-  {
-    this.setState({ focused: false })
-  }
+    handleBlur = () =>
+    {
+        this.setState({ focused: false })
+    }
 
-  render ()
-  {
-    if (this.props.to) return this.renderLink()
-    return this.renderButton()
-  }
+    render ()
+    {
+        if (this.props.to) return this.renderLink()
+        return this.renderButton()
+    }
 
-  get className ()
-  {
-    return classNames(
-      'Button',
-      this.props.className,
-      {
-        'Button--disabled': this.props.disabled,
-        'Button--full': this.props.full,
-        'Button--ghost': this.props.ghost,
-        'Button--primary': this.props.primary,
-        'Button--secondary': this.props.secondary,
-        'Button--tertiary': this.props.tertiary,
-        'Button--white': this.props.white,
-        'Button--black': this.props.black,
-        'Button--gradient': this.props.gradient,
-        'Button--focus': this.state.focused,
-      }
-    )
-  }
+    get className ()
+    {
+        return classNames(
+            'Button',
+            this.props.className,
+            {
+                'Button--disabled': this.props.disabled,
+                'Button--full': this.props.full,
+                'Button--ghost': this.props.ghost,
+                'Button--primary': this.props.primary,
+                'Button--secondary': this.props.secondary,
+                'Button--tertiary': this.props.tertiary,
+                'Button--white': this.props.white,
+                'Button--black': this.props.black,
+                'Button--gradient': this.props.gradient,
+                'Button--focus': this.state.focused,
+            }
+        )
+    }
 
-  renderLink () {
-    return (
-      <Link
-        className={this.className}
-        disabled={this.props.disabled}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onClick={this.props.onClick}
-        to={this.props.disabled ? '#' : this.props.to}
-      >
-        <span className='Button-label'>
-          {this.props.label || this.props.children}
-        </span>
-      </Link>
-    )
-  }
+    renderLink ()
+    {
+        return (
+            <Link
+                className={this.className}
+                disabled={this.props.disabled}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                onClick={this.props.onClick}
+                to={this.props.disabled ? '#' : this.props.to}
+            >
+                <span className='Button-label'>
+                    {this.props.label || this.props.children}
+                </span>
+            </Link>
+        )
+    }
 
-  renderButton () {
-    return (
-      <button
-        className={this.className}
-        type={this.props.submit ? 'submit' : 'button'}
-        disabled={this.props.disabled}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onClick={this.props.onClick}
-      >
-        <span className={'Button-label'}>
-          {this.props.label || this.props.children}
-        </span>
-      </button>
-    )
-  }
+    renderButton ()
+    {
+        return (
+            <button
+                className={this.className}
+                type={this.props.submit ? 'submit' : 'button'}
+                disabled={this.props.disabled}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                onClick={this.props.onClick}
+            >
+                <span className={'Button-label'}>
+                    {this.props.label || this.props.children}
+                </span>
+            </button>
+        )
+    }
 }
