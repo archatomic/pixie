@@ -6,7 +6,6 @@ import
 } from 'Pixie/constants'
 
 import { Map, List } from 'immutable'
-import { PixieCel } from './PixieCel'
 import { Record } from './Record'
 
 const FIT_PADDING = 20
@@ -48,29 +47,11 @@ export class PixieFragment extends Record({
         return Math.min(fitWidth, fitHeight)
     }
 
-    setFrame (frame)
-    {
-        // Replace me with operation
-        return this.delegateSet('frames', 'add', frame)
-    }
-
-    newCel ()
-    {
-        // Replace me with operation
-        return PixieCel.create({ width: this.width, height: this.height })
-    }
-
-    nullCel ()
-    {
-        // Replace me with operation
-        return PixieCel.Null.merge({ width: this.width, height: this.height })
-    }
-
     getCelKey (layer, frame)
     {
         // Replace me with operation
-        layer = this.state.layers.getID(layer)
-        frame = this.state.frames.getID(frame)
+        layer = this.getLayer(layer).pk
+        frame = this.getFrame(frame).pk
         const cel = this.cels.getIn([frame, layer])
         return {
             layer,
@@ -87,7 +68,14 @@ export class PixieFragment extends Record({
 
     getLayer (layer)
     {
+        if (typeof layer === 'number') layer = this.layers.get(layer)
         return this.state.layers.find(layer)
+    }
+
+    getFrame (frame)
+    {
+        if (typeof frame === 'number') frame = this.frames.get(frame)
+        return this.state.frames.find(frame)
     }
 
     /**

@@ -412,7 +412,7 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
         getID (any)
         {
             if (any instanceof OfType) return pk(any)
-            if (typeof any === 'number') return this.positionToID(any)
+            if (typeof any === 'number') throw new Error("Tried to get id from position")
             if (this.items.has(any)) return any
             return null
         }
@@ -422,7 +422,7 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
             const values = this.items.valueSeq()
             const member = values.get(mod(index, values.count()))
             if (!member) return null
-            return member._id
+            return member.pk
         }
 
         positionOf (any)

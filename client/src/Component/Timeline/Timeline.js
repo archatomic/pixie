@@ -49,7 +49,7 @@ class TimelineControls extends Component
     {
         const tab = state.getTab(props.tab)
         const fragment = state.fragments.find(tab.fragment)
-        const frame = state.frames.find(tab.frame)
+        const frame = fragment.getFrame(tab.frame)
 
         return {
             position: frame.position(),
