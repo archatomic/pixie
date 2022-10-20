@@ -1,3 +1,4 @@
+import { Dropdown } from 'Pixie/Component/Dropdown'
 import { Icon } from 'Pixie/Component/Icon'
 import { applicationLayersToggle, applicationThemeToggle } from 'Pixie/Store/Action/applicationActions'
 import { connect } from 'Pixie/Util/connect'
@@ -35,6 +36,10 @@ export class TopBar extends Component
                         active={this.props.open}
                         onClick={applicationLayersToggle}
                     />
+                    <Dropdown>
+                        <Dropdown.Item>Item</Dropdown.Item>
+                        <Dropdown.Toggle>Toggle</Dropdown.Toggle>
+                    </Dropdown>
                 </div>
             </div>
         )

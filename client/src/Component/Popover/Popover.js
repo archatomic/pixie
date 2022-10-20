@@ -251,6 +251,7 @@ export class Popover extends Component
      */
     componentWillUnmount ()
     {
+        console.log('unmount')
         this.detach()
     }
 
@@ -270,6 +271,7 @@ export class Popover extends Component
 
     detach ()
     {
+        console.log('detach')
         this.container.append(this.container.children[0].cloneNode(true)) // Append cloned node
         this.container.classList.remove('Popover--show')
         setTimeout(this._remove, 300)
@@ -278,6 +280,7 @@ export class Popover extends Component
 
     _remove = () =>
     {
+        console.log('_remove')
         this.root.removeChild(this.container)
         this.container = null
         this.root = null
