@@ -1,17 +1,36 @@
+import classNames from 'classnames'
+import { Box } from 'Pixie/Component/Box'
 import { Icon } from 'Pixie/Component/Icon'
 import { Popover } from 'Pixie/Component/Popover'
-import { Transition } from 'Pixie/Component/Transition'
 import { createPassthroughComponent, getChildOfType, getChildrenOfType } from 'Pixie/Util/children'
 import { def } from 'Pixie/Util/default'
 import { Component } from 'react'
 
 export class Dropdown extends Component
 {
-    static Item = createPassthroughComponent()
+    static Item = ({ children, onClick, icon }) =>
+    {
+        return (
+            <div
+                className={classNames(
+                    'Dropdown-item',
+                    {
+                        'Dropdown-item--clickable': !!onClick
+                    }
+                )}
+                onClick={onClick}
+            >
+                {icon && <Icon tight className='Dropdown-icon' name={icon}/>}
+                <div className='Dropdown-spacer'/>
+                <div className='Dropdown-label'>{children}</div>
+            </div>
+        )
+    }
     static Toggle = createPassthroughComponent()
 
     state = {
-        open: false
+        open: false,
+        rect: null
     }
 
     stopPropagation = e => e.stopPropagation()
@@ -20,6 +39,11 @@ export class Dropdown extends Component
     {
         if (this.state.open) return this.close()
         this.open()
+    }
+
+    handleResize = (e) =>
+    {
+        this.setState({ rect: e.value })
     }
 
     open ()
@@ -37,10 +61,14 @@ export class Dropdown extends Component
     render ()
     {
         return (
-            <div className='Dropdown' onClick={this.stopPropagation}>
+            <Box
+                className='Dropdown'
+                onClick={this.stopPropagation}
+                onResize={this.handleResize}
+            >
                 {this.renderToggle()}
                 {this.renderItems()}
-            </div>
+            </Box>
         )
     }
 
@@ -50,19 +78,21 @@ export class Dropdown extends Component
         return (
             <div className='Dropdown-toggle' onClick={this.handleToggle}>
                 {toggle && <div className='Dropdown-label'>{toggle}</div>}
-                <Icon tight name='ellipsis-vertical' />
+                <Icon
+                    tight
+                    className='Dropdown-toggle'
+                    name='ellipsis-vertical'
+                />
             </div>
         )
     }
 
     renderItems ()
     {
-        if (!this.state.open) return console.log('skipping children')
-        console.log('rendering children')
-        const items = getChildrenOfType(this.props.children, Dropdown.Item)
+        if (!this.state.open) return
         return (
-            <Popover>
-                {items.map(this.renderItem)}
+            <Popover className="Dropdown-content" {...this.state.rect}>
+                {getChildrenOfType(this.props.children, Dropdown.Item)}
             </Popover>
         )
     }

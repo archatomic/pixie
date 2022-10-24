@@ -19,6 +19,8 @@ const DEFAULT_ROOT_KEY = '___default'
  * @property {number} [bottom] Bottom of the target rect.
  * @property {number} [width] Width of the target rect.
  * @property {number} [height] Height of the target rect.
+ * @property {string} [align='right'] Horizontal alignment
+ * @property {string} [valign='below'] Horizontal alignment
  * @property {string} [root='default'] Name of the root element.
  * @property {boolean} [animated=false]
  */
@@ -99,6 +101,8 @@ export class Popover extends Component
 
     state = {
         root: def(this.props.root, DEFAULT_ROOT_KEY),
+        width: 0,
+        height: 0,
         x: 0,
         y: 0,
     }
@@ -173,7 +177,7 @@ export class Popover extends Component
         return this.container
     }
 
-    getX (width)
+    getX (width = this.state.width)
     {
         const align = def(this.props.align, 'right')
         let x
@@ -201,7 +205,7 @@ export class Popover extends Component
         return Math.max(0, right - width)
     }
 
-    getY (height)
+    getY (height = this.state.height)
     {
         const align = def(this.props.vAlign, 'below')
         let y
@@ -251,8 +255,29 @@ export class Popover extends Component
      */
     componentWillUnmount ()
     {
-        console.log('unmount')
         this.detach()
+    }
+
+    componentDidUpdate (props)
+    {
+        const triggers = [
+            'top', 'right', 'bottom', 'left',
+            'x', 'y', 'width', 'height'
+        ]
+
+        for (const trigger of triggers) {
+            if (props[trigger] !== this.props[trigger]) {
+                return this.updateFromProps()
+            }
+        }
+    }
+
+    updateFromProps ()
+    {
+        this.setState({
+            x: this.getX(),
+            y: this.getY()
+        })
     }
 
     attach ()
@@ -263,6 +288,8 @@ export class Popover extends Component
         this.container.scrollTop // eslint-disable-line
         this.container.classList.add('Popover--show')
         this.setState({
+            width,
+            height,
             x: this.getX(width),
             y: this.getY(height),
         })
@@ -271,7 +298,6 @@ export class Popover extends Component
 
     detach ()
     {
-        console.log('detach')
         this.container.append(this.container.children[0].cloneNode(true)) // Append cloned node
         this.container.classList.remove('Popover--show')
         setTimeout(this._remove, 300)
@@ -280,7 +306,6 @@ export class Popover extends Component
 
     _remove = () =>
     {
-        console.log('_remove')
         this.root.removeChild(this.container)
         this.container = null
         this.root = null
@@ -290,7 +315,7 @@ export class Popover extends Component
     {
         return ReactDOM.createPortal(
             <Panel
-                full
+                tight
                 className={classNames('Popover-content', this.props.className)}
                 style={this.getStyle()}
                 onClick={this.props.onClick}

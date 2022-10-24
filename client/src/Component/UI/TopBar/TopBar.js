@@ -26,19 +26,17 @@ export class TopBar extends Component
                     <Icon
                         tight
                         subtle
-                        name={this.props.theme === 'light' ? 'sun' : 'moon'}
-                        onClick={applicationThemeToggle}
-                    />
-                    <Icon
-                        tight
-                        subtle
                         name='layer-group'
                         active={this.props.open}
                         onClick={applicationLayersToggle}
                     />
                     <Dropdown>
-                        <Dropdown.Item>Item</Dropdown.Item>
-                        <Dropdown.Toggle>Toggle</Dropdown.Toggle>
+                        <Dropdown.Item
+                            icon={this.props.theme === 'light' ? 'sun' : 'moon'}
+                            onClick={applicationThemeToggle}
+                        >
+                            Change Theme
+                        </Dropdown.Item>
                     </Dropdown>
                 </div>
             </div>
