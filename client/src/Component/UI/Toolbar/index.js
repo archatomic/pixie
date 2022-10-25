@@ -1,2 +1,2 @@
 export * from './Toolbar'
-export * from './Toolbar.styl'
+export {} from './Toolbar.styl'

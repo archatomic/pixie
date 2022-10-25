@@ -1,2 +1,2 @@
 export * from './BottomBar'
-export * from './BottomBar.styl'
+export {} from './BottomBar.styl'

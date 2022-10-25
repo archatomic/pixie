@@ -10,5 +10,15 @@
     transition opacity 0.1s ease-in-out, transform 0.1s ease-in-out
     opacity 0
 
+    &-shade
+        position absolute
+        display block
+        left 0
+        top 0
+        width 100vw
+        height 100vh
+        background rgba(0, 0, 0, 0.5)
+        z-index -1
+
     &--show
         opacity 1

@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { Box } from 'Pixie/Component/Box'
 import { Icon } from 'Pixie/Component/Icon'
 import { Popover } from 'Pixie/Component/Popover'
+import { IS_MOBILE } from 'Pixie/constants'
 import { createPassthroughComponent, getChildOfType, getChildrenOfType } from 'Pixie/Util/children'
 import { def } from 'Pixie/Util/default'
 import { Component } from 'react'
@@ -20,9 +21,9 @@ export class Dropdown extends Component
                 )}
                 onClick={onClick}
             >
-                {icon && <Icon tight className='Dropdown-icon' name={icon}/>}
-                <div className='Dropdown-spacer'/>
                 <div className='Dropdown-label'>{children}</div>
+                <div className='Dropdown-spacer'/>
+                {icon && <Icon tight className='Dropdown-icon' name={icon}/>}
             </div>
         )
     }
@@ -90,8 +91,38 @@ export class Dropdown extends Component
     renderItems ()
     {
         if (!this.state.open) return
+        if (IS_MOBILE) return this.renderMobileItems()
+        return this.renderDesktopItems()
+    }
+
+    renderDesktopItems ()
+    {
         return (
-            <Popover className="Dropdown-content" {...this.state.rect}>
+            <Popover
+                className="Dropdown-content"
+                {...this.state.rect}
+                onClick={this.close}
+            >
+                {getChildrenOfType(this.props.children, Dropdown.Item)}
+            </Popover>
+        )
+    }
+
+    renderMobileItems ()
+    {
+        return (
+            <Popover
+                className="Dropdown-content Dropdown-content--mobile"
+                onShadeClick={this.close}
+                onClick={this.close}
+                x={0}
+                y={0}
+                width={window.innerWidth}
+                height={window.innerHeight}
+                shade
+                vAlign='bottom'
+                align='center'
+            >
                 {getChildrenOfType(this.props.children, Dropdown.Item)}
             </Popover>
         )

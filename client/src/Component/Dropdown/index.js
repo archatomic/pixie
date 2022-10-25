@@ -1,2 +1,2 @@
 export * from './Dropdown'
-export * from './Dropdown.styl'
+export {} from './Dropdown.styl'

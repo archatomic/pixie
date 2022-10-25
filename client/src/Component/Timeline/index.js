@@ -1,2 +1,2 @@
 export * from './Timeline'
-export * from './Timeline.styl'
+export {} from './Timeline.styl'

@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "parcel ./index.html --open",
-    "build": "parcel build ./index.html --dist-dir ../dist --no-optimize",
+    "build": "NODE_ENV=development parcel build ./index.html --dist-dir ../dist --no-optimize",
     "test": "jest"
   },
   "devDependencies": {

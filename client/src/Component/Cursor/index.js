@@ -1,2 +1,2 @@
 export * from './Cursor'
-export * from './Cursor.styl'
+export {} from './Cursor.styl'

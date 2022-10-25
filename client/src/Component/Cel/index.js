@@ -1,2 +1,2 @@
 export * from './Cel'
-export * from './Cel.styl'
+export {} from './Cel.styl'

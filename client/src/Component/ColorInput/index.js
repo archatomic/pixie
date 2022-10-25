@@ -1,2 +1,2 @@
 export * from './ColorInput'
-export * from './ColorInput.styl'
+export {} from './ColorInput.styl'

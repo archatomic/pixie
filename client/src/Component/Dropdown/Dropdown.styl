@@ -7,20 +7,22 @@
         white-space nowrap
         display flex
         align-items center
-        padding rhythm--quarter rhythm--half
+        padding rhythm--half rhythm
         user-select none
 
         & + &
             border-top 0.1rem solid grey(85)
 
     &-icon
-        margin-right rhythm--quarter
+        margin-left rhythm--half
 
     &-spacer
         flex-grow 1
 
     &-content
         overflow hidden
+        background grey(93)
+        transform translateY(rhythm)
 
     &-toggle, &-item--clickable
         color grey(50)
@@ -34,4 +36,20 @@
             color grey(0)
 
     &-item--clickable:hover
-        background grey(93)
+        background grey(92)
+
+    &-content--mobile
+        font-size fs--large
+        width 'calc(100vw - %s)' % rhythm
+        transform translateY(100%)
+        transition transform 0.2s ease-in-out
+
+        .Popover--show &
+            transform translateY(- rhythm--half)
+
+    &-content--mobile &
+        &-item
+            padding rhythm
+
+        &-icon
+            margin-left rhythm

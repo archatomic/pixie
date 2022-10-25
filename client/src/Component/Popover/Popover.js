@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import { allowOne } from 'Pixie/Component/HOC/allowOne'
 import classNames from 'classnames'
 import { safeCall } from 'Pixie/Util/safeCall'
+import { Box } from 'Pixie/Component/Box'
 
 const DEFAULT_ROOT_KEY = '___default'
 
@@ -22,7 +23,6 @@ const DEFAULT_ROOT_KEY = '___default'
  * @property {string} [align='right'] Horizontal alignment
  * @property {string} [valign='below'] Horizontal alignment
  * @property {string} [root='default'] Name of the root element.
- * @property {boolean} [animated=false]
  */
 
 /**
@@ -272,6 +272,11 @@ export class Popover extends Component
         }
     }
 
+    handlePopoverResize = e =>
+    {
+        this.setState({[e.type]: e.value})
+    }
+
     updateFromProps ()
     {
         this.setState({
@@ -283,7 +288,7 @@ export class Popover extends Component
     attach ()
     {
         this.getRoot().appendChild(this.getContainer())
-        const ref = this.container.children[0]
+        const ref = this.container.querySelector('.Popover-content')
         const { width, height } = ref.getBoundingClientRect()
         this.container.scrollTop // eslint-disable-line
         this.container.classList.add('Popover--show')
@@ -314,14 +319,26 @@ export class Popover extends Component
     render ()
     {
         return ReactDOM.createPortal(
-            <Panel
-                tight
-                className={classNames('Popover-content', this.props.className)}
-                style={this.getStyle()}
-                onClick={this.props.onClick}
-            >
-                {this.props.children}
-            </Panel>,
+            <>
+                {this.props.shade && <div
+                    className='Popover-shade'
+                    onClick={this.props.onShadeClick}
+                />}
+                <Box
+                    tag={Panel}
+                    tight
+                    className={classNames(
+                        'Popover-content',
+                        this.props.className
+                    )}
+                    onClick={this.props.onClick}
+                    onWidth={this.handlePopoverResize}
+                    onHeight={this.handlePopoverResize}
+                    style={this.getStyle()}
+                >
+                    {this.props.children}
+                </Box>
+            </>,
             this.getContainer()
         )
     }

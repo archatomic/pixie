@@ -1,2 +1,2 @@
 export * from './Slider'
-export * from './Slider.styl'
+export {} from './Slider.styl'

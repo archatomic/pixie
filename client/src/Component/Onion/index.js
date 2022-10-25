@@ -1,2 +1,2 @@
 export * from './Onion'
-export * from './Onion.styl'
+export {} from './Onion.styl'

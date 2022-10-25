@@ -5,7 +5,7 @@ android: web.build
 .PHONY: android.device
 android.device: web.build
 	DEVICE_ID=$(shell adb devices | awk 'NR==2 {print $$1}');\
-	yarn cap run android --target $$DEVICE_ID
+	yarn cap run android --source-map --target $$DEVICE_ID
 
 .PHONY: android.build
 android.build: web.build
