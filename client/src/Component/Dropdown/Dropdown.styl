@@ -7,14 +7,17 @@
         white-space nowrap
         display flex
         align-items center
-        padding rhythm--half rhythm
+        padding rhythm--quarter
+        border-radius  0.3rem
         user-select none
+        font-size fs--small
 
-        & + &
-            border-top 0.1rem solid grey(85)
+    &-divider
+        border-top 0.1rem solid grey(85)
+        margin rhythm--quarter 0
 
     &-icon
-        margin-left rhythm--half
+        margin-left rhythm
 
     &-spacer
         flex-grow 1
@@ -22,7 +25,15 @@
     &-content
         overflow hidden
         background grey(93)
-        transform translateY(rhythm)
+        transform translateY(0)
+        transition transform 0.2s ease-in-out
+        padding rhythm--quarter
+
+        .Popover--show &
+            transform translateY(rhythm)
+
+        .Theme--light &
+            background grey(98)
 
     &-toggle, &-item--clickable
         color grey(50)
@@ -36,13 +47,13 @@
             color grey(0)
 
     &-item--clickable:hover
-        background grey(92)
+        background grey(95)
 
     &-content--mobile
         font-size fs--large
         width 'calc(100vw - %s)' % rhythm
         transform translateY(100%)
-        transition transform 0.2s ease-in-out
+        padding rhythm--half
 
         .Popover--show &
             transform translateY(- rhythm--half)

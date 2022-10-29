@@ -74,4 +74,37 @@ export class PixieCel extends Record({
             overlayPreview: false
         })
     }
+
+    toBinaryString ()
+    {
+        return this.pk + String.fromCharCode(
+            this.width >> 8,
+            this.width & 255,
+            this.height >> 8,
+            this.height & 255,
+            ...this.data.data
+        )
+    }
+
+    static fromBinaryString (str)
+    {
+        const pk = str.substring(0, 21)
+        const width = (str.charCodeAt(21) << 8) + str.charCodeAt(22)
+        const height = (str.charCodeAt(23) << 8) + str.charCodeAt(24)
+        const pxData = []
+
+        for (let i = 25; i < str.length; i++) {
+            pxData.push(str.charCodeAt(i))
+        }
+
+        const data = new ImageData(width, height)
+        data.data.set(pxData)
+
+        return PixieCel.create({
+            _id: pk,
+            width,
+            height,
+            data
+        })
+    }
 }

@@ -27,6 +27,7 @@ export class Dropdown extends Component
             </div>
         )
     }
+    static Divider = () => <hr className='Dropdown-divider' />
     static Toggle = createPassthroughComponent()
 
     state = {
@@ -103,7 +104,10 @@ export class Dropdown extends Component
                 {...this.state.rect}
                 onClick={this.close}
             >
-                {getChildrenOfType(this.props.children, Dropdown.Item)}
+                {getChildrenOfType(
+                    this.props.children,
+                    [Dropdown.Item, Dropdown.Divider]
+                )}
             </Popover>
         )
     }
@@ -123,25 +127,11 @@ export class Dropdown extends Component
                 vAlign='bottom'
                 align='center'
             >
-                {getChildrenOfType(this.props.children, Dropdown.Item)}
+                {getChildrenOfType(
+                    this.props.children,
+                    [Dropdown.Item, Dropdown.Divider]
+                )}
             </Popover>
-        )
-    }
-
-    /**
-     *
-     * @param {React.ReactNode} item
-     * @param {Number} i
-     */
-    renderItem = (item, i) =>
-    {
-        const key = def(item.props.key, i)
-        return (
-            <div
-                {...item.props}
-                className='Dropdown-item'
-                key={key}
-            />
         )
     }
 }

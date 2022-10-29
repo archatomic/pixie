@@ -441,6 +441,11 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
             return this.delegateSet('items', 'deleteAll', a.map(v => this.getID(v)))
         }
 
+        clear ()
+        {
+            return this.set('items', OrderedMap())
+        }
+
         find (k)
         {
             return this.items.get(this.getID(k), nullItem)
@@ -452,6 +457,7 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
 
             let op = this.constructor.create()
             for (const id of keys) {
+                if (op.items.has(id)) continue // already found
                 const found = this.find(id)
                 if (found.null) continue
                 op = op.add(found)

@@ -1,4 +1,4 @@
-import { error } from 'Pixie/util/log'
+import { error } from 'Pixie/Util/log'
 
 class FrameListener
 {

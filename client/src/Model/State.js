@@ -73,6 +73,15 @@ export class State extends Record({
         return this.fragments.find(fragmentId)
     }
 
+    load (fileData)
+    {
+        let op = this
+        for (const key of Object.keys(fileData)) {
+            op = op.delegateSet(key, 'addAll', fileData[key])
+        }
+        return op
+    }
+
     sanitize ()
     {
         let op = this

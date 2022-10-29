@@ -304,6 +304,7 @@ export class Popover extends Component
     detach ()
     {
         this.container.append(this.container.children[0].cloneNode(true)) // Append cloned node
+        this.container.scrollTop // eslint-disable-line
         this.container.classList.remove('Popover--show')
         setTimeout(this._remove, 300)
         safeCall(this.props.onClose)

@@ -13,6 +13,7 @@ const FIT_PADDING = 20
 /**
  * @typedef {string} FrameID
  * @typedef {string} LayerID
+ * @typedef {string} CelID
  */
 
 export class PixieFragment extends Record({
@@ -20,21 +21,15 @@ export class PixieFragment extends Record({
     width: DEFAULT_FRAGMENT_WIDTH,
     /** @type {number} */
     height: DEFAULT_FRAGMENT_HEIGHT,
+    /** @type {string} */
+    name: 'Untitled',
     /** @type {List<LayerID>} */
     layers: List(),
     /** @type {List<FrameID>} */
     frames: List(),
-    /** @type {Map<FrameID, Map<LayerID, string>>} */
+    /** @type {Map<FrameID, Map<LayerID, CelID>>} */
     cels: Map()
 }) {
-    static create ({
-        width = DEFAULT_FRAGMENT_WIDTH,
-        height = DEFAULT_FRAGMENT_HEIGHT
-    } = {})
-    {
-        return new PixieFragment({ width, height })
-    }
-
     get aspectRatio ()
     {
         return this.height / this.width
