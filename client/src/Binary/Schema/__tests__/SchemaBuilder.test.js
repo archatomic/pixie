@@ -18,6 +18,7 @@ describe('SchemaBuilder', () =>
             .unpack(data => data.read())
             .pack((data, value) => data.write(value))
             .build()
+            .addToBinaryData()
     })
 
     it('registers that schema with the repository', () =>
@@ -53,6 +54,7 @@ describe('SchemaBuilder', () =>
             .unpack(unpack)
             .pack(pack)
             .build()
+            .addToBinaryData()
 
         const data = new BinaryData()
 
@@ -97,6 +99,7 @@ describe('SchemaBuilder', () =>
             .array('TestArray', 999)
             .member('string', 4, 7)
             .build()
+            .addToBinaryData()
 
         const data = new BinaryData()
         data.writeTestArray(['abcd', 'efgh', 'ijkl'])
@@ -119,6 +122,7 @@ describe('SchemaBuilder', () =>
                 baz: ['string', 10, 7]
             })
             .build()
+            .addToBinaryData()
 
         const data = new BinaryData()
         data.writeTestObject({ foo: 244, bar: false, baz: 'hey there.' })

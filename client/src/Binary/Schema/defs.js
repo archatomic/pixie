@@ -13,6 +13,7 @@ export const SCHEMA = {
     IMAGE: 5,
     ARRAY: 6,
     OBJECT: 7,
+    IGNORE: 8,
 }
 
 export const ENCODING = {
@@ -31,6 +32,7 @@ SchemaBuilder
     .unpack(data => data.read())
     .pack((data, value) => data.write(value))
     .build()
+    .addToBinaryData()
 
 const shift = (v, i) => v * Math.pow(2, i)
 
@@ -86,6 +88,7 @@ SchemaBuilder
         }
     )
     .build()
+    .addToBinaryData()
 
 // Boolean
 SchemaBuilder
@@ -98,6 +101,7 @@ SchemaBuilder
     .unpack(data => data.readBit() === 1)
     .pack((data, value) => data.writeBit(value ? 1 : 0))
     .build()
+    .addToBinaryData()
 
 // String
 SchemaBuilder
@@ -134,6 +138,7 @@ SchemaBuilder
         }
     })
     .build()
+    .addToBinaryData()
 
 // Float
 SchemaBuilder
@@ -167,6 +172,7 @@ SchemaBuilder
         }
     })
     .build()
+    .addToBinaryData()
 
 // Image
 SchemaBuilder
@@ -195,6 +201,7 @@ SchemaBuilder
             data.writeInt(channel, 8)
     })
     .build()
+    .addToBinaryData()
 
 SchemaBuilder
     .create('array', SCHEMA.ARRAY)
@@ -224,6 +231,20 @@ SchemaBuilder
         return op
     })
     .build()
+    .addToBinaryData()
+
+const convertProps = properties =>
+{
+    if (properties instanceof Array === false) {
+        properties = Object.entries(properties).map(
+            ([key, value]) => {
+                const data = ensureArray(value)
+                return [key, ...data]
+            }
+        )
+    }
+    return properties
+}
 
 SchemaBuilder
     .create('object', SCHEMA.OBJECT)
@@ -232,26 +253,42 @@ SchemaBuilder
     ))
     .argument('properties', null, [
         value => invariant(
-            isPlainObject(value),
+            isPlainObject(value) || value instanceof Array,
             'Must provide object properties when reading / writing'
         )
     ])
     .pack((data, obj, properties) =>
     {
-        for (const [key, value] of Object.entries(properties)) {
-            const [schema, ...args] = ensureArray(value)
-            data.pack(schema, obj[key], ...args)
+        properties = convertProps(properties)
+        for (const [key, schema, ...args] of properties) {
+            if (schema.pack) schema.pack(data, obj[key], obj, ...args)
+            else data.pack(schema, obj[key], ...args)
         }
     })
     .unpack((data, properties) =>
     {
         const op = {}
 
-        for (const [key, value] of Object.entries(properties)) {
-            const [schema, ...args] = ensureArray(value)
-            op[key] = data.unpack(schema, ...args)
+        properties = convertProps(properties)
+        for (const [key, schema, ...args] of properties) {
+            const value = schema.pack
+                ? schema.unpack(data, op, ...args)
+                : data.unpack(schema, ...args)
+            if (key !== null) op[key] = value
         }
 
         return op
     })
     .build()
+    .addToBinaryData()
+
+SchemaBuilder.primative('ignore', SCHEMA.IGNORE)
+    .pack((data, _, bits) =>
+    {
+        for (let i = 0; i < bits; i++) data.write()
+    })
+    .unpack((data, bits) => {
+        for (let i = 0; i < bits; i++) data.read()
+    })
+    .build()
+    .addToBinaryData()

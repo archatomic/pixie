@@ -1,13 +1,17 @@
+import { isDefined } from 'Pixie/Util/default'
+
 class SchemaRepository
 {
     schemas = {}
-    idMap = {}
+    idMap = new Map()
 
     add (schema)
     {
         if (!this.schemas[schema.name]) {
             this.schemas[schema.name] = []
-            this.idMap[schema.id] = schema.name
+            if (isDefined(schema.id)) {
+                this.idMap.set(schema.id, schema.name)
+            }
         }
 
         const versions = this.schemas[schema.name]
@@ -17,13 +21,11 @@ class SchemaRepository
 
     get (schema, version = null)
     {
-        if (typeof schema === 'number') {
-            // Convert id to name
-            schema = this.idMap[schema]
-        }
+        if (this.idMap.has(schema))
+            schema = this.idMap.get(schema)
 
         const versions = this.schemas[schema]
-        if (!versions) return null
+        if (!versions) throw new Error(`Unknown schema provided: ${schema}`)
         if (version === null) version = versions.length - 1
         return versions[version] || null
     }

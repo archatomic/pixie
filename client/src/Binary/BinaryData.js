@@ -1,7 +1,7 @@
 import { schemaRepository } from 'Pixie/Binary/Schema/SchemaRespository'
 import { ucFirst } from 'Pixie/Util/string'
 
-const BIT_DEPTH = 16
+const BIT_DEPTH = 8
 const MAX_BIT_ADDR = BIT_DEPTH - 1
 
 export class BinaryData
@@ -26,7 +26,67 @@ export class BinaryData
             }
     }
 
-    constructor(data = '')
+    /**
+     * @param {number[]} arr An array of 8 bit numbers
+     * @returns {BinaryData}
+     */
+    static fromArray (arr)
+    {
+        return new BinaryData(arr)
+    }
+
+    /**
+     * @param {Uint8Array} uarr
+     * @returns {BinaryData}
+     */
+    static fromUint8Array (uarr)
+    {
+        return this.fromArray(Array.from(uarr))
+    }
+
+    /**
+     * @param {ArrayBuffer} abuf
+     * @returns {BinaryData}
+     */
+    static fromBuffer (abuf)
+    {
+        return this.fromUint8Array(new Uint8Array(abuf))
+    }
+
+    /**
+     * @param {Uint16Array} uarr
+     * @returns {BinaryData}
+     */
+    static fromUint16Array (uarr)
+    {
+        return this.fromBuffer(uarr.buffer)
+    }
+
+    /**
+     * @param {string} str
+     * @returns {BinaryData}
+     */
+    static fromString (str)
+    {
+        const arr = []
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i)
+            arr.push(char & 255)
+            arr.push(char >> 8)
+        }
+        return this.fromArray(arr)
+    }
+
+    /**
+     * @param {Blob} blob
+     * @returns {BinaryData}
+     */
+    static async fromBlob (blob)
+    {
+        return this.fromBuffer(await blob.arrayBuffer())
+    }
+
+    constructor(data = [])
     {
         /** @type {string} */
         this._data = data
@@ -47,16 +107,51 @@ export class BinaryData
         // WRITE PROPS
         /** @type {number} */
         this._writeBitAddr = -1
-
-        /** @type {number} */
-        this._writeWord = 0
     }
 
     get data ()
     {
-        let op = this._data
-        if (this._writeBitAddr > -1) op += String.fromCharCode(this._writeWord)
-        return op
+        return this._data
+    }
+
+    /**
+     * @returns {Uint8Array}
+     */
+    toUint8Array ()
+    {
+        return new Uint8Array(this.data)
+    }
+
+    /**
+     * @returns {ArrayBuffer}
+     */
+    toArrayBuffer ()
+    {
+        return this.toUint8Array().buffer
+    }
+
+    /**
+     * @returns {Uint16Array}
+     */
+    toUint16Array ()
+    {
+        return new Uint16Array(this.toArrayBuffer())
+    }
+
+    /**
+     * @returns {string}
+     */
+    toString ()
+    {
+        return String.fromCharCode(this.toUint16Array())
+    }
+
+    /**
+     * @returns {Blob}
+     */
+    toBlob ()
+    {
+        return new Blob([this.toArrayBuffer()])
     }
 
     /**
@@ -75,9 +170,8 @@ export class BinaryData
      */
     reset ()
     {
-        this._data = ''
+        this._data = []
         this._writeBitAddr = -1
-        this._writeWord = 0
         this.resetRead()
     }
 
@@ -94,7 +188,7 @@ export class BinaryData
             this._readHead++
             if (this._readHead >= this.data.length)
                 throw new Error("Attempted to read past the end of the data.")
-            this.readChar = this.data.charCodeAt(this._readHead)
+            this.readChar = this.data[this._readHead]
         }
 
         this._readBit = (this.readChar >> this._readBitAddr) & 1
@@ -109,11 +203,16 @@ export class BinaryData
     write (bit)
     {
         this._writeBitAddr += 1
-        this._writeWord += bit << this._writeBitAddr
+
+        // Add new word
+        if (this._writeBitAddr === 0) this._data.push(0)
+
+        // write to word
+        this._data[this._data.length - 1] += bit << this._writeBitAddr
+
+        // reset write head
         if (this._writeBitAddr < MAX_BIT_ADDR) return
         this._writeBitAddr = -1
-        this._data += String.fromCharCode(this._writeWord)
-        this._writeWord = 0
     }
 
     pack (schema, value, ...args)

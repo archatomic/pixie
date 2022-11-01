@@ -10,6 +10,7 @@ import { createNode } from 'Pixie/Util/createNode'
 import { error } from 'Pixie/Util/log'
 import { IS_ANDROID } from './constants'
 import { registerTools } from 'Pixie/registerTools'
+import { addAsepriteSupport } from 'Pixie/Binary/Schema/Aseprite'
 
 try {
     module.hot.accept()
@@ -43,6 +44,7 @@ async function main ()
     await setupStatusBar()
     await setupSafeAreas()
     await registerTools()
+    addAsepriteSupport()
 
     ReactDOM.createRoot(root).render(<App />)
 }

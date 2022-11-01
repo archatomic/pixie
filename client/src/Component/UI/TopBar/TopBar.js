@@ -1,3 +1,4 @@
+import { BinaryData } from 'Pixie/Binary/BinaryData'
 import { Dropdown } from 'Pixie/Component/Dropdown'
 import { Icon } from 'Pixie/Component/Icon'
 import { applicationLayersToggle, applicationThemeToggle } from 'Pixie/Store/Action/applicationActions'
@@ -5,6 +6,7 @@ import { replaceState } from 'Pixie/Store/Action/rootActions'
 import { Operation } from 'Pixie/Store/Operation'
 import { connect } from 'Pixie/Util/connect'
 import { readFragment, writeFragment } from 'Pixie/Util/files'
+import { load } from 'Pixie/Util/load'
 import { go } from 'Pixie/Util/navigate'
 import { locate } from 'Pixie/Util/registry'
 import { Component } from 'react'
@@ -16,9 +18,12 @@ const saveTest = async () => {
 }
 const loadTest = async () =>
 {
-    const data = await readFragment('test.px')
-    replaceState(locate('state').load(data))
-    Operation.openTab(data.fragments[0].pk)
+    const file = await load()
+    const bin = await BinaryData.fromBlob(file)
+    console.log(bin.unpack('Aseprite'))
+    // const data = await readFragment('test.px')
+    // replaceState(locate('state').load(data))
+    // Operation.openTab(data.fragments[0].pk)
 }
 
 export class TopBar extends Component
