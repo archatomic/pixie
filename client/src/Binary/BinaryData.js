@@ -1,5 +1,6 @@
 import { schemaRepository } from 'Pixie/Binary/Schema/SchemaRespository'
 import { ucFirst } from 'Pixie/Util/string'
+import zlib from 'zlibjs'
 
 const BIT_DEPTH = 8
 const MAX_BIT_ADDR = BIT_DEPTH - 1
@@ -88,7 +89,7 @@ export class BinaryData
 
     constructor(data = [])
     {
-        /** @type {string} */
+        /** @type {number[]} */
         this._data = data
 
         // READ PROPS
@@ -215,6 +216,11 @@ export class BinaryData
         this._writeBitAddr = -1
     }
 
+    canPack (schema)
+    {
+        return schemaRepository.has(schema)
+    }
+
     pack (schema, value, ...args)
     {
         const schemaInstance = schemaRepository.get(schema)
@@ -225,5 +231,36 @@ export class BinaryData
     {
         const schemaInstance = schemaRepository.get(schema)
         return schemaInstance.read(this, ...args)
+    }
+
+    zip ()
+    {
+        return zlib.deflateSync(this._data)
+    }
+
+    unzip (bytes)
+    {
+        const arr = []
+        for (let i = 0; i < bytes; i++) {
+            arr.push(this.readInt(8))
+        }
+        const unzippedArray = Array.prototype.slice.call(zlib.inflateSync(arr))
+        return new BinaryData(unzippedArray)
+    }
+
+    zipPack (schema, value, ...args)
+    {
+        const data = new BinaryData()
+        data.pack(schema, value, args)
+        const zipped = data.zip()
+        for (const byte of zipped) {
+            this.writeInt(byte, 8)
+        }
+    }
+
+    zipUnpack (bytes, schema, ...args)
+    {
+        const data = new BinaryData(this.unzip(bytes))
+        return data.unpack(schema, ...args)
     }
 }

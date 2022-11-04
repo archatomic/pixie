@@ -47,8 +47,9 @@ export class ObjectSchemaBuilder extends AbstractSchemaBuilder
         const properties = [ ...this._properties ]
         return (
             data,
-            value
-        ) => data.writeObject(value, properties)
+            value,
+            ...args
+        ) => data.writeObject(value, properties, ...args)
     }
 
     /**
@@ -57,6 +58,6 @@ export class ObjectSchemaBuilder extends AbstractSchemaBuilder
     createUnpackFunc ()
     {
         const properties = [ ...this._properties ]
-        return (data) => data.readObject(properties)
+        return (data, ...args) => data.readObject(properties, ...args)
     }
 }

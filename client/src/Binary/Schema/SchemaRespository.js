@@ -29,6 +29,13 @@ class SchemaRepository
         if (version === null) version = versions.length - 1
         return versions[version] || null
     }
+
+    has (schema)
+    {
+        if (this.idMap.has(schema))
+            schema = this.idMap.get(schema)
+        return !!this.schemas[schema]
+    }
 }
 
 export const schemaRepository = new SchemaRepository()

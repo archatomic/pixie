@@ -14,6 +14,7 @@ export const SCHEMA = {
     ARRAY: 6,
     OBJECT: 7,
     IGNORE: 8,
+    ZIP: 9
 }
 
 export const ENCODING = {
@@ -257,22 +258,22 @@ SchemaBuilder
             'Must provide object properties when reading / writing'
         )
     ])
-    .pack((data, obj, properties) =>
+    .pack((data, obj, properties, ...inArgs) =>
     {
         properties = convertProps(properties)
         for (const [key, schema, ...args] of properties) {
-            if (schema.pack) schema.pack(data, obj[key], obj, ...args)
+            if (schema.pack) schema.pack(data, obj[key], obj, ...args, ...inArgs)
             else data.pack(schema, obj[key], ...args)
         }
     })
-    .unpack((data, properties) =>
+    .unpack((data, properties, ...inArgs) =>
     {
         const op = {}
 
         properties = convertProps(properties)
         for (const [key, schema, ...args] of properties) {
-            const value = schema.pack
-                ? schema.unpack(data, op, ...args)
+            const value = schema.unpack
+                ? schema.unpack(data, op, ...args, ...inArgs)
                 : data.unpack(schema, ...args)
             if (key !== null) op[key] = value
         }
