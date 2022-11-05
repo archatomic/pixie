@@ -6,7 +6,6 @@ import { replaceState } from 'Pixie/Store/Action/rootActions'
 import { Operation } from 'Pixie/Store/Operation'
 import { connect } from 'Pixie/Util/connect'
 import { readFragment, writeFragment } from 'Pixie/Util/files'
-import { load } from 'Pixie/Util/load'
 import { go } from 'Pixie/Util/navigate'
 import { locate } from 'Pixie/Util/registry'
 import { Component } from 'react'
@@ -16,15 +15,6 @@ const goHome = () => go('/')
 const saveTest = async () => {
     writeFragment(locate('state').fragments.toArray()[0].pk, 'test.px')
 }
-const loadTest = async () =>
-{
-    const file = await load()
-    const bin = await BinaryData.fromBlob(file)
-    console.log(bin.unpack('Aseprite'))
-    // const data = await readFragment('test.px')
-    // replaceState(locate('state').load(data))
-    // Operation.openTab(data.fragments[0].pk)
-}
 
 export class TopBar extends Component
 {
@@ -32,6 +22,8 @@ export class TopBar extends Component
         open: ['application', 'layers'],
         theme: ['application', 'theme']
     }, this)
+
+    handleLoad = () => Operation.load()
 
     render ()
     {
@@ -58,7 +50,7 @@ export class TopBar extends Component
                         </Dropdown.Item>
                         <Dropdown.Item
                             icon='file-arrow-up'
-                            onClick={loadTest}
+                            onClick={this.handleLoad}
                         >
                             Open...
                         </Dropdown.Item>

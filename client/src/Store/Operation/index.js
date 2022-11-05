@@ -1,4 +1,4 @@
-import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH } from 'Pixie/constants'
+import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH, VISIBILITY } from 'Pixie/constants'
 import { applicationTabFocus, celActions, fragmentActions, frameActions, layerActions, tabActions } from 'Pixie/Store/Action/applicationActions'
 
 import { PixieFragment } from 'Pixie/Model/PixieFragment'
@@ -9,6 +9,9 @@ import { PixieFrame } from 'Pixie/Model/PixieFrame'
 import { PixieCel } from 'Pixie/Model/PixieCel'
 import { redo, undo, undoPush } from 'Pixie/Store/Action/undoActions'
 import { replaceState } from 'Pixie/Store/Action/rootActions'
+import { load } from 'Pixie/Util/load'
+import { BinaryData } from 'Pixie/Binary/BinaryData'
+import { List } from 'immutable'
 
 /**
  * @typedef {import('Pixie/Model/State').State} State
@@ -328,5 +331,120 @@ export class Operation
         replaceState(restored)
         const tab = restored.tabs.where({ fragment: fragmentID }).first()
         tabActions.save(tab.clampFrameAndLayer())
+    }
+
+    static async load ()
+    {
+        const file = await load({
+            extensions: ['.aseprite']
+        })
+        if (!file) return
+        const parts = file.name.split('.')
+        const extension = parts.pop()
+        const name = parts.join('.')
+        switch (extension) {
+            case 'aseprite':
+                return this.loadAseprite(name, file)
+            case 'px':
+                return this.loadPixie(name, file)
+        }
+    }
+
+    static async loadAseprite (name, file)
+    {
+        const binaryData = await BinaryData.fromBlob(file)
+        const aseprite = binaryData.unpack('Aseprite')
+
+        let fragment = PixieFragment.create({
+            width: aseprite.header.width,
+            height: aseprite.header.height,
+            name
+        })
+
+        const layers = []
+        const frames = []
+        const cels = []
+
+        for (const aFrame of aseprite.frames) {
+            const frame = PixieFrame.create({
+                fragment: fragment.pk,
+                duration: aFrame.frameDuration / 1000
+            })
+
+            frames.push(frame)
+            fragment = fragment.delegateSet('frames', 'push', frame.pk)
+
+            for (const chunk of aFrame.chunks) {
+                switch (chunk.schema) {
+                    case 'AsepriteLayer':
+                        const layer = PixieLayer.create({
+                            fragment: fragment.pk,
+                            name: chunk.data.name,
+                            visibility: chunk.data.visible
+                                ? VISIBILITY.VISIBLE
+                                : VISIBILITY.HIDDEN
+                        })
+                        layers.push(layer)
+                        fragment = fragment.delegateSet('layers', 'push', layer.pk)
+                        break
+                    case 'AsepriteCel':
+                        const celLayer = layers[chunk.data.layer].pk
+
+                        const pixels = chunk.data.data.pixels
+                        const offsetX = chunk.data.x
+                        const offsetY = chunk.data.y
+                        const width = chunk.data.data.width
+
+                        const data = new ImageData(
+                            fragment.width,
+                            fragment.height
+                        )
+
+                        for (let i = 0; i < pixels.length; i++) {
+                            const x = (i % width) + offsetX
+                            const y = Math.floor(i / width) + offsetY
+                            const i2 = (x + y * data.width) * 4
+                            const pixel = pixels[i]
+
+                            data.data[i2] = pixel.r
+                            data.data[i2 + 1] = pixel.g
+                            data.data[i2 + 2] = pixel.b
+                            data.data[i2 + 3] = pixel.a
+                        }
+
+                        const cel = PixieCel.fromImageData(data)
+
+                        cels.push(cel)
+                        fragment = fragment.setIn(['cels', frame.pk, celLayer], cel.pk)
+                        break
+                }
+            }
+        }
+
+        this.saveAll({
+            fragments: [fragment],
+            cels,
+            layers,
+            frames
+        })
+
+        this.openTab(fragment.pk)
+    }
+
+    static saveAll (dict)
+    {
+        let state = this.state
+        for (const key of Object.keys(dict)) {
+            if (!state[key]) continue
+            state = state.delegateSet(key, 'addAll', dict[key])
+        }
+        replaceState(state)
+    }
+
+    static async loadPixie (name, file)
+    {
+        // TODO
+        const binaryData = await BinaryData.fromBlob(file)
+        const pixie = binaryData.unpack('Pixie')
     }
 }

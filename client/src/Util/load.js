@@ -1,8 +1,17 @@
 import { createNode } from 'Pixie/Util/createNode'
 
-export const load = (msToCancel = 1000) =>
+export const load = ({
+    extensions = [],
+    msToCancel = 1000
+}) =>
 {
-    const input = createNode({ tag: 'input', attrs: { type: 'file' } })
+    const input = createNode({
+        tag: 'input',
+        attrs: {
+            type: 'file',
+            accept: extensions.join(',')
+        }
+    })
     input.click()
 
     return new Promise((resolve) =>
