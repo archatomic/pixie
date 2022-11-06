@@ -31,7 +31,7 @@ export class Animation extends Component
 
     componentDidMount ()
     {
-        let player = this.props.player || Player.create()
+        let player = this.props.player || Player.create({fragment: this.props.fragment})
         if (this.props.frames) player = player.setFrames(this.props.frames)
         if (this.props.frame) player = player.setFrame(this.props.frame)
         if (this.props.speed) player = player.set('speed', this.props.speed)

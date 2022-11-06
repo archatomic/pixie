@@ -1,14 +1,71 @@
 .TopBar
     display flex
     background theme.panel;
-    padding rhythm--half
 
     &-spacer
         flex-grow 1
+
+    &-control
+        padding rhythm--half
+
+    &-control,
+    &-tab-label
+        cursor pointer
+
+        &:hover
+            color grey(30)
+
+        &:active
+            color grey(0)
+            transition none
 
     &-right
         display flex
         align-items center
 
-        > * + *
-            margin-left rhythm--half
+    &-tabs
+        display flex
+        flex-shrink 1
+        overflow auto
+
+        &:has(.TopBar-tab)
+            border-left 1px solid grey(87)
+            border-right 1px solid grey(87)
+
+        &:has(> .TopBar-tab--active:first-of-type)
+            border-left-color transparent
+
+        &:has(> .TopBar-tab--active:last-of-type)
+            border-right-color transparent
+
+    &-tab
+        position relative
+        padding-left rhythm
+        color grey(70)
+        display flex
+        align-items center
+
+        & + &
+            border-left 1px solid grey(87)
+
+        & + &--active,
+        &--active + &
+            border-color transparent
+
+        &--active
+            background grey(95)
+            color theme.black
+
+    &-close-tab
+        font-size fs--small
+        margin-left rhythm--half
+        color grey(70)
+        cursor pointer
+
+        &:hover
+            color grey(30)
+
+        &:active
+            color grey(0)
+            transition none
+

@@ -25,12 +25,12 @@
     &-content
         overflow hidden
         background grey(93)
-        transform translateY(0)
+        transform translate(- rhythm--half, 0)
         transition transform 0.2s ease-in-out
         padding rhythm--quarter
 
         .Popover--show &
-            transform translateY(rhythm)
+            transform translate(- rhythm--half, rhythm--half)
 
         .Theme--light &
             background grey(98)

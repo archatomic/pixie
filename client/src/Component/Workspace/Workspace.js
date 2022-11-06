@@ -11,6 +11,7 @@ import { def } from 'Pixie/Util/default'
 import { Animation } from 'Pixie/Component/Animation'
 import { Onion } from 'Pixie/Component/Onion'
 import { Component } from 'react'
+import { go } from 'Pixie/Util/navigate'
 
 const OVERFLOW_MARGIN = 20
 
@@ -122,7 +123,6 @@ export class Workspace extends Component
     {
         // TODO: Remove this. This is just a test / dev stub
         Operation.createFragment({ width: 128, height: 128 })
-        Operation.pushHistory(this.tab.fragment, 'Open Document')
     }
 
     componentWillUnmount ()

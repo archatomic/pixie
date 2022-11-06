@@ -6,25 +6,6 @@ import { Component } from 'react'
 
 export class Box extends Component
 {
-    observer = null
-
-    ensureObserver ()
-    {
-        if (this.observer) return
-        this.observer = new IntersectionObserver(this.handleResize)
-    }
-
-    destroyObserver ()
-    {
-        this.observer.disconnect()
-        this.observer = null
-    }
-
-    componentDidMount ()
-    {
-        this.ensureObserver()
-    }
-
     componentWillUnmount ()
     {
         unwatchBounds(this.el, this.handleResize)

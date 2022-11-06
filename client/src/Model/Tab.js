@@ -12,6 +12,16 @@ export class Tab extends Record({
     play: false,
     onionSkin: 0
 }) {
+    get name ()
+    {
+        return this.state.fragments.find(this.fragment).name || 'Untitled'
+    }
+
+    get active ()
+    {
+        return this.state.application.activeTab === this.pk
+    }
+
     clampFrameAndLayer ()
     {
         const fragment = this.state.fragments.find(this.fragment)

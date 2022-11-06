@@ -11,7 +11,8 @@ import { redo, undo, undoPush } from 'Pixie/Store/Action/undoActions'
 import { replaceState } from 'Pixie/Store/Action/rootActions'
 import { load } from 'Pixie/Util/load'
 import { BinaryData } from 'Pixie/Binary/BinaryData'
-import { List } from 'immutable'
+import { playerActions } from 'Pixie/Store/Action/playerActions'
+import { clamp } from 'Pixie/Util/math'
 
 /**
  * @typedef {import('Pixie/Model/State').State} State
@@ -86,8 +87,17 @@ export class Operation
         this.addFramesToFragment(fragment.pk, numFrames)
 
         this.openTab(fragment.pk)
-        this.pushHistory(fragment.pk)
+        this.pushHistory(fragment.pk, 'Created')
         return fragment
+    }
+
+    static deleteFragment (fragment)
+    {
+        fragmentActions.delete(fragment)
+        frameActions.delete(this.state.frames.where({fragment}))
+        layerActions.delete(this.state.layers.where({fragment}))
+        celActions.delete(this.state.cels.where({fragment}))
+        playerActions.delete(this.state.players.where({fragment}))
     }
 
     static getNextLayer (fragment)
@@ -168,14 +178,24 @@ export class Operation
         tabActions.delete(tab)
 
         // Should I clean up the fragment and player?
+        this.deleteFragment(tab.fragment)
 
         // Check if the application was focused on this tab, and if so, switch focus
-        if (state.tabs.find(state.application.activeTab) === tab.pk) {
-            applicationTabFocus(
-                state.tabs.length
-                    ? state.tabs.first().pk
-                    : null
-            )
+        if (state.application.activeTab === tab.pk) {
+            if (state.tabs.length <= 1)
+                return applicationTabFocus(null)
+
+            // Select new tab to focus on.
+            // Retain current position, or select last tab if current
+            // position isn't available anymore.
+            const position = state.tabs.positionOf(tab.pk)
+            const newTabs = this.state.tabs
+            const newFocus = newTabs.positionToID(clamp(
+                position,
+                0,
+                newTabs.length - 1
+            ))
+            applicationTabFocus(newFocus)
         }
     }
 
@@ -276,7 +296,6 @@ export class Operation
 
     static pushHistory (fragmentID, description)
     {
-
         undoPush(this.getHistoryNode(fragmentID), description)
     }
 
@@ -412,7 +431,10 @@ export class Operation
                             data.data[i2 + 3] = pixel.a
                         }
 
-                        const cel = PixieCel.fromImageData(data)
+                        const cel = PixieCel.fromImageData(data).set(
+                            'fragment',
+                            fragment.pk
+                        )
 
                         cels.push(cel)
                         fragment = fragment.setIn(['cels', frame.pk, celLayer], cel.pk)
@@ -421,24 +443,32 @@ export class Operation
             }
         }
 
-        this.saveAll({
-            fragments: [fragment],
-            cels,
-            layers,
-            frames
-        })
+        this.saveAll(
+            {
+                fragments: [fragment],
+                cels,
+                layers,
+                frames
+            },
+            'Loaded'
+        )
 
         this.openTab(fragment.pk)
     }
 
-    static saveAll (dict)
+    static saveAll (dict, description)
     {
         let state = this.state
         for (const key of Object.keys(dict)) {
             if (!state[key]) continue
             state = state.delegateSet(key, 'addAll', dict[key])
         }
+
         replaceState(state)
+
+        for (const fragment of dict.fragments) {
+            this.pushHistory(fragment.pk, description)
+        }
     }
 
     static async loadPixie (name, file)

@@ -16,6 +16,7 @@ const OUT_OF_BOUNDS = createEnum([
 const DEFAULT_OUT_OF_BOUNDS = OUT_OF_BOUNDS.LOOP
 
 export class Player extends Record({
+    fragment: null,
     playback: PLAYBACK.PAUSED,
     progress: 0,
     duration: 0,

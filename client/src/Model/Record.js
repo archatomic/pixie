@@ -316,6 +316,9 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
                     case 'save':
                         return collection.add(action.payload)
                     case 'delete':
+                        if (action.payload.toArray instanceof Function && action.payload instanceof OfType === false) {
+                            return collection.removeAll(action.payload.toArray())
+                        }
                         if (action.payload instanceof Array) return collection.removeAll(action.payload)
                         return collection.remove(action.payload)
                     case 'sort':
@@ -449,6 +452,16 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
         find (k)
         {
             return this.items.get(this.getID(k), nullItem)
+        }
+
+        first ()
+        {
+            return this.find(this.positionToID(0))
+        }
+
+        last ()
+        {
+            return this.find(his.positionToID(this.length - 1))
         }
 
         findAll (keys)

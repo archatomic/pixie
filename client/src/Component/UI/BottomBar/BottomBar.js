@@ -9,6 +9,7 @@ import { Transition } from 'Pixie/Component/Transition'
 import { Color } from 'Pixie/Model/Color'
 import { setToolOption } from 'Pixie/Store/Action/toolboxActions'
 import { redo, undo } from 'Pixie/Store/Action/undoActions'
+import { Operation } from 'Pixie/Store/Operation'
 import { connect } from 'Pixie/Util/connect'
 import { int } from 'Pixie/Util/math'
 import { Component } from 'react'
@@ -18,9 +19,9 @@ export class BottomBar extends Component
     static Connected = connect(
         (state) =>
         {
-            const application = state.get('application')
-            const fragment = application?.getActiveFragment()
-            const stack = fragment ? application?.undoManager?.getStack(fragment) : null
+            const application = state.application
+            const fragment = application.getActiveFragment().pk
+            const stack = fragment ? state?.history?.getStack(fragment) : null
             return {
                 fragment,
                 timeline: application.timeline,
@@ -32,8 +33,8 @@ export class BottomBar extends Component
         this
     )
 
-    handleUndo = (e) => undo(this.props.fragment)
-    handleRedo = () => redo(this.props.fragment)
+    handleUndo = (e) => Operation.undoFragment(this.props.fragment)
+    handleRedo = () => Operation.redoFragment(this.props.fragment)
     handleOptionChanged = ({ name, value }) => setToolOption(name, value)
 
     render ()

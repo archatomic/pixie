@@ -64,7 +64,10 @@ export class Dropdown extends Component
     {
         return (
             <Box
-                className='Dropdown'
+                className={classNames(
+                    'Dropdown',
+                    this.props.className,
+                )}
                 onClick={this.stopPropagation}
                 onResize={this.handleResize}
             >
@@ -78,11 +81,17 @@ export class Dropdown extends Component
     {
         const toggle = getChildOfType(this.props.children, Dropdown.Toggle)
         return (
-            <div className='Dropdown-toggle' onClick={this.handleToggle}>
-                {toggle && <div className='Dropdown-label'>{toggle}</div>}
+            <div
+                className={classNames(
+                    'Dropdown-toggle',
+                    toggle?.props?.className
+                )}
+                onClick={this.handleToggle}
+            >
+                {toggle?.props?.children && <div className='Dropdown-label'>{toggle.props.children}</div>}
                 <Icon
                     tight
-                    className='Dropdown-toggle'
+                    className='Dropdown-toggle-button'
                     name='ellipsis-vertical'
                 />
             </div>
