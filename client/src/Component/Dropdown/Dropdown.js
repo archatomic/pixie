@@ -4,7 +4,6 @@ import { Icon } from 'Pixie/Component/Icon'
 import { Popover } from 'Pixie/Component/Popover'
 import { IS_MOBILE } from 'Pixie/constants'
 import { createPassthroughComponent, getChildOfType, getChildrenOfType } from 'Pixie/Util/children'
-import { def } from 'Pixie/Util/default'
 import { Component } from 'react'
 
 export class Dropdown extends Component

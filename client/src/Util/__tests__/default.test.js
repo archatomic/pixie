@@ -20,7 +20,7 @@ describe('isDefined()', () => {
 
 describe('isEmpty()', () => {
   it('returns true for empty arrays, objects, and empty values', () => {
-    expect(isEmpty(0)).toBe(true)
+    expect(isEmpty(0)).toBe(false)
     expect(isEmpty('')).toBe(true)
     expect(isEmpty([])).toBe(true)
     expect(isEmpty({})).toBe(true)

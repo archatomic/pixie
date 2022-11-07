@@ -58,7 +58,7 @@ export function isEmpty (value)
 {
     if (value === null) return true
     if (value === undefined) return true
-    if (value === 0) return true
+    if (value === 0) return false
     if (value === '') return true
     if (value instanceof Array && value.length === 0) return true
     if (value instanceof Object && Object.keys(value).length === 0) return true

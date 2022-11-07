@@ -119,12 +119,6 @@ export class Workspace extends Component
         return - this.maxY(zoom)
     }
 
-    componentDidMount ()
-    {
-        // TODO: Remove this. This is just a test / dev stub
-        Operation.createFragment({ width: 128, height: 128 })
-    }
-
     componentWillUnmount ()
     {
         this.destroyListeners()
