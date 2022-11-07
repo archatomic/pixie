@@ -14,6 +14,7 @@ const goHome = () => go('/')
 export class TopBar extends Component
 {
     static Connected = connect({
+        hasTab: state => !!state.application.activeTab,
         tabs: state => state.tabs.toArray(),
         open: ['application', 'layers'],
         theme: ['application', 'theme']
@@ -102,16 +103,24 @@ export class TopBar extends Component
     {
         return (
             <div className='TopBar-right'>
-                <Icon
-                    className='TopBar-control'
-                    tight
-                    subtle
-                    name='layer-group'
-                    active={this.props.open}
-                    onClick={applicationLayersToggle}
-                />
+                {this.renderTabUI()}
                 {this.renderMenu()}
             </div>
+        )
+    }
+
+    renderTabUI ()
+    {
+        if (!this.props.hasTab) return null
+        return (
+            <Icon
+                className='TopBar-control'
+                tight
+                subtle
+                name='layer-group'
+                active={this.props.open}
+                onClick={applicationLayersToggle}
+            />
         )
     }
 
@@ -135,6 +144,7 @@ export class TopBar extends Component
                 <Dropdown.Item
                     icon='save'
                     onClick={this.handleSave}
+                    disabled={!this.props.hasTab}
                 >
                     Save
                 </Dropdown.Item>

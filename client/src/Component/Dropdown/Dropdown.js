@@ -8,14 +8,16 @@ import { Component } from 'react'
 
 export class Dropdown extends Component
 {
-    static Item = ({ children, onClick, icon }) =>
+    static Item = ({ children, onClick, disabled, icon }) =>
     {
+        if (disabled) onClick = undefined
         return (
             <div
                 className={classNames(
                     'Dropdown-item',
                     {
-                        'Dropdown-item--clickable': !!onClick
+                        'Dropdown-item--clickable': !!onClick,
+                        'Dropdown-item--disabled': disabled,
                     }
                 )}
                 onClick={onClick}

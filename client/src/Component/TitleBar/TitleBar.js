@@ -1,4 +1,5 @@
-import { HAS_TITLE_BAR, IS_LINUX, IS_WINDOWS } from 'Pixie/constants'
+import { TopBar } from './TopBar'
+import { HAS_WINDOW_CONTROLS, IS_LINUX, IS_WINDOWS } from 'Pixie/constants'
 
 import { makeSafe } from 'Pixie/Util/safeCall'
 
@@ -30,13 +31,16 @@ const buttons = IS_WINDOWS || IS_LINUX
 
 export const TitleBar = (props) =>
 {
-    if (!HAS_TITLE_BAR) return null
     return (
         <div className='TitleBar'>
-            <div className='TitleBar-buttons'>
-                {buttons}
+            {HAS_WINDOW_CONTROLS && (
+                <div className='TitleBar-buttons'>
+                    {buttons}
+                </div>
+            )}
+            <div className='TitleBar-ui'>
+                <TopBar.Connected/>
             </div>
-            <div className='TitleBar-title'>{props.children}</div>
         </div>
     )
 }
