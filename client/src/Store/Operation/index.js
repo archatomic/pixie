@@ -459,11 +459,7 @@ export class Operation
 
     static saveAll (dict, description)
     {
-        let state = this.state
-        for (const key of Object.keys(dict)) {
-            if (!state[key]) continue
-            state = state.delegateSet(key, 'addAll', dict[key])
-        }
+        let state = this.state.load(dict)
 
         replaceState(state)
 
