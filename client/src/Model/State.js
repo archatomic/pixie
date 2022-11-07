@@ -43,36 +43,6 @@ export class State extends Record({
     /** @type {import('./Record').RecordCollectionInstance<Tab>} */
     tabs: Tab.Collection.create(),
 }) {
-    /**
-     * Lookup a tab. If no tabID is provided, will lookup the application's
-     * currently active tab.
-     *
-     * @param {string} [tabID]
-     *
-     * @returns {Tab}
-     */
-    getTab (tabID = null)
-    {
-        if (tabID instanceof Tab) return tabID
-        if (!tabID) tabID = this.application.activeTab
-        return this.tabs.find(tabID)
-    }
-
-    /**
-     * Lookup a fragment. If no fragmentID is provided, will lookup the fragment in
-     * the currently active tab.
-     *
-     * @param {string} [fragmentID]
-     *
-     * @returns {PixieFragment}
-     */
-    getFragment (fragmentId = null)
-    {
-        if (fragmentId instanceof PixieFragment) return fragmentId
-        if (!fragmentId) fragmentId = this.getTab().fragment
-        return this.fragments.find(fragmentId)
-    }
-
     load (fileData)
     {
         let op = this

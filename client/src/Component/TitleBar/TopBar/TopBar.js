@@ -133,7 +133,7 @@ export class TopBar extends Component
                 <Dropdown.Item
                     icon='save'
                     onClick={this.handleSave}
-                    disabled={!this.props.hasTab}
+                    disabled={!this.props.params.tab}
                 >
                     Save
                 </Dropdown.Item>

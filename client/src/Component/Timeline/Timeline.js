@@ -6,6 +6,7 @@ import { Icon } from 'Pixie/Component/Icon'
 import { NumberField } from 'Pixie/Component/Field'
 import { Operation } from 'Pixie/Store/Operation'
 import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'Pixie/constants'
+import { withTab } from 'Pixie/Component/HOC/withTab'
 
 /**
  * @typedef {import('Pixie/Model/PixieFragment').PixieFragment} PixieFragment
@@ -22,15 +23,7 @@ import { MAX_FPS, MAX_FRAME_DURATION, MIN_FPS, MIN_FRAME_DURATION } from 'Pixie/
  */
 export class Timeline extends Component
 {
-    static Connected = connect(
-        (state, props) =>
-        {
-            return {
-                tab: state.getTab(props.tab)
-            }
-        },
-        this
-    )
+    static Connected = withTab(this)
 
     render ()
     {
@@ -47,7 +40,7 @@ class TimelineControls extends Component
 {
     static Connected = connect((state, props) =>
     {
-        const tab = state.getTab(props.tab)
+        const tab = state.tabs.find(props.tab)
         const fragment = state.fragments.find(tab.fragment)
         const frame = fragment.getFrame(tab.frame)
 
@@ -175,7 +168,7 @@ class TimelineLayer extends Component
     static Connected = connect(
         (state, props) =>
         {
-            const tab = state.getTab(props.tab)
+            const tab = state.tabs.find(props.tab)
             const fragment = state.fragments.find(tab.fragment)
             return {
                 tab,

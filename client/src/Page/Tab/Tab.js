@@ -1,26 +1,24 @@
+import { useTab } from 'Pixie/Component/HOC/withTab'
 import { Page } from 'Pixie/Component/Page'
 import { Redirect } from 'Pixie/Component/Redirect'
 import { WorkspaceUI } from 'Pixie/Component/UI'
 import { Workspace as WorkspaceComponent } from 'Pixie/Component/Workspace'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router'
 
 export const Tab = () =>
 {
-    const params = useParams()
-    const hasTab = useSelector(state => state.tabs.contains(params.tab))
+    const tab = useTab()
     const lastTab = useSelector(state => state.tabs.last())
 
-    if (!hasTab && !lastTab.null) {
-        return <Redirect to={lastTab.route} />
+    if (tab.null) {
+        const to = lastTab.null ? '/' : lastTab.route
+        return <Redirect to={to} />
     }
 
-    if (!hasTab) return <Redirect to='/' />
-
     return (
-        <Page tight title="Workspace">
-            <WorkspaceUI tab={params.tab} />
-            <WorkspaceComponent.Connected tab={params.tab} />
+        <Page tight title={tab.name} key={tab.pk}>
+            <WorkspaceUI tab={tab.pk} />
+            <WorkspaceComponent.Connected tab={tab.pk} />
         </Page>
     )
 }

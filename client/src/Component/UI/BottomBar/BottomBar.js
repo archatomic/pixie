@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { ColorInput } from 'Pixie/Component/ColorInput'
+import { withTab } from 'Pixie/Component/HOC/withTab'
 import { Icon } from 'Pixie/Component/Icon'
 import { Panel } from 'Pixie/Component/Panel'
 import { Mobile } from 'Pixie/Component/Platform'
@@ -16,11 +17,11 @@ import { Component } from 'react'
 
 export class BottomBar extends Component
 {
-    static Connected = connect(
-        (state) =>
+    static Connected = withTab(connect(
+        (state, props) =>
         {
             const application = state.application
-            const fragment = application.getActiveFragment().pk
+            const fragment = props.tab.getFragment().pk
             const stack = fragment ? state?.history?.getStack(fragment) : null
             return {
                 fragment,
@@ -31,7 +32,7 @@ export class BottomBar extends Component
             }
         },
         this
-    )
+    ))
 
     handleUndo = (e) => Operation.undoFragment(this.props.fragment)
     handleRedo = () => Operation.redoFragment(this.props.fragment)

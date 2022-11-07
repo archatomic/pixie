@@ -67,4 +67,9 @@ export class Tab extends Record({
     {
         return this.set('onionSkin', Math.max(size || 0, 0))
     }
+
+    getFragment ()
+    {
+        return this.state.fragments.find(this.fragment)
+    }
 }

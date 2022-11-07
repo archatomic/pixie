@@ -8,18 +8,19 @@ import { VISIBILITY } from 'Pixie/constants'
 import { layerActions } from 'Pixie/Store/Action/applicationActions'
 import { TextField } from 'Pixie/Component/Field'
 import { Operation } from 'Pixie/Store/Operation'
+import { withTab } from 'Pixie/Component/HOC/withTab'
 
 export class Layers extends Component
 {
-    static Connected = connect(
+    static Connected = withTab(connect(
         (state, props) =>
         {
             /**
              * @type {import('Pixie/Model/Application').Application}
              */
             const application = state.get('application')
-            const fragment = application.getActiveFragment()
-            const tab = application.getActiveTab()
+            const tab = props.tab
+            const fragment = tab.getFragment()
             const cels = fragment.getCels({ frame: tab.frame })
 
             return {
@@ -30,7 +31,7 @@ export class Layers extends Component
             }
         },
         this
-    )
+    ))
 
     handleLayerAdd = () =>
     {

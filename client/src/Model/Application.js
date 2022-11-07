@@ -19,23 +19,6 @@ export class Application extends Record({
     timeline: false,
     toolbox: ToolBox.create()
 }) {
-    /**
-     * @returns {Tab}
-     */
-    getActiveTab ()
-    {
-        // remove me?
-        return this.state.tabs.find(this.activeTab)
-    }
-
-    /**
-     * @returns {PixieFragment}
-     */
-    getActiveFragment ()
-    {
-        // remove me, this should go on the tab
-        return this.state.fragments.find(this.getActiveTab().fragment)
-    }
 
     /**
      * @param {string} title

@@ -4,6 +4,7 @@ import { BaseTool } from './BaseTool'
 import { clamp } from 'Pixie/Util/math'
 import { locate } from 'Pixie/Util/registry'
 import { tabActions } from 'Pixie/Store/Action/applicationActions'
+import { getTab } from 'Pixie/Component/HOC/withTab'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
@@ -14,9 +15,7 @@ export class Zoom extends BaseTool
 {
     start (_, event, old)
     {
-        /** @type {import('Pixie/Model/Application').Application} */
-        const application = locate('state').application
-        this.initialTab = application.getActiveTab()
+        this.initialTab = getTab()
         this.tab = this.initialTab
 
         this.aID = old.event?.pointerId

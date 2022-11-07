@@ -6,6 +6,7 @@ import { getCircleBrush } from 'Pixie/Model/Brush/getCircleBrush'
 import { TOOLOPT } from 'Pixie/constants'
 import { DrawJob } from 'Pixie/Util/DrawJob'
 import { Operation } from 'Pixie/Store/Operation'
+import { getTab } from 'Pixie/Component/HOC/withTab'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
@@ -30,12 +31,12 @@ export class Pencil extends BaseTool
 
     get tab ()
     {
-        return this.application.getActiveTab()
+        return getTab()
     }
 
     get fragment ()
     {
-        return this.application.getActiveFragment()
+        return this.tab.getFragment()
     }
 
     get size ()

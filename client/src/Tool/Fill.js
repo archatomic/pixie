@@ -3,6 +3,7 @@ import { celActions } from 'Pixie/Store/Action/applicationActions'
 import { locate } from 'Pixie/Util/registry'
 import { TOOLOPT } from 'Pixie/constants'
 import { Operation } from 'Pixie/Store/Operation'
+import { getTab } from 'Pixie/Component/HOC/withTab'
 
 /**
  * @typedef {import('./ToolManager').ToolData} ToolData
@@ -20,8 +21,8 @@ export class Fill extends BaseTool
 
         /** @type {import('Pixie/Model/Application').Application} */
         const application = locate('state').get('application')
-        this.tab = application.getActiveTab()
-        this.fragment = application.getActiveFragment()
+        this.tab = getTab()
+        this.fragment = this.tab.getFragment()
         this.color = application.toolbox.getOption(TOOLOPT.COLOR).getChannels()
 
         if (this.color[3] === 0) return // Early bail, no alpha means no op
