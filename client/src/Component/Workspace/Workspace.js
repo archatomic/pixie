@@ -7,11 +7,9 @@ import { Cursor } from 'Pixie/Component/Cursor'
 import { Operation } from 'Pixie/Store/Operation'
 import { ToolManager } from 'Pixie/Tool/ToolManager'
 import { connect } from 'Pixie/Util/connect'
-import { def } from 'Pixie/Util/default'
 import { Animation } from 'Pixie/Component/Animation'
 import { Onion } from 'Pixie/Component/Onion'
 import { Component } from 'react'
-import { go } from 'Pixie/Util/navigate'
 
 const OVERFLOW_MARGIN = 20
 
@@ -39,7 +37,7 @@ export class Workspace extends Component
         /** @type {import('Pixie/Util/connect').StateToProps<WorkspaceContainerProps, WorkspaceProps>} */
         (state, props) =>
         {
-            const tab = state.tabs.find(def(props.tab, state.application.activeTab))
+            const tab = state.tabs.find(props.tab)
             const fragment = state.fragments.find(tab.fragment)
 
             const frame = tab.frame
@@ -55,10 +53,6 @@ export class Workspace extends Component
                 fragment,
                 layers,
                 cels
-
-                // tab,
-                // fragment,
-                // layers: state.layers.findAll(fragment.layers)
             }
         },
         this

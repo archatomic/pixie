@@ -13,6 +13,7 @@ import { load } from 'Pixie/Util/load'
 import { BinaryData } from 'Pixie/Binary/BinaryData'
 import { playerActions } from 'Pixie/Store/Action/playerActions'
 import { clamp } from 'Pixie/Util/math'
+import { go } from 'Pixie/Util/navigate'
 
 /**
  * @typedef {import('Pixie/Model/State').State} State
@@ -54,7 +55,7 @@ export class Operation
         tabActions.save(tab)
 
         // Focus on tab
-        applicationTabFocus(tab.pk)
+        go(tab.route)
 
         return tab
     }

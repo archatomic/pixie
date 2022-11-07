@@ -2,7 +2,6 @@ import { Button } from 'Pixie/Component/Button'
 import { Form, NumberField } from 'Pixie/Component/Field'
 import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_WIDTH } from 'Pixie/constants'
 import { Operation } from 'Pixie/Store/Operation'
-import { go } from 'Pixie/Util/navigate'
 import { Component } from 'react'
 
 export class NewFile extends Component
@@ -10,7 +9,6 @@ export class NewFile extends Component
     handleSubmit = ({ width, height }) =>
     {
         Operation.createFragment({ width, height })
-        go('/workspace')
     }
 
     render ()

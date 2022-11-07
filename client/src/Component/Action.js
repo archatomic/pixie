@@ -1,17 +1,9 @@
-import { Component } from 'react'
+import { useEffect } from 'react'
 
 /**
  * @extends {Component<{do: () => void}>}
  */
-export class Action extends Component
-{
-    componentDidMount ()
-    {
-        this.props.do()
-    }
-
-    render ()
-    {
-        return null
-    }
+export const Action = ({ do: cb }) => {
+    useEffect(cb)
+    return null
 }

@@ -3,7 +3,6 @@ import { applicationBlur, applicationFocus } from 'Pixie/Store/Action/applicatio
 
 import { Component } from 'react'
 import { Helmet } from 'react-helmet'
-import { TitleBar } from 'Pixie/Component/TitleBar'
 import classNames from 'classnames'
 import { connect } from 'Pixie/Util/connect'
 
@@ -59,7 +58,6 @@ export class Root extends Component
                 >
                     <title>{this.props.application.title}</title>
                 </Helmet>
-                <TitleBar>{this.props.application.title}</TitleBar>
                 {this.props.children}
             </>
         )

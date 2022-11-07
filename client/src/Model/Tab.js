@@ -22,6 +22,11 @@ export class Tab extends Record({
         return this.state.application.activeTab === this.pk
     }
 
+    get route ()
+    {
+        return `/tab/${this.pk}`
+    }
+
     clampFrameAndLayer ()
     {
         const fragment = this.state.fragments.find(this.fragment)

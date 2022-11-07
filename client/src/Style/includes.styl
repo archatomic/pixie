@@ -61,3 +61,15 @@ fs--tiny = 0.8rem
 fs--small = 1.2rem
 fs--medium = 1.4rem
 fs--large = 1.6rem
+
+interactive(prop = color)
+    cursor pointer
+    {prop} grey(60)
+    transition '%s 0.1s ease-in-out' % prop
+
+    &:hover
+        {prop} grey(20)
+
+    &:active
+        {prop} grey(0)
+        transition none

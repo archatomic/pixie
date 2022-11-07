@@ -3,6 +3,7 @@ import { applicationTitleClear, applicationTitleUpdate } from 'Pixie/Store/Actio
 import { Component } from 'react'
 import { Transition } from '../Transition'
 import classNames from 'classnames'
+import { TitleBar } from 'Pixie/Component/TitleBar'
 
 /**
  * @typedef {object} PageProps
@@ -48,6 +49,9 @@ export class Page extends Component
                     )
                 }
             >
+                <div className='Page-title'>
+                    <TitleBar />
+                </div>
                 <Transition className='Page-top'>
                     {this.props.top && this.props.children}
                 </Transition>

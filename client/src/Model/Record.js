@@ -359,6 +359,11 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
             return this.items.valueSeq().toArray()
         }
 
+        contains (pk)
+        {
+            return this.items.has(pk)
+        }
+
         sort (cb)
         {
             if (cb instanceof Array) {
@@ -461,7 +466,7 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
 
         last ()
         {
-            return this.find(his.positionToID(this.length - 1))
+            return this.find(this.positionToID(this.length - 1))
         }
 
         findAll (keys)

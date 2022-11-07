@@ -4,6 +4,8 @@
     background theme.white
     overflow hidden
     position relative
+    display flex
+    flex-direction column
 
     top-border-width = 0.4rem
     top-border-hidden = 0.3rem
@@ -39,6 +41,10 @@
             background-position center a(w, 0%), center a(W, 100%)
         100%
             background-position h w, H W
+
+    &-title
+        flex-grow 0
+        flex-shrink 0
 
     &-top
         position absolute
@@ -95,8 +101,10 @@
         transition transform transitionSpeed ease-in-out
         overflow-x hidden
         overflow-y auto
+        flex-grow 1
+        flex-shrink 1
 
-        .Page--acent &
+        .Page--accent &
             border-top top-border-width solid transparent
 
     &:not(&--tight) &-body

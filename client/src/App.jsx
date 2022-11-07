@@ -6,14 +6,14 @@ import { Navigate } from 'react-router'
 import { Provider } from 'react-redux'
 import { Root } from 'Pixie/Component/Root'
 import { Main } from './Page/Main'
-import { Workspace } from 'Pixie/Page/Workspace'
+import { Tab } from 'Pixie/Page/Tab'
 import { store } from 'Pixie/Store'
 
 const AuthenticatedRoutes = null
 const UnathenticatedRoutes = (
     <Routes>
         <Route path='/' element={<Main />} />
-        <Route path='/workspace' element={<Workspace />} />
+        <Route path='/tab/:tab' element={<Tab />} />
         <Route path='*' element={<Navigate to='/' />} />
     </Routes>
 )

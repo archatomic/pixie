@@ -1,30 +1,21 @@
-import classNames from 'classnames'
 import { Dropdown } from 'Pixie/Component/Dropdown'
+import { withParams } from 'Pixie/Component/HOC/withParams'
 import { Icon } from 'Pixie/Component/Icon'
+import { Link } from 'Pixie/Component/Link'
 import { applicationLayersToggle, applicationTabFocus, applicationThemeToggle } from 'Pixie/Store/Action/applicationActions'
 import { Operation } from 'Pixie/Store/Operation'
 import { connect } from 'Pixie/Util/connect'
-import { writeFragment } from 'Pixie/Util/files'
-import { go } from 'Pixie/Util/navigate'
-import { locate } from 'Pixie/Util/registry'
 import { Component } from 'react'
-
-const goHome = () => go('/')
 
 export class TopBar extends Component
 {
-    static Connected = connect({
-        hasTab: state => !!state.application.activeTab,
+    static Connected = withParams(connect({
         tabs: state => state.tabs.toArray(),
         open: ['application', 'layers'],
         theme: ['application', 'theme']
-    }, this)
+    }, this))
 
-    handleSave = () => writeFragment(
-        locate('state').fragments.toArray()[0].pk,
-        'test.px'
-    )
-
+    handleSave = () => console.log('TODO')
     handleLoad = () => Operation.load()
 
     handleActivate = e => applicationTabFocus(
@@ -50,15 +41,17 @@ export class TopBar extends Component
     renderLogo ()
     {
         return (
-            <div className='TopBar-left'>
+            <Link
+                to='/'
+                className='TopBar-home'
+                activeClassName='TopBar-home--active'
+            >
                 <Icon
                     className='TopBar-control'
-                    subtle
                     tight
                     name='bolt'
-                    onClick={goHome}
                 />
-            </div>
+            </Link>
         )
     }
 
@@ -76,20 +69,16 @@ export class TopBar extends Component
         return (
             <div
                 key={tab.pk}
-                className={classNames(
-                    'TopBar-tab',
-                    {
-                        'TopBar-tab--active': tab.active
-                    }
-                )}
+                className='TopBar-tab'
                 data-tab={tab.pk}
             >
-                <div
+                <Link
+                    to={tab.route}
                     className='TopBar-tab-label'
-                    onClick={this.handleActivate}
+                    activeClassName='TopBar-tab-label--active'
                 >
                     {tab.name}
-                </div>
+                </Link>
                 <Icon
                     className='TopBar-close-tab'
                     name='close'
@@ -111,7 +100,7 @@ export class TopBar extends Component
 
     renderTabUI ()
     {
-        if (!this.props.hasTab) return null
+        if (!this.props.params.tab) return null
         return (
             <Icon
                 className='TopBar-control'
@@ -131,7 +120,7 @@ export class TopBar extends Component
                 <Dropdown.Toggle className='TopBar-control'/>
                 <Dropdown.Item
                     icon='file-circle-plus'
-                    onClick={applicationThemeToggle}
+                    to='/'
                 >
                     New...
                 </Dropdown.Item>

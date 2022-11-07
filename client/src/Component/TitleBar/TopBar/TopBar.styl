@@ -7,17 +7,6 @@
     &-control
         padding rhythm--half
 
-    &-control,
-    &-tab-label
-        cursor pointer
-
-        &:hover
-            color grey(30)
-
-        &:active
-            color grey(0)
-            transition none
-
     &-right
         display flex
         align-items center
@@ -31,12 +20,6 @@
             border-left 1px solid grey(87)
             border-right 1px solid grey(87)
 
-        &:has(> .TopBar-tab--active:first-of-type)
-            border-left-color transparent
-
-        &:has(> .TopBar-tab--active:last-of-type)
-            border-right-color transparent
-
     &-tab
         position relative
         padding-left rhythm
@@ -44,16 +27,20 @@
         display flex
         align-items center
 
+        &--home
+            padding 0
+
         & + &
             border-left 1px solid grey(87)
 
-        & + &--active,
-        &--active + &
+        & + &:has(&-label--active),
+        &:has(&-label--active) + &
             border-color transparent
 
-        &--active
-            background grey(95)
-            color theme.black
+    &-tab:has(&-tab-label--active),
+    &-home--active
+        background grey(95)
+        color theme.black
 
     &-close-tab
         font-size fs--small

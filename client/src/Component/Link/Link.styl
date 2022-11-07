@@ -1,0 +1,11 @@
+.Link
+    cursor default
+
+    &:not(&--disabled, &--active)
+        interactive()
+
+    &--disabled
+        color grey(80)
+
+    &--active
+        color grey(0)

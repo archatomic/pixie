@@ -4,13 +4,17 @@ import { Icon } from 'Pixie/Component/Icon'
 import { Popover } from 'Pixie/Component/Popover'
 import { IS_MOBILE } from 'Pixie/constants'
 import { createPassthroughComponent, getChildOfType, getChildrenOfType } from 'Pixie/Util/children'
+import { go } from 'Pixie/Util/navigate'
+import { useMemo } from 'react'
 import { Component } from 'react'
 
 export class Dropdown extends Component
 {
-    static Item = ({ children, onClick, disabled, icon }) =>
+    static Item = ({ children, onClick, to, disabled, icon }) =>
     {
+        const cb = useMemo(() => () => go(to), [to])
         if (disabled) onClick = undefined
+        if (to) onClick = cb
         return (
             <div
                 className={classNames(
