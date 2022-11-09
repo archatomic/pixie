@@ -3,5 +3,10 @@
   "appName": "Pixie",
   "webDir": "dist",
   "scheme": "pixie",
-  "bundledWebRuntime": false
+  "bundledWebRuntime": false,
+  "plugins": {
+    "Keyboard": {
+      "resizeOnFullScreen": true
+    }
+  }
 }

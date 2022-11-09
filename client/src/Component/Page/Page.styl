@@ -1,11 +1,15 @@
 .Page
     height 100%
     width 100%
-    background theme.white
+    background theme.white;
     overflow hidden
     position relative
     display flex
     flex-direction column
+
+    .App--mobile &
+        border-top-left-radius 0.8rem
+        border-top-right-radius 0.8rem
 
     top-border-width = 0.4rem
     top-border-hidden = 0.3rem

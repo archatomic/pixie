@@ -1,6 +1,7 @@
 import './global.styl'
 
-import { StatusBar, Style } from '@capacitor/status-bar'
+import { StatusBar } from '@capacitor/status-bar'
+import { NavigationBar } from '@hugotomazi/capacitor-navigation-bar'
 
 import { App } from 'Pixie/App'
 import ReactDOM from 'react-dom/client'
@@ -25,6 +26,7 @@ async function setupStatusBar ()
     try {
         await StatusBar.setOverlaysWebView({ overlay: true })
         await StatusBar.hide()
+        await NavigationBar.hide()
     } catch (e) {
         error(e)
     }

@@ -2,6 +2,7 @@
 
 html
     overflow hidden
+    background theme.mobileStatusBar
 
 .Root
     width 100vw
@@ -9,6 +10,8 @@ html
     display flex
     flex-direction column
     color theme.black
+    border-style solid
+    border-color transparent
 
 .App-filters
     display none
@@ -19,6 +22,7 @@ html
 
 ::-webkit-scrollbar
     width rhythm--quarter * 3
+    height rhythm--quarter * 3
 
     &-track-piece
         border rhythm--quarter solid transparent

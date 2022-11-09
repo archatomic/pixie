@@ -28,10 +28,10 @@ export class Root extends Component
     {
         let style = ''
         const { top, right, bottom, left } = this.props.application.safeArea
-        style += `border-top: ${top}px solid black;`
-        style += `border-right: ${right}px solid black;`
-        style += `border-bottom: ${bottom}px solid black;`
-        style += `border-left: ${left}px solid black;`
+        style += `border-top-width: ${top}px;`
+        style += `border-right-width: ${right}px;`
+        style += `border-bottom-width: ${bottom}px;`
+        style += `border-left-width: ${left}px;`
         this.rootEl.setAttribute('style', style)
     }
 
