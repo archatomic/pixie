@@ -1,3 +1,4 @@
+import { packFragments } from 'Pixie/Binary/packFragments'
 import { Dropdown } from 'Pixie/Component/Dropdown'
 import { withParams } from 'Pixie/Component/HOC/withParams'
 import { Icon } from 'Pixie/Component/Icon'
@@ -5,17 +6,22 @@ import { Link } from 'Pixie/Component/Link'
 import { applicationLayersToggle, applicationTabFocus, applicationThemeToggle } from 'Pixie/Store/Action/applicationActions'
 import { Operation } from 'Pixie/Store/Operation'
 import { connect } from 'Pixie/Util/connect'
+import { save } from 'Pixie/Util/load'
 import { Component } from 'react'
 
 export class TopBar extends Component
 {
     static Connected = withParams(connect({
+        fragment: (state, props) => state.tabs.find(props.params.tab).fragment,
         tabs: state => state.tabs.toArray(),
         open: ['application', 'layers'],
         theme: ['application', 'theme']
     }, this))
 
-    handleSave = () => console.log('TODO')
+    handleSave = () => save({
+        filename: 'test.px',
+        data: packFragments(this.props.fragment)
+    })
     handleLoad = () => Operation.load()
 
     handleActivate = e => applicationTabFocus(

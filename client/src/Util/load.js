@@ -36,3 +36,22 @@ export const load = ({
         input.addEventListener('input', onFileInput, { once: true })
     })
 }
+
+export const save = ({ filename, data }) =>
+{
+    const blob = data.toBlob()
+    const url = URL.createObjectURL(blob)
+
+    const downloadLink = createNode({
+        tag: 'a',
+        attrs: {
+            href: url,
+            download: filename
+        },
+        parent: document.body
+    })
+    downloadLink.click()
+    document.body.removeChild(downloadLink)
+
+    URL.revokeObjectURL(url)
+}

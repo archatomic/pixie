@@ -11,6 +11,7 @@ import { error } from 'Pixie/Util/log'
 import { IS_ANDROID } from './constants'
 import { registerTools } from 'Pixie/registerTools'
 import { addAsepriteSupport } from 'Pixie/Binary/Schema/Aseprite'
+import { addPixieSupport } from 'Pixie/Binary/Schema/Pixie'
 
 try {
     module.hot.accept()
@@ -45,6 +46,7 @@ async function main ()
     await setupSafeAreas()
     await registerTools()
     addAsepriteSupport()
+    addPixieSupport()
 
     ReactDOM.createRoot(root).render(<App />)
 }

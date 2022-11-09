@@ -128,20 +128,6 @@ export const addAsepriteSupport = () =>
         .build()
 
     SchemaBuilder
-        .primative('AsepriteString')
-        .pack((data, value) =>
-        {
-            data.writeInt(value.length, WORD)
-            data.writeString(value, value.length, 8)
-        })
-        .unpack((data) =>
-        {
-            const length = data.readInt(WORD)
-            return data.readString(length, 8)
-        })
-        .build()
-
-    SchemaBuilder
         .object('AsepriteLayer')
         .property('visible', SCHEMA.BOOL)
         .property('editable', SCHEMA.BOOL)
@@ -158,7 +144,7 @@ export const addAsepriteSupport = () =>
         .property('blendMode', SCHEMA.INT, WORD)
         .property('opacity', SCHEMA.INT, BYTE)
         .ignore(BYTE * 3)
-        .property('name', 'AsepriteString')
+        .property('name', SCHEMA.STRING, 0, 8)
         .property('tileset', {
             pack (data, tileset, layer)
             {
@@ -299,7 +285,7 @@ export const addAsepriteSupport = () =>
                 for (const file of value) {
                     data.writeInt(file.id, DWORD)
                     data.writeIgnore(0, BYTE * 8)
-                    data.pack('AsepriteString', value.name)
+                    data.writeString(value.name, 0, 8)
                 }
             },
             unpack (data, files)
@@ -309,7 +295,7 @@ export const addAsepriteSupport = () =>
                     const file = {}
                     file.id = data.readInt(SCHEMA.INT, DWORD)
                     data.readIgnore(BYTE * 8)
-                    file.name = data.unpack('AsepriteString')
+                    file.name = data.readString(0, 8)
                     op.push(file)
                 }
                 return op
@@ -335,7 +321,7 @@ export const addAsepriteSupport = () =>
                     data.writeInt(tag.g, BYTE)
                     data.writeInt(tag.b, BYTE)
                     data.writeIgnore(BYTE)
-                    data.pack('AsepriteString', tag.name)
+                    data.writeString(tag.name, 0, 8)
                 }
             },
             unpack (data, tags)
@@ -352,7 +338,7 @@ export const addAsepriteSupport = () =>
                     tag.g = data.readInt(BYTE)
                     tag.b = data.readInt(BYTE)
                     data.readIgnore(BYTE)
-                    tag.name = data.unpack('AsepriteString')
+                    tag.name = data.readString(0, 8)
                     op.push(tag)
                 }
                 return op
@@ -428,7 +414,7 @@ export const addAsepriteSupport = () =>
                     data.writeInt(color.g, BYTE)
                     data.writeInt(color.b, BYTE)
                     data.writeInt(color.a, BYTE)
-                    if (color.name) data.pack('AsepriteString', color.name)
+                    if (color.name) data.writeString(color.name, 0, 8)
                 }
             },
             unpack (data, palette)
@@ -443,7 +429,7 @@ export const addAsepriteSupport = () =>
                     color.b = data.readInt(BYTE)
                     color.a = data.readInt(BYTE)
                     color.name = color.flags & 1
-                        ? data.unpack('AsepriteString')
+                        ? data.readString(0, 8)
                         : ''
                     colors.push(color)
                 }

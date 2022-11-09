@@ -16,19 +16,15 @@
         flex-shrink 1
         overflow auto
 
-        &:has(.TopBar-tab)
-            border-left 1px solid grey(87)
-            border-right 1px solid grey(87)
+    &-home
+        border-bottom-right-radius 0.3rem
 
     &-tab
         position relative
-        padding-left rhythm
         color grey(70)
         display flex
         align-items center
-
-        &--home
-            padding 0
+        border-radius 0 0 0.3rem 0.3rem
 
         & + &
             border-left 1px solid grey(87)
@@ -39,12 +35,19 @@
 
     &-tab:has(&-tab-label--active),
     &-home--active
-        background grey(95)
+        background theme.panel
         color theme.black
+
+    &-tab-label
+        padding rhythm--half rhythm--half rhythm--half rhythm
+        line-height 1
+        max-width 13rem
+        white-space nowrap
+        overflow hidden
+        text-overflow ellipsis
 
     &-close-tab
         font-size fs--small
-        margin-left rhythm--half
         color grey(70)
         cursor pointer
 

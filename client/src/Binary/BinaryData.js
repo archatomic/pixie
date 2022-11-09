@@ -1,9 +1,7 @@
 import { schemaRepository } from 'Pixie/Binary/Schema/SchemaRespository'
+import { isDefined } from 'Pixie/Util/default'
 import { ucFirst } from 'Pixie/Util/string'
 import zlib from 'zlibjs'
-
-const BIT_DEPTH = 8
-const MAX_BIT_ADDR = BIT_DEPTH - 1
 
 export class BinaryData
 {
@@ -33,7 +31,7 @@ export class BinaryData
      */
     static fromArray (arr)
     {
-        return new BinaryData(arr)
+        return this.create(arr)
     }
 
     /**
@@ -87,7 +85,12 @@ export class BinaryData
         return this.fromBuffer(await blob.arrayBuffer())
     }
 
-    constructor(data = [])
+    static create (data = [], bitDepth = 8)
+    {
+        return new this(data, bitDepth)
+    }
+
+    constructor(data = [], bitDepth = 8)
     {
         /** @type {number[]} */
         this._data = data
@@ -105,6 +108,9 @@ export class BinaryData
         /** @type {number} */
         this._readBit = 0
 
+        /** @type {number} */
+        this._bitDepth = bitDepth
+
         // WRITE PROPS
         /** @type {number} */
         this._writeBitAddr = -1
@@ -113,6 +119,18 @@ export class BinaryData
     get data ()
     {
         return this._data
+    }
+
+    get _maxBitAddress ()
+    {
+        return this._bitDepth - 1
+    }
+
+    get size ()
+    {
+        let size = this._data.length * this._bitDepth
+        if (this._writeBitAddr > -1) size = size - this._bitDepth +  this._writeBitAddr + 1
+        return size
     }
 
     /**
@@ -183,7 +201,7 @@ export class BinaryData
      */
     read ()
     {
-        this._readBitAddr = (this._readBitAddr + 1) % BIT_DEPTH
+        this._readBitAddr = (this._readBitAddr + 1) % this._bitDepth
 
         if (this._readBitAddr === 0) {
             this._readHead++
@@ -212,7 +230,7 @@ export class BinaryData
         this._data[this._data.length - 1] += bit << this._writeBitAddr
 
         // reset write head
-        if (this._writeBitAddr < MAX_BIT_ADDR) return
+        if (this._writeBitAddr < this._maxBitAddress) return
         this._writeBitAddr = -1
     }
 
@@ -238,7 +256,7 @@ export class BinaryData
         return zlib.deflateSync(this._data)
     }
 
-    unzip (bytes)
+    unzip (bytes = this.size / 8)
     {
         const arr = []
         for (let i = 0; i < bytes; i++) {
@@ -262,5 +280,10 @@ export class BinaryData
     {
         const data = new BinaryData(this.unzip(bytes))
         return data.unpack(schema, ...args)
+    }
+
+    toBlob ()
+    {
+        return new Blob([new Uint8Array(this._data)])
     }
 }

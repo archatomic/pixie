@@ -6,6 +6,8 @@ export class PixieCel extends Record({
     fragment: null,
     width: DEFAULT_FRAGMENT_WIDTH,
     height: DEFAULT_FRAGMENT_HEIGHT,
+    x: 0,
+    y: 0,
     data: (props) =>
     {
         if (props._isNull) return null // Don't create image data

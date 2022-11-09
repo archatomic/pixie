@@ -11,6 +11,7 @@ import classNames from 'classnames'
  * @property {boolean} [disabled]
  * @property {boolean} [full]
  * @property {boolean} [ghost]
+ * @property {boolean} [pill]
  * @property {boolean} [primary]
  * @property {boolean} [secondary]
  * @property {boolean} [tertiary]
@@ -62,6 +63,8 @@ export class Button extends Component
                 'Button--black': this.props.black,
                 'Button--gradient': this.props.gradient,
                 'Button--focus': this.state.focused,
+                'Button--pill': this.props.pill,
+                'Button--active': this.props.active,
             }
         )
     }

@@ -77,6 +77,7 @@ describe('Schemas', () =>
             data.writeString('Hello World', 32)
             data.writeString('goodbye moon', 16)
             data.writeString('Whaaaaat', 10, 7)
+            data.writeString('I am a dynamic string, with a dynamic length')
         })
 
         it('can read strings', () =>
@@ -84,6 +85,7 @@ describe('Schemas', () =>
             expect(data.readString(32)).toBe('Hello World')
             expect(data.readString(16)).toBe('goodbye moon')
             expect(data.readString(10, 7)).toBe('Whaaaaat')
+            expect(data.readString()).toBe('I am a dynamic string, with a dynamic length')
         })
     })
 
@@ -143,6 +145,23 @@ describe('Schemas', () =>
             expect(data.readObject(
                 { foo: 'string', baz: ['int', 8] }
             )).toEqual({ foo: 'bar', baz: 20 })
+        })
+    })
+
+    describe('chunks', () =>
+    {
+        const data = new BinaryData()
+
+        it('can pack chunks', () =>
+        {
+            data.writeChunk(32, 'int')
+            data.writeChunk(1024, 'int', 12)
+        })
+
+        it('can read chunks', () =>
+        {
+            expect(data.readChunk()).toEqual(32)
+            expect(data.readChunk()).toEqual(1024)
         })
     })
 })

@@ -14,6 +14,7 @@ import { BinaryData } from 'Pixie/Binary/BinaryData'
 import { playerActions } from 'Pixie/Store/Action/playerActions'
 import { clamp } from 'Pixie/Util/math'
 import { go } from 'Pixie/Util/navigate'
+import { unpackFragments } from 'Pixie/Binary/packFragments'
 
 /**
  * @typedef {import('Pixie/Model/State').State} State
@@ -75,13 +76,14 @@ export class Operation
      * @return {PixieFragment}
      */
     static createFragment ({
+        name,
         width = DEFAULT_FRAGMENT_WIDTH,
         height = DEFAULT_FRAGMENT_HEIGHT,
         numLayers = DEFAULT_FRAGMENT_NUM_LAYERS,
         numFrames = DEFAULT_FRAGMENT_NUM_FRAMES,
     } = {})
     {
-        const fragment = PixieFragment.create({ width, height, numLayers, numFrames })
+        const fragment = PixieFragment.create({ name, width, height, numLayers, numFrames })
         fragmentActions.save(fragment)
 
         this.addLayersToFragment(fragment.pk, numLayers)
@@ -356,7 +358,7 @@ export class Operation
     static async load ()
     {
         const file = await load({
-            extensions: ['.aseprite']
+            extensions: ['.aseprite', '.px']
         })
         if (!file) return
         const parts = file.name.split('.')
@@ -470,8 +472,9 @@ export class Operation
 
     static async loadPixie (name, file)
     {
-        // TODO
-        const binaryData = await BinaryData.fromBlob(file)
-        const pixie = binaryData.unpack('Pixie')
+        const data = await unpackFragments(file)
+        data.fragments[0] = data.fragments[0].set('name', name)
+        this.saveAll(data, 'Loaded')
+        this.openTab(data.fragments[0].pk)
     }
 }

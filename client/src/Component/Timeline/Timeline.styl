@@ -2,12 +2,14 @@
     frame-size = 3rem
     inactive-color = grey(80)
 
-    padding 0 rhythm--half rhythm--half
     background theme.panel;
     border-top 0.1rem solid subtle-border;
 
     &-layer
         display block
+        white-space nowrap
+        overflow-x auto
+        padding 0 rhythm--half rhythm--half
 
     &-layer-frame
         color theme.panel;
@@ -32,6 +34,8 @@
     &-controls
         display flex
         margin-bottom rhythm--half
+        padding-left rhythm--half
+        padding-right rhythm--half
         align-items center
         height 4rem
 

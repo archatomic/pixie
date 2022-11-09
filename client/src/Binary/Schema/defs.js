@@ -1,4 +1,6 @@
+import { BinaryData } from 'Pixie/Binary/BinaryData'
 import { SchemaBuilder } from 'Pixie/Binary/Schema/SchemaBuilder'
+import { schemaRepository } from 'Pixie/Binary/Schema/SchemaRespository'
 import { ensureArray } from 'Pixie/Util/array'
 import { isDefined } from 'Pixie/Util/default'
 import { invariant } from 'Pixie/Util/invariant'
@@ -14,7 +16,10 @@ export const SCHEMA = {
     ARRAY: 6,
     OBJECT: 7,
     IGNORE: 8,
-    ZIP: 9
+    ZIP: 9,
+    CHUNK: 10,
+    DATA: 11,
+    STATIC: 12,
 }
 
 export const ENCODING = {
@@ -107,7 +112,7 @@ SchemaBuilder
 // String
 SchemaBuilder
     .create('string', SCHEMA.STRING)
-    .argument('length', 32)
+    .argument('length', 0)
     .argument('bitDepth', ENCODING.UTF16)
     .validate(value => invariant(
         typeof value === 'string',
@@ -115,13 +120,17 @@ SchemaBuilder
         value
     ))
     .validate((value, length) => invariant(
-        value.length <= length,
+        length === 0 || value.length <= length,
         'Tried to pack a string into too few characters',
         { value, length }
     ))
     .unpack((data, length, bitDepth) =>
     {
         let op = ''
+
+        // Support dynamic length
+        if (length === 0) length = data.readInt(16)
+
         for (let i = 0; i < length; i++) {
             const charCode = data.readInt(bitDepth)
             if (charCode === 0) continue // Skip null bytes
@@ -131,6 +140,12 @@ SchemaBuilder
     })
     .pack((data, value, length, bitDepth) =>
     {
+        // Support dynamic length
+        if (length === 0) {
+            data.writeInt(value.length, 16)
+            length = value.length
+        }
+
         for (let i = 0; i < length; i++) {
             const code = i > value.length - 1
                 ? 0 // Write null byte
@@ -290,6 +305,168 @@ SchemaBuilder.primative('ignore', SCHEMA.IGNORE)
     })
     .unpack((data, bits) => {
         for (let i = 0; i < bits; i++) data.read()
+    })
+    .build()
+    .addToBinaryData()
+
+SchemaBuilder.primative('dynamicarray')
+    .pack((data, value) =>
+    {
+        const hasArgs = value.length > 0
+        data.writeBool(hasArgs)
+        if (!hasArgs) return
+
+        data.writeInt(value.length, 16)
+        for (const arg of value) {
+            if (typeof arg === 'number') {
+                if ((arg >> 0) === arg) {
+                    // integer
+                    data.writeInt(SCHEMA.INT, 16) //int
+                    data.writeInt(arg) //value
+                    continue
+                }
+                // float
+                data.writeInt(SCHEMA.FLOAT, 16) //float
+                data.writeFloat(arg)
+                continue
+            }
+            if (typeof arg === 'string') {
+                data.writeInt(SCHEMA.STRING, 16) // string
+                data.writeString(arg)
+                continue
+            }
+            if (arg === true || arg === false) {
+                data.writeInt(SCHEMA.BOOL, 16) // bool
+                data.writeBool(arg)
+                continue
+            }
+
+            throw new Error(`Tried to include ${arg} in dynamicarray`)
+        }
+    })
+    .unpack((data) =>
+    {
+        const hasArgs = data.readBool()
+        if (!hasArgs) return [] // no args
+
+        const length = data.readInt(16)
+        console.log(length)
+        const op = []
+        for (let i = 0; i < length; i++) {
+            const schema = data.readInt(16)
+            op.push(data.unpack(schema))
+        }
+        return op
+    })
+    .build()
+
+SchemaBuilder.primative('data', SCHEMA.DATA)
+    .validate(value => invariant(
+        value instanceof BinaryData,
+        'Tried to pack non bin data as data'
+    ))
+    .pack((data, value) =>
+    {
+        const size = value.size
+        data.writeInt(size, 32)
+
+        let remaining = size
+        for (const word of value._data) {
+            const writeOfWord = Math.min(remaining, value._bitDepth)
+            remaining -= writeOfWord
+            data.writeInt(word, writeOfWord)
+        }
+    })
+    .unpack((data) =>
+    {
+        const size = data.readInt(32)
+
+        const arrayLen = Math.floor(size / data._bitDepth)
+        const remainder = size % data._bitDepth
+
+        const bindata = []
+
+        for (let i = 0; i < arrayLen; i++) {
+            bindata.push(data.readInt(data._bitDepth))
+        }
+
+        if (remainder > 0) bindata.push(data.readInt(remainder))
+
+        return new BinaryData(bindata)
+    })
+    .build()
+    .addToBinaryData()
+
+SchemaBuilder.primative('chunk', SCHEMA.CHUNK)
+    .pack((data, value, schema, ...schemaArgs) =>
+    {
+        const child = new BinaryData()
+
+        // Write Schema Identifier
+        const schemaInstance = schemaRepository.get(schema)
+        const id = schemaInstance.id
+        const hasID = isDefined(id)
+        child.writeBool(hasID)
+        if (hasID) child.writeInt(id, 16)
+        else child.writeString(schema, 0, 7)
+        child.writeInt(schemaInstance.version, 16)
+
+        // Write Schema Arg
+        child.pack('dynamicarray', schemaArgs)
+
+        // Write in schema data
+        child.pack(schema, value, ...schemaArgs)
+
+        // Transfer the entire chunk into this binary
+        data.writeData(child)
+    })
+    .unpack((data) => {
+        const child = data.readData()
+        const schemaIsID = child.readBool()
+        const schema = schemaIsID
+            ? child.readInt(16)
+            : child.readString(0, 7)
+        const schemaVersion = child.readInt(16)
+
+        const schemaArgs = child.unpack('dynamicarray')
+
+        const schemaInstance = schemaRepository.get(schema, schemaVersion)
+        return schemaInstance.read(child, ...schemaArgs)
+    })
+    .build()
+    .addToBinaryData()
+
+SchemaBuilder.primative('zip', SCHEMA.ZIP)
+    .pack((data, value, schema, ...args) =>
+    {
+        const child = new BinaryData()
+        child.pack(schema, value, ...args)
+        const zippedChild = new BinaryData(child.zip(), 8)
+        data.writeData(zippedChild)
+    })
+    .unpack((data, schema, ...args) =>
+    {
+        const child = data.readData().unzip()
+        return child.unpack(schema, ...args)
+    })
+    .build()
+
+SchemaBuilder.primative('static', SCHEMA.STATIC)
+    .argument('value', 0)
+    .argument('bitDepth', 8)
+    .argument('assert', false)
+    .pack((data, _, value, bitDepth) =>
+    {
+        data.writeInt(value, bitDepth)
+    })
+    .unpack((data, expected, bitDepth, assert) =>
+    {
+        const value = data.readInt(bitDepth)
+        if (assert) invariant(
+            value === expected,
+            `Expected a binary static value of ${expected}, but received ${value}`
+        )
+        return value
     })
     .build()
     .addToBinaryData()

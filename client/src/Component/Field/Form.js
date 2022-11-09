@@ -29,6 +29,16 @@ const STATE = Object.freeze({
  */
 export class Form extends Component
 {
+    static Row = ({className, ...props}) => (
+        <div
+            className={classNames(
+                'Form-row',
+                className,
+            )}
+            {...props}
+        />
+    )
+
     state = {
         id: randomString(32),
         errors: [],

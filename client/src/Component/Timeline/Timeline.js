@@ -107,6 +107,12 @@ class TimelineControls extends Component
         tabActions.save(this.props.tab.set('frame', frame))
     }
 
+    handleAddFrame = () =>
+    {
+        Operation.addFrameToFragment(this.props.tab.fragment)
+        Operation.pushHistory(this.props.tab.fragment, 'Add Frame')
+    }
+
     render ()
     {
         return (
@@ -155,6 +161,7 @@ class TimelineControls extends Component
                 />
                 <div className='Timeline-spacer'></div>
                 <Icon name='trash' disabled={!this.canDeleteFrame} onClick={this.handleDeleteFrame} />
+                <Icon name='plus-square' onClick={this.handleAddFrame} />
             </div>
         )
     }
@@ -178,12 +185,6 @@ class TimelineLayer extends Component
         this
     )
 
-    handleAddFrame = () =>
-    {
-        Operation.addFrameToFragment(this.props.tab.fragment)
-        Operation.pushHistory(this.props.tab.fragment, 'Add Frame')
-    }
-
     render ()
     {
         return (
@@ -191,9 +192,6 @@ class TimelineLayer extends Component
                 {this.props.cels.map(({ frame }) => (
                     <TimelineFrame.Connected key={frame} frame={frame} />
                 ))}
-                <div className='Timeline-layer-frame Timeline-layer-frame--button'>
-                    <Icon name='plus' onClick={this.handleAddFrame} />
-                </div>
             </div>
         )
     }

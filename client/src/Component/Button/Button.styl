@@ -1,5 +1,9 @@
 .Button
     border-size = 0.2rem
+    text-transform uppercase
+    letter-spacing 0.05em
+    font-weight 500
+    font-size 0.8em
 
     solid(clr, txt = theme.white)
         &, &:link, &:hover, &:active, &:focus
@@ -81,15 +85,19 @@
         &:active
             ghost grey(0)
 
+    variant('active', theme.active)
     variant('primary', theme.primary)
     variant('secondary', theme.secondary)
     variant('tertiary', theme.tertiaryDark)
     variant('white', theme.white, theme.black)
     variant('black', theme.black, theme.white)
-    variant('gradient', linear-gradient(45deg, theme.primary, theme.secondary, theme.tertiary), grey(95))
+    variant('gradient', linear-gradient(45deg, theme.primary, theme.secondary, theme.tertiary), theme.white)
     +variant('disabled', grey(75), theme.white)
         cursor default
 
     &--full
         display flex
         width 100%
+
+    &--pill
+        border-radius 9999vw
