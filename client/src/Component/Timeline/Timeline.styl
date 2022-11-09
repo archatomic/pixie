@@ -8,7 +8,7 @@
         display block
         white-space nowrap
         overflow-x auto
-        padding 0 rhythm--half rhythm--half
+        padding rhythm--quarter rhythm--half
 
     &-layer-frame
         color theme.panel;
@@ -32,11 +32,8 @@
 
     &-controls
         display flex
-        margin-bottom rhythm--half
-        padding-left rhythm--half
-        padding-right rhythm--half
         align-items center
-        height 4rem
+        padding rhythm--quarter rhythm--half 0
 
         +smaller-than(small)
             display block
@@ -47,7 +44,7 @@
         color inactive-color
 
         +smaller-than(small)
-            padding rhythm--quarter 0
+            margin-bottom rhythm--quarter
             justify-content center
 
     &-control
