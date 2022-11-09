@@ -3,9 +3,7 @@
     top rhythm--quarter
     left 100%
     bottom rhythm--quarter
-    transition transform 0.3s ease-in-out
     z-index 0
-    overflow hidden
 
     .App--mobile &
         bottom 4rem + rhythm--quarter * 3
@@ -13,19 +11,21 @@
     +smaller-than(small)
         bottom 4rem + rhythm--quarter * 3
 
-    &--open
-        transform translateX(-100%)
-
     &-drawer
         background theme.panel
         border-radius 0.3rem
         position relative
-        margin-right rhythm--quarter
+        margin-left - rhythm--quarter
         z-index 1
         max-height 100%
         display flex
         flex-direction column
         width 20rem
+        transition transform 0.3s ease-in-out
+        transform translateX(rhythm--half)
+
+    &--open &-drawer
+        transform translateX(-100%)
 
     &-controls
         flex-grow 0
