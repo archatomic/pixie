@@ -2,6 +2,14 @@
     &-toggle
         display flex
         align-items center
+        border-radius 0.3rem
+
+    &--open &-toggle
+        background grey(93)
+        color theme.black
+
+        .Theme--light &
+            background grey(98)
 
     &-item
         white-space nowrap
@@ -25,12 +33,12 @@
     &-content
         overflow hidden
         background grey(93)
-        transform translate(- rhythm--half, 0)
+        transform translateY(0)
         transition transform 0.2s ease-in-out
         padding rhythm--quarter
 
         .Popover--show &
-            transform translate(- rhythm--half, rhythm--half)
+            transform translateY(rhythm--half)
 
         .Theme--light &
             background grey(98)

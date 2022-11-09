@@ -1,6 +1,6 @@
 import { packFragments } from 'Pixie/Binary/packFragments'
 import { Dropdown } from 'Pixie/Component/Dropdown'
-import { withParams } from 'Pixie/Component/HOC/withParams'
+import { withTab } from 'Pixie/Component/HOC/withTab'
 import { Icon } from 'Pixie/Component/Icon'
 import { Link } from 'Pixie/Component/Link'
 import { applicationLayersToggle, applicationTabFocus, applicationThemeToggle } from 'Pixie/Store/Action/applicationActions'
@@ -11,16 +11,16 @@ import { Component } from 'react'
 
 export class TopBar extends Component
 {
-    static Connected = withParams(connect({
-        fragment: (state, props) => state.tabs.find(props.params.tab).fragment,
+    static Connected = withTab(connect({
+        fragment: (_, props) => props.tab.getFragment(),
         tabs: state => state.tabs.toArray(),
         open: ['application', 'layers'],
         theme: ['application', 'theme']
     }, this))
 
     handleSave = () => save({
-        filename: 'test.px',
-        data: packFragments(this.props.fragment)
+        filename: `${this.props.fragment.name}.px`,
+        data: packFragments(this.props.fragment.pk)
     })
     handleLoad = () => Operation.load()
 
@@ -106,7 +106,7 @@ export class TopBar extends Component
 
     renderTabUI ()
     {
-        if (!this.props.params.tab) return null
+        if (this.props.tab.null) return null
         return (
             <Icon
                 className='TopBar-control'
@@ -139,7 +139,7 @@ export class TopBar extends Component
                 <Dropdown.Item
                     icon='save'
                     onClick={this.handleSave}
-                    disabled={!this.props.params.tab}
+                    disabled={this.props.tab.null}
                 >
                     Save
                 </Dropdown.Item>

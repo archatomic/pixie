@@ -72,6 +72,7 @@ export class Dropdown extends Component
                 className={classNames(
                     'Dropdown',
                     this.props.className,
+                    { 'Dropdown--open': this.state.open }
                 )}
                 onClick={this.stopPropagation}
                 onResize={this.handleResize}
