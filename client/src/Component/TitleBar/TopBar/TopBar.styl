@@ -6,7 +6,12 @@
         flex-grow 1
 
     &-control
+        interactive()
         padding rhythm--half
+        border-radius 0.3rem
+
+    &-menu
+        margin-left rhythm--quarter
 
     &-right
         display flex
@@ -16,9 +21,6 @@
         display flex
         flex-shrink 1
         overflow auto
-
-    &-home
-        border-radius 0.3rem
 
     &-tab
         position relative
@@ -35,7 +37,8 @@
             border-color transparent
 
     &-tab:has(&-tab-label--active),
-    &-home--active
+    &-home--active &-control,
+    &-control--active
         background theme.panel
         color theme.black
 

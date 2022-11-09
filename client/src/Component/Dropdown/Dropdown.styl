@@ -5,11 +5,8 @@
         border-radius 0.3rem
 
     &--open &-toggle
-        background grey(93)
+        background theme.panel
         color theme.black
-
-        .Theme--light &
-            background grey(98)
 
     &-item
         white-space nowrap
@@ -32,16 +29,13 @@
 
     &-content
         overflow hidden
-        background grey(93)
+        background theme.panel
         transform translateY(0)
         transition transform 0.2s ease-in-out
         padding rhythm--quarter
 
         .Popover--show &
-            transform translateY(rhythm--half)
-
-        .Theme--light &
-            background grey(98)
+            transform translateY(rhythm--quarter)
 
     &-toggle, &-item--clickable
         color grey(50)
@@ -58,7 +52,7 @@
         color grey(80)
 
     &-item--clickable:hover
-        background grey(95)
+        background theme.panelHover
 
     &-content--mobile
         font-size fs--large

@@ -2,45 +2,56 @@
     position absolute
     top 0
     left 100%
-    bottom 0
+    bottom rhythm--quarter
     transition transform 0.3s ease-in-out
     z-index 0
-    background theme.panel;
-    // Note: This fixes a mid-animation issue where the right panel snaps
-    // to height while the bottom drawer animates in.
-    box-shadow 50vh 0 0 50vh theme.panel;
+    overflow hidden
 
     &--open
         transform translateX(-100%)
 
     &-drawer
+        background theme.panel
+        border-radius 0.3rem
         position relative
+        margin-right rhythm--quarter
+        z-index 1
+        max-height 100%
+        display flex
+        flex-direction column
+        width 20rem
+
+    &-controls
+        flex-grow 0
+        flex-shrink 0
+        font-size fs--small
+        font-weight 500
+        display flex
+        align-items center
+        border-radius 0.3rem
+        white-space nowrap
+        padding rhythm--half rhythm--quarter * 3
+        color grey(70)
+
+    &-body
+        padding 0 rhythm--quarter
+        flex-grow 0
+        flex-shrink 1
         overflow-x hidden
         overflow-y auto
-        height 100%
-        z-index 1
-
-    &-list
-        border-bottom 0.1rem solid subtle-border
-        transition transform 0.3s ease-in-out
-        transform translateX(0)
-
-    &-list.exit
-        transform translateX(0)
-
-    &-list.exit-active, &-list.enter
-        transform translateX(rhythm)
-
-    &-list.enter-active
-        transform translateX(0)
 
     &-layer
-        border-top 0.1rem solid subtle-border
+        border-radius 0.3rem
         display flex
         align-items center
         font-size fs--medium
         padding rhythm--quarter rhythm--half
-        width 20rem
+        width 100%
+        margin-bottom rhythm--quarter
+        cursor pointer
+
+        &:not(&--active):hover
+            background-color theme.panelHover
 
         > *
             flex-shrink 0
@@ -48,7 +59,8 @@
 
     &-preview
         position relative
-        width 2rem
+        width 1em
+
 
     &-image
         border 0.1rem solid subtle-border
@@ -67,10 +79,6 @@
         margin-right rhythm--half
         font-size fs--small
 
-    &-delete
-        margin-left rhythm--quarter
-        font-size fs--small
-
     &-layer--visible &-visibility
         color theme.black
 
@@ -78,22 +86,18 @@
         color theme.active
 
     &-layer--active
-        background grey(95)
-        border-color transparent
+        background theme.panelActive
+        cursor default
 
-        + *
-            border-top-color transparent
-
-    &-controls
+    &-control
+        margin-left rhythm--quarter
         font-size fs--small
-        display flex
-        align-items center
-        background grey(95)
-        margin rhythm--quarter
-        border-radius 0.3rem
-        white-space nowrap
-        padding rhythm--quarter
-        color grey(70)
+
+        &--disabled
+            color grey(85)
+
+        &:not(&--disabled)
+            interactive()
 
     &-spacer
         flex-grow 1

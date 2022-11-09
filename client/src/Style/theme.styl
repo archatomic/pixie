@@ -75,7 +75,12 @@ for __theme, __colors in themes
     addGradientTo(__theme, 'primary', __colors.primary, __colors.secondary, __colors.tertiary)
 
 themes.dark.panel = grey(92)
+themes.dark.panelHover = grey(94)
+themes.dark.panelActive = grey(96)
+
 themes.light.panel = grey(100)
+themes.light.panelHover = grey(98)
+themes.light.panelActive = grey(96)
 
 theme = {}
 for __name, __color in themes[defaultTheme]

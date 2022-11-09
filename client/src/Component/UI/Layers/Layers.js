@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import { Transition } from 'Pixie/Component/Transition'
 import classNames from 'classnames'
 import { connect } from 'Pixie/Util/connect'
 import { Image } from 'Pixie/Component/Image'
@@ -44,25 +43,19 @@ export class Layers extends Component
     {
         return (
             <div className={classNames('Layers', { 'Layers--open': this.props.open })}>
-                <Transition className='Layers-drawer'>
-                    {this.renderLayerList()}
-                </Transition>
-            </div>
-        )
-    }
-
-    renderLayerList ()
-    {
-        return (
-            <div className='Layers-list'>
-                {this.renderControls()}
-                {this.props.cels.reverse().map(
-                    ({ layer, cel }) => <Layer.Connected
-                        key={cel}
-                        layer={layer}
-                        cel={cel}
-                    />
-                )}
+                <div className='Layers-drawer'>
+                    {this.renderControls()}
+                    <div className='Layers-body'>
+                        {this.props.cels.reverse().map(
+                            ({ layer, cel }) => <Layer.Connected
+                                key={cel}
+                                layer={layer}
+                                cel={cel}
+                                canDelete={this.props.cels.length > 1}
+                            />
+                        )}
+                    </div>
+                </div>
             </div>
         )
     }
@@ -128,6 +121,7 @@ class Layer extends Component
 
     handleDelete = (e) =>
     {
+        if (!this.props.canDelete) return
         e.preventDefault()
         e.stopPropagation()
         Operation.deleteLayer(this.props.layer.pk)
@@ -168,7 +162,10 @@ class Layer extends Component
                 </div>
                 <Icon
                     tight
-                    className='Layers-delete'
+                    className={classNames(
+                        'Layers-control',
+                        {'Layers-control--disabled': !this.props.canDelete}
+                    )}
                     name='trash'
                     onClick={this.handleDelete}
                 />

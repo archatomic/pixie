@@ -24,6 +24,7 @@ async function setupStatusBar ()
     if (!IS_ANDROID) return
     try {
         await StatusBar.setOverlaysWebView({ overlay: true })
+        await StatusBar.hide()
     } catch (e) {
         error(e)
     }

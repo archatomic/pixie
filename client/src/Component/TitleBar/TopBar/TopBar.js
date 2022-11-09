@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { packFragments } from 'Pixie/Binary/packFragments'
 import { Dropdown } from 'Pixie/Component/Dropdown'
 import { withTab } from 'Pixie/Component/HOC/withTab'
@@ -109,11 +110,13 @@ export class TopBar extends Component
         if (this.props.tab.null) return null
         return (
             <Icon
-                className='TopBar-control'
+                className={classNames(
+                    'TopBar-control',
+                    { 'TopBar-control--active': this.props.open }
+                )}
                 tight
                 subtle
                 name='layer-group'
-                active={this.props.open}
                 onClick={applicationLayersToggle}
             />
         )
@@ -122,7 +125,7 @@ export class TopBar extends Component
     renderMenu ()
     {
         return (
-            <Dropdown>
+            <Dropdown className='TopBar-menu'>
                 <Dropdown.Toggle className='TopBar-control'/>
                 <Dropdown.Item
                     icon='file-circle-plus'

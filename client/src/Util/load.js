@@ -1,3 +1,4 @@
+import { IS_MOBILE } from 'Pixie/constants'
 import { createNode } from 'Pixie/Util/createNode'
 
 export const load = ({
@@ -37,7 +38,18 @@ export const load = ({
     })
 }
 
-export const save = ({ filename, data }) =>
+export const save = (opts) =>
+{
+    if (IS_MOBILE) return saveMobile(opts)
+    return saveWeb(opts)
+}
+
+const saveMobile = ({ filename, data }) =>
+{
+
+}
+
+const saveWeb = ({ filename, data }) =>
 {
     const blob = data.toBlob()
     const url = URL.createObjectURL(blob)
