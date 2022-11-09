@@ -1,11 +1,17 @@
 .Layers
     position absolute
-    top 0
+    top rhythm--quarter
     left 100%
     bottom rhythm--quarter
     transition transform 0.3s ease-in-out
     z-index 0
     overflow hidden
+
+    .App--mobile &
+        bottom 4rem + rhythm--quarter * 3
+
+    +smaller-than(small)
+        bottom 4rem + rhythm--quarter * 3
 
     &--open
         transform translateX(-100%)
