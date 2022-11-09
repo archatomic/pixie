@@ -1,6 +1,7 @@
 .TopBar
     display flex
     padding rhythm--quarter
+    align-items flex-start
 
     &-spacer
         flex-grow 1
@@ -10,12 +11,16 @@
         padding rhythm--half
         border-radius 0.3rem
 
+    &-home
+        margin-right rhythm--quarter
+
     &-menu
         margin-left rhythm--quarter
 
     &-right
         display flex
         align-items center
+        margin-left rhythm--quarter
 
     &-tabs
         display flex
@@ -28,13 +33,18 @@
         display flex
         align-items center
         border-radius 0.3rem
+        margin-right rhythm--quarter
 
-        & + &
-            border-left 1px solid grey(87)
-
-        & + &:has(&-label--active),
-        &:has(&-label--active) + &
-            border-color transparent
+        // &:not(&:has(&-label--active))
+        //     & + &:before
+        //         content ''
+        //         background grey(87)
+        //         width 0.1rem
+        //         height 2rem
+        //         position absolute
+        //         right 100%
+        //         top 50%
+        //         transform translate(- rhythm--quarter / 2, -50%)
 
     &-tab:has(&-tab-label--active),
     &-home--active &-control,
