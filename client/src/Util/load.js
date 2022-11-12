@@ -1,5 +1,7 @@
 import { IS_MOBILE } from 'Pixie/constants'
 import { createNode } from 'Pixie/Util/createNode'
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
+import writeBlob from 'capacitor-blob-writer'
 
 export const load = ({
     extensions = [],
@@ -46,7 +48,12 @@ export const save = (opts) =>
 
 const saveMobile = ({ filename, data }) =>
 {
-
+    writeBlob({
+        path: filename,
+        directory: Directory.Data,
+        blob: data.toBlob(),
+        recursive: true
+    })
 }
 
 const saveWeb = ({ filename, data }) =>

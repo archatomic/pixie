@@ -24,7 +24,6 @@ async function setupStatusBar ()
 {
     if (!IS_ANDROID) return
     try {
-        await StatusBar.setOverlaysWebView({ overlay: true })
         await StatusBar.hide()
         await NavigationBar.hide()
     } catch (e) {
@@ -34,6 +33,7 @@ async function setupStatusBar ()
 
 async function setupSafeAreas ()
 {
+    if (!IS_IOS) return
     const { insets } = await SafeArea.getSafeAreaInsets()
     await applicationSafeAreaUpdate(insets)
 }
