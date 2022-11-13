@@ -12,7 +12,9 @@ import { List, Map } from 'immutable'
 
 export async function unpackFragments (file)
 {
-    const data = await BinaryData.fromBlob(file)
+    const data = file instanceof BinaryData
+        ? file
+        : await BinaryData.fromBlob(file)
     const {
         fragments,
         layers,

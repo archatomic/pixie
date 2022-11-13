@@ -1,4 +1,5 @@
 import { Button } from 'Pixie/Component/Button'
+import { Explorer } from 'Pixie/Component/Explorer'
 import { Form, NumberField, TextField } from 'Pixie/Component/Field'
 import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_WIDTH } from 'Pixie/constants'
 import { Operation } from 'Pixie/Store/Operation'
@@ -15,6 +16,7 @@ export class NewFile extends Component
     {
         return (
             <div className='NewFile'>
+                {/* <Explorer/> */}
                 <Form className='NewFile-form' onSubmit={this.handleSubmit}>
                     <TextField
                         className='NewFile-field'

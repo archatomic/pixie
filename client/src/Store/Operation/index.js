@@ -374,7 +374,9 @@ export class Operation
 
     static async loadAseprite (name, file)
     {
-        const binaryData = await BinaryData.fromBlob(file)
+        const binaryData = file instanceof BinaryData
+            ? file
+            : await BinaryData.fromBlob(file)
         const aseprite = binaryData.unpack('Aseprite')
 
         let fragment = PixieFragment.create({

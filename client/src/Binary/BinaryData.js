@@ -76,6 +76,12 @@ export class BinaryData
         return this.fromArray(arr)
     }
 
+    static fromBase64 (str)
+    {
+        const buffer = Buffer.from(str, 'base64').buffer
+        return this.fromBuffer(buffer)
+    }
+
     /**
      * @param {Blob} blob
      * @returns {BinaryData}

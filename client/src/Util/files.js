@@ -1,27 +1,65 @@
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-import { packFragments, unpack } from 'Pixie/Binary/packFragments'
+import { Filesystem, Directory } from '@capacitor/filesystem'
+import { BinaryData } from 'Pixie/Binary/BinaryData'
 
-export const writeFile = (path, data) => Filesystem.writeFile({
-    path,
-    data,
-    directory: Directory.Documents,
-    encoding: Encoding.UTF8
-})
+const DELIMITER = '/'
 
-export const readFile = (path) => Filesystem.readFile({
-    path,
-    directory: Directory.Documents,
-    encoding: Encoding.UTF8
-})
-
-export const writeFragment = async (id, path) =>
-{
-    const data = packFragments(id)
-    return writeFile(path, data)
+const join = (...args) => {
+    return args.filter(f => f).join(DELIMITER)
 }
 
-export const readFragment = async (path) =>
+export async function readDir ({
+    path = '',
+    directory = Directory.Data,
+    appendTo = [],
+    recursive = false
+})
 {
-    const result = await readFile(path)
-    return unpack(result.data)
+    const {files} = await Filesystem.readdir({
+        path,
+        directory
+    })
+
+    const next = []
+    for (const child of files) {
+        const childPath = join(path, child.name)
+
+        if (child.type === 'directory' && recursive) {
+            //recurse
+            next.push(
+                readDir({
+                    path: childPath,
+                    directory,
+                    appendTo
+                })
+            )
+            continue
+        }
+
+        if (child.type === 'file') {
+            const segments = child.name.split('.')
+            const extension = segments.pop()
+            const name = segments.join('.')
+
+            // add
+            appendTo.push({
+                name,
+                extension,
+                path: childPath,
+                file: child,
+                read: async () =>
+                {
+                    const result = await Filesystem.readFile({
+                        path: childPath,
+                        directory
+                    })
+                    return BinaryData.fromBase64(result.data)
+                }
+            })
+            continue
+        }
+    }
+
+    await Promise.all(next) // Should populate appendTo
+
+    return appendTo
 }

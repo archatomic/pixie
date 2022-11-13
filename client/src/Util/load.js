@@ -43,7 +43,7 @@ export const load = ({
 export const save = (opts) =>
 {
     if (IS_MOBILE) return saveMobile(opts)
-    return saveWeb(opts)
+    return saveMobile(opts)
 }
 
 const saveMobile = ({ filename, data }) =>
