@@ -29,10 +29,17 @@ const copyInto = (
             const destY = y + offsetY
             let i = (x + y * source.width) * 4
             let destI = (destX + destY * destination.width) * 4
-            destination.data[destI    ] = source.data[i    ]
-            destination.data[destI + 1] = source.data[i + 1]
-            destination.data[destI + 2] = source.data[i + 2]
-            destination.data[destI + 3] = source.data[i + 3]
+            const r = source.data[i]
+            const g = source.data[i + 1]
+            const b = source.data[i + 2]
+            const a = source.data[i + 3]
+
+            if (a === 0) continue
+
+            destination.data[destI    ] = r
+            destination.data[destI + 1] = g
+            destination.data[destI + 2] = b
+            destination.data[destI + 3] = a
         }
     }
 }
@@ -69,9 +76,14 @@ export class ExplorerFile extends Component
         const fragment = pixie.fragments[0]
         const frame = pixie.frames[0]
         const layers = pixie.layers.filter(l => l.fragment === fragment.id && l.visible).map(l => l.id)
-        const cels = fragment.cels.filter(([frameID, layerID]) => (
-            frameID === frame.id && layers.indexOf(layerID) > -1
-        )).map(([_, __, c]) => c)
+        fragment.cels.sort(([af, al, ac], [bf, bl, bc]) => (af - bf || al - bl || ac - bc))
+        const cels = fragment.cels
+            .filter(([frameID, layerID]) => (
+                frameID === frame.id && layers.indexOf(layerID) > -1
+            ))
+            .map(([_, __, c]) => c)
+
+        pixie.cels.sort((a, b) => cels.indexOf(a.id) - cels.indexOf(b.id))
 
         const idata = new ImageData(fragment.width, fragment.height)
         for (const cel of pixie.cels) {

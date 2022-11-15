@@ -29,7 +29,7 @@ export class Explorer extends Component
         })
     }
 
-    get files ()
+    getFiles ()
     {
         if (this.props.top) return this.state.files.slice(0, this.props.top)
         return this.state.files
@@ -50,14 +50,7 @@ export class Explorer extends Component
         if (this.state.loading) return
         return <div className='Explorer'>
             {this.renderTitle()}
-            {this.files.map(file => (
-                <ExplorerFile
-                    key={file.path}
-                    file={file}
-                    onClick={this.handleFileClick}
-                    onDelete={this.handleFileDelete}
-                />
-            ))}
+            {this.renderContent()}
         </div>
     }
 
@@ -65,5 +58,33 @@ export class Explorer extends Component
     {
         const title = this.props.recent ? 'Recent Files' : 'All Files'
         return <h2 className='Explorer-title'>{title}</h2>
+    }
+
+    renderContent ()
+    {
+        const files = this.getFiles()
+        if (files.length > 0) return this.renderFiles(files)
+        return this.renderEmpty()
+    }
+
+    renderFiles (files)
+    {
+        return files.map(file => (
+            <ExplorerFile
+                key={file.path}
+                file={file}
+                onClick={this.handleFileClick}
+                onDelete={this.handleFileDelete}
+            />
+        ))
+    }
+
+    renderEmpty ()
+    {
+        return (
+            <div className = 'Explorer-empty'>
+                No sprites to show yet. Create a new one to get started
+            </div>
+        )
     }
 }

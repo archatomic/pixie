@@ -1,7 +1,6 @@
 import './global.styl'
 
 import { StatusBar } from '@capacitor/status-bar'
-import { NavigationBar } from '@hugotomazi/capacitor-navigation-bar'
 
 import { App } from 'Pixie/App'
 import ReactDOM from 'react-dom/client'
@@ -25,7 +24,6 @@ async function setupStatusBar ()
     if (!IS_ANDROID) return
     try {
         await StatusBar.hide()
-        await NavigationBar.hide()
     } catch (e) {
         error(e)
     }
