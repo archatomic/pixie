@@ -1,4 +1,4 @@
-import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH, VISIBILITY } from 'Pixie/constants'
+import { DEFAULT_FRAGMENT_HEIGHT, DEFAULT_FRAGMENT_NUM_FRAMES, DEFAULT_FRAGMENT_NUM_LAYERS, DEFAULT_FRAGMENT_WIDTH, SPRITES_PATH, VISIBILITY } from 'Pixie/constants'
 import { applicationTabFocus, celActions, fragmentActions, frameActions, layerActions, tabActions } from 'Pixie/Store/Action/applicationActions'
 
 import { PixieFragment } from 'Pixie/Model/PixieFragment'
@@ -14,7 +14,9 @@ import { BinaryData } from 'Pixie/Binary/BinaryData'
 import { playerActions } from 'Pixie/Store/Action/playerActions'
 import { clamp } from 'Pixie/Util/math'
 import { go } from 'Pixie/Util/navigate'
-import { unpackFragments } from 'Pixie/Binary/packFragments'
+import { packFragments, unpackFragments } from 'Pixie/Binary/packFragments'
+import { debug } from 'Pixie/Util/log'
+import { getUniqueFilename, writeFile } from 'Pixie/Util/files'
 
 /**
  * @typedef {import('Pixie/Model/State').State} State
@@ -37,20 +39,25 @@ export class Operation
      *
      * @returns {Tab}
      */
-    static openTab (fragmentID = null)
+    static openTab (fragmentID = null, props = {})
     {
         const state = this.state
 
         const fragment = state.fragments.find(fragmentID)
-        const tab = fragment.null
+        let tab = fragment.null
             // No / invalid fragment provided. Create new empty tab
-            ? Tab.create()
+            ? Tab.create(props)
             : (
                 // Lookup any existing tab for fragment
                 state.tabs.where({ fragment: fragment.pk }).first()
                 // No existing tab, create one
-                || Tab.create({ fragment: fragment.pk, zoom: fragment.getDefaultZoom() })
+                || Tab.create({
+                    ...props,
+                    fragment: fragment.pk,
+                    zoom: fragment.getDefaultZoom()
+                })
             )
+
 
         // Store tab
         tabActions.save(tab)
@@ -123,7 +130,7 @@ export class Operation
 
         if (at === null) at = this.getNextLayer(fragmentID)
 
-        let fragment = state.fragments.find(fragmentID)
+        let fragment = state.fragments.findOrFail(fragmentID)
         const layer = PixieLayer.create({ fragment: fragmentID })
         layerActions.save(layer)
         fragment = fragment.delegateSet('layers', 'insert', at, layer.pk)
@@ -150,7 +157,7 @@ export class Operation
 
         if (at === null) at = this.getNextFrame(fragmentID)
 
-        let fragment = state.fragments.find(fragmentID)
+        let fragment = state.fragments.findOrFail(fragmentID)
         const frame = PixieFrame.create({ fragment: fragmentID })
         frameActions.save(frame)
         fragment = fragment.delegateSet('frames', 'insert', at, frame.pk)
@@ -205,7 +212,7 @@ export class Operation
     static createCel (fragmentID, frameID, layerID)
     {
         const state = this.state
-        const fragment = state.fragments.find(fragmentID)
+        const fragment = state.fragments.findOrFail(fragmentID)
         const cel = PixieCel.create({
             fragment: fragmentID,
             width: fragment.width,
@@ -220,7 +227,7 @@ export class Operation
     static activateLayer (layerID)
     {
         const state = this.state
-        const layer = state.layers.find(layerID)
+        const layer = state.layers.findOrFail(layerID)
         const tab = state.tabs.where({ fragment: layer.fragment }).first()
         if (!tab) return
         tabActions.save(tab.set('layer', layer.position()))
@@ -229,7 +236,7 @@ export class Operation
     static activateFrame (frameID)
     {
         const state = this.state
-        const frame = state.frames.find(frameID)
+        const frame = state.frames.findOrFail(frameID)
         const tab = state.tabs.where({ fragment: frame.fragment }).first()
         if (!tab) return
         tabActions.save(tab.set('frame', frame.position()))
@@ -238,7 +245,7 @@ export class Operation
     static deleteLayer (layerID)
     {
         const state = this.state
-        const layer = state.layers.find(layerID)
+        const layer = state.layers.findOrFail(layerID)
 
         let fragment = state.fragments.find(layer.fragment)
         let tab = state.tabs.where({ fragment: layer.fragment }).first()
@@ -269,7 +276,7 @@ export class Operation
     static deleteFrame (frameID)
     {
         const state = this.state
-        const frame = state.frames.find(frameID)
+        const frame = state.frames.findOrFail(frameID)
 
         let fragment = state.fragments.find(frame.fragment)
         let tab = state.tabs.where({ fragment: frame.fragment }).first()
@@ -297,9 +304,19 @@ export class Operation
         frameActions.delete(frame)
     }
 
+    static _updateDirty (fragment, markClean = false)
+    {
+        const tabs = this.state.tabs.where({ fragment }).toArray()
+        for (const tab of tabs) {
+            tabActions.save(markClean ? tab.markClean() : tab.updateDirty())
+        }
+    }
+
+
     static pushHistory (fragmentID, description)
     {
         undoPush(this.getHistoryNode(fragmentID), description)
+        this._updateDirty(fragmentID)
     }
 
     static getHistoryNode (fragmentID)
@@ -353,6 +370,7 @@ export class Operation
         replaceState(restored)
         const tab = restored.tabs.where({ fragment: fragmentID }).first()
         tabActions.save(tab.clampFrameAndLayer())
+        this._updateDirty(fragmentID)
     }
 
     static async load ()
@@ -475,8 +493,51 @@ export class Operation
     static async loadPixie (name, file)
     {
         const data = await unpackFragments(file)
-        data.fragments[0] = data.fragments[0].set('name', name)
         this.saveAll(data, 'Loaded')
-        this.openTab(data.fragments[0].pk)
+        this.openTab(
+            data.fragments[0].pk,
+            {
+                filename: name,
+                cleanHead: 0,
+                dirty: false
+            }
+        )
+    }
+
+    static async writeTab (tabID)
+    {
+        const state = this.state
+        let tab = state.tabs.findOrFail(tabID)
+
+        if (!tab.filename)
+            tab = tab.set(
+                'filename',
+                await getUniqueFilename(
+                    tab.name,
+                    {
+                        path: SPRITES_PATH,
+                        extension: '.px'
+                    }
+                )
+            )
+            tabActions.save(tab)
+
+        const fragment = tab.fragment
+        const data = packFragments(fragment)
+        await writeFile(tab.filename, data, { path: SPRITES_PATH })
+        this._updateDirty(tab.fragment, true)
+    }
+
+    static async openFile (file)
+    {
+        const tab = this.state.tabs.where({ filename: file.file.name }).first()
+
+        if (tab) return go(tab.route)
+
+        const content = await file.read()
+        switch (file.extension) {
+            case 'px':
+                this.loadPixie(file.file.name, content)
+        }
     }
 }

@@ -168,6 +168,10 @@ export class Workspace extends Component
             e.preventDefault()
             return Operation.undoFragment(this.fragment.pk)
         }
+        else if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault()
+            return Operation.writeTab(this.tab.pk)
+        }
     }
 
     handleWheel = (e) =>

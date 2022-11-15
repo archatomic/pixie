@@ -107,3 +107,6 @@ export const PLAYBACK = createEnum([
     'PLAYING',
     'PAUSED'
 ])
+
+
+export const SPRITES_PATH = 'Pixie/Sprites'

@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import { packFragments } from 'Pixie/Binary/packFragments'
 import { Dropdown } from 'Pixie/Component/Dropdown'
 import { withTab } from 'Pixie/Component/HOC/withTab'
 import { Icon } from 'Pixie/Component/Icon'
@@ -7,22 +6,18 @@ import { Link } from 'Pixie/Component/Link'
 import { applicationLayersToggle, applicationTabFocus, applicationThemeToggle } from 'Pixie/Store/Action/applicationActions'
 import { Operation } from 'Pixie/Store/Operation'
 import { connect } from 'Pixie/Util/connect'
-import { save } from 'Pixie/Util/load'
 import { Component } from 'react'
 
 export class TopBar extends Component
 {
     static Connected = withTab(connect({
-        fragment: (_, props) => props.tab.getFragment(),
         tabs: state => state.tabs.toArray(),
         open: ['application', 'layers'],
         theme: ['application', 'theme']
     }, this))
 
-    handleSave = () => save({
-        filename: `${this.props.fragment.name}.px`,
-        data: packFragments(this.props.fragment.pk)
-    })
+    handleSave = () => Operation.writeTab(this.props.tab.pk)
+
     handleLoad = () => Operation.load()
 
     handleActivate = e => applicationTabFocus(
@@ -71,12 +66,17 @@ export class TopBar extends Component
         )
     }
 
-    renderTab = tab =>
+    renderTab = (tab) =>
     {
         return (
             <div
                 key={tab.pk}
-                className='TopBar-tab'
+                className={
+                    classNames(
+                        'TopBar-tab',
+                        tab.dirty && 'TopBar-tab--dirty'
+                    )
+                }
                 data-tab={tab.pk}
             >
                 <Link

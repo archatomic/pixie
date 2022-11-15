@@ -29,11 +29,12 @@ const STATE = Object.freeze({
  */
 export class Form extends Component
 {
-    static Row = ({className, ...props}) => (
+    static Row = ({className, right, ...props}) => (
         <div
             className={classNames(
                 'Form-row',
                 className,
+                right && 'Form-row--right'
             )}
             {...props}
         />

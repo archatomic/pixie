@@ -35,6 +35,9 @@
         border-radius 0.3rem
         margin-right rhythm--quarter
 
+        &--dirty
+            font-style italic
+
         // &:not(&:has(&-label--active))
         //     & + &:before
         //         content ''
@@ -61,6 +64,8 @@
         text-overflow ellipsis
 
     &-close-tab
+        position relative
+        z-index 0
         font-size fs--small
         color grey(70)
         cursor pointer
@@ -72,3 +77,15 @@
             color grey(0)
             transition none
 
+    &-tab--dirty &-close-tab
+        &::before
+            content ''
+            position absolute
+            width 1em
+            height 1em
+            border-radius 1em
+            background currentColor
+            z-index -1
+
+        &:hover::before
+            display none

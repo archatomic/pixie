@@ -1,0 +1,42 @@
+.Explorer
+    display grid
+    grid-template-columns repeat(auto-fill, 100px)
+    justify-content space-between
+    gap rhythm
+    width 100%
+    padding 0 rhythm--half
+
+    &-title
+        grid-column 1 / -1
+        font-weight 500
+        color grey(50)
+
+    &-file
+        display inline-flex
+        flex-direction column
+        align-items center
+
+    &-filename
+        text-align center
+        margin-top rhythm--quarter
+
+    &-preview
+        overflow hidden
+        position relative
+        border-radius 0.3rem
+        width 10rem
+        height 10rem
+
+    &-image
+        height 100%
+
+    &-metadata
+        color grey(70)
+        font-size fs--small
+        text-align center
+
+    &-menu
+        position absolute
+        top rhythm--quarter
+        right rhythm--quarter
+        z-index 2

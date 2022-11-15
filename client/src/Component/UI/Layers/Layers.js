@@ -48,7 +48,7 @@ export class Layers extends Component
                     <div className='Layers-body'>
                         {this.props.cels.reverse().map(
                             ({ layer, cel }) => <Layer.Connected
-                                key={cel}
+                                key={layer}
                                 layer={layer}
                                 cel={cel}
                                 canDelete={this.props.cels.length > 1}

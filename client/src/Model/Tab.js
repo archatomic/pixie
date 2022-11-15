@@ -2,6 +2,9 @@ import { mod } from 'Pixie/Util/math'
 import { Record } from './Record'
 
 export class Tab extends Record({
+    filename: null,
+    cleanHead: -1,
+    dirty: true,
     fragment: null,
     frame: 0,
     layer: 0,
@@ -25,6 +28,25 @@ export class Tab extends Record({
     get route ()
     {
         return `/tab/${this.pk}`
+    }
+
+    markClean ()
+    {
+        if (!this.state.history.hasStack(this.fragment)) return this
+        return this.merge({
+            cleanHead: this.state.history.getStack(this.fragment).head,
+            dirty: false
+        })
+    }
+
+    updateDirty ()
+    {
+        if (!this.state.history.hasStack(this.fragment)) {
+            return this.set('dirty', true)
+        }
+
+        const stack = this.state.history.getStack(this.fragment)
+        return this.set('dirty', this.cleanHead !== stack.invHead)
     }
 
     clampFrameAndLayer ()

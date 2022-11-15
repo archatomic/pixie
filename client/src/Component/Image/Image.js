@@ -5,6 +5,7 @@ import { Component } from 'react'
  * @typedef {object} ImageProps
  * @property {ImageData} data
  * @property {string} [className]
+ * @property {bool|number} [checker]
  */
 
 /**

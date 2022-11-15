@@ -459,6 +459,13 @@ export function RecordCollection (OfType = null, key = '_id', nullItem = null)
             return this.items.get(this.getID(k), nullItem)
         }
 
+        findOrFail (k)
+        {
+            const op = this.items.get(this.getID(k))
+            if (!op) throw new Error('No record exists with the provided key')
+            return op
+        }
+
         first ()
         {
             return this.find(this.positionToID(0))

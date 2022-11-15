@@ -16,7 +16,6 @@ export class NewFile extends Component
     {
         return (
             <div className='NewFile'>
-                {/* <Explorer/> */}
                 <Form className='NewFile-form' onSubmit={this.handleSubmit}>
                     <TextField
                         className='NewFile-field'
@@ -42,15 +41,17 @@ export class NewFile extends Component
                             autoSelectOnFocus
                         />
                     </Form.Row>
-                    <Button
-                        className='NewFile-button'
-                        full
-                        submit
-                        pill
-                        gradient
-                        label='Create'
-                    />
+                    <Form.Row right>
+                        <Button
+                            className='NewFile-button'
+                            submit
+                            pill
+                            gradient
+                            label='Create'
+                        />
+                    </Form.Row>
                 </Form>
+                <Explorer recent top={9} extension='px'/>
             </div>
         )
     }

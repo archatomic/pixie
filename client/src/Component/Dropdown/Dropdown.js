@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { Box } from 'Pixie/Component/Box'
+import { allowOne } from 'Pixie/Component/HOC/allowOne'
 import { Icon } from 'Pixie/Component/Icon'
 import { Popover } from 'Pixie/Component/Popover'
 import { IS_MOBILE } from 'Pixie/constants'
@@ -7,6 +8,8 @@ import { createPassthroughComponent, getChildOfType, getChildrenOfType } from 'P
 import { go } from 'Pixie/Util/navigate'
 import { useMemo } from 'react'
 import { Component } from 'react'
+
+const DropdownContent = allowOne(Popover)
 
 export class Dropdown extends Component
 {
@@ -21,7 +24,7 @@ export class Dropdown extends Component
                     'Dropdown-item',
                     {
                         'Dropdown-item--clickable': !!onClick,
-                        'Dropdown-item--disabled': disabled,
+                        'Dropdown-item--disabled': disabled
                     }
                 )}
                 onClick={onClick}
@@ -114,24 +117,37 @@ export class Dropdown extends Component
     renderDesktopItems ()
     {
         return (
-            <Popover
-                className="Dropdown-content"
+            <DropdownContent
+                className={
+                    classNames(
+                        'Dropdown-content',
+                        this.props.tight && 'Dropdown-content--tight'
+                    )
+                }
                 {...this.state.rect}
+                {...this.props.popoverProps}
                 onClick={this.close}
+                onClose={this.close}
             >
                 {getChildrenOfType(
                     this.props.children,
                     [Dropdown.Item, Dropdown.Divider]
                 )}
-            </Popover>
+            </DropdownContent>
         )
     }
 
     renderMobileItems ()
     {
         return (
-            <Popover
-                className="Dropdown-content Dropdown-content--mobile"
+            <DropdownContent
+                className={
+                    classNames(
+                        'Dropdown-content',
+                        'Dropdown-content--mobile',
+                        this.props.tight && 'Dropdown-content--tight'
+                    )
+                }
                 onShadeClick={this.close}
                 onClick={this.close}
                 x={0}
@@ -141,12 +157,13 @@ export class Dropdown extends Component
                 shade
                 vAlign='bottom'
                 align='center'
+                onClose={this.close}
             >
                 {getChildrenOfType(
                     this.props.children,
                     [Dropdown.Item, Dropdown.Divider]
                 )}
-            </Popover>
+            </DropdownContent>
         )
     }
 }

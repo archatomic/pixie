@@ -110,6 +110,17 @@ export class UndoStack extends Record({
     {
         return this.head > 0
     }
+
+    get length ()
+    {
+        return this.nodes.count()
+    }
+
+    get invHead ()
+    {
+        if (this.head < 0) return -1
+        return this.length - 1 - this.head
+    }
 }
 
 export class UndoManager extends Record({
@@ -148,6 +159,10 @@ export class UndoManager extends Record({
         return this.stacks.has(this.getStackKeyStrict(record))
     }
 
+    /**
+     * @param {*} record
+     * @returns {UndoStack}
+     */
     getStack (record)
     {
         const key = this.getStackKey(record)
