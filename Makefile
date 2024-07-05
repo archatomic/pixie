@@ -9,15 +9,15 @@ android.device: web.build
 
 .PHONY: android.build
 android.build: web.build
-	echo 'todo android build'
+	echo 'Android Build Not Implemented'
 
 .PHONY: ios
 ios: web.build
-	yarn cap run ios --target E647252B-6CC6-453B-B5CA-40BC13694589
+	yarn cap run ios
 
 .PHONY: ios.build
 ios.build: web.build
-	echo 'todo ios build'
+	echo 'iOS Build Not Implemented'
 
 .PHONY: desktop
 desktop: web.build
@@ -51,3 +51,11 @@ clean:
 git.stage-case-changes:
 	git rm -r --cached .; \
     git add --all .;
+
+.PHONY: install
+install:
+	yarn install; \
+	cd client; \
+	yarn install; \
+	cd ../electron; \
+	yarn install;
