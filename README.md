@@ -1,6 +1,8 @@
 # PIXIE
 Pixie is an experimental cross-platform pixel art editor, meant to explore how well HTML canvas, react, and webviews can be used in image editing software.
 
+![Screenshot](imgs/screen-draw.png)
+
 ## Requirements
 - yarn
 - make
