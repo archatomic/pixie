@@ -14,7 +14,7 @@ Pixie is an experimental cross-platform pixel art editor, meant to explore how w
     - Installs node modules for the root (build) project, along with the client (web) and electron (desktop).
 - `make web`
     - Runs pixie as a live-reloading web app on `localhost:1234`.
-- `make dekstop`
+- `make desktop`
     - Runs pixie as a live-reloading native app.
 - `make android`
     - Runs pixie in the Android emulator.
